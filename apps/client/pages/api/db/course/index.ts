@@ -45,10 +45,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       `
     );
     
-    const courses = [];
-    for (const record of queryData.records) {
-      courses.push(record.get(0).properties);
-    }
+    let courses = [];
+    courses = queryData.records.map((e) => ({
+      name: e.get(0).properties.name as string,
+      id: e.get(0).properties.id as string,
+      nodeId: e.get(0).identity.low as number,
+      weight: e.get(0).properties.weight as number,
+    }));
 
     await db.close();
     return res.status(200).json({ data: courses });
