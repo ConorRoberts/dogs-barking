@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-5xl;
+    @apply md:text-5xl;
+    @apply font-bold;
+  }
+  h2 {
+    @apply text-4xl;
+    @apply md:text-4xl;
+    @apply font-semibold;
+  }
+  h3 {
+    @apply text-2xl;
+    @apply md:text-3xl;
+    @apply font-semibold;
+  }
+  h4 {
+    @apply text-xl;
+    @apply md:text-2xl;
+  }
+  h5 {
+    @apply text-lg;
+    @apply md:text-xl;
+  }
+
+  .small-screen-nav-button {
+    @apply pt-2 pb-6 flex flex-col items-center gap-1 text-sm primary-hover font-medium primary-hover px-4;
+  }
+
+  .small-screen-nav-button-icon {
+    @apply w-7 h-7;
+  }
+
+  .big-screen-nav-button {
+    @apply py-2 flex flex-col items-center gap-1 primary-hover font-medium px-2;
+  }
+
+  .primary-hover {
+    @apply hover:text-gray-700 transition dark:hover:text-gray-200 cursor-pointer;
+  }
+
+  .background-hover {
+    @apply hover:bg-gray-100 transition dark:hover:bg-gray-500 cursor-pointer rounded-sm;
+  }
+
+  .nav-drawer-button {
+    @apply background-hover flex items-center gap-4 py-3 px-6;
+  }
+
+
+}
+/* .react-flow__handle {
+  @apply w-3 h-3 !important;
+}
+
+.react-flow__handle-left {
+  @apply translate-x-0 -translate-y-1/2 !important;
+} */
+
+@layer utilities {
+  .shadow-center-sm {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  .shadow-center-md {
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  }
+  .shadow-center-lg {
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+  }
+  .shadow-center-sm-white {
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+  }
+  .shadow-center-md-white {
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1);
+  }
+  .shadow-center-lg-white {
+    box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.2);
+  }
+}

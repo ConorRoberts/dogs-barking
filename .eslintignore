@@ -1,0 +1,6 @@
+*.json
+*.pdf
+*.md
+*.yaml
+node_modules
+dist

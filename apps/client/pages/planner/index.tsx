@@ -1,0 +1,133 @@
+import AddSemesterModal from "@components/AddSemesterModal";
+import CourseCard from "@components/CourseCard";
+import { Input } from "@components/form";
+import SemesterCard from "@components/SemesterCard";
+import { exampleCourses } from "@data/plannerDummyData";
+import { PlannerState, setPlannedSemesters } from "@redux/planner";
+import { RootState } from "@redux/store";
+import { Course } from "@typedefs/DegreePlan";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+const Page = () => {
+  const dispatch = useDispatch();
+
+  const addSemesterClick = () => {
+    setPopupVisible(!isPopupVisible);
+  };
+
+  const [isPopupVisible, setPopupVisible] = useState<boolean>(false);
+  const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
+  
+  const isCourseAlreadyInSemester = (courseID : string, courses : Course[]) => {
+    for(const course of courses){
+      if(course.id === courseID){
+        return true;
+      }
+    }
+    
+    return false;
+  };
+
+  const getCourseTitle = (fullName : string) => {
+    const titleSplit = fullName.split(" - ");
+
+    return titleSplit[1];
+  };
+
+  const addCourse = (courseToAdd : Course) => {
+    const newSemesters = [...plan.semesters];
+    // Get the current semester being edited
+    const semesterToEdit = {...newSemesters.find((semester) => semester.isEditing === true)};
+
+    // Then there are no semesters currently being edited. Print info msg to console.
+    if(Object.keys(semesterToEdit).length === 0){
+      console.info("There are no semesters in edit mode. Try clicking an edit button on a semester, then try adding a course again.");
+    }
+    // Then the course already exists in the semester. Notify via console and do nothing.
+    else if(isCourseAlreadyInSemester(courseToAdd.id, semesterToEdit.courses) === true){
+      const courseTitle = getCourseTitle(courseToAdd.name);
+      console.info("Cannot add '" + courseTitle + "' to semester '" + semesterToEdit.name + "': '" + courseTitle + "' already exists.");
+    }
+    // Then the course doesn't exist in the semester yet, so add it.
+    else{
+      semesterToEdit.courses = [...semesterToEdit.courses, courseToAdd];
+
+      const newSemesterData = newSemesters.map((semester) => semester.id === semesterToEdit.id ? semesterToEdit : semester );
+      dispatch(setPlannedSemesters(newSemesterData));
+    }
+  };
+
+  return (
+    <>
+      <h2 className="py-4 text-center font-medium">Degree Planner</h2>
+      <div className="flex flex-col h-full w-full p-6">
+        <div className="flex flex-row w-full">
+          {/* Semester Builder Section */}
+          <div className="flex flex-col w-2/5 pr-4">
+            <h4 className="text-base text-center font-medium">Degree Name</h4>
+            <button
+              onClick={addSemesterClick}
+              className="w-36 h-8 place-self-start text-white rounded-md bg-blue-500 hover:bg-blue-400">
+              Add Semester
+            </button>
+            {isPopupVisible && <AddSemesterModal onClose={addSemesterClick} />}
+
+            <div className="flex flex-col max-h-96 w-full overflow-auto">
+              {plan.semesters.map((semester, index) => {
+                return (
+                  <SemesterCard
+                    semesterID={semester.id}
+                    semesterName={semester.name}
+                    currentEditState={semester.isEditing}
+                    timeOfYear={semester.timeOfYear}
+                    year={semester.year}
+                    semesterIndex={index}
+                    courses={semester.courses}
+                    key={`semester-card-${index}`}
+                  />
+                );
+              })}
+            </div>
+          </div>
+          {/* Course Search / Add Course Section */}
+          <div className="flex flex-col w-3/5 overflow-auto">
+            <h4 className="pb-2 text-base text-center font-medium">Search Available Courses...</h4>
+            <Input
+              className="w-3/5 h-8 place-self-center"
+              type={"text"}
+              placeholder="Enter Course Code or Department..."
+            />
+
+            {/* List of CourseCards */}
+            <div className="flex px-0 flex-col max-h-96 overflow-auto">
+              {exampleCourses.map((course) => (
+                <CourseCard
+                  addCourse={addCourse}
+                  course={course}
+                  key={Math.random()}
+                />
+              ))}
+            </div>
+
+            {/* Other Button Functionality */}
+            <div className="flex flex-row w-full">
+              <div className="flex flex-col w-1/2 p-6 place-content-center">
+                <button className="w-40 h-10 place-self-end text-white rounded-md bg-blue-500 hover:bg-blue-400">
+                  Export Plan to PDF
+                </button>
+              </div>
+              <div className="flex flex-col w-1/2 p-6 place-content-center">
+                <button className="w-40 h-10 place-self-start text-white rounded-md bg-blue-500 hover:bg-blue-400">
+                  View Plan
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Page;
