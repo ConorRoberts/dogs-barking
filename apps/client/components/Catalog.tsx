@@ -1,6 +1,6 @@
 import Course from "@dogs-barking/common/types/Course";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import PageIndex from "@components/PageIndex";
 import LoadingScreen from "./LoadingScreen";
 import FilterOptions from "./FilterOptions";
@@ -46,17 +46,14 @@ const Catalog = (props) => {
   const [sortDir, setSortDir] = useState<SortDir>("Ascending");
   const [sortMode, setSortMode] = useState<SortMode>("Raw");
 
-  useEffect(() => {
-    setFilterOptions({
-      ...filterOptions,
-      options: {
-        ...filterOptions.options,
-        SortDirection: sortDir,
-        SortMode: sortMode,
-      },
-    });
-    setUseFilter({ filter: true });
-  }, [sortDir, sortMode]);
+  const useDidMountEffect = (func, deps) => {
+    const didMount = useRef(false);
+
+    useEffect(() => {
+        if (didMount.current) func();
+        else didMount.current = true;
+    }, deps);
+}
 
   useEffect(() => {
     setLoading(true);
@@ -118,6 +115,19 @@ const Catalog = (props) => {
     setCurrentPage(0);
   }, [useFilter]);
 
+  useDidMountEffect(() => {
+    setFilterOptions({
+      ...filterOptions,
+      options: {
+        ...filterOptions.options,
+        SortDirection: sortDir,
+        SortMode: sortMode,
+      },
+    });
+    setUseFilter({ filter: true });
+  }, [sortDir, sortMode]);
+
+  console.log(courseList);
   if (loading) {
     return <LoadingScreen />;
   } else if (type === "courses") {
@@ -149,7 +159,7 @@ const Catalog = (props) => {
               key={course.id}>
               {
                 <li>
-                  <a href={"/catalog/" + `${/([A-Z]{3,4}[0-9]{4})/.test(course.id) ? "UOFG" : "UOFT"}/` + course.id}>
+                  <a href={"/course/" + course.nodeId}>
                     <p className="text-sm font-medium text-slate-900 dark:text-white">{course.id}</p>
                     <p className="text-sm text-slate-600 dark:text-slate-400 truncate">
                       {course.name} - [{course.weight.toFixed(2)}]
