@@ -10,7 +10,7 @@ const Page = ({ spec }) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   const spec: Record<string, any> = createSwaggerSpec({
-    schemaFolders: ["components/schemas"],
+    schemaFolders: ["schemas"],
     definition: {
       openapi: "3.0.0",
       info: {

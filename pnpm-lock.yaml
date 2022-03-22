@@ -96,7 +96,7 @@ importers:
       pg: 8.7.3
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      react-flow-renderer: 10.0.3_react-dom@17.0.2+react@17.0.2
+      react-flow-renderer: 10.0.4_react-dom@17.0.2+react@17.0.2
       react-icons: 4.3.1_react@17.0.2
       react-query: 3.34.16_react-dom@17.0.2+react@17.0.2
       react-redux: 7.2.6_react-dom@17.0.2+react@17.0.2
@@ -8766,8 +8766,8 @@ packages:
       react-dom: 17.0.2_react@17.0.2
     dev: false
 
-  /react-flow-renderer/10.0.3_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-A7WFbpD8mvuxAM7jMsN+ut9NTbja/cvmqGyHlOx6uNQe7c9X1a9TRycGKsAdOSIUYtS5Ubona74FmvoBvQvNTQ==}
+  /react-flow-renderer/10.0.4_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-GEXi7EMNGFtZZkjMbuesZlb1cCVHYhqzWubbTBzqspuevV4N0SXizktG0GugJIo9zee9M2NoAhsvyQhfuZ4alA==}
     engines: {node: '>=12'}
     peerDependencies:
       react: 16 || 17
