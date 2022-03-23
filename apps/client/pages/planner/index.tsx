@@ -7,6 +7,7 @@ import { AuthState } from "@redux/auth";
 import { PlannerState, setPlannedSemesters } from "@redux/planner";
 import { RootState } from "@redux/store";
 import { Course } from "@typedefs/DegreePlan";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -59,6 +60,7 @@ const Page = () => {
       dispatch(setPlannedSemesters(newSemesterData));
     }
   };
+
 
   return user != null ? (
     <>
@@ -120,9 +122,11 @@ const Page = () => {
                 </button>
               </div>
               <div className="flex flex-col w-1/2 p-6 place-content-center">
-                <button className="w-40 h-10 place-self-start text-white rounded-md bg-blue-500 hover:bg-blue-400">
-                  View Plan
-                </button>
+                <Link href="/view_plan">
+                  <button className="w-40 h-10 place-self-start text-white rounded-md bg-blue-500 hover:bg-blue-400">
+                    View Plan
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
