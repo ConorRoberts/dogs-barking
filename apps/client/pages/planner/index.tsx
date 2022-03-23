@@ -3,6 +3,7 @@ import CourseCard from "@components/CourseCard";
 import { Input } from "@components/form";
 import SemesterCard from "@components/SemesterCard";
 import { exampleCourses } from "@data/plannerDummyData";
+import { AuthState } from "@redux/auth";
 import { PlannerState, setPlannedSemesters } from "@redux/planner";
 import { RootState } from "@redux/store";
 import { Course } from "@typedefs/DegreePlan";
@@ -18,6 +19,7 @@ const Page = () => {
 
   const [isPopupVisible, setPopupVisible] = useState<boolean>(false);
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
+  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   
   const isCourseAlreadyInSemester = (courseID : string, courses : Course[]) => {
     for(const course of courses){
@@ -58,7 +60,7 @@ const Page = () => {
     }
   };
 
-  return (
+  return user != null ? (
     <>
       <h2 className="py-4 text-center font-medium">Degree Planner</h2>
       <div className="flex flex-col h-full w-full p-6">
@@ -127,7 +129,19 @@ const Page = () => {
         </div>
       </div>
     </>
-  );
+  ) : 
+    (
+      <>
+        <div className="place-self-center">
+          <h2 className="py-4 text-center font-medium">Degree Planner</h2>
+          <p className="text-2xl pt-10 max-w-screen-md" >
+            Terribly sorry, but you must be logged in to use the Degree Planner. 
+            Please login to your existing account, or create a new account, login with it, 
+            and try accessing this page again.
+          </p>
+        </div>
+      </>
+    );
 };
 
 export default Page;
