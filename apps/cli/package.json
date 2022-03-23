@@ -5,8 +5,7 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc",
-        "dev": "ts-node-dev --poll ./src/index.ts",
-        "lint": "eslint ."
+        "dev": "ts-node-dev --poll ./src/index.ts"
     },
     "dependencies": {
         "@dogs-barking/common": "latest",
