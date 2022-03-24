@@ -3,10 +3,9 @@ import { exampleCourses } from "@data/plannerDummyData";
 import { PlannerState, setPlannedSemesters } from "@redux/planner";
 import { RootState } from "@redux/store";
 import { Semester } from "@typedefs/DegreePlan";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Input, Modal, Select } from "./form";
-import SemesterCard from "./SemesterCard";
 
 
 /**

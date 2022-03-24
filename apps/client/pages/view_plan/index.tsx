@@ -1,12 +1,9 @@
-import { PlannerState, setPlannedSemesters } from "@redux/planner";
+import { PlannerState } from "@redux/planner";
 import { RootState } from "@redux/store";
-import { Course } from "@typedefs/DegreePlan";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Page = () => {
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
-  //const { user } = useSelector<RootState, AuthState>((state) => state.auth);
 
   const isPlannerStateEmpty = () => {
     if(plan.name === "" && plan.semesters.length == 0 && plan.department === ""){

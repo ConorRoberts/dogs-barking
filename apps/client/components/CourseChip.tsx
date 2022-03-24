@@ -1,4 +1,3 @@
-import { Course } from "@typedefs/DegreePlan";
 import React from "react";
 
 /**
