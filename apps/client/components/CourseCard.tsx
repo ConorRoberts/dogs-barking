@@ -1,6 +1,12 @@
+import { Course } from "@typedefs/DegreePlan";
 import React from "react";
 
-const CourseCard = (props) => {
+interface CourseCardProps {
+  course : Course;
+  addCourse(courseToAdd : Course) : void;
+}
+
+const CourseCard = (props : CourseCardProps) => {
   const { course } = props;
   const { addCourse } = props;
 

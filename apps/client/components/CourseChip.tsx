@@ -1,11 +1,18 @@
+import { Course } from "@typedefs/DegreePlan";
 import React from "react";
+
+interface CourseChipProps{
+  removeCourse(courseID : string) : void;
+  isEditing: boolean;
+  course : Course;
+}
 
 /**
  *
  * @param props
  * @returns
  */
-const CourseChip = (props) => {
+const CourseChip = (props : CourseChipProps) => {
   const { removeCourse } = props;
   const { isEditing } = props;
   const { course } = props;

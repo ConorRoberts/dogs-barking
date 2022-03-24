@@ -4,9 +4,18 @@ import CourseChip from "./CourseChip";
 import { useDispatch, useSelector } from "react-redux";
 import { PlannerState, setPlannedSemesters } from "@redux/planner";
 import { RootState } from "@redux/store";
-import { Semester } from "@typedefs/DegreePlan";
+import { Course, Semester } from "@typedefs/DegreePlan";
 
-const SemesterCard = (props) => {
+interface SemesterCardProps{
+  semesterID : string;
+  currentEditState : boolean;
+  semesterName : string;
+  timeOfYear : string;
+  courses : Course[];
+  year : string;
+}
+
+const SemesterCard = (props : SemesterCardProps) => {
   const { semesterID } = props;
   const { currentEditState } = props;
   const { semesterName } = props;
