@@ -18,11 +18,13 @@ export {
   MdSearch as Search,
   MdOutlineExpandMore as ArrowDownIcon,
   MdPersonOutline as PersonIcon,
+  MdPeopleOutline as PeopleIcon,
 } from "react-icons/md";
 export {
   IoCloseOutline as Close,
   IoDocumentTextOutline as Document,
   IoGameControllerOutline as Games,
+  IoDocumentTextOutline as DocumentIcon,
 } from "react-icons/io5";
 export { FcGoogle as Google } from "react-icons/fc";
 export { GrImage as Image } from "react-icons/gr";
