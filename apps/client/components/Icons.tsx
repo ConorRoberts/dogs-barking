@@ -6,6 +6,7 @@ export {
   AiOutlineMinus as MinusIcon,
   AiOutlineStar as EmptyStarIcon,
   AiFillStar as FilledStarIcon,
+  AiOutlineLoading as LoadingIcon,
 } from "react-icons/ai";
 export { FaRandom as Random } from "react-icons/fa";
 export { GiHamburgerMenu as Menu } from "react-icons/gi";

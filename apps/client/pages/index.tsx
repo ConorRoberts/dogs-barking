@@ -6,9 +6,14 @@ import { Input } from "@components/form";
 import Link from "next/link";
 import useCourseSearch from "@hooks/useCourseSearch";
 import { Random } from "@components/Icons";
+import CourseGraph from "@components/CourseGraph";
+import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
+import { Edge, Node } from "react-flow-renderer";
 
 interface PageProps {
   randomCourseCode: string;
+  edges: Edge[];
+  nodes: Node[];
 }
 
 const Page = (props: PageProps) => {
@@ -17,7 +22,7 @@ const Page = (props: PageProps) => {
   const [showResults, setShowResults] = useState(false);
 
   return (
-    <div className="p-2 mx-auto max-w-6xl w-full flex flex-col gap-16">
+    <div className="p-2 mx-auto max-w-4xl w-full flex flex-col gap-16">
       <MetaData title="Home" />
       <div className="flex flex-col gap-8">
         <div className="relative w-24 h-24 mx-auto shadow-md rounded-full">
@@ -26,6 +31,8 @@ const Page = (props: PageProps) => {
         <h1 className="flex-1 text-center">Dogs Barking Inc.</h1>
       </div>
       <div className="relative mx-auto max-w-lg w-full">
+        <h3 className="text-xl font-normal text-center mb-2">Find your favourite courses</h3>
+
         <div
           className={`flex gap-4 items-center rounded-md shadow-md dark:bg-gray-800 bg-white px-4 ${
             showResults && results.length > 0 && "rounded-b-none"
@@ -58,43 +65,32 @@ const Page = (props: PageProps) => {
         )}
       </div>
 
-      <div className="relative flex gap-16 flex-col md:flex-row">
-        <div className="w-[300px] md:w-[500px] h-64 relative md:flex-1">
-          <Image
-            src="/assets/graph-example-1.png"
-            alt="Graphical Representation of UofG's CIS*3750"
-            layout="fill"
-            objectFit="cover"
-            priority={true}
-          />
-        </div>
-        <div className="flex-1 flex flex-col gap-4">
-          <h3 className="text-3xl font-normal">Find your favourite courses</h3>
-          <p>Use our website to see how your courses link together through prerequisites.</p>
-          <p>
-            In the image to the left, a graph for UofG&apos;s CIS*3750 is displayed. The yellow node is CIS*3750. As you
-            can see from the graph, there are two main prerequisites that are required before CIS*3750 can be taken.
-            These are CIS*2520 and CIS*2430. The edges of the nodes can be traced to determine a plan to be prepared to
-            take CIS*3750.
-          </p>
-        </div>
+      <div>
+        <h3 className="mb-2 text-center">About</h3>
+        <p className="">
+          Welcome to Dogs Barking Inc! On this site we deliver an intuitive service that enables our users to quickly
+          and easily filter through Course data that otherwise may be difficult to find on a school's native website.
+          Users can view stylized graphs that are intertwined by their relationship to other courses.
+        </p>
       </div>
-      {/* <p className="text-lg pb-10">
-                        Welcome to Dogs Barking Inc! On this site we deliver an intuitive service that enables our users
-                        to quickly and easily filter through Course data that otherwise may be difficult to find on a
-                        school's native website. Users can view stylized graphs that are intertwined by their
-                        relationship to other courses.
-                    </p> */}
+      <div className="text-center">
+        <h3>Visualize Course Requirements</h3>
+        <p className="dark:text-gray-400 text-gray-500 mb-4">Prerequisite graph for CIS*2750 from The University of Guelph</p>
+        <CourseGraph nodes={props.nodes} edges={props.edges} />
+      </div>
     </div>
   );
 };
 
 export const getServerSideProps = async () => {
   const course = await getRandomCourse();
+  const { nodes, edges } = await createPrerequisiteGraph("284");
 
   return {
     props: {
       randomCourseCode: course,
+      nodes,
+      edges,
     },
   };
 };

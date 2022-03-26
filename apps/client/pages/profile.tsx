@@ -20,7 +20,9 @@ const Page = () => {
   if (loading) return <LoadingScreen />;
   return (
     <div>
-      <div className="mx-auto w-full max-w-3xl"></div>
+      <div className="mx-auto w-full max-w-3xl">
+        <h3 className="text-center">Nothing to see here yet</h3>
+      </div>
     </div>
   );
 };
