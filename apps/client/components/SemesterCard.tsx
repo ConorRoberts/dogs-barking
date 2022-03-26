@@ -13,6 +13,7 @@ interface SemesterCardProps{
   timeOfYear : string;
   courses : Course[];
   year : string;
+  index : number
 }
 
 const SemesterCard = (props : SemesterCardProps) => {
@@ -43,6 +44,7 @@ const SemesterCard = (props : SemesterCardProps) => {
       semester.id === semesterID ? writeEditMode(semEditData, true) : writeEditMode(semester, false)
     );
 
+    
     //console.log(newSemesterData);
     dispatch(setPlannedSemesters(newSemesterData));
   };
