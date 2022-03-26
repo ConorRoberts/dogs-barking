@@ -120,23 +120,23 @@ const Catalog = (props) => {
       <div>
         <ul className="divide-slate-200 dark:divide-slate-600 divide-y overflow-auto h-screen box-content">
           {(courseList.length === 0) 
-          ? <p className="text-lg">No more courses to show...</p> 
-          : courseList.map((course: Course) => (
-            <div
-              className="py-2 hover:bg-sky-200 even:bg-slate-200 dark:hover:bg-gray-700 dark:odd:bg-gray-900 dark:even:bg-gray-800 dark:opacity-90"
-              key={course.id}>
-              {
-                <li>
-                  <a href={"/course/" + course.nodeId}>
-                    <p className="text-sm font-medium text-slate-900 dark:text-white">{course.id}</p>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 truncate">
-                      {course.name} - [{course.weight.toFixed(2)}]
-                    </p>
-                  </a>
-                </li>
-              }
-            </div>
-          ))}
+            ? <p className="text-lg">No more courses to show...</p> 
+            : courseList.map((course: Course) => (
+              <div
+                className="py-2 hover:bg-sky-200 even:bg-slate-200 dark:hover:bg-gray-700 dark:odd:bg-gray-900 dark:even:bg-gray-800 dark:opacity-90"
+                key={course.id}>
+                {
+                  <li>
+                    <a href={"/course/" + course.nodeId}>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">{course.id}</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 truncate">
+                        {course.name} - [{course.weight.toFixed(2)}]
+                      </p>
+                    </a>
+                  </li>
+                }
+              </div>
+            ))}
         </ul>
       </div>
     );

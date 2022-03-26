@@ -35,9 +35,9 @@ const Page = () => {
           <Catalog type={dataType} query={searchText} />
         </div>
         <div className="grid grid-row-2">
-            <div className="text-center">
-              <FilterOptionModal />
-            </div>
+          <div className="text-center">
+            <FilterOptionModal />
+          </div>
         </div>
       </div>
     </div>

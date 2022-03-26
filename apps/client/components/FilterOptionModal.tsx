@@ -67,7 +67,7 @@ const FilterOptionModal = (props) => {
     dispatch(setPageState({
       ...pageState,
       useFilter: false
-    }))
+    }));
   };
 
 
@@ -84,7 +84,7 @@ const FilterOptionModal = (props) => {
       weight: (weight !== 0) ? weight : null,
       degree: (degree !== "") ? degree : "",
       useFilter: true
-    }
+    };
     dispatch(setFilters(newFilters));
     dispatch(setPageState({
       ...pageState,

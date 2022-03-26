@@ -45,7 +45,7 @@ const PageIndex = () => {
     dispatch(setPageState({
       ...pageState,
       pageNum: currentPage
-    }))
+    }));
   };
 
   const changePage = (num: number) => {
@@ -57,8 +57,8 @@ const PageIndex = () => {
     dispatch(setPageState({
       ...pageState,
       pageNum: pageNum
-    }))
-  }
+    }));
+  };
 
   return (
     <div className="flex flex-row text-center justify-between">

@@ -27,25 +27,25 @@ export interface CatalogState {
 }
 
 const initialState: CatalogState = {
-    filters : {
-        courseId: "",
-        school: "",
-        number: null,
-        description: "",
-        prerequisites: [],
-        department: "",
-        sortDir: "asc",
-        sortKey: "id",
-        name: "",
-        weight: null,
-        degree: "",
-    },
-    pageState: {
-        pageNum: 0,
-        pageSize: 50,
-        totalPages: 127,
-        useFilter: false
-    },
+  filters : {
+    courseId: "",
+    school: "",
+    number: null,
+    description: "",
+    prerequisites: [],
+    department: "",
+    sortDir: "asc",
+    sortKey: "id",
+    name: "",
+    weight: null,
+    degree: "",
+  },
+  pageState: {
+    pageNum: 0,
+    pageSize: 50,
+    totalPages: 127,
+    useFilter: false
+  },
 };
 
 const filters = createSlice({
@@ -53,16 +53,16 @@ const filters = createSlice({
   initialState, 
   reducers: {
     setFilters: (state, action) => {
-        state.filters = {
-            ...action.payload
-        }
+      state.filters = {
+        ...action.payload
+      };
     },
     setPageState: (state, action) => {
-        state.pageState = action.payload;
+      state.pageState = action.payload;
     },
   },
 });
 
-export const {setFilters, setPageState} = filters.actions
+export const {setFilters, setPageState} = filters.actions;
 
 export default filters.reducer;

@@ -13,17 +13,17 @@ const FilterOptions = () => {
   const dispatch = useDispatch();
 
   const setOrder = (val) => {
-    let sortDir = (val.includes("Asc")) ? "asc" : "desc";
-    let sortKey = (val.includes("name")) ? "id" : "weight";
+    const sortDir = (val.includes("Asc")) ? "asc" : "desc";
+    const sortKey = (val.includes("name")) ? "id" : "weight";
     dispatch(setFilters({
       ...filters,
       sortDir: sortDir,
       sortKey: sortKey,
-    }))
+    }));
     dispatch(setPageState({
       ...pageState,
       useFilter: true
-    }))
+    }));
   };
 
   return (
