@@ -2,7 +2,7 @@ import AddSemesterModal from "@components/AddSemesterModal";
 import CourseCard from "@components/CourseCard";
 import { Input } from "@components/form";
 import SemesterCard from "@components/SemesterCard";
-import { exampleCourses } from "@data/plannerDummyData";
+import useCourseSearch from "@hooks/useCourseSearch";
 import { AuthState } from "@redux/auth";
 import { PlannerState, setPlannedSemesters } from "@redux/planner";
 import { RootState } from "@redux/store";
@@ -18,7 +18,10 @@ const Page = () => {
     setPopupVisible(!isPopupVisible);
   };
 
-  const [isPopupVisible, setPopupVisible] = useState<boolean>(false);
+  const [searchText, setSearchText] = useState("");
+  const { results } = useCourseSearch({ courseId: searchText });
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [isPopupVisible, setPopupVisible] = useState(false);
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   
@@ -86,7 +89,7 @@ const Page = () => {
                     currentEditState={semester.isEditing}
                     timeOfYear={semester.timeOfYear}
                     year={semester.year}
-                    semesterIndex={index}
+                    index={index}
                     courses={semester.courses}
                     key={`semester-card-${index}`}
                   />
@@ -95,17 +98,23 @@ const Page = () => {
             </div>
           </div>
           {/* Course Search / Add Course Section */}
-          <div className="flex flex-col w-3/5 overflow-auto">
+          <div className="flex flex-col w-1/2 overflow-auto">
             <h4 className="pb-2 text-base text-center font-medium">Search Available Courses...</h4>
             <Input
-              className="w-3/5 h-8 place-self-center"
+              onChange={(event) => setSearchText(event.target.value)}
+              className="w-3/5 h-8 p-2 place-self-center"
               type={"text"}
+              value={searchText}
+              onBlur={() => setTimeout(() => setShowSearchResults(false), 100)}
+              onFocus={() => setShowSearchResults(true)}
               placeholder="Enter Course Code or Department..."
+              variant={"blank"}
             />
 
             {/* List of CourseCards */}
             <div className="flex px-0 flex-col max-h-96 overflow-auto">
-              {exampleCourses.map((course) => (
+              {results.length > 0 && results.slice(0, 20).map((course) => (
+                // console.log(course),
                 <CourseCard
                   addCourse={addCourse}
                   course={course}

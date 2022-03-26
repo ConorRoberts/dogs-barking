@@ -11,7 +11,7 @@ export interface Semester{
     id: string;
     name: string;
     timeOfYear: string;
-    year: number;
+    year: string;
     courses: Course[];
     isEditing: boolean
 }
