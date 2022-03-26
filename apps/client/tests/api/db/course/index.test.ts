@@ -1,4 +1,4 @@
-import handler from "../../../../pages/api/db/course/index";
+import handler from "../../../../pages/api/course/index";
 import httpMocks from "node-mocks-http";
 import { NextApiRequest, NextApiResponse } from "next";
 

@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
 
-require("dotenv").config({
+dotenv.config({
   path: ".env.local",
 });
