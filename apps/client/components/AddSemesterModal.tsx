@@ -1,5 +1,4 @@
 /* eslint-disable prefer-arrow/prefer-arrow-functions */
-import { exampleCourses } from "@data/plannerDummyData";
 import { PlannerState, setPlannedSemesters } from "@redux/planner";
 import { RootState } from "@redux/store";
 import { Semester } from "@typedefs/DegreePlan";
@@ -38,7 +37,7 @@ export default function AddSemesterModal(props) {
       timeOfYear: newTOY,
       year: newYear,
       isEditing: false,
-      courses: exampleCourses,
+      courses: [],
     };
 
     dispatch(setPlannedSemesters([...semesters,newSemester]));

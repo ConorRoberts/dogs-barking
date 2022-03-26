@@ -30,7 +30,7 @@ const CourseChip = (props : CourseChipProps) => {
     <div className=" py-1 flex flex-row bg-white place-self-end mx-5 my-1 rounded-lg w-4/5">
       <div className="py-1 flex flex-col content-end w-full">
         <h4 className="pl-2 pb-0 text-base font-semibold">
-          {course.name}
+          {course.id} - {course.name}
         </h4>
       </div>
       <div className=" flex flex-col f-full w-1/4 place-self-center place-content-center">
