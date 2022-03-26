@@ -24,7 +24,7 @@ const queryCourses = async (query: CourseQuery) => {
       }
       ${query.degree?.length > 0 ? "WHERE program.degree = $degree" : ""}
       ${query.school?.length > 0 ? "WHERE school.abbrev = $school" : ""}
-      ${query.courseId?.length > 0 ? "WHERE course.id = $courseId" : ""}
+      ${query.courseId?.length > 0 ? "WHERE course.id STARTS WITH $courseId" : ""}
       ${query.department?.length > 0 ? "WHERE course.department = $department" : ""}
       ${!isNaN(query.weight) ? `WHERE course.weight = $weight` : ""}
       ${!isNaN(query.number) ? `WHERE course.number = $number` : ""}
@@ -43,7 +43,6 @@ const queryCourses = async (query: CourseQuery) => {
     `,
     query
   );
-
   await db.close();
   await driver.close();
 
