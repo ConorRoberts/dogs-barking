@@ -13,9 +13,11 @@ import { useEffect } from "react";
 type CourseGraphProps = {
   nodes: Node[];
   edges: Edge[];
+  width?: number;
+  height?: number;
 };
 
-const CourseGraph = ({ nodes: initialNodes, edges: initialEdges }: CourseGraphProps) => {
+const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, width, height }: CourseGraphProps) => {
   const [nodes, setNodes] = useNodesState(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
 
@@ -26,7 +28,11 @@ const CourseGraph = ({ nodes: initialNodes, edges: initialEdges }: CourseGraphPr
 
   return (
     <div className="flex flex-col w-full">
-      <div className="relative overflow-hidden w-full h-[600px] border border-gray-200 dark:border-gray-800 rounded-xl">
+      <div
+        className="relative overflow-hidden h-[600px] border border-gray-200 dark:border-gray-800 rounded-xl"
+        style={{
+          height: `${height ?? 600}px`,
+        }}>
         <MetaData title="Course Graph" />
         <ReactFlowProvider>
           <ReactFlow

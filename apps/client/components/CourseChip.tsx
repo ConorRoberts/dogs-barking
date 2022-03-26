@@ -1,12 +1,18 @@
 import { Course } from "@typedefs/DegreePlan";
 import React from "react";
 
+interface CourseChipProps{
+  removeCourse(courseID : string) : void;
+  isEditing: boolean;
+  course : Course;
+}
+
 /**
  *
  * @param props
  * @returns
  */
-const CourseChip = (props) => {
+const CourseChip = (props : CourseChipProps) => {
   const { removeCourse } = props;
   const { isEditing } = props;
   const { course } = props;
@@ -24,7 +30,7 @@ const CourseChip = (props) => {
     <div className=" py-1 flex flex-row bg-white place-self-end mx-5 my-1 rounded-lg w-4/5">
       <div className="py-1 flex flex-col content-end w-full">
         <h4 className="pl-2 pb-0 text-base font-semibold">
-          {course.name}
+          {course.id} - {course.name}
         </h4>
       </div>
       <div className=" flex flex-col f-full w-1/4 place-self-center place-content-center">

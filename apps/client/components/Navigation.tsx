@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Drawer } from "@components/form";
-import { Home, Menu, Sun, Moon, PersonIcon } from "@components/Icons";
+import { Home, Menu, Sun, Moon, PersonIcon, Login, Logout, PeopleIcon, DocumentIcon } from "@components/Icons";
 import { useRouter } from "next/router";
 import useDarkMode from "@hooks/useDarkMode";
 import { RootState } from "@redux/store";
@@ -25,15 +25,24 @@ const Navigation = () => {
         <Drawer onClose={() => setMenuOpen(false)}>
           <div className="flex flex-col h-full">
             <Link href="/contact" passHref>
-              <div className="nav-drawer-button">Meet the Team</div>
+              <div className="nav-drawer-button">
+                <PeopleIcon className="w-6 h-6" />
+                <p>Meet the Team</p>
+              </div>
             </Link>
             <Link href="/docs" passHref>
-              <div className="nav-drawer-button">Docs</div>
+              <div className="nav-drawer-button">
+                <DocumentIcon className="w-6 h-6" />
+                <p>Docs</p>
+              </div>
             </Link>
             <div className="mt-auto">
               {user && (
                 <Link href="/auth/sign-out" passHref>
-                  <div className="nav-drawer-button">Sign Out</div>
+                  <div className="nav-drawer-button">
+                    <Logout className="w-6 h-6" />
+                    <p>Sign Out</p>
+                  </div>
                 </Link>
               )}
               {darkMode ? (
@@ -60,10 +69,16 @@ const Navigation = () => {
               <Home className="small-screen-nav-button-icon" />
             </div>
           </Link>
-          {user && (
+          {user ? (
             <Link href="/profile" passHref>
               <div className="small-screen-nav-button">
                 <PersonIcon className="small-screen-nav-button-icon" />
+              </div>
+            </Link>
+          ) : (
+            <Link href="/auth/sign-in" passHref>
+              <div className="small-screen-nav-button">
+                <Login className="small-screen-nav-button-icon" />
               </div>
             </Link>
           )}
@@ -90,7 +105,7 @@ const Navigation = () => {
 
         {user ? (
           <Link href="/profile" passHref>
-            <div className="big-screen-nav-button ml-auto">Profile</div>
+            <div className="big-screen-nav-button ml-auto">{user.name.split(" ").at(0)}</div>
           </Link>
         ) : (
           <Link href="/auth/sign-in" passHref>

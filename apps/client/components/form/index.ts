@@ -7,3 +7,4 @@ export { default as Modal } from "./Modal";
 export { default as Tooltip } from "./Tooltip";
 export { default as Switch } from "./Switch";
 export { default as Portal } from "./Portal";
+export { default as CustomErrorMessage } from "./CustomErrorMessage";

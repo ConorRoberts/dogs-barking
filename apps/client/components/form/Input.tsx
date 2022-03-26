@@ -1,23 +1,26 @@
+/* eslint-disable indent */
+import { FieldAttributes } from "formik";
 import React, { ForwardedRef, forwardRef } from "react";
-import { styles, overrides } from "./InputStyles";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   variant?: "default" | "blank" | "file";
   error?: boolean;
+  field?: FieldAttributes<null>;
 }
 
-const Input = forwardRef((props: InputProps, ref: ForwardedRef<HTMLInputElement>) => {
+const Input = forwardRef(({ error, field, ...props }: InputProps, ref: ForwardedRef<HTMLInputElement>) => {
+  delete props.form;
   const { variant = "default" } = props;
-  const className = `${props.className} ${overrides} ${styles[variant].style} ${
-    props?.error && styles[variant].error
-  } ${props?.disabled && "filter brightness-50"}`;
-
-  // Style specifically if it's a file input
-  if (props.type === "file") {
-    return <input {...props} className={className} ref={ref} />;
+  const className = `
+  ${props.className} focus:ring-0 focus:outline-none appearance-none
+  ${
+    variant !== "blank" &&
+    `text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 rounded-md w-full border py-2 px-2 
+  ${error ? "border-red-500" : "border-gray-300 focus:border-indigo-300 border-gray-300 dark:border-gray-700"}`
   }
+  ${props?.disabled && "filter brightness-50"}`;
 
-  return <input {...props} className={className} ref={ref} />;
+  return <input {...props} {...field} className={className} ref={ref} />;
 });
 
 Input.displayName = "Input";

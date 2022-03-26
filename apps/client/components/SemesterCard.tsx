@@ -4,9 +4,19 @@ import CourseChip from "./CourseChip";
 import { useDispatch, useSelector } from "react-redux";
 import { PlannerState, setPlannedSemesters } from "@redux/planner";
 import { RootState } from "@redux/store";
-import { Semester } from "@typedefs/DegreePlan";
+import { Course, Semester } from "@typedefs/DegreePlan";
 
-const SemesterCard = (props) => {
+interface SemesterCardProps{
+  semesterID : string;
+  currentEditState : boolean;
+  semesterName : string;
+  timeOfYear : string;
+  courses : Course[];
+  year : string;
+  index : number
+}
+
+const SemesterCard = (props : SemesterCardProps) => {
   const { semesterID } = props;
   const { currentEditState } = props;
   const { semesterName } = props;
@@ -34,7 +44,6 @@ const SemesterCard = (props) => {
       semester.id === semesterID ? writeEditMode(semEditData, true) : writeEditMode(semester, false)
     );
 
-    //console.log(newSemesterData);
     dispatch(setPlannedSemesters(newSemesterData));
   };
 
@@ -46,7 +55,6 @@ const SemesterCard = (props) => {
       semester.id === semesterID ? writeEditMode(newSemData, false) : semester
     );
 
-    //console.log(newSemesterData);
     dispatch(setPlannedSemesters(newSemesterData));
   };
 

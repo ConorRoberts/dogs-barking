@@ -1,11 +1,14 @@
 import Course from "@dogs-barking/common/types/Course";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import PageIndex from "@components/PageIndex";
 import LoadingScreen from "./LoadingScreen";
 import FilterOptions from "./FilterOptions";
 import { Query, SortDir, SortMode } from "@dogs-barking/common/types/Input";
 import Link from "next/link";
+import { CatalogState, setPageState } from "@redux/catalog";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@redux/store";
 
 const initialQuery: Query = {
   degree: "",
@@ -36,8 +39,8 @@ const Catalog = (props) => {
   const [programList, setProgramList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const [totalPages, setTotalPages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(50);
+  const [totalPages, setTotalPages] = useState(50);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const [coursesPerPage, setCoursesPerPage] = useState(50);
 
@@ -46,49 +49,43 @@ const Catalog = (props) => {
   const [sortDir, setSortDir] = useState<SortDir>("Ascending");
   const [sortMode, setSortMode] = useState<SortMode>("Raw");
 
-  useEffect(() => {
-    setFilterOptions({
-      ...filterOptions,
-      options: {
-        ...filterOptions.options,
-        SortDirection: sortDir,
-        SortMode: sortMode,
-      },
-    });
-    setUseFilter({ filter: true });
-  }, [sortDir, sortMode]);
+  const { filters, pageState } = useSelector<RootState, CatalogState>((state) => state.catalog);
+  const dispatch = useDispatch();
+
+  const useDidMountEffect = (func, deps) => {
+    const didMount = useRef(false);
+
+    useEffect(() => {
+      if (didMount.current) func();
+      else didMount.current = true;
+    }, deps);
+  };
 
   useEffect(() => {
     setLoading(true);
     (async () => {
       let newListContent = [];
       if (type === "courses") {
-        if (useFilter.filter || query !== "") {
+        if (pageState.useFilter || query !== "") {
           if (query !== "") {
             // If user searches using search bar
             const { data: courses } = await axios.get(`/api/course/search/`, {
-              params: { courseId: query, pageSize: coursesPerPage, pageNum: currentPage },
+              params: { courseId: query, pageSize: pageState.pageSize, pageNum: pageState.pageNum },
             });
-            if (courses.length < coursesPerPage) {
-              setTotalPages(1);
-            }
             newListContent = courses;
             setCourseList(newListContent);
           } else {
             // If user filters using filter options
-            const { data: courses } = await axios.get(`/api/db/course/search/`, {
-              params: { courseId: query, pageSize: coursesPerPage, pageNum: currentPage, filters: filterOptions },
+            const { data: courses } = await axios.get(`/api/course/query/`, {
+              params: { filters: filters, pageSize: pageState.pageSize, pageNum: pageState.pageNum},
             });
-            if (courses.length < coursesPerPage) {
-              setTotalPages(1);
-            }
             newListContent = courses;
             setCourseList(newListContent);
           }
         } else {
           // No filters/queries at all, then default fetch all courses (while limiting pageSize and pageNum)
-          const { data: courseObj } = await axios.get("/api/db/course", {
-            params: { pageSize: coursesPerPage, pageNum: currentPage },
+          const { data: courseObj } = await axios.get("/api/course/", {
+            params: { pageSize: pageState.pageSize, pageNum: pageState.pageNum },
           });
           const courses = courseObj.data;
           newListContent = courses;
@@ -96,23 +93,20 @@ const Catalog = (props) => {
         }
       } else {
         // Currently only fetchs all programs and displays it
-        const { data: programs } = await axios.get("/api/db/programs", {
-          params: { pageSize: coursesPerPage, pageNum: currentPage },
+        const { data: programs } = await axios.get("/api/program", {
+          params: { pageSize: pageState.pageSize, pageNum: pageState.pageNum },
         });
         newListContent = programs.data;
         setProgramList(newListContent);
       }
 
-      if (useFilter || query !== "") {
-        setTotalPages(Math.ceil(totalCourses / coursesPerPage));
-      } else if (newListContent.length < coursesPerPage) {
-        setTotalPages(1);
-      } else {
-        setTotalPages(Math.ceil(newListContent.length / coursesPerPage));
-      }
+      dispatch(setPageState({
+        ...pageState,
+        totalPages: Math.ceil(totalCourses / pageState.pageSize)
+      }));
       setLoading(false);
     })();
-  }, [query, currentPage, coursesPerPage, type, useFilter]);
+  }, [query, currentPage, type, filters, pageState.pageNum, pageState.pageSize, pageState.useFilter]);
 
   useEffect(() => {
     setCurrentPage(0);
@@ -124,41 +118,25 @@ const Catalog = (props) => {
     // Return html for course catalog
     return (
       <div>
-        <div className="grid grid-cols-2">
-          <PageIndex
-            currentPage={currentPage}
-            totalPages={totalPages}
-            setCurrentPage={setCurrentPage}
-            setCoursesPerPage={setCoursesPerPage}
-          />
-          <div className="text-center">
-            <FilterOptions
-              setCoursesPerPage={setCoursesPerPage}
-              setFilterOptions={setFilterOptions}
-              setUseFilter={setUseFilter}
-              useFilter={useFilter}
-              setSortBy={setSortDir}
-              setSortMode={setSortMode}
-            />
-          </div>
-        </div>
         <ul className="divide-slate-200 dark:divide-slate-600 divide-y overflow-auto h-screen box-content">
-          {courseList.map((course: Course) => (
-            <div
-              className="py-2 hover:bg-sky-200 even:bg-slate-200 dark:hover:bg-gray-700 dark:odd:bg-gray-900 dark:even:bg-gray-800 dark:opacity-90"
-              key={course.id}>
-              {
-                <li>
-                  <a href={"/catalog/" + `${/([A-Z]{3,4}[0-9]{4})/.test(course.id) ? "UOFG" : "UOFT"}/` + course.id}>
-                    <p className="text-sm font-medium text-slate-900 dark:text-white">{course.id}</p>
-                    <p className="text-sm text-slate-600 dark:text-slate-400 truncate">
-                      {course.name} - [{course.weight.toFixed(2)}]
-                    </p>
-                  </a>
-                </li>
-              }
-            </div>
-          ))}
+          {(courseList.length === 0) 
+            ? <p className="text-lg">No more courses to show...</p> 
+            : courseList.map((course: Course) => (
+              <div
+                className="py-2 hover:bg-sky-200 even:bg-slate-200 dark:hover:bg-gray-700 dark:odd:bg-gray-900 dark:even:bg-gray-800 dark:opacity-90"
+                key={course.id}>
+                {
+                  <li>
+                    <a href={"/course/" + course.nodeId}>
+                      <p className="text-sm font-medium text-slate-900 dark:text-white">{course.id}</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 truncate">
+                        {course.name} - [{course.weight.toFixed(2)}]
+                      </p>
+                    </a>
+                  </li>
+                }
+              </div>
+            ))}
         </ul>
       </div>
     );
@@ -166,12 +144,7 @@ const Catalog = (props) => {
     return (
       <div>
         {
-          <PageIndex
-            currentPage={currentPage}
-            totalPages={totalPages}
-            setCurrentPage={setCurrentPage}
-            setCoursesPerPage={setCoursesPerPage}
-          />
+          <PageIndex />
         }
         <ul className="divide-slate-200 dark:divide-slate-600 divide-y overflow-auto h-screen box-content">
           {programList.map((program) => (

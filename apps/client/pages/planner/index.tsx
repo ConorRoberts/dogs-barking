@@ -2,11 +2,13 @@ import AddSemesterModal from "@components/AddSemesterModal";
 import CourseCard from "@components/CourseCard";
 import { Input } from "@components/form";
 import SemesterCard from "@components/SemesterCard";
-import { exampleCourses } from "@data/plannerDummyData";
+import useCourseSearch from "@hooks/useCourseSearch";
+import { AuthState } from "@redux/auth";
 import { PlannerState, setPlannedSemesters } from "@redux/planner";
 import { RootState } from "@redux/store";
 import { Course } from "@typedefs/DegreePlan";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const Page = () => {
@@ -16,8 +18,12 @@ const Page = () => {
     setPopupVisible(!isPopupVisible);
   };
 
-  const [isPopupVisible, setPopupVisible] = useState<boolean>(false);
+  const [searchText, setSearchText] = useState("");
+  const { results } = useCourseSearch({ courseId: searchText });
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [isPopupVisible, setPopupVisible] = useState(false);
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
+  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   
   const isCourseAlreadyInSemester = (courseID : string, courses : Course[]) => {
     for(const course of courses){
@@ -58,7 +64,8 @@ const Page = () => {
     }
   };
 
-  return (
+
+  return user != null ? (
     <>
       <h2 className="py-4 text-center font-medium">Degree Planner</h2>
       <div className="flex flex-col h-full w-full p-6">
@@ -82,7 +89,7 @@ const Page = () => {
                     currentEditState={semester.isEditing}
                     timeOfYear={semester.timeOfYear}
                     year={semester.year}
-                    semesterIndex={index}
+                    index={index}
                     courses={semester.courses}
                     key={`semester-card-${index}`}
                   />
@@ -91,17 +98,23 @@ const Page = () => {
             </div>
           </div>
           {/* Course Search / Add Course Section */}
-          <div className="flex flex-col w-3/5 overflow-auto">
+          <div className="flex flex-col w-1/2 overflow-auto">
             <h4 className="pb-2 text-base text-center font-medium">Search Available Courses...</h4>
             <Input
-              className="w-3/5 h-8 place-self-center"
+              onChange={(event) => setSearchText(event.target.value)}
+              className="w-3/5 h-8 p-2 place-self-center"
               type={"text"}
+              value={searchText}
+              onBlur={() => setTimeout(() => setShowSearchResults(false), 100)}
+              onFocus={() => setShowSearchResults(true)}
               placeholder="Enter Course Code or Department..."
+              variant={"blank"}
             />
 
             {/* List of CourseCards */}
             <div className="flex px-0 flex-col max-h-96 overflow-auto">
-              {exampleCourses.map((course) => (
+              {results.length > 0 && results.slice(0, 20).map((course) => (
+                // console.log(course),
                 <CourseCard
                   addCourse={addCourse}
                   course={course}
@@ -118,16 +131,30 @@ const Page = () => {
                 </button>
               </div>
               <div className="flex flex-col w-1/2 p-6 place-content-center">
-                <button className="w-40 h-10 place-self-start text-white rounded-md bg-blue-500 hover:bg-blue-400">
-                  View Plan
-                </button>
+                <Link href="/view_plan">
+                  <button className="w-40 h-10 place-self-start text-white rounded-md bg-blue-500 hover:bg-blue-400">
+                    View Plan
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </div>
     </>
-  );
+  ) : 
+    (
+      <>
+        <div className="place-self-center">
+          <h2 className="py-4 text-center font-medium">Degree Planner</h2>
+          <p className="text-2xl pt-10 max-w-screen-md" >
+            Terribly sorry, but you must be logged in to use the Degree Planner. 
+            Please login to your existing account, or create a new account, login with it, 
+            and try accessing this page again.
+          </p>
+        </div>
+      </>
+    );
 };
 
 export default Page;

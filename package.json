@@ -12,7 +12,6 @@
         "lint": "turbo run lint --parallel",
         "lint:fix": "eslint ./** --fix",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-        "prepare": "husky install",
         "scrape": "turbo run dev --scope=scraper",
         "cli": "ts-node-dev --poll ./apps/cli/index.ts",
         "test": "turbo run test",
@@ -20,7 +19,6 @@
         "client": "turbo run dev --scope=web-client"
     },
     "devDependencies": {
-        "husky": "^7.0.4",
         "lint-staged": "^12.3.2",
         "prettier": "^2.5.1",
         "turbo": "^1.1.2"

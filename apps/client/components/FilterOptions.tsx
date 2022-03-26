@@ -1,26 +1,29 @@
 import { useState } from "react";
 import FilterOptionModal from "./FilterOptionModal";
 import { MdOutlineFilterAlt } from "react-icons/md";
+import { CatalogState, setFilters, setPageState } from "@redux/catalog";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@redux/store";
 
-const FilterOptions = (props) => {
-  const { setCoursesPerPage, setFilterOptions, setUseFilter, useFilter, setSortBy, setSortMode } = props;
+const FilterOptions = () => {
+  const { filters, pageState } = useSelector<RootState, CatalogState>((state) => state.catalog);
 
   const [showFilterOptions, setShowFilterOptions] = useState(false);
 
+  const dispatch = useDispatch();
+
   const setOrder = (val) => {
-    if (val === "nameAsc") {
-      setSortBy("Ascending");
-      setSortMode("Raw");
-    } else if (val === "nameDesc") {
-      setSortBy("Descending");
-      setSortMode("Raw");
-    } else if (val === "weightAsc") {
-      setSortBy("Ascending");
-      setSortMode("Weight");
-    } else if (val === "weightDesc") {
-      setSortBy("Descending");
-      setSortMode("Weight");
-    }
+    const sortDir = (val.includes("Asc")) ? "asc" : "desc";
+    const sortKey = (val.includes("name")) ? "id" : "weight";
+    dispatch(setFilters({
+      ...filters,
+      sortDir: sortDir,
+      sortKey: sortKey,
+    }));
+    dispatch(setPageState({
+      ...pageState,
+      useFilter: true
+    }));
   };
 
   return (
@@ -31,12 +34,7 @@ const FilterOptions = (props) => {
         </button>
       </div>
       {showFilterOptions ? (
-        <FilterOptionModal
-          setShowFilterOptions={setShowFilterOptions}
-          setFilterOptions={setFilterOptions}
-          setUseFilter={setUseFilter}
-          useFilter={useFilter}
-        />
+        <FilterOptionModal setShowFilterOptions={setShowFilterOptions}/>
       ) : (
         <></>
       )}
@@ -62,9 +60,12 @@ const FilterOptions = (props) => {
               className="dark:bg-inherit border-2 border-slate-600 rounded dark:text-gray-400 w-28 h-6"
               onChange={() => {
                 const e = document.getElementById("itemsPerPage") as HTMLSelectElement;
-                const val = e.options[e.selectedIndex].value;
+                const val = parseInt(e.options[e.selectedIndex].value);
 
-                setCoursesPerPage(val);
+                dispatch(setPageState({
+                  ...pageState,
+                  pageSize: val
+                }));
               }}>
               <option>-</option>
               <option value="50">50</option>

@@ -2,7 +2,8 @@ import MetaData from "@components/MetaData";
 import Catalog from "@components/Catalog";
 import { useState } from "react";
 import SearchField from "@components/SearchField";
-import FilterOptions from "@components/FilterOptions";
+import FilterOptionModal from "@components/FilterOptionModal";
+import PageIndex from "@components/PageIndex";
 
 const Page = () => {
   const [dataType, setDataType] = useState("courses");
@@ -28,7 +29,17 @@ const Page = () => {
           onChange={(elem) => setSearchText(elem.target.value)}
         />
       </div>
-      <Catalog type={dataType} query={searchText} />
+      <div className="grid grid-cols-2">
+        <div>
+          <PageIndex />
+          <Catalog type={dataType} query={searchText} />
+        </div>
+        <div className="grid grid-row-2">
+          <div className="text-center">
+            <FilterOptionModal />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

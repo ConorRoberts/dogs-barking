@@ -1,0 +1,15 @@
+name: "Lint"
+on: [push, pull_request]
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2.2.1
+      - name: Install modules
+        run: pnpm i
+      - name: Run ESlint
+        run: pnpm lint
+      - name: Run Prettier
+        run: pnpm format

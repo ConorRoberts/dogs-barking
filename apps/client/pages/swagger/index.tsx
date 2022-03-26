@@ -8,9 +8,9 @@ const Page = ({ spec }) => {
   return <SwaggerUI spec={spec} />;
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = () => {
   const spec: Record<string, any> = createSwaggerSpec({
-    schemaFolders: ["components/schemas"],
+    schemaFolders: ["schemas"],
     definition: {
       openapi: "3.0.0",
       info: {

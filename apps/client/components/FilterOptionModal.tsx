@@ -3,36 +3,13 @@ import Course, { SemestersOffered } from "@dogs-barking/common/types/Course";
 import { CourseScope, Query, SortMode } from "@dogs-barking/common/types/Input";
 import SearchField from "@components/SearchField";
 import { Close } from "./Icons";
-
-const initialQuery: Query = {
-  degree: "",
-  major: "",
-  department: "",
-  coursecode: "",
-  school: "",
-  weight: -1,
-  coursenum: -1,
-  level: -1,
-  prerequisite: [],
-  semester: [],
-  title: [],
-  path: false,
-  options: {
-    SortMode: "Raw",
-    SortDirection: "Ascending",
-    Scope: "All",
-    PrintMode: "Regular",
-  },
-};
+import { CatalogState, setFilters, setPageState } from "@redux/catalog";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@redux/store";
 
 const FilterOptionModal = (props) => {
-  const { setShowFilterOptions, setFilterOptions, setUseFilter } = props;
+  const { setShowFilterOptions } = props;
 
-  /**Query Search State */
-
-  const [searchResult, setSearchResult] = useState<Course[] | null>(null);
-  const [queryParams, setQueryParams] = useState<Query | null>(initialQuery);
-  const [queryActive, setQueryActive] = useState<boolean>(false);
   /* Ref: types/input */
   const [degree, setDegree] = useState<string>("");
   const [major, setMajor] = useState<string>("");
@@ -40,8 +17,8 @@ const FilterOptionModal = (props) => {
   const [courseCode, setCourseCode] = useState<string>("");
   const [school, setSchool] = useState<string>("");
   /* Number types/input */
-  const [weight, setWeight] = useState<number>(-1);
-  const [courseNum, setCourseNum] = useState<number>(-1);
+  const [weight, setWeight] = useState<number>(0);
+  const [courseNum, setCourseNum] = useState<number>(0);
   const [level, setLevel] = useState<number>(-1);
   /* String[] types/input */
   const [prereq, setPrereq] = useState<string[]>([]);
@@ -50,6 +27,8 @@ const FilterOptionModal = (props) => {
   /* Auxillary types/input */
   const [sortMode, setSortMode] = useState<SortMode>("Raw");
   const [scope, setScope] = useState<CourseScope>("All");
+
+  const { filters, pageState } = useSelector<RootState, CatalogState>((state) => state.catalog);
 
   // update query state, cancel refresh of page
   // const activateQuery = (e) => {
@@ -73,6 +52,7 @@ const FilterOptionModal = (props) => {
     const kwords = keywords.split(" ");
     setKeywords(kwords);
   };
+  const dispatch = useDispatch();
 
   const clearFilters = () => {
     setDegree("");
@@ -80,39 +60,42 @@ const FilterOptionModal = (props) => {
     setDepartment("");
     setCourseCode("");
     setSchool("");
+    setWeight(0);
+    setCourseNum(0);
     updatePrereqs("");
     updateKeywords("");
-    setUseFilter({ filter: false });
+    dispatch(setPageState({
+      ...pageState,
+      useFilter: false
+    }));
   };
+
 
   const generateQuery = () => {
-    setFilterOptions(queryParams);
-    setUseFilter({ filter: true });
+    const newFilters = {
+      ...filters,
+      courseId: (courseCode !== "") ? courseCode : "",
+      school: (school !== "") ? school : "",
+      number: (courseNum !== 0) ? courseNum : null,
+      //description: "",
+      prerequisites: (prereq.length === 0) ? prereq : [],
+      department: (department !== "") ? department : "",
+      name: "",
+      weight: (weight !== 0) ? weight : null,
+      degree: (degree !== "") ? degree : "",
+      useFilter: true
+    };
+    dispatch(setFilters(newFilters));
+    dispatch(setPageState({
+      ...pageState,
+      useFilter: true
+    }));
+    console.log("Query Generated");
   };
-
-  useEffect(() => {
-    setQueryParams({
-      ...queryParams,
-      degree: degree,
-      major: major,
-      department: department,
-      school: school,
-      weight: weight,
-      coursenum: courseNum,
-      level: level,
-      prerequisite: prereq,
-      semester: semester,
-      options: {
-        ...queryParams.options,
-        Scope: scope,
-      },
-    });
-  }, [degree, major, department, school, weight, courseNum, level, prereq, semester, keywords, scope, sortMode]);
 
   return (
     <div
-      className="absolute right-4 top-4 bottom-4 overflow-y-auto overflow-x-hidden w-96 bg-white dark:bg-gray-800 backdrop-filter bg-opacity-80 
-                                backdrop-blur-sm z-30 border border-gray-100 rounded-xl p-2 shadow-md flex flex-col gap-4">
+      className="">
       <Close
         className="w-8 h-8 transition cursor-pointer hover:text-gray-600 text-black dark:text-white ml-auto p-1"
         onClick={() => setShowFilterOptions(false)}
