@@ -13,6 +13,11 @@ const styles: any = {
     error: "border border-red-500 flex items-center gap-2 justify-center",
     disabled: "filter brightness-50",
   },
+  outline: {
+    style: "rounded-full py-1 px-6 hover:border-blue-500 transition border border-gray-300 dark:border-gray-700",
+    error: "border border-red-500 flex items-center gap-2 justify-center",
+    disabled: "filter brightness-50",
+  },
   blank: {
     style: "",
     error: "",
@@ -23,7 +28,7 @@ const Button = (props: ButtonProps) => {
   const { variant = "default" } = props;
   const className = `${props.className} ${overrides} ${styles[variant].style} ${
     props?.error && styles[variant].error
-  } ${props?.disabled && styles[variant].disabled} flex items-center gap-2`;
+  } ${props?.disabled && styles[variant].disabled} flex items-center gap-2 justify-center`;
   return (
     <button {...props} className={className} type={props.type ?? "button"}>
       {props.children}
