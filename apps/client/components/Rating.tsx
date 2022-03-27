@@ -2,27 +2,20 @@ import { AuthState } from "@redux/auth";
 import { RootState } from "@redux/store";
 import axios from "axios";
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { useSelector } from "react-redux";
 import { EmptyStarIcon, FilledStarIcon, Loading } from "./Icons";
 
 interface RatingProps {
   nodeId: string;
   ratingType: "difficulty" | "usefulness" | "timeSpent";
+  initialRating: number;
 }
 
-const Rating = ({ nodeId, ratingType }: RatingProps) => {
+const Rating = ({ nodeId, ratingType, initialRating }: RatingProps) => {
   const [mouseIndex, setMouseIndex] = useState(-1);
+  const [rating, setRating] = useState(initialRating);
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
-
-  const queryClient = useQueryClient();
-
-  // Fetch rating from backend
-  const { data: rating, isLoading: getRatingLoading } = useQuery(`rating-${nodeId}-${ratingType}`, async () => {
-    const { data } = await axios.get(`/api/rating/${nodeId}`);
-    setMouseIndex(-1);
-    return data[ratingType];
-  });
 
   // Update rating on backend
   const { isLoading: submitRatingLoading, mutate: submitRating } = useMutation(
@@ -30,10 +23,14 @@ const Rating = ({ nodeId, ratingType }: RatingProps) => {
       if (!user) return;
       setMouseIndex(-1);
       try {
-        await axios.post("/api/rating", { courseNodeId: nodeId, userId: user.sub, rating, ratingType });
+        const { data } = await axios.post("/api/rating", {
+          courseNodeId: nodeId,
+          userId: user.sub,
+          rating,
+          ratingType,
+        });
 
-        // Tell the client to update the rating
-        queryClient.invalidateQueries(`rating-${nodeId}-${ratingType}`);
+        setRating(data[ratingType]);
       } catch (error) {
         console.error(error);
       }
@@ -41,7 +38,7 @@ const Rating = ({ nodeId, ratingType }: RatingProps) => {
   );
   return (
     <div>
-      {!(getRatingLoading || submitRatingLoading) && (
+      {!submitRatingLoading && (
         <div className="flex gap-1 text-2xl">
           {[...new Array(5)].map((_, index) =>
             index + 1 <= rating ? (
@@ -68,7 +65,7 @@ const Rating = ({ nodeId, ratingType }: RatingProps) => {
           )}
         </div>
       )}
-      {(getRatingLoading || submitRatingLoading) && (
+      {submitRatingLoading && (
         <Loading className="animate-spin w-5 h-5 text-gray-700 dark:text-gray-400 mx-auto mt-2" />
       )}
     </div>
