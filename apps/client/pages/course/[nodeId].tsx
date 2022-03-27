@@ -1,8 +1,3 @@
-/**
- * Page
- * @description Page
- */
-
 import Course from "@dogs-barking/common/types/Course";
 import School from "@dogs-barking/common/types/School";
 import getCourse from "@utils/getCourse";
@@ -12,6 +7,7 @@ import CourseGraph from "@components/CourseGraph";
 import { Node, Edge } from "react-flow-renderer";
 import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import Rating from "@components/Rating";
+import getPrerequisites from "@utils/getPrerequisites";
 
 interface PageProps {
   course: Course;
@@ -62,7 +58,8 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const nodeId = context.query.nodeId as string;
   const course = await getCourse(nodeId);
   const school = await getCourseSchool(nodeId);
-  const { nodes, edges } = await createPrerequisiteGraph(nodeId);
+  const courses = await getPrerequisites(nodeId);
+  const { nodes, edges } = createPrerequisiteGraph(courses);
 
   return {
     props: {

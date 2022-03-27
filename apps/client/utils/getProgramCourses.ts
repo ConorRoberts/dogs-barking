@@ -1,11 +1,12 @@
+import Course from "@dogs-barking/common/types/Course";
 import getNeo4jDriver from "./getNeo4jDriver";
 
 /**
- * 
- * @param programId 
- * @returns 
+ *
+ * @param programId
+ * @returns
  */
-const getProgramCourses = async (programId: string) => {
+const getProgramCourses = async (programId: string): Promise<{ major: Course[] }> => {
   const driver = getNeo4jDriver();
   const db = driver.session();
 
@@ -14,7 +15,7 @@ const getProgramCourses = async (programId: string) => {
         match (p:Program) 
         -[:MAJOR_REQUIRES]->(course:Course)
         where id(p) = $programId
-        return p,course
+        return course
       `,
     { programId: +programId }
   );
@@ -22,7 +23,9 @@ const getProgramCourses = async (programId: string) => {
   await db.close();
   await driver.close();
 
-  return { major: queryData.records.map((e) => ({ course: e.get("course").properties })) };
+  return {
+    major: queryData.records.map((e) => ({ ...e.get("course").properties, nodeId: e.get("course").identity.low })),
+  };
 };
 
 export default getProgramCourses;

@@ -1,21 +1,21 @@
 import formatNodes from "./formatNodes";
-import getPrerequisites from "./getPrerequisites";
 
 /**
  * Generates the graph structure for some prerequisites
  * @param nodeId
  * @returns
  */
-const createPrerequisiteGraph = async (nodeId: string) => {
+const createPrerequisiteGraph = (data: any[]) => {
   const nodes = [];
   try {
-    const data = await getPrerequisites(nodeId);
-
     for (const records of data) {
       for (const rec of records) {
         let idx = 0;
         for (const pre of rec) {
+          // Check if this entity is a school or something else we don't want to show
           if (pre?.labels?.includes("School")) continue;
+
+          // Check if the node already exists. If not, add the node
           if (!nodes.find((e) => e?.id === pre.identity.low)) {
             nodes.push({
               id: pre.identity.low.toString(),
@@ -25,6 +25,7 @@ const createPrerequisiteGraph = async (nodeId: string) => {
             });
           }
 
+          // Check if the edge already exists or this is our principal node. Add edge otherwise.
           if (idx > 0 && !nodes.find((e) => e?.id === `${pre.identity.low}-${rec.at(idx - 1).identity.low}`)) {
             nodes.push({
               id: `${pre.identity.low}-${rec.at(idx - 1).identity.low}`,
@@ -38,9 +39,8 @@ const createPrerequisiteGraph = async (nodeId: string) => {
       }
     }
 
-    return formatNodes(nodes);
+    return formatNodes(nodes.filter((e) => e.type !== "program"));
   } catch (error) {
-    // context.res.setHeader("location", "/error/404");
     console.error(error);
     return { nodes: [], edges: [] };
   }

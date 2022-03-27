@@ -14,7 +14,8 @@ const getPrerequisites = async (nodeId: string): Promise<any[]> => {
         MATCH p=(course:Course)-[:HAS_PREREQUISITE|OR*0..20]->(prereq)
         where id(course) = ${nodeId}
         return nodes(p)
-      `
+      `,
+      { nodeId: +nodeId }
     );
 
     await session.close();
