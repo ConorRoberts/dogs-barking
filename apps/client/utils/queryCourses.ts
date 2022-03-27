@@ -3,6 +3,13 @@
 import CourseQuery from "@dogs-barking/common/types/CourseQuery";
 import getNeo4jDriver from "./getNeo4jDriver";
 
+const generateObj = (e) => {
+  return {
+    ...e.get(0).properties,
+    nodeId: e.get(0).identity.low as number, 
+  }
+}
+
 /**
  * Excecutes a complex query to get all courses based on search criteria
  * @param query

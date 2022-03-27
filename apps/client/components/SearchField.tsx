@@ -7,12 +7,11 @@ import { Input } from "./form";
  * @returns
  */
 const SearchField = (props) => {
-  const { setState, title, type, value } = props;
+  const { setState, title, type, value, className } = props;
 
   return (
-    <div>
-      <label htmlFor={title}>{title}</label>
-      <Input className="dark:text-black" id={title} type={type} onChange={(e) => setState(e.target.value)} value={value}/>
+    <div className={className}>
+      <Input className="dark:text-black" id={title} type={type} onChange={(e) => setState(e.target.value)} value={value} placeholder={title}/>
     </div>
   );
 };

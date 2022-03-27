@@ -3,33 +3,10 @@ import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import PageIndex from "@components/PageIndex";
 import LoadingScreen from "./LoadingScreen";
-import FilterOptions from "./FilterOptions";
-import { Query, SortDir, SortMode } from "@dogs-barking/common/types/Input";
 import Link from "next/link";
 import { CatalogState, setPageState } from "@redux/catalog";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@redux/store";
-
-const initialQuery: Query = {
-  degree: "",
-  major: "",
-  department: "",
-  coursecode: "",
-  school: "",
-  weight: -1,
-  coursenum: -1,
-  level: -1,
-  prerequisite: [],
-  semester: [],
-  title: [],
-  path: false,
-  options: {
-    SortMode: "Raw",
-    SortDirection: "Ascending",
-    Scope: "All",
-    PrintMode: "Regular",
-  },
-};
 
 const Catalog = (props) => {
   const { type, query } = props;
@@ -39,27 +16,8 @@ const Catalog = (props) => {
   const [programList, setProgramList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const [totalPages, setTotalPages] = useState(50);
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const [coursesPerPage, setCoursesPerPage] = useState(50);
-
-  const [filterOptions, setFilterOptions] = useState<Query>(initialQuery);
-  const [useFilter, setUseFilter] = useState({ filter: false });
-  const [sortDir, setSortDir] = useState<SortDir>("Ascending");
-  const [sortMode, setSortMode] = useState<SortMode>("Raw");
-
-  const { filters, pageState } = useSelector<RootState, CatalogState>((state) => state.catalog);
+  const { filters, pageState, updatePage } = useSelector<RootState, CatalogState>((state) => state.catalog);
   const dispatch = useDispatch();
-
-  const useDidMountEffect = (func, deps) => {
-    const didMount = useRef(false);
-
-    useEffect(() => {
-      if (didMount.current) func();
-      else didMount.current = true;
-    }, deps);
-  };
 
   useEffect(() => {
     setLoading(true);
@@ -77,7 +35,7 @@ const Catalog = (props) => {
           } else {
             // If user filters using filter options
             const { data: courses } = await axios.get(`/api/course/query/`, {
-              params: { filters: filters, pageSize: pageState.pageSize, pageNum: pageState.pageNum},
+              params: { filters: filters, pageSize: pageState.pageSize, pageNum: pageState.pageNum },
             });
             newListContent = courses;
             setCourseList(newListContent);
@@ -106,11 +64,7 @@ const Catalog = (props) => {
       }));
       setLoading(false);
     })();
-  }, [query, currentPage, type, filters, pageState.pageNum, pageState.pageSize, pageState.useFilter]);
-
-  useEffect(() => {
-    setCurrentPage(0);
-  }, [useFilter]);
+  }, [query, type, updatePage]);
 
   if (loading) {
     return <LoadingScreen />;
@@ -118,7 +72,8 @@ const Catalog = (props) => {
     // Return html for course catalog
     return (
       <div>
-        <ul className="divide-slate-200 dark:divide-slate-600 divide-y overflow-auto h-screen box-content">
+        <ul className="divide-slate-200 dark:divide-slate-600 divide-y overflow-y-scroll h-screen box-content scrollbar
+                      scrollbar-track-y-transparent">
           {(courseList.length === 0) 
             ? <p className="text-lg">No more courses to show...</p> 
             : courseList.map((course: Course) => (

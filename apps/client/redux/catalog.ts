@@ -19,10 +19,13 @@ export interface CatalogState {
 
     // Data of the catalog page
     pageState: {
-        pageNum: number
-        pageSize: number
-        totalPages: number
-        useFilter: boolean
+        pageNum: number;
+        pageSize: number;
+        totalPages: number;
+        useFilter: boolean;
+    };
+    updatePage: {
+      update: boolean;
     };
 }
 
@@ -46,6 +49,9 @@ const initialState: CatalogState = {
     totalPages: 127,
     useFilter: false
   },
+  updatePage: {
+    update: false
+  },
 };
 
 const filters = createSlice({
@@ -60,9 +66,14 @@ const filters = createSlice({
     setPageState: (state, action) => {
       state.pageState = action.payload;
     },
+    setUpdatePage: (state, action) => {
+      state.updatePage = {
+        ...action.payload
+      };
+    },
   },
 });
 
-export const {setFilters, setPageState} = filters.actions;
+export const {setFilters, setPageState, setUpdatePage } = filters.actions;
 
 export default filters.reducer;

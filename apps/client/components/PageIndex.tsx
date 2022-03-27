@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CatalogState, setPageState } from "@redux/catalog";
+import { CatalogState, setPageState, setUpdatePage } from "@redux/catalog";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@redux/store";
 
@@ -11,10 +11,11 @@ const getPageIndexArray = (start: number, end: number) => {
 const PageIndex = () => {
   const { pageState } = useSelector<RootState, CatalogState>((state) => state.catalog);
   let currentPage = pageState.pageNum;
+  const totalPages = pageState.totalPages;
 
   const pageIndex = {
     start: currentPage,
-    end: pageState.totalPages > currentPage + 4 ? currentPage + 4 : pageState.totalPages,
+    end: totalPages > currentPage + 4 ? currentPage + 4 : totalPages,
   };
   const pageArray = getPageIndexArray(pageIndex.start, pageIndex.end);
 
@@ -23,7 +24,7 @@ const PageIndex = () => {
   const incrementPage = (mode: string) => {
     if (mode === "<" && !(currentPage - 1 < 0)) {
       currentPage = currentPage - 1;
-    } else if (mode === ">" && !(currentPage + 1 > pageState.totalPages)) {
+    } else if (mode === ">" && !(currentPage + 1 > totalPages)) {
       currentPage = (currentPage + 1);
     } else if (mode === "<<") {
       if (currentPage - 10 < 1) {
@@ -32,31 +33,35 @@ const PageIndex = () => {
         currentPage = currentPage - 10;
       }
     } else if (mode === ">>") {
-      if (currentPage + 10 > pageState.totalPages) {
-        currentPage = pageState.totalPages;
+      if (currentPage + 10 > totalPages) {
+        currentPage = totalPages;
       } else {
         currentPage = currentPage + 10;
       }
     }
-    if (currentPage > pageState.totalPages) {
-      currentPage = pageState.totalPages;
+    if (currentPage > totalPages) {
+      currentPage = totalPages;
     }
-    console.log(currentPage);
     dispatch(setPageState({
       ...pageState,
       pageNum: currentPage
+    }));
+    dispatch(setUpdatePage({
+      update: true
     }));
   };
 
   const changePage = (num: number) => {
     let pageNum = num;
-    if (num > pageState.totalPages) {
-      pageNum = pageState.totalPages;
+    if (num > totalPages) {
+      pageNum = totalPages;
     }
-    console.log(pageNum);
     dispatch(setPageState({
       ...pageState,
       pageNum: pageNum
+    }));
+    dispatch(setUpdatePage({
+      update: true
     }));
   };
 
@@ -97,7 +102,7 @@ const PageIndex = () => {
           </button>
         </div>
         <p className="px-2 opacity-50">
-          {currentPage} of {pageState.totalPages}
+          {currentPage} of {totalPages}
         </p>
       </nav>
     </div>

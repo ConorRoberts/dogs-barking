@@ -1,6 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import getNeo4jDriver from "@utils/getNeo4jDriver";
 
+const generateObj= (e) => {
+  return {
+    ...e.get(0).properties,
+    nodeId: e.get(0).identity.low as number,
+  }
+}
 /**
  * @swagger
  * /api/db/course:
@@ -47,7 +53,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     
     const courses = [];
     for (const record of queryData.records) {
-      courses.push(record.get(0).properties);
+      courses.push(generateObj(record));
     }
 
     await db.close();
