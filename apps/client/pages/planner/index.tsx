@@ -170,8 +170,8 @@ const Page = () => {
           <h2 className="py-4 text-center font-medium">Degree Planner</h2>
           <p className="text-2xl pt-10 max-w-screen-md">
             Terribly sorry, but you must be logged in to use the Degree Planner. 
-            Please login to your existing account, or create a new account, login with it, 
-            and try accessing this page again.
+            Please login to your existing account, or create a new account and login with it, 
+            then try accessing this page again.
           </p>
         </div>
       </>
