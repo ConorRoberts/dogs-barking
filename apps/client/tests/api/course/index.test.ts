@@ -1,12 +1,12 @@
-import handler from "../../../../pages/api/program/index";
+import handler from "../../../pages/api/course/index";
 import httpMocks from "node-mocks-http";
 import { NextApiRequest, NextApiResponse } from "next";
 
-test("Fetch all programs", async () => {
+test("Fetch with empty query", async () => {
   const req = httpMocks.createRequest<NextApiRequest>({});
   const res = httpMocks.createResponse<NextApiResponse>();
   await handler(req, res);
-  const data = res._getJSONData().data;
-  expect(res.statusCode).toBe(200);
-  expect(data.length).toBe(200);
+  // const data = res._getJSONData().data;
+
+  expect(res.statusCode).toBe(400);
 });

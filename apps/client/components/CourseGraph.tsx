@@ -17,7 +17,7 @@ type CourseGraphProps = {
   height?: number;
 };
 
-const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, width, height }: CourseGraphProps) => {
+const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, height }: CourseGraphProps) => {
   const [nodes, setNodes] = useNodesState(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
 

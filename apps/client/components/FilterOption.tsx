@@ -1,6 +1,6 @@
 import { AiOutlineDown } from "react-icons/ai";
 import SearchField from "./SearchField";
-import { useState } from "react"
+import { useState } from "react";
 
 const FilterOption = (props) => {
   const { setState, value, name, type } = props;
@@ -14,7 +14,7 @@ const FilterOption = (props) => {
     } else {
       setSearchStyle("hidden p-2");
     }
-  }
+  };
   return (
     <div>
       <li className={filterStyle} onClick={()=> toggleSearch(searchStyle)}>

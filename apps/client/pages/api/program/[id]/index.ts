@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import getProgramCourses from "@utils/getProgramCourses";
+import getProgram from "@utils/getProgram";
 
 /**
  * @swagger
@@ -47,7 +47,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (method === "GET") {
       const id = req.query.id as string;
 
-      return res.status(200).json(await getProgramCourses(id));
+      return res.status(200).json(await getProgram(id));
     }
   } catch (error) {
     return res.status(400).json({ message: error.message });

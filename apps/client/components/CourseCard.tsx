@@ -1,5 +1,4 @@
 import { Course } from "@typedefs/DegreePlan";
-import getPrerequisites from "@utils/getPrerequisites";
 import React from "react";
 
 interface CourseCardProps {

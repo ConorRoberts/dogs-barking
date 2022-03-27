@@ -9,6 +9,9 @@ interface CourseQuery {
   // Course number (ex. 2500)
   number?: number;
 
+  // Course level
+  scope?: "all" | "undergrad" | "grad";
+
   // Checks if description includes the search term
   description?: string;
 

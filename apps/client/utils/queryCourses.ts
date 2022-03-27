@@ -3,13 +3,6 @@
 import CourseQuery from "@dogs-barking/common/types/CourseQuery";
 import getNeo4jDriver from "./getNeo4jDriver";
 
-const generateObj = (e) => {
-  return {
-    ...e.get(0).properties,
-    nodeId: e.get(0).identity.low as number, 
-  }
-}
-
 /**
  * Excecutes a complex query to get all courses based on search criteria
  * @param query
@@ -31,6 +24,8 @@ const queryCourses = async (query: CourseQuery) => {
       }
       ${query.degree?.length > 0 ? "WHERE program.degree = $degree" : ""}
       ${query.school?.length > 0 ? "WHERE school.abbrev = $school" : ""}
+      ${query.scope==="undergrad" ? "WHERE course.number < 5000" : ""}
+      ${query.scope==="grad" ? "WHERE course.number > 5000" : ""}
       ${query.courseId?.length > 0 ? "WHERE course.id STARTS WITH $courseId" : ""}
       ${query.department?.length > 0 ? "WHERE course.department = $department" : ""}
       ${!isNaN(query.weight) ? `WHERE course.weight = $weight` : ""}
@@ -46,7 +41,8 @@ const queryCourses = async (query: CourseQuery) => {
           : ""
       }
 
-      SKIP(${query.pageSize * query.pageNum}) LIMIT(${query.pageSize})
+      SKIP(${+query.pageNum * +query.pageSize})
+      LIMIT(${+query.pageSize})
     `,
     query
   );

@@ -6,6 +6,8 @@ type Course = {
   description: string;
   weight: number;
   nodeId?: string;
+  school?: string;
+  schoolId?: string;
 };
 
 export type CourseIndex = {

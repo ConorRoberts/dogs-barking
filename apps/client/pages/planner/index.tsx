@@ -7,7 +7,6 @@ import { AuthState } from "@redux/auth";
 import { PlannerState, setPlanName, setDepartment, setPlannedSemesters } from "@redux/planner";
 import { RootState } from "@redux/store";
 import { Course } from "@typedefs/DegreePlan";
-import getPrerequisites from "@utils/getPrerequisites";
 import Link from "next/link";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
