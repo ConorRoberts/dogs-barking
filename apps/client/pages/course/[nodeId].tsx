@@ -8,15 +8,21 @@ import { Node, Edge } from "react-flow-renderer";
 import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import Rating from "@components/Rating";
 import getPrerequisites from "@utils/getPrerequisites";
+import getRating from "@utils/getRating";
 
 interface PageProps {
   course: Course;
   school: School;
   nodes: Node<Course>[];
   edges: Edge[];
+  rating: {
+    difficulty: number;
+    usefulness: number;
+    timeSpent: number;
+  };
 }
 
-const Page = ({ course, school, nodes, edges }: PageProps) => {
+const Page = ({ course, school, nodes, edges, rating }: PageProps) => {
   return (
     <div className="mx-auto max-w-4xl w-full flex flex-col gap-8 p-2">
       <div>
@@ -35,15 +41,15 @@ const Page = ({ course, school, nodes, edges }: PageProps) => {
       <div className="flex flex-row items-center gap-4 justify-center flex-wrap w-full">
         <div className="flex flex-col items-center gap-2 flex-1">
           <h3 className="text-center">Difficulty</h3>
-          <Rating nodeId={course.nodeId} ratingType="difficulty" />
+          <Rating nodeId={course.nodeId} ratingType="difficulty" initialRating={rating.difficulty} />
         </div>
         <div className="flex flex-col items-center gap-2 flex-1">
           <h3 className="text-center">Usefulness</h3>
-          <Rating nodeId={course.nodeId} ratingType="usefulness" />
+          <Rating nodeId={course.nodeId} ratingType="usefulness" initialRating={rating.usefulness} />
         </div>
         <div className="flex flex-col items-center gap-2 flex-1">
           <h3 className="text-center">Time Spent</h3>
-          <Rating nodeId={course.nodeId} ratingType="timeSpent" />
+          <Rating nodeId={course.nodeId} ratingType="timeSpent" initialRating={rating.timeSpent} />
         </div>
       </div>
       <div>
@@ -60,6 +66,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const school = await getCourseSchool(nodeId);
   const courses = await getPrerequisites(nodeId);
   const { nodes, edges } = createPrerequisiteGraph(courses);
+  const rating = await getRating(nodeId);
 
   return {
     props: {
@@ -67,6 +74,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
       school,
       nodes,
       edges,
+      rating,
     },
   };
 };
