@@ -9,6 +9,7 @@ import { Random } from "@components/Icons";
 import CourseGraph from "@components/CourseGraph";
 import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import { Edge, Node } from "react-flow-renderer";
+import getPrerequisites from "@utils/getPrerequisites";
 
 interface PageProps {
   randomCourseCode: string;
@@ -18,7 +19,7 @@ interface PageProps {
 
 const Page = (props: PageProps) => {
   const [text, setText] = useState("");
-  const { results } = useCourseSearch({ courseId: text });
+  const { results } = useCourseSearch(text);
   const [showResults, setShowResults] = useState(false);
 
   return (
@@ -30,7 +31,7 @@ const Page = (props: PageProps) => {
         </div>
         <h1 className="flex-1 text-center">Dogs Barking Inc.</h1>
       </div>
-      <div className="relative mx-auto max-w-lg w-full">
+      <div className="relative mx-auto max-w-xl w-full">
         <h3 className="text-xl font-normal text-center mb-2">Find your favourite courses</h3>
 
         <div
@@ -56,9 +57,10 @@ const Page = (props: PageProps) => {
           <div className="absolute rounded-xl top-full left-0 right-0 h-6 z-10">
             {results.slice(0, 10).map((e) => (
               <Link href={`/course/${e.nodeId}`} key={e.nodeId}>
-                <p className="bg-white dark:bg-gray-800 px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm hover:text-gray-500 dark:hover:text-gray-300 transition-all cursor-pointer duration-75 text-lg">
-                  {e.id}
-                </p>
+                <div className="bg-white dark:bg-gray-800 px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm hover:text-gray-500 dark:hover:text-gray-300 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16">
+                  <p>{e.id}</p>
+                  <p className="truncate">{e.name}</p>
+                </div>
               </Link>
             ))}
           </div>
@@ -75,7 +77,9 @@ const Page = (props: PageProps) => {
       </div>
       <div className="text-center">
         <h3>Visualize Course Requirements</h3>
-        <p className="dark:text-gray-400 text-gray-500 mb-4">Prerequisite graph for CIS*2750 from The University of Guelph</p>
+        <p className="dark:text-gray-400 text-gray-500 mb-4">
+          Prerequisite graph for CIS*2750 from The University of Guelph
+        </p>
         <CourseGraph nodes={props.nodes} edges={props.edges} />
       </div>
     </div>
@@ -84,7 +88,7 @@ const Page = (props: PageProps) => {
 
 export const getServerSideProps = async () => {
   const course = await getRandomCourse();
-  const { nodes, edges } = await createPrerequisiteGraph("284");
+  const { nodes, edges } = createPrerequisiteGraph(await getPrerequisites("284"));
 
   return {
     props: {

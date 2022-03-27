@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 export interface UseCourseSearchParams {
   courseId: string;
+  description: string;
 }
 
 /**
@@ -10,31 +11,35 @@ export interface UseCourseSearchParams {
  * @param params
  * @returns
  */
-const useCourseSearch = (params: UseCourseSearchParams) => {
+const useCourseSearch = (query: string) => {
   const [results, setResults] = useState([]);
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     const timer = setTimeout(async () => {
       // Fetch data from search endpoint
-      if (params.courseId.length === 0) {
+      if (query.length === 0) {
         setResults([]);
         return;
       }
-      
-      const { data } = await axios.get(`/api/course/search?courseId=${params.courseId}`);
-      
+
+      const { data } = await axios.get(`/api/course/search`, {
+        params: {
+          query,
+        },
+      });
+
       setResults(data);
     }, 50);
-    
+
     setLoading(false);
     return () => {
       clearTimeout(timer);
     };
-  }, [params.courseId]);
+  }, [query]);
 
-  return {results,loading};
+  return { results, loading };
 };
 
 export default useCourseSearch;

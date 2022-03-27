@@ -5,11 +5,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
   try {
     if (method === "GET") {
-      const courseId = req.query.courseId as string;
-      const pageSize = req.query.pageSize as string;
-      const pageNum = req.query.pageNum as string;
+      const query = req.query.query as string;
 
-      return res.status(200).json(await searchCourses({ courseId, pageSize, pageNum }));
+      return res.status(200).json(await searchCourses(query));
     } else if (method === "POST") {
       return res.status(201).json({});
     } else {
