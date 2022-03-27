@@ -21,9 +21,18 @@ const plan = createSlice({
     setPlannedSemesters: (state, {payload} ) => {
       state.plan.semesters = payload;
     },
+    // Payload is expected to be a single string that represents the name of the current plan.
+    setPlanName: (state, {payload} ) => {
+      state.plan.name = payload;
+    },
+    // Payload is expected to be a single string that represents the name of the department associated with the plan.
+    setDepartment: (state, {payload} ) => {
+      state.plan.department = payload;
+      
+    },
   },
 });
 
-export const { setPlannedSemesters } = plan.actions;
+export const { setPlannedSemesters, setPlanName, setDepartment } = plan.actions;
 
 export default plan.reducer;

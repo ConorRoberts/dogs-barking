@@ -22,11 +22,10 @@ const Page = () => {
         </p> 
         :
         <div>
-          {plan.name == "" ? <h3 className="py-4 text-center font-medium">Untitled Plan</h3> : <h3 className="py-4 text-center font-medium">{plan.name}</h3>}
-          {plan.department == "" ? <h4 className="py-4 text-center font-medium">Summary for Unnamed Degree</h4> : 
-            <h4 className="py-4 text-center font-medium">Summary for {plan.department}</h4> 
+          {plan.name == "" ? <h3 className="py-2 text-center font-medium">Untitled Plan</h3> : <h3 className="py-2 text-center font-medium">{plan.name}</h3>}
+          {plan.department == "" ? <h4 className="py-2 text-center font-medium">Unknown Department</h4> : 
+            <h4 className="py-2 text-center font-medium">Department: {plan.department}</h4> 
           }
-          <h4 className="py-4 text-center font-medium">Breakdown of Semesters:</h4>
           { plan.semesters.map((semester) => {
             return (
               <div className="place-content-center">
