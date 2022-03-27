@@ -1,7 +1,5 @@
-import Course from "@dogs-barking/common/types/Course";
 import axios from "axios";
-import { useEffect, useState, useRef } from "react";
-import PageIndex from "@components/PageIndex";
+import { useEffect, useState } from "react";
 import LoadingScreen from "./LoadingScreen";
 import Link from "next/link";
 import { CatalogState, setPageState } from "@redux/catalog";
@@ -10,8 +8,6 @@ import { RootState } from "@redux/store";
 
 const Catalog = (props) => {
   const { type, query } = props;
-  const totalCourses = 6339;
-  const totalPrograms = 467;
   const [courseList, setCourseList] = useState([]);
   const [programList, setProgramList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -58,65 +54,52 @@ const Catalog = (props) => {
         setProgramList(newListContent);
       }
 
-      dispatch(setPageState({
-        ...pageState,
-        totalPages: Math.ceil(totalCourses / pageState.pageSize)
-      }));
+      dispatch(
+        setPageState({
+          ...pageState,
+          totalPages: Math.ceil(pageState.pageSize),
+        })
+      );
       setLoading(false);
     })();
   }, [query, type, updatePage]);
 
-  if (loading) {
-    return <LoadingScreen />;
-  } else if (type === "courses") {
-    // Return html for course catalog
-    return (
-      <div>
-        <ul className="divide-slate-200 dark:divide-slate-600 divide-y overflow-y-scroll h-screen box-content scrollbar
+  if (loading) return <LoadingScreen />;
+
+  return (
+    <div>
+      <ul
+        className="divide-slate-200 dark:divide-slate-600 divide-y overflow-y-scroll h-screen box-content scrollbar
                       scrollbar-track-y-transparent">
-          {(courseList.length === 0) 
-            ? <p className="text-lg">No more courses to show...</p> 
-            : courseList.map((course: Course) => (
-              <div
-                className="py-2 hover:bg-sky-200 even:bg-slate-200 dark:hover:bg-gray-700 dark:odd:bg-gray-900 dark:even:bg-gray-800 dark:opacity-90"
-                key={course.id}>
-                {
-                  <li>
-                    <a href={"/course/" + course.nodeId}>
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">{course.id}</p>
-                      <p className="text-sm text-slate-600 dark:text-slate-400 truncate">
-                        {course.name} - [{course.weight.toFixed(2)}]
-                      </p>
-                    </a>
-                  </li>
-                }
-              </div>
-            ))}
-        </ul>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <ul className="divide-slate-200 dark:divide-slate-600 divide-y overflow-auto h-screen box-content scrollbar
-                      scrollbar-track-y-transparent">
-          {programList.map((program) => (
-            <Link key={program.nodeId} href={`/programs/${program.nodeId}`}>
-              <div className="py-2 hover:bg-sky-200 even:bg-slate-200 dark:hover:bg-gray-700 dark:odd:bg-gray-900 dark:even:bg-gray-800 dark:opacity-90">
+        {courseList.length === 0 ? (
+          <p className="text-lg">No more courses to show...</p>
+        ) : (
+          courseList.map((e) => (
+            <div
+              className="py-2 hover:bg-sky-200 even:bg-slate-200 dark:hover:bg-gray-700 dark:odd:bg-gray-900 dark:even:bg-gray-800 dark:opacity-90"
+              key={e.id}>
+              {
                 <li>
-                  <p className="text-sm font-medium text-slate-900 dark:text-white">
-                    {program.id + " - " + program.degree}
-                  </p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 truncate"> {program.name}</p>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 truncate">{program.school}</p>
+                  <Link href={"/course/" + e.nodeId}>
+                    <p className="text-sm font-medium text-slate-900 dark:text-white">{e.id}</p>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 truncate">
+                      {e.name} {type === "course" && `- [${e.weight.toFixed(2)}]`}
+                    </p>
+                    {type === "program" && (
+                      <>
+                        <p className="text-sm text-slate-600 dark:text-slate-400 truncate"> {e.name}</p>
+                        <p className="text-sm text-slate-600 dark:text-slate-400 truncate">{e.school}</p>
+                      </>
+                    )}
+                  </Link>
                 </li>
-              </div>
-            </Link>
-          ))}
-        </ul>
-      </div>
-    );
-  }
+              }
+            </div>
+          ))
+        )}
+      </ul>
+    </div>
+  );
 };
 
 export default Catalog;

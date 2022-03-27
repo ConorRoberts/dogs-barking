@@ -49,7 +49,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res
       .status(200)
-      .json({ data: queryData.records.map((e) => ({ ...e.get("p").properties, nodeId: e.get("nodeId").low })) });
+      .json(queryData.records.map((e) => ({ ...e.get("p").properties, nodeId: e.get("nodeId").low })));
   }
 
   return res.status(401).json({});

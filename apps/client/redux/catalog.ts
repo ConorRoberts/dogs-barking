@@ -1,79 +1,66 @@
 import { createSlice } from "@reduxjs/toolkit";
-import DegreePlan from "@typedefs/DegreePlan";
 
 export interface CatalogState {
-    // Filter Data
-    filters: {
-        courseId?: string;
-        school?: string;
-        number?: number;
-        description?: string;
-        prerequisites?: string[];
-        department?: string;
-        sortDir?: "asc" | "desc";
-        sortKey?: string;
-        name?: string;
-        weight?: number;
-        degree?: string;
-    };
+  // Filter Data
+  filters: {
+    courseId?: string;
+    school?: string;
+    number?: number;
+    description?: string;
+    prerequisites?: string[];
+    department?: string;
+    name?: string;
+    weight?: number;
+    degree?: string;
+  };
 
-    // Data of the catalog page
-    pageState: {
-        pageNum: number;
-        pageSize: number;
-        totalPages: number;
-        useFilter: boolean;
-    };
-    updatePage: {
-      update: boolean;
-    };
+  type: "courses" | "programs";
+
+  scope: "all" | "undergrad" | "grad";
+
+  // Data of the catalog page
+  pageState: {
+    pageNum: number;
+    pageSize: number;
+    sortDir?: "asc" | "desc";
+    sortKey?: string;
+  };
 }
 
 const initialState: CatalogState = {
-  filters : {
-    courseId: "",
-    school: "",
-    number: null,
-    description: "",
-    prerequisites: [],
-    department: "",
-    sortDir: "asc",
-    sortKey: "id",
-    name: "",
-    weight: null,
-    degree: "",
-  },
   pageState: {
     pageNum: 0,
     pageSize: 50,
-    totalPages: 127,
-    useFilter: false
+    sortDir: "desc",
+    sortKey: "courseCode",
   },
-  updatePage: {
-    update: false
-  },
+  scope: "all",
+  filters: {},
+  type: "courses",
 };
 
 const filters = createSlice({
   name: "catalog",
-  initialState, 
+  initialState,
   reducers: {
     setFilters: (state, action) => {
-      state.filters = {
-        ...action.payload
-      };
+      state.filters = { ...state.filters, ...action.payload };
     },
     setPageState: (state, action) => {
-      state.pageState = action.payload;
+      state.pageState = { ...state.pageState, ...action.payload };
     },
-    setUpdatePage: (state, action) => {
-      state.updatePage = {
-        ...action.payload
-      };
+    setCatalogType: (state, action) => {
+      state.type = action.payload;
+    },
+    resetFilters: (state) => {
+      state.filters = {};
+    },
+    setScope: (state, { payload }) => {
+      state.scope = payload;
     },
   },
 });
 
-export const {setFilters, setPageState, setUpdatePage } = filters.actions;
+export const { setFilters, setPageState, setCatalogType, resetFilters, setScope } = filters.actions;
 
 export default filters.reducer;

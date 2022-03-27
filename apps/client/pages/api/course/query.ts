@@ -39,25 +39,29 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Course[]>) => {
   const { method } = req;
   try {
     if (method === "GET") {
-      const filters = JSON.parse(req.query.filters as string);
-      const pageSize = parseInt((req.query.pageSize as string) ?? "50");
+      if (Object.keys(req.query).length === 0) {
+        throw new Error("No query provided");
+      }
+
+      const department = req.query.department as string;
+      const name = req.query.name as string;
+      const courseId = req.query.id as string;
+      const weight = parseFloat((req.query.weight as string) ?? null);
+      const number = parseFloat((req.query.number as string) ?? null);
       const pageNum = parseInt((req.query.pageNum as string) ?? "0");
-      const department = filters.department as string;
-      const name = filters.name as string;
-      const courseId = filters.id as string;
-      const weight = parseFloat((filters.weight as string) ?? null);
-      const number = parseFloat((filters.number as string) ?? null);
-      const degree = filters.degree as string;
-      const school = filters.school as string;
-      const sortKey = filters.sortKey as string;
-      const sortDir = filters.sortDir as "asc" | "desc";
-      const description = filters.description as string;
-      const prerequisites = filters.prerequisites as string[];
+      const pageSize = parseInt((req.query.pageSize as string) ?? "50");
+      const degree = req.query.degree as string;
+      const school = req.query.school as string;
+      const scope = req.query.scope as string;
+      const sortKey = req.query.sortKey as string;
+      const sortDir = req.query.sortDir as "asc" | "desc";
+      const description = req.query.description as string;
+      const prerequisites = req.query.prerequisites as string[];
 
       return res.status(200).json(
         await queryCourses({
-          pageSize,
           pageNum,
+          pageSize,
           department,
           name,
           courseId,
@@ -69,6 +73,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Course[]>) => {
           sortDir,
           description,
           prerequisites,
+          scope: scope as "all" | "undergrad" | "grad",
         })
       );
     }
