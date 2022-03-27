@@ -28,7 +28,7 @@ const Page = ({ counts }: PageProps) => {
 
     try {
       if (type === "courses") {
-        const res = await axios.get("/api/course/query", { params: { ...filters, ...pageState, scope } });
+        const res = await axios.get("/api/course", { params: { ...filters, ...pageState, scope } });
         setData(res.data);
       } else if (type === "programs") {
         const res = await axios.get("/api/program");

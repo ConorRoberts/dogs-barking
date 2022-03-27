@@ -6,27 +6,22 @@ import getNeo4jDriver from "./getNeo4jDriver";
  * @param courseCode
  */
 const getCourse = async (nodeId: string): Promise<Course | null> => {
-  try {
-    const driver = getNeo4jDriver();
-    const session = driver.session();
+  const driver = getNeo4jDriver();
+  const session = driver.session();
 
-    const result = await session.run(
-      `
+  const result = await session.run(
+    `
         MATCH(course:Course)
         where id(course) = $nodeId 
         return course
       `,
-      { nodeId: +nodeId }
-    );
+    { nodeId: +nodeId }
+  );
 
-    await session.close();
-    await driver.close();
+  await session.close();
+  await driver.close();
 
-    return { ...result.records[0].get("course").properties, nodeId };
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+  return { ...result.records[0].get("course").properties, nodeId };
 };
 
 export default getCourse;
