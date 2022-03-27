@@ -3,7 +3,7 @@ import Catalog from "@components/Catalog";
 import { useState } from "react";
 import SearchField from "@components/SearchField";
 import FilterOptionModal from "@components/FilterOptionModal";
-import FilterOptions from "@components/FilterOptions";
+import FilterOptions from "@components/FilterOption";
 import PageIndex from "@components/PageIndex";
 
 const Page = () => {
@@ -30,7 +30,7 @@ const Page = () => {
           onChange={(elem) => setSearchText(elem.target.value)}
         />
       </div>
-      <div className="flex">
+      <div className="flex gap-4">
         <div className="flex-1">
           <PageIndex />
           <Catalog type={dataType} query={searchText} />

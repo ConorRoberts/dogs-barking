@@ -21,7 +21,7 @@ const FilterOptionModal = (props) => {
   /* Number types/input */
   const [weight, setWeight] = useState<number>(0);
   const [courseNum, setCourseNum] = useState<number>(0);
-  const [level, setLevel] = useState<number>(-1);
+  const [level, setLevel] = useState<number>(0);
   /* String[] types/input */
   const [prereq, setPrereq] = useState<string[]>([]);
   const [keywords, setKeywords] = useState<string[]>([]);
@@ -100,7 +100,7 @@ const FilterOptionModal = (props) => {
     }));
   };
 
-  const setOrder = (val) => {
+  const setOrder = (val: string) => {
     const sortDir = (val.includes("Asc")) ? "asc" : "desc";
     const sortKey = (val.includes("name")) ? "id" : "weight";
     dispatch(setFilters({
@@ -117,50 +117,45 @@ const FilterOptionModal = (props) => {
     }));
   };
 
-  const filterStyle = "cursor-pointer py-2 hover:bg-sky-200 dark:hover:bg-gray-700 " +
-                      "dark:opacity-90 relative";
-
   return (
-    <div
-      className="">
-        <div className="flex flex-col">
-        <div className="flex pt-2">
-          <div className="flex flex-row">
-            <p className="pr-2">Sort By:</p>
-            <select
-              id="sortBy"
-              className="dark:bg-inherit border-2 border-slate-600 rounded dark:text-gray-400 w-28 h-6"
-              onChange={(e) => setOrder(e.target.value)}>
-              <option>-</option>
-              <option value="nameAsc">Course Code: A-Z</option>
-              <option value="nameDesc">Course Code: Z-A</option>
-              <option value="weightAsc">Weight: Ascending</option>
-              <option value="weightDesc">Weight: Descending</option>
-            </select>
-          </div>
-          <div className="flex flex-row">
-            <p className="px-2">Items Per Page:</p>
-            <select
-              id="itemsPerPage"
-              className="dark:bg-inherit border-2 border-slate-600 rounded dark:text-gray-400 w-28 h-6"
-              onChange={() => {
-                const e = document.getElementById("itemsPerPage") as HTMLSelectElement;
-                const val = parseInt(e.options[e.selectedIndex].value);
+    <div>
+      <div className="flex">
+        <div className="flex flex-row">
+          <p className="pr-2">Sort By:</p>
+          <select
+            id="sortBy"
+            className="dark:bg-inherit border-2 border-slate-600 rounded dark:text-gray-400 w-28 h-6"
+            onChange={(e) => setOrder(e.target.value)}>
+            <option>-</option>
+            <option value="nameAsc">Course Code: A-Z</option>
+            <option value="nameDesc">Course Code: Z-A</option>
+            <option value="weightAsc">Weight: Ascending</option>
+            <option value="weightDesc">Weight: Descending</option>
+          </select>
+        </div>
+        <div className="flex flex-row">
+          <p className="px-2">Items Per Page:</p>
+          <select
+            id="itemsPerPage"
+            className="dark:bg-inherit border-2 border-slate-600 rounded dark:text-gray-400 w-28 h-6"
+            onChange={() => {
+              const e = document.getElementById("itemsPerPage") as HTMLSelectElement;
+              const val = parseInt(e.options[e.selectedIndex].value);
 
-                dispatch(setPageState({
-                  ...pageState,
-                  pageSize: val
-                }));
-              }}>
-              <option>-</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-              <option value="150">150</option>
-              <option value="200">200</option>
-            </select>
-          </div>
+              dispatch(setPageState({
+                ...pageState,
+                pageSize: val
+              }));
+            }}>
+            <option>-</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="150">150</option>
+            <option value="200">200</option>
+          </select>
         </div>
       </div>
+      <br />
       <div className="rounded grid grid-cols-3 text-center text-lg divide-x-2 divide-slate-500 border-2 border-solid border-slate-500">
         {scope === "All" ? (
           <button className="dark:hover:bg-gray-700 dark:bg-opacity-25 bg-blue-300" onClick={() => setScope("All")}>

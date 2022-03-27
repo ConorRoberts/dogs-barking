@@ -98,10 +98,8 @@ const Catalog = (props) => {
   } else {
     return (
       <div>
-        {
-          <PageIndex />
-        }
-        <ul className="divide-slate-200 dark:divide-slate-600 divide-y overflow-auto h-screen box-content">
+        <ul className="divide-slate-200 dark:divide-slate-600 divide-y overflow-auto h-screen box-content scrollbar
+                      scrollbar-track-y-transparent">
           {programList.map((program) => (
             <Link key={program.nodeId} href={`/programs/${program.nodeId}`}>
               <div className="py-2 hover:bg-sky-200 even:bg-slate-200 dark:hover:bg-gray-700 dark:odd:bg-gray-900 dark:even:bg-gray-800 dark:opacity-90">
