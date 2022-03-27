@@ -1,8 +1,8 @@
 import getNeo4jDriver from "./getNeo4jDriver";
 
 /**
- * Given a course code, return its associated prerequisite tree
- * @param courseCode
+ * Given a course's nodeId, return its associated prerequisite tree
+ * @param nodeId
  * @returns
  */
 const getPrerequisites = async (nodeId: string): Promise<any[]> => {

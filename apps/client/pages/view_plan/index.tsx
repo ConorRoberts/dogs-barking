@@ -6,7 +6,7 @@ const Page = () => {
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
 
   const isPlannerStateEmpty = () => {
-    if(plan.name === "" && plan.semesters.length == 0 && plan.department === ""){
+    if(plan.semesters.length == 0){
       return true;
     }
 
