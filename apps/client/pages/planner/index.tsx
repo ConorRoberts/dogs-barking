@@ -4,9 +4,10 @@ import { Input } from "@components/form";
 import SemesterCard from "@components/SemesterCard";
 import useCourseSearch from "@hooks/useCourseSearch";
 import { AuthState } from "@redux/auth";
-import { PlannerState, setPlannedSemesters } from "@redux/planner";
+import { PlannerState, setPlanName, setDepartment, setPlannedSemesters } from "@redux/planner";
 import { RootState } from "@redux/store";
 import { Course } from "@typedefs/DegreePlan";
+import getPrerequisites from "@utils/getPrerequisites";
 import Link from "next/link";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,9 +20,12 @@ const Page = () => {
   };
 
   const [searchText, setSearchText] = useState("");
-  const { results } = useCourseSearch({ courseId: searchText });
+  const [planName, setNewPlanName] = useState("");
+  const [departmentName, setDepartmentName] = useState("");
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
+
+  const { results } = useCourseSearch(searchText);
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   
@@ -35,10 +39,12 @@ const Page = () => {
     return false;
   };
 
-  const getCourseTitle = (fullName : string) => {
-    const titleSplit = fullName.split(" - ");
+  const writeReduxPlanName = (newPlanName : string) => {
+    dispatch(setPlanName(newPlanName));
+  };
 
-    return titleSplit[1];
+  const writeReduxDepartment = (department : string) => {
+    dispatch(setDepartment(department));
   };
 
   const addCourse = (courseToAdd : Course) => {
@@ -55,8 +61,7 @@ const Page = () => {
     }
     // Then the course already exists in the semester. Notify via console and do nothing.
     else if(isCourseAlreadyInSemester(courseToAdd.id, semesterToEdit.courses) === true){
-      const courseTitle = getCourseTitle(courseToAdd.name);
-      console.info("Cannot add '" + courseTitle + "' to semester '" + semesterToEdit.name + "': '" + courseTitle + "' already exists.");
+      console.info("Cannot add '" + courseToAdd.name + "' to semester '" + semesterToEdit.name + "': '" + courseToAdd.name + "' already exists.");
     }
     // Then the course doesn't exist in the semester yet, so add it.
     else{
@@ -71,14 +76,33 @@ const Page = () => {
   return user != null ? (
     <>
       <h2 className="py-4 text-center font-medium">Degree Planner</h2>
+      <h4 className="text-base text-center font-medium">Plan Name</h4>
+      <Input
+        onChange={(event) => setNewPlanName(event.target.value)}
+        className="w-1/4 h-8 p-2 place-self-center m-2"
+        type={"text"}
+        value={planName}
+        onBlur={() => writeReduxPlanName(planName)}
+        placeholder="Enter your Plan Name..."
+        variant={"blank"}
+      />
+      <h4 className="text-base text-center font-medium">Plan's Department</h4>
+      <Input
+        onChange={(event) => setDepartmentName(event.target.value)}
+        className="w-1/4 h-8 p-2 place-self-center m-2"
+        type={"text"}
+        value={departmentName}
+        onBlur={() => writeReduxDepartment(departmentName)}
+        placeholder="Enter the department for your plan (e.g. 'CIS' or 'ACCT')"
+        variant={"blank"}
+      />
       <div className="flex flex-col h-full w-full p-6">
         <div className="flex flex-row w-full">
           {/* Semester Builder Section */}
           <div className="flex flex-col w-2/5 pr-4">
-            <h4 className="text-base text-center font-medium">Degree Name</h4>
             <button
               onClick={addSemesterClick}
-              className="w-36 h-8 place-self-start text-white rounded-md bg-blue-500 hover:bg-blue-400">
+              className="w-36 mt-4 h-8 place-self-start text-white rounded-md bg-blue-500 hover:bg-blue-400">
               Add Semester
             </button>
             {isPopupVisible && <AddSemesterModal onClose={addSemesterClick} />}
@@ -105,7 +129,7 @@ const Page = () => {
             <h4 className="pb-2 text-base text-center font-medium">Search Available Courses...</h4>
             <Input
               onChange={(event) => setSearchText(event.target.value)}
-              className="w-3/5 h-8 p-2 place-self-center"
+              className="w-3/5 h-8 p-2 mb-4 place-self-center"
               type={"text"}
               value={searchText}
               onBlur={() => setTimeout(() => setShowSearchResults(false), 100)}
@@ -117,7 +141,7 @@ const Page = () => {
             {/* List of CourseCards */}
             <div className="flex px-0 flex-col max-h-96 overflow-auto">
               {results.length > 0 && results.slice(0, 20).map((course) => (
-                // console.log(course),
+                //console.log(course),
                 <CourseCard
                   addCourse={addCourse}
                   course={course}
@@ -128,14 +152,9 @@ const Page = () => {
 
             {/* Other Button Functionality */}
             <div className="flex flex-row w-full">
-              <div className="flex flex-col w-1/2 p-6 place-content-center">
-                <button className="w-40 h-10 place-self-end text-white rounded-md bg-blue-500 hover:bg-blue-400">
-                  Export Plan to PDF
-                </button>
-              </div>
-              <div className="flex flex-col w-1/2 p-6 place-content-center">
+              <div className="flex flex-col w-full p-6 place-content-center">
                 <Link href="/view_plan">
-                  <button className="w-40 h-10 place-self-start text-white rounded-md bg-blue-500 hover:bg-blue-400">
+                  <button className="w-40 h-10 place-self-center text-white rounded-md bg-blue-500 hover:bg-blue-400">
                     View Plan
                   </button>
                 </Link>
@@ -150,7 +169,7 @@ const Page = () => {
       <>
         <div className="place-self-center">
           <h2 className="py-4 text-center font-medium">Degree Planner</h2>
-          <p className="text-2xl pt-10 max-w-screen-md" >
+          <p className="text-2xl pt-10 max-w-screen-md">
             Terribly sorry, but you must be logged in to use the Degree Planner. 
             Please login to your existing account, or create a new account, login with it, 
             and try accessing this page again.

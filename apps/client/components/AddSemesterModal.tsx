@@ -97,7 +97,7 @@ export default function AddSemesterModal(props) {
   }
 
   return (
-    <Modal size="lg" onClose={onClose}>
+    <Modal size="xl" onClose={onClose}>
       <div className="flex flex-col place-content-center">
         <h4 className="font-semibold place-self-center">Add A Semester</h4>
 
