@@ -46,8 +46,11 @@ const Page = () => {
     // Get the current semester being edited
     const semesterToEdit = {...newSemesters.find((semester) => semester.isEditing === true)};
 
+    if(newSemesters.length === 0){
+      console.info("There are no semesters added to the plan yet. Please add a semester and try adding a course again.");
+    }
     // Then there are no semesters currently being edited. Print info msg to console.
-    if(Object.keys(semesterToEdit).length === 0){
+    else if(Object.keys(semesterToEdit).length === 0){
       console.info("There are no semesters in edit mode. Try clicking an edit button on a semester, then try adding a course again.");
     }
     // Then the course already exists in the semester. Notify via console and do nothing.
