@@ -41,14 +41,14 @@ const Page = () => {
     // If there exists a user in the redux store, redirect to the home page
     // We don't want people who are logged in to be using this page
     if (user) router.push("/");
-  }, [user]);
+  }, [user, router]);
 
   return (
     <div className="flex-1 flex justify-center items-center">
       <div className="mx-auto bg-white sm:p-8 p-4 dark:bg-gray-800 rounded-xl shadow-md max-w-sm w-full">
         <h2 className="text-center font-normal">Sign In</h2>
         <p className="text-center">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href="/auth/sign-up">
             <a className="underline dark:text-blue-400 text-blue-500">Sign up here</a>
           </Link>

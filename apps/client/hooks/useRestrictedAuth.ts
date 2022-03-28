@@ -16,7 +16,7 @@ const useRestrictedAuth = () => {
     if (!loading && !user) {
       router.push("/auth/sign-in");
     }
-  }, []);
+  }, [loading, router, user]);
 
   return { user, loading };
 };

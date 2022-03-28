@@ -21,56 +21,69 @@ const Page = () => {
   const [searchText, setSearchText] = useState("");
   const [planName, setNewPlanName] = useState("");
   const [departmentName, setDepartmentName] = useState("");
-  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [_showSearchResults, setShowSearchResults] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
 
   const { results } = useCourseSearch(searchText);
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
-  
-  const isCourseAlreadyInSemester = (courseID : string, courses : Course[]) => {
-    for(const course of courses){
-      if(course.id === courseID){
+
+  const isCourseAlreadyInSemester = (courseID: string, courses: Course[]) => {
+    for (const course of courses) {
+      if (course.id === courseID) {
         return true;
       }
     }
-    
+
     return false;
   };
 
-  const writeReduxPlanName = (newPlanName : string) => {
+  const writeReduxPlanName = (newPlanName: string) => {
     dispatch(setPlanName(newPlanName));
   };
 
-  const writeReduxDepartment = (department : string) => {
+  const writeReduxDepartment = (department: string) => {
     dispatch(setDepartment(department));
   };
 
-  const addCourse = (courseToAdd : Course) => {
+  const addCourse = (courseToAdd: Course) => {
     const newSemesters = [...plan.semesters];
     // Get the current semester being edited
-    const semesterToEdit = {...newSemesters.find((semester) => semester.isEditing === true)};
+    const semesterToEdit = { ...newSemesters.find((semester) => semester.isEditing === true) };
 
-    if(newSemesters.length === 0){
-      console.info("There are no semesters added to the plan yet. Please add a semester and try adding a course again.");
+    if (newSemesters.length === 0) {
+      console.info(
+        "There are no semesters added to the plan yet. Please add a semester and try adding a course again."
+      );
     }
     // Then there are no semesters currently being edited. Print info msg to console.
-    else if(Object.keys(semesterToEdit).length === 0){
-      console.info("There are no semesters in edit mode. Try clicking an edit button on a semester, then try adding a course again.");
+    else if (Object.keys(semesterToEdit).length === 0) {
+      console.info(
+        "There are no semesters in edit mode. Try clicking an edit button on a semester, then try adding a course again."
+      );
     }
     // Then the course already exists in the semester. Notify via console and do nothing.
-    else if(isCourseAlreadyInSemester(courseToAdd.id, semesterToEdit.courses) === true){
-      console.info("Cannot add '" + courseToAdd.name + "' to semester '" + semesterToEdit.name + "': '" + courseToAdd.name + "' already exists.");
+    else if (isCourseAlreadyInSemester(courseToAdd.id, semesterToEdit.courses) === true) {
+      console.info(
+        "Cannot add '" +
+          courseToAdd.name +
+          "' to semester '" +
+          semesterToEdit.name +
+          "': '" +
+          courseToAdd.name +
+          "' already exists."
+      );
     }
     // Then the course doesn't exist in the semester yet, so add it.
-    else{
+    else {
       semesterToEdit.courses = [...semesterToEdit.courses, courseToAdd];
 
-      const newSemesterData = newSemesters.map((semester) => semester.id === semesterToEdit.id ? semesterToEdit : semester );
+      const newSemesterData = newSemesters.map((semester) =>
+        semester.id === semesterToEdit.id ? semesterToEdit : semester
+      );
       dispatch(setPlannedSemesters(newSemesterData));
     }
   };
-
 
   return user != null ? (
     <>
@@ -85,7 +98,7 @@ const Page = () => {
         placeholder="Enter your Plan Name..."
         variant={"blank"}
       />
-      <h4 className="text-base text-center font-medium">Plan's Department</h4>
+      <h4 className="text-base text-center font-medium">Plan&apos;s Department</h4>
       <Input
         onChange={(event) => setDepartmentName(event.target.value)}
         className="w-1/4 h-8 p-2 place-self-center m-2"
@@ -139,20 +152,17 @@ const Page = () => {
 
             {/* List of CourseCards */}
             <div className="flex px-0 flex-col max-h-96 overflow-auto">
-              {results.length > 0 && results.slice(0, 20).map((course) => (
-                //console.log(course),
-                <CourseCard
-                  addCourse={addCourse}
-                  course={course}
-                  key={Math.random()}
-                />
-              ))}
+              {results.length > 0 &&
+                results.slice(0, 20).map((course) => (
+                  //console.log(course),
+                  <CourseCard addCourse={addCourse} course={course} key={Math.random()} />
+                ))}
             </div>
 
             {/* Other Button Functionality */}
             <div className="flex flex-row w-full">
               <div className="flex flex-col w-full p-6 place-content-center">
-                <Link href="/view_plan">
+                <Link href="/view_plan" passHref>
                   <button className="w-40 h-10 place-self-center text-white rounded-md bg-blue-500 hover:bg-blue-400">
                     View Plan
                   </button>
@@ -163,19 +173,17 @@ const Page = () => {
         </div>
       </div>
     </>
-  ) : 
-    (
-      <>
-        <div className="place-self-center">
-          <h2 className="py-4 text-center font-medium">Degree Planner</h2>
-          <p className="text-2xl pt-10 max-w-screen-md">
-            Terribly sorry, but you must be logged in to use the Degree Planner. 
-            Please login to your existing account, or create a new account and login with it, 
-            then try accessing this page again.
-          </p>
-        </div>
-      </>
-    );
+  ) : (
+    <>
+      <div className="place-self-center">
+        <h2 className="py-4 text-center font-medium">Degree Planner</h2>
+        <p className="text-2xl pt-10 max-w-screen-md">
+          Terribly sorry, but you must be logged in to use the Degree Planner. Please login to your existing account, or
+          create a new account and login with it, then try accessing this page again.
+        </p>
+      </div>
+    </>
+  );
 };
 
 export default Page;
