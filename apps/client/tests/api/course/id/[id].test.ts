@@ -13,7 +13,7 @@ test("Fetch course with Guelph Course ID", async () => {
   expect(data.name).toBe("Introductory Financial Accounting");
   expect(data.weight).toBe(0.5);
   expect(data.id).toBe("ACCT1220");
-  expect(data.department).toBe("CIS");
+  expect(data.department).toBe("ACCT");
 });
 
 test("Fetch course with UofT Course ID", async () => {
