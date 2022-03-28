@@ -15,11 +15,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     
     const queryData = await db.run(
       `
-        match (p:Program {id: "${id}"}) 
-        -[:MAJOR_REQUIRES]->(c:Course) 
+        match (p:Program) 
+        -[:MAJOR_REQUIRES]->(c:Course)
+        where id(p) = ${id}
         return p,c
-        SKIP(${+pageSize * +pageNum}) 
-        LIMIT(${pageSize}) 
       `
     );
 
