@@ -5,11 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2.2.1
       - name: Install modules
-        run: pnpm i
+        run: npm i
       - name: Run ESlint
-        run: pnpm lint
+        run: npm run lint
       - name: Run Prettier
-        run: pnpm format
+        run: npm run format
