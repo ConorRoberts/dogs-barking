@@ -8,22 +8,22 @@ const getPageIndexArray = (start: number, end: number) => {
 };
 
 interface PageIndexProps {
-  courses: number;
-  programs: number;
+  totalEntries: number;
 }
 
 const PageIndex = (counts: PageIndexProps) => {
   const { pageState, type } = useSelector<RootState, CatalogState>((state) => state.catalog);
-  const totalPages = counts[type];
-
+  const totalEntries = counts.totalEntries;
+  const totalPages = Math.floor(totalEntries / pageState.pageSize);
+  
   const pageIndex = {
     start: pageState.pageNum,
-    end: totalPages > pageState.pageNum + 4 ? pageState.pageNum + 4 : totalPages,
+    end: (pageState.pageNum + 4 >  totalPages) ? totalPages : pageState.pageNum + 4,
   };
   const pageArray = getPageIndexArray(pageIndex.start, pageIndex.end);
-
+  
   const dispatch = useDispatch();
-
+  
   const incrementPage = (mode: string) => {
     if (mode === "<" && !(pageState.pageNum - 1 < 0)) {
       dispatch(setPageState({ ...pageState, pageNum: pageState.pageNum - 1 }));
@@ -31,7 +31,7 @@ const PageIndex = (counts: PageIndexProps) => {
       dispatch(setPageState({ ...pageState, pageNum: pageState.pageNum + 1 }));
     } else if (mode === "<<") {
       if (pageState.pageNum - 10 < 1) {
-        dispatch(setPageState({ ...pageState, pageNum: 1 }));
+        dispatch(setPageState({ ...pageState, pageNum: 0 }));
       } else {
         dispatch(setPageState({ ...pageState, pageNum: pageState.pageNum - 10 }));
       }
@@ -46,16 +46,20 @@ const PageIndex = (counts: PageIndexProps) => {
       dispatch(setPageState({ ...pageState, pageNum: totalPages }));
     }
   };
-
+  
   const changePage = (num: number) => {
     dispatch(
       setPageState({
         ...pageState,
-        pageNum: num > totalPages ? totalPages : num,
+        pageNum: num > totalEntries ? totalEntries : num,
       })
-    );
-  };
-
+      );
+    };
+    
+    const pageNums = {
+      start: (pageState.pageNum * pageState.pageSize) + 1,
+      end: (pageState.pageNum + 1) * pageState.pageSize
+    };
   return (
     <div className="flex flex-row text-center justify-between">
       <nav className="rounded text-sm divide-y divide-gray-300 dark:divide-gray-300">
@@ -92,9 +96,12 @@ const PageIndex = (counts: PageIndexProps) => {
             {">>"}
           </button>
         </div>
+        {totalEntries > 0 ?
         <p>
-          {pageState.pageNum} of {totalPages}
+          {pageNums.start} - {(pageNums.end > totalEntries) ? totalEntries : pageNums.end} of {totalEntries}
         </p>
+        : 
+        <p>0 of 0</p>}
       </nav>
     </div>
   );

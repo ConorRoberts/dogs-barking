@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import queryPrograms from "@utils/queryPrograms";
 import getNeo4jDriver from "@utils/getNeo4jDriver";
 
 /**
@@ -23,38 +24,34 @@ import getNeo4jDriver from "@utils/getNeo4jDriver";
  *      401:
  *        description: Unauthorized
  */
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
-  if (method === "GET") {
-    const pageSize = (req.query.pageSize as string) ?? "200";
-    const pageNum = (req.query.pageNum as string) ?? "0";
-    const school = req.query?.school as string;
-    const driver = getNeo4jDriver();
-    const db = driver.session();
-    const queryData = await db.run(
-      `
-      MATCH (program: Program)
-      call{
-        WITH program
-        MATCH (s: School)-[:OFFERS]->(program)
-        ${school?.length > 0 ? "WHERE s.abbrev = $school" : ""}
-          return s.abbrev as school
-        } 
-        return program, school, id(program) as nodeId
-        ORDER BY school, program.id
-        SKIP(${+pageSize * +pageNum}) 
-        LIMIT(${pageSize}) 
-      `,
-      { school }
-    );
-    await db.close();
-    await driver.close();
-
-    return res
-      .status(200)
-      .json(queryData.records.map((e) => ({ ...e.get("program").properties, nodeId: e.get("nodeId").low })));
+  try {
+    if (method === "GET") {
+        const programId = req.query.id as string ?? "";
+        const name = req.query.name as string ?? "";
+        const school = req.query.school as string ?? "";
+        const pageSize = parseInt((req.query.pageSize as string) ?? "50");
+        const pageNum = parseInt((req.query.pageNum as string) ?? "0");
+        const sortDir = req.query.sortDir as "asc" | "desc" ?? "asc";
+        const sortKey = (req.query.sortKey as string === "courseCode") ? "id" : req.query.sortKey as string;
+        return res.status(200).json(await queryPrograms({
+            programId,
+            name,
+            school,
+            pageSize,
+            pageNum,
+            sortDir,
+            sortKey,
+        }));
+    } else if (method === "POST") {
+      return res.status(201).json({});
+    } else {
+      return res.status(404).json("Method unsupported");
+    }
+  } catch (error) {
+    return res.status(400).json(error);
   }
-
-  return res.status(401).json({});
 };
+
 export default handler;

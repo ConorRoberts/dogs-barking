@@ -12,6 +12,7 @@ export interface CatalogState {
     name?: string;
     weight?: number;
     degree?: string;
+    programId?: string;
   };
 
   type: "courses" | "programs";
