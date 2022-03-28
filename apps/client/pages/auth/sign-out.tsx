@@ -16,14 +16,14 @@ const Page = () => {
 
   useEffect(() => {
     dispatch(signOut());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (user) return;
     (async () => {
       await router.push("/");
     })();
-  }, [user]);
+  }, [user, router]);
 
   return <LoadingScreen />;
 };

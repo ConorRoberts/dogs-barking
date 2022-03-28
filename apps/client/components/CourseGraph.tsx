@@ -24,7 +24,7 @@ const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, height }: Cours
   useEffect(() => {
     setNodes(initialNodes);
     setEdges(initialEdges);
-  }, [initialNodes, initialEdges]);
+  }, [initialNodes, initialEdges, setEdges, setNodes]);
 
   return (
     <div className="flex flex-col w-full">

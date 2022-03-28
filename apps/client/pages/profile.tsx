@@ -15,7 +15,7 @@ const Page = () => {
 
   useEffect(() => {
     if (!loading && !user) router.push("/error/403");
-  }, []);
+  }, [loading, user, router]);
 
   if (loading) return <LoadingScreen />;
   return (

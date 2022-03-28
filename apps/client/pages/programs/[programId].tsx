@@ -5,6 +5,7 @@ import School from "@dogs-barking/common/types/School";
 import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import getProgram from "@utils/getProgram";
 import getProgramPrerequisites from "@utils/getProgramPrerequisites";
+import getProgramRequireds from "@utils/getProgramRequireds";
 import getProgramSchool from "@utils/getProgramSchool";
 //import axios from "axios";
 import { NextPageContext } from "next";
@@ -145,9 +146,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const programId = context.query.programId as string;
   const school = await getProgramSchool(programId);
   const program = await getProgram(programId);
+  const requiredCourses = await getProgramRequireds(programId);
   const courses = await getProgramPrerequisites(programId);
-  const { nodes, edges } = createPrerequisiteGraph(courses);
-
+  const { nodes, edges } = createPrerequisiteGraph(courses, requiredCourses);
   return {
     props: {
       program,

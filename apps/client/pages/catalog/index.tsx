@@ -1,5 +1,5 @@
 import MetaData from "@components/MetaData";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import CatalogFilter from "@components/CatalogFilter";
 import getNodeCounts from "@utils/getNodeCounts";
 import Link from "next/link";
@@ -22,27 +22,31 @@ const Page = ({ counts }: PageProps) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
-  const handleSubmit = async (e?: FormEvent) => {
-    e?.preventDefault();
-    setLoading(true);
+  const handleSubmit = useCallback(
+    async (e?: FormEvent) => {
+      e?.preventDefault();
+      setLoading(true);
 
-    try {
-      if (type === "courses") {
-        const res = await axios.get("/api/course", { params: { ...filters, ...pageState, scope } });
-        setData(res.data);
-      } else if (type === "programs") {
-        const res = await axios.get("/api/program");
-        setData(res.data);
+      try {
+        if (type === "courses") {
+          const res = await axios.get("/api/course", { params: { ...filters, ...pageState, scope } });
+          setData(res.data);
+        } else if (type === "programs") {
+          const res = await axios.get("/api/program");
+          setData(res.data);
+        }
+      } catch (error) {
+        setData([]);
       }
-    } catch (error) {
-      setData([]);
-    }
-    setLoading(false);
-  };
+      setLoading(false);
+    },
+    [filters, pageState, scope, type]
+  );
 
   useEffect(() => {
     handleSubmit();
-  }, [pageState.pageNum, type]);
+  }, [pageState.pageNum, type, handleSubmit]);
+
   return (
     <div className="flex flex-col gap-4 mx-auto max-w-6xl w-full">
       <MetaData title="Catalog" />
@@ -69,7 +73,7 @@ const Page = ({ counts }: PageProps) => {
                       key={e.id}>
                       {
                         <li>
-                          <Link href={`/${type === "courses" ? "course" : "programs"}/${e.nodeId}`}>
+                          <Link href={`/${type === "courses" ? "course" : "programs"}/${e.nodeId}`} passHref>
                             <div>
                               <p className="text-sm font-medium text-slate-900 dark:text-white">{e.id}</p>
                               <p className="text-sm text-slate-600 dark:text-slate-400 truncate">

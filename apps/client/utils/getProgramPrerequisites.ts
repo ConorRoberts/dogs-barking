@@ -1,6 +1,7 @@
+import { Record } from "neo4j-driver";
 import getNeo4jDriver from "./getNeo4jDriver";
 
-const getProgramPrerequisites = async(programId:string):Promise<any[]> => {
+const getProgramPrerequisites = async(programId:string):Promise<Record[]> => {
   const driver = getNeo4jDriver();
   const db = driver.session();
 

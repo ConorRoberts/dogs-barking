@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PlusIcon } from "./Icons";
 import { CatalogState, setCatalogType, setPageState, setFilters, resetFilters, setScope } from "@redux/catalog";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,13 +22,13 @@ const CatalogFilter = ({ handleSubmit }) => {
   const [filterValue, setFilterValue] = useState("");
   const dispatch = useDispatch();
 
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     dispatch(resetFilters());
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     clearFilters();
-  }, [type]);
+  }, [type, clearFilters]);
 
   return (
     <form className="flex flex-col gap-8">
@@ -108,7 +108,7 @@ const CatalogFilter = ({ handleSubmit }) => {
         <h4 className="text-center">Applied Filters</h4>
         <div className="divide-y divide-gray-300 dark:divide-gray-800">
           {Object.entries(filters).map(([key, value]) => (
-            <div className="grid grid-cols-2 gap-4 capitalize py-2">
+            <div className="grid grid-cols-2 gap-4 capitalize py-2" key={`filter-key-${key}`}>
               <p>{validFilters.find((e) => e.key === key).label}</p>
               <p>{value}</p>
             </div>

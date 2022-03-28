@@ -39,8 +39,7 @@
         ]
     },
     "dependencies": {
-        "ps-scrollbar-tailwind": "^0.0.1",
-        "tailwind-scrollbar": "^1.3.1",
+        
         "ts-node-dev": "^1.1.8",
         "typescript": "^4.6.2"
     }
