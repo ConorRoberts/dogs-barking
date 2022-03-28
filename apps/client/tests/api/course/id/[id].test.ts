@@ -1,4 +1,3 @@
-
 import handler from "../../../../pages/api/course/[id]";
 import httpMocks from "node-mocks-http";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -14,7 +13,7 @@ test("Fetch course with Guelph Course ID", async () => {
   expect(data.name).toBe("Introductory Financial Accounting");
   expect(data.weight).toBe(0.5);
   expect(data.id).toBe("ACCT1220");
-  expect(data.department).toBe("ACCT");
+  expect(data.department).toBe("CIS");
 });
 
 test("Fetch course with UofT Course ID", async () => {
