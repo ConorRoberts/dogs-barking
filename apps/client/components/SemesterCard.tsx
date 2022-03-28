@@ -18,13 +18,12 @@ interface SemesterCardProps{
 
 const SemesterCard = (props : SemesterCardProps) => {
   const { semesterID } = props;
-  const { currentEditState } = props;
+  let   { currentEditState } = props;
   const { semesterName } = props;
   const { timeOfYear } = props;
   const { courses } = props;
   const { year } = props;
 
-  const [isEditing, setIsEditing] = useState<boolean>(currentEditState);
   const {
     plan: { semesters },
   } = useSelector<RootState, PlannerState>((state) => state.planner);
@@ -59,12 +58,12 @@ const SemesterCard = (props : SemesterCardProps) => {
   };
 
   const editClick = () => {
-    setIsEditing(true);
+    currentEditState = true;
     setEditMode();
   };
 
   const editFinishClick = () => {
-    setIsEditing(false);
+    currentEditState = false;
     setUnEditMode();
   };
 
@@ -91,7 +90,7 @@ const SemesterCard = (props : SemesterCardProps) => {
             </h4>
           </div>
           <div className="flex flex-col place-self-end place-content-end w-1/2">
-            {isEditing ? (
+            {currentEditState ? (
               <div className="flex flex-row w-full place-self-end place-content-end pr-0 mr-0">
                 <button
                   onClick={() => removeSemesterClick(semesterID)}
@@ -113,25 +112,25 @@ const SemesterCard = (props : SemesterCardProps) => {
             )}
           </div>
         </div>
-        {isEditing &&
+        {currentEditState &&
           courses.map((course) => (
             <CourseChip
               course={course}
               removeCourse={removeCourse}
-              isEditing={isEditing}
+              isEditing={currentEditState}
               key={course.id + Math.random().toString()}
             />
           ))}
-        {!isEditing &&
+        {!currentEditState &&
           courses.map((course) => (
             <CourseChip
               course={course}
               removeCourse={removeCourse}
-              isEditing={isEditing}
+              isEditing={currentEditState}
               key={course.id + Math.random().toString()}
             />
           ))}
-        {isEditing ? (
+        {currentEditState ? (
           <button
             onClick={editFinishClick}
             className="w-16 h-8 mt-1 mr-5 place-self-end text-white rounded-md bg-green-400 hover:bg-green-500">

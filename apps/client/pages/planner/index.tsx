@@ -108,6 +108,7 @@ const Page = () => {
         placeholder="Enter the department for your plan (e.g. 'CIS' or 'ACCT')"
         variant={"blank"}
       />
+      
       <div className="flex flex-col h-full w-full p-6">
         <div className="flex flex-row w-full">
           {/* Semester Builder Section */}
