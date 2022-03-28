@@ -37,27 +37,30 @@ const Page = ({ program, school, nodes, edges }: PageProps) => {
   const [selectedMinor, isMinor] = useState(false);
   const [selectedAOC, isAOC] = useState(false);
   
-  useQuery("programs", async () => {
-    try {
-      const { data } = await axios.get(`/api/db/programs/${router.query.programId}`);
-      setMajorCourses(data.major);
-      setMinorCourses(data.minor);
-      setAreaCourses(data.area);
-      console.log("Working");
-      if (majorCourses?.length > 0){
-        isMajor(true);
-        setMajorVisible(true);
-      }
-      else if (minorCourses?.length > 0){
-        isMinor(true);
-        setMinorVisible(true);
-      }
-      else if (areaCourses?.length > 0){
-        isAOC(true);
-        setAOCVisible(true);
-      }
-    } catch (error) {
-      console.error(error);
+  useQuery("programs", () => {
+    axios.get(`/api/db/programs/${router.query.programId}/major`)
+    .then((res) => setMajorCourses(res.data.major))
+    .catch((err) => console.log(err));
+
+    axios.get(`/api/db/programs/${router.query.programId}/minor`)
+    .then((res) => setMinorCourses(res.data.minor))
+    .catch((err) => console.log(err));
+
+    axios.get(`/api/db/programs/${router.query.programId}/area`)
+    .then((res) => setAreaCourses(res.data.area))
+    .catch((err) => console.log(err));
+
+    if (majorCourses?.length > 0){
+      isMajor(true);
+      setMajorVisible(true);
+    }
+    else if (minorCourses?.length > 0){
+      isMinor(true);
+      setMinorVisible(true);
+    }
+    else if (areaCourses?.length > 0){
+      isAOC(true);
+      setAOCVisible(true);
     }
   });
 
