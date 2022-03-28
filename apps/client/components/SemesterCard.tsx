@@ -1,5 +1,3 @@
-import { useState } from "react";
-// import { useDispatch } from "react-redux";
 import CourseChip from "./CourseChip";
 import { useDispatch, useSelector } from "react-redux";
 import { PlannerState, setPlannedSemesters } from "@redux/planner";
@@ -13,7 +11,7 @@ interface SemesterCardProps{
   timeOfYear : string;
   courses : Course[];
   year : string;
-  index : number
+  index : number;
 }
 
 const SemesterCard = (props : SemesterCardProps) => {
