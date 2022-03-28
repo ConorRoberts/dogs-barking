@@ -7,12 +7,12 @@ import getProgram from "@utils/getProgram";
 import getProgramPrerequisites from "@utils/getProgramPrerequisites";
 import getProgramRequireds from "@utils/getProgramRequireds";
 import getProgramSchool from "@utils/getProgramSchool";
-//import axios from "axios";
+import axios from "axios";
 import { NextPageContext } from "next";
-//import router from "next/router";
+import router from "next/router";
 import React, { useState } from "react";
 import { Edge, Node } from "react-flow-renderer";
-//import { useQuery } from "react-query";
+import { useQuery } from "react-query";
 
 interface PageProps {
   program: Program;
@@ -21,24 +21,25 @@ interface PageProps {
   edges: Edge[];
 }
 const Page = ({ program, school, nodes, edges }: PageProps) => {
-  //const [majorCourses, setMajorCourses] = useState(null);
-  //const [minorCourses, setMinorCourses] = useState(null);
-  //const [areaCourses, setAreaCourses] = useState(null);
+  const [majorCourses, setMajorCourses] = useState(null);
+  const [minorCourses, setMinorCourses] = useState(null);
+  const [areaCourses, setAreaCourses] = useState(null);
 
-  const [showMajor, setMajorVisible] = useState(true);
+  const [showMajor, setMajorVisible] = useState(false);
   const [showMinor, setMinorVisible] = useState(false);
   const [showAOC, setAOCVisible] = useState(false);
 
-  const [selectedMajor, isMajor] = useState(true);
+  const [selectedMajor, isMajor] = useState(false);
   const [selectedMinor, isMinor] = useState(false);
   const [selectedAOC, isAOC] = useState(false);
-  /*
+  
   useQuery("programs", async () => {
     try {
       const { data } = await axios.get(`/api/db/programs/${router.query.programId}`);
       setMajorCourses(data.major);
       setMinorCourses(data.minor);
       setAreaCourses(data.area);
+      console.log("Working");
       if (majorCourses?.length > 0){
         isMajor(true);
         setMajorVisible(true);
@@ -54,7 +55,7 @@ const Page = ({ program, school, nodes, edges }: PageProps) => {
     } catch (error) {
       console.error(error);
     }
-  });*/
+  });
 
   const toggleMajor = () => {
     setMinorVisible(false);
@@ -105,22 +106,30 @@ const Page = ({ program, school, nodes, edges }: PageProps) => {
     <CourseGraph edges={edges} nodes={nodes} />
   );
   const Minor = () => (   
-    <h3>Currently displaying Minor</h3>
+    <h3 className="text-center text-slate-800">Displaying Minor</h3>
   );
   const AOC = () => (   
-    <h3>Currently displaying AOC</h3>
+    <h3 className="text-center text-slate-800">Displaying AOC</h3>
   );
   
   return (
     <div>
       <h2 className="text-center text-slate-800">{program.name ?? program.id}</h2>
       <p className="text-center text-slate-800">{school.name}</p>
-      <div className="">
-        { selectedMajor ? <button className="w-40 h-20 text-white rounded-md bg-blue-700 hover:bg-blue-600" onClick={toggleMajor}>
+      <div></div>
+      <div className="grid my-20 mx-52 grid-cols-3 place-items-center">
+        { (majorCourses && majorCourses.length > 0) && selectedMajor ? <button className="w-40 h-20 text-white rounded-md bg-blue-700 hover:bg-blue-600" onClick={toggleMajor}>
           Major
         </button> : <button className="w-40 h-20 text-white rounded-md bg-blue-500 hover:bg-blue-400" onClick={toggleMajor}>
           Major
-        </button> }
+        </button> 
+        }
+
+
+
+
+
+        
         
         { selectedMinor ? <button className="w-40 h-20 text-white rounded-md bg-blue-700 hover:bg-blue-600" onClick={toggleMinor}>
           Minor
