@@ -6,9 +6,12 @@ import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import getProgram from "@utils/getProgram";
 import getProgramPrerequisites from "@utils/getProgramPrerequisites";
 import getProgramSchool from "@utils/getProgramSchool";
+//import axios from "axios";
 import { NextPageContext } from "next";
-import React from "react";
+//import router from "next/router";
+import React, { useState } from "react";
 import { Edge, Node } from "react-flow-renderer";
+//import { useQuery } from "react-query";
 
 interface PageProps {
   program: Program;
@@ -17,96 +20,123 @@ interface PageProps {
   edges: Edge[];
 }
 const Page = ({ program, school, nodes, edges }: PageProps) => {
+  //const [majorCourses, setMajorCourses] = useState(null);
+  //const [minorCourses, setMinorCourses] = useState(null);
+  //const [areaCourses, setAreaCourses] = useState(null);
+
+  const [showMajor, setMajorVisible] = useState(true);
+  const [showMinor, setMinorVisible] = useState(false);
+  const [showAOC, setAOCVisible] = useState(false);
+
+  const [selectedMajor, isMajor] = useState(true);
+  const [selectedMinor, isMinor] = useState(false);
+  const [selectedAOC, isAOC] = useState(false);
+  /*
+  useQuery("programs", async () => {
+    try {
+      const { data } = await axios.get(`/api/db/programs/${router.query.programId}`);
+      setMajorCourses(data.major);
+      setMinorCourses(data.minor);
+      setAreaCourses(data.area);
+      if (majorCourses?.length > 0){
+        isMajor(true);
+        setMajorVisible(true);
+      }
+      else if (minorCourses?.length > 0){
+        isMinor(true);
+        setMinorVisible(true);
+      }
+      else if (areaCourses?.length > 0){
+        isAOC(true);
+        setAOCVisible(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });*/
+
+  const toggleMajor = () => {
+    setMinorVisible(false);
+    isMinor(false);
+    setAOCVisible(false);
+    isAOC(false);
+    if (showMajor == true){
+      isMajor(false);
+      setMajorVisible(false);
+    }
+    if (showMajor == false){
+      isMajor(true);
+      setMajorVisible(true);
+    }
+  };
+
+  const toggleMinor = () => {
+    setMajorVisible(false);
+    isMajor(false);
+    setAOCVisible(false);
+    isAOC(false);
+    if (showMinor == true){
+      isMinor(false);
+      setMinorVisible(false);
+    }
+    if (showMinor == false){
+      isMinor(true);
+      setMinorVisible(true);
+    }
+  };
+
+  const toggleAOC = () => {
+    setMajorVisible(false);
+    isMajor(false);
+    setMinorVisible(false);
+    isMinor(false);
+    if (showAOC == true){
+      isAOC(false);
+      setAOCVisible(false);
+    }
+    if (showAOC == false){
+      isAOC(true);
+      setAOCVisible(true);
+    }
+  };
+
+  const Major = () => (   
+    <CourseGraph edges={edges} nodes={nodes} />
+  );
+  const Minor = () => (   
+    <h3>Currently displaying Minor</h3>
+  );
+  const AOC = () => (   
+    <h3>Currently displaying AOC</h3>
+  );
+  
   return (
     <div>
       <h2 className="text-center text-slate-800">{program.name ?? program.id}</h2>
       <p className="text-center text-slate-800">{school.name}</p>
+      <div className="">
+        { selectedMajor ? <button className="w-40 h-20 text-white rounded-md bg-blue-700 hover:bg-blue-600" onClick={toggleMajor}>
+          Major
+        </button> : <button className="w-40 h-20 text-white rounded-md bg-blue-500 hover:bg-blue-400" onClick={toggleMajor}>
+          Major
+        </button> }
+        
+        { selectedMinor ? <button className="w-40 h-20 text-white rounded-md bg-blue-700 hover:bg-blue-600" onClick={toggleMinor}>
+          Minor
+        </button> : <button className="w-40 h-20 text-white rounded-md bg-blue-500 hover:bg-blue-400" onClick={toggleMinor}>
+          Minor
+        </button> }
 
-      {/* {programData && (
-        <div className="text-center text-slate-600">
-          <div>
-            <h3>
-              {programData.name} : {programData.id}
-            </h3>
-          </div>
-          <div>
-            <p>
-              <i>Degree : {programData.degree}</i>
-            </p>
-          </div>
-        </div>
-      )}
-      {majorCourses?.length > 0 && (
-        <>
-          <div className="h-10"></div>
-          <div className="flow-root">
-            <div className="text-zinc-600 indent-10 float-left">
-              <h3>Major Program</h3>
-            </div>
-            <div className="float-left indent-10">
-              <button className="w-40 h-10 place-self-end text-white rounded-md bg-blue-500 hover:bg-blue-400">
-                View Graph
-              </button>
-            </div>
-          </div>
-          <div className="h-5"></div>
-          <div className="overflow-auto indent-10 max-h-60 w-1/2 bg-center bg-slate-200">
-            {majorCourses.map((course) => (
-              <li className="hover:bg-slate-300 list-none">
-                <Course course={course} />
-              </li>
-            ))}
-          </div>
-        </>
-      )}
-      {minorCourses?.length > 0 && (
-        <>
-          <div className="h-10"></div>
-          <div className="flow-root">
-            <div className="text-zinc-600 indent-10 float-left">
-              <h3>Minor Program</h3>
-            </div>
-            <div className="float-left indent-10">
-              <button className="w-40 h-10 place-self-end text-white rounded-md bg-blue-500 hover:bg-blue-400">
-                View Graph
-              </button>
-            </div>
-          </div>
-          <div className="h-5"></div>
-          <div className="overflow-auto indent-10 max-h-60 w-1/2 bg-center bg-slate-200">
-            {minorCourses.map((course) => (
-              <li className="hover:bg-slate-300 list-none">
-                <Course course={course} />
-              </li>
-            ))}
-          </div>
-        </>
-      )}
-      {areaCourses?.length > 0 && (
-        <>
-          <div className="h-10"></div>
-          <div className="flow-root">
-            <div className="text-zinc-600 indent-10 float-left">
-              <h3>Area of Concentration</h3>
-            </div>
-            <div className="float-left indent-10">
-              <button className="w-40 h-10 place-self-end text-white rounded-md bg-blue-500 hover:bg-blue-400">
-                View Graph
-              </button>
-            </div>
-          </div>
-          <div className="h-5"></div>
-          <div className="overflow-x-scroll max-h-60">
-            {areaCourses.map((course) => (
-              <li className="hover:bg-slate-300 list-none">
-                <Course course={course} />
-              </li>
-            ))}
-          </div>
-        </>
-      )} */}
+        { selectedAOC ? <button className="w-40 h-20 text-white rounded-md bg-blue-700 hover:bg-blue-600" onClick={toggleAOC}>
+          AOC
+        </button> : <button className="w-40 h-20 text-white rounded-md bg-blue-500 hover:bg-blue-400" onClick={toggleAOC}>
+          AOC
+        </button> }
 
-      <CourseGraph edges={edges} nodes={nodes} />
+      </div>
+      { showMajor ? <Major /> : null }
+      { showMinor ? <Minor /> : null }
+      { showAOC ? <AOC /> : null }
     </div>
   );
 };
@@ -127,5 +157,6 @@ export const getServerSideProps = async (context: NextPageContext) => {
     },
   };
 };
+
 
 export default Page;
