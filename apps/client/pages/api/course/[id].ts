@@ -27,13 +27,20 @@ import getCourse from "@utils/getCourse";
  *      500:
  *        description: Invalid Course ID
  */
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
-  if (method === "GET") {
-    const id = req.query.id as string;
+  try {
+    if (method === "GET") {
+      const id = req.query.id as string;
 
-    return res.status(200).json(await getCourse(id));
+      return res.status(200).json(await getCourse(id));
+    } else {
+      return res.status(404).json("Method unsupported");
+    }
+  } catch (error) {
+    return res.status(400).json(error);
   }
-  return res.status(401).json({});
 };
+
 export default handler;

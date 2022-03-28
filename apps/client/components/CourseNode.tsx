@@ -1,8 +1,6 @@
 import Course from "@dogs-barking/common/types/Course";
 import { Handle, Node, Position } from "react-flow-renderer";
-import { MinusIcon, PlusIcon } from "@components/Icons";
 import getNodeColour from "@utils/getNodeColour";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setSelectedNode } from "@redux/graph";
 import Link from "next/link";
@@ -11,7 +9,7 @@ const CourseNode = (props: Node<Course>) => {
   const { data, id } = props;
   const dispatch = useDispatch();
   return (
-    <Link href={`/course/${id}`}>
+    <Link href={`/course/${id}`} passHref>
       <div
         className={`min-w-max py-3 px-4 ${getNodeColour(data)} text-white rounded-md`}
         onClick={() => dispatch(setSelectedNode(props))}>

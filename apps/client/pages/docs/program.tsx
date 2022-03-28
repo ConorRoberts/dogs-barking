@@ -11,9 +11,8 @@ const params = {
 };
 
 const style = "ml-2 text-sky-600 hover:text-sky-800";
-const selected = "ml-2 text-slate-400 hover:text-slate-600";
 
-const page = () => {
+const Page = () => {
   const [param, setParam] = useState(null);
   return (
     <div>
@@ -53,4 +52,4 @@ const page = () => {
     </div>
   );
 };
-export default page;
+export default Page;

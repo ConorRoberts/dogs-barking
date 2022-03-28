@@ -1,37 +1,29 @@
-import Course from "@components/Course";
+import CourseGraph from "@components/CourseGraph";
+import Course from "@dogs-barking/common/types/Course";
+import Program from "@dogs-barking/common/types/Program";
+import School from "@dogs-barking/common/types/School";
+import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import getProgram from "@utils/getProgram";
+import getProgramPrerequisites from "@utils/getProgramPrerequisites";
+import getProgramRequireds from "@utils/getProgramRequireds";
 import getProgramSchool from "@utils/getProgramSchool";
-import axios from "axios";
 import { NextPageContext } from "next";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { useQuery } from "react-query";
+import React from "react";
+import { Edge, Node } from "react-flow-renderer";
 
-const Page = () => {
-  const [programData, setProgramData] = useState(null);
-  const [majorCourses, setMajorCourses] = useState(null);
-  const [minorCourses, setMinorCourses] = useState(null);
-  const [areaCourses, setAreaCourses] = useState(null);
-  const router = useRouter();
-
-  useQuery("programs", async () => {
-    try {
-      const { data } = await axios.get(`/api/db/programs/${router.query.programId}`);
-      
-      setProgramData(data.program);
-      setMajorCourses(data.major);
-      setMinorCourses(data.minor);
-      setAreaCourses(data.area);
-    } catch (error) {
-      console.error(error);
-    }
-  });
-
+interface PageProps {
+  program: Program;
+  school: School;
+  nodes: Node<Course>[];
+  edges: Edge[];
+}
+const Page = ({ program, school, nodes, edges }: PageProps) => {
   return (
     <div>
-      <h2 className="text-center text-slate-800">Program Overview</h2>
-      {programData && (
+      <h2 className="text-center text-slate-800">{program.name ?? program.id}</h2>
+      <p className="text-center text-slate-800">{school.name}</p>
+
+      {/* {programData && (
         <div className="text-center text-slate-600">
           <div>
             <h3>
@@ -48,13 +40,13 @@ const Page = () => {
       {majorCourses?.length > 0 && (
         <>
           <div className="h-10"></div>
-          <div className="flow-root">  
+          <div className="flow-root">
             <div className="text-zinc-600 indent-10 float-left">
               <h3>Major Program</h3>
-            </div>        
-            <div className="float-left indent-10">            
+            </div>
+            <div className="float-left indent-10">
               <button className="w-40 h-10 place-self-end text-white rounded-md bg-blue-500 hover:bg-blue-400">
-              View Graph
+                View Graph
               </button>
             </div>
           </div>
@@ -71,13 +63,13 @@ const Page = () => {
       {minorCourses?.length > 0 && (
         <>
           <div className="h-10"></div>
-          <div className="flow-root">  
+          <div className="flow-root">
             <div className="text-zinc-600 indent-10 float-left">
               <h3>Minor Program</h3>
             </div>
-            <div className="float-left indent-10">            
+            <div className="float-left indent-10">
               <button className="w-40 h-10 place-self-end text-white rounded-md bg-blue-500 hover:bg-blue-400">
-              View Graph
+                View Graph
               </button>
             </div>
           </div>
@@ -94,13 +86,13 @@ const Page = () => {
       {areaCourses?.length > 0 && (
         <>
           <div className="h-10"></div>
-          <div className="flow-root">  
+          <div className="flow-root">
             <div className="text-zinc-600 indent-10 float-left">
               <h3>Area of Concentration</h3>
             </div>
-            <div className="float-left indent-10">            
+            <div className="float-left indent-10">
               <button className="w-40 h-10 place-self-end text-white rounded-md bg-blue-500 hover:bg-blue-400">
-              View Graph
+                View Graph
               </button>
             </div>
           </div>
@@ -113,7 +105,9 @@ const Page = () => {
             ))}
           </div>
         </>
-      )}
+      )} */}
+
+      <CourseGraph edges={edges} nodes={nodes} />
     </div>
   );
 };
@@ -122,14 +116,15 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const programId = context.query.programId as string;
   const school = await getProgramSchool(programId);
   const program = await getProgram(programId);
-  //const { nodes, edges } = await createProgramGraph(programId);
-
+  const requiredCourses = await getProgramRequireds(programId);
+  const courses = await getProgramPrerequisites(programId);
+  const { nodes, edges } = createPrerequisiteGraph(courses, requiredCourses);
   return {
     props: {
       program,
       school,
-      //nodes,
-      //edges,
+      nodes,
+      edges,
     },
   };
 };

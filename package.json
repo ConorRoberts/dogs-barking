@@ -39,6 +39,7 @@
         ]
     },
     "dependencies": {
+        
         "ts-node-dev": "^1.1.8",
         "typescript": "^4.6.2"
     }

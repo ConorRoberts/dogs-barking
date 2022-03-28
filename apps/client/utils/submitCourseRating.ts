@@ -2,7 +2,7 @@ import getNeo4jDriver from "./getNeo4jDriver";
 
 type RatingType = "difficulty" | "timeSpent" | "usefulness";
 
-const submitCourseRating = async (userId: string, courseNodeId: string, ratingType:RatingType,rating: number) => {
+const submitCourseRating = async (userId: string, courseNodeId: string, ratingType: RatingType, rating: number) => {
   const driver = getNeo4jDriver();
 
   const session = driver.session();
@@ -22,6 +22,7 @@ const submitCourseRating = async (userId: string, courseNodeId: string, ratingTy
   );
 
   await session.close();
+  await driver.close();
 };
 
 export default submitCourseRating;
