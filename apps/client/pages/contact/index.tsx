@@ -38,10 +38,10 @@ const Page = () => {
           alt="Dev 4 Image"
         />
         <DevMember
-          name="Dev Member 5"
-          role="Role 5"
-          email="dev5@gmail.com"
-          imagePath="/assets/contact_images/bender.jpg"
+          name="Karan Swatch"
+          role="Full-Stack Developer"
+          email="karanswatch0@gmail.com"
+          imagePath="/assets/contact_images/Karan.jpeg"
           alt="Dev 5 Image"
         />
         <DevMember
