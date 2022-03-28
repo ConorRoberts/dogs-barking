@@ -7,6 +7,6 @@ test("Fetch all programs", async () => {
   const res = httpMocks.createResponse<NextApiResponse>();
   await handler(req, res);
   const data = res._getJSONData();
-  expect(res.statusCode).toBe(200);
-  expect(data.length).toBe(200);
+  expect(res.statusCode).toBe(50);
+  expect(data.length).toBe(50);
 });
