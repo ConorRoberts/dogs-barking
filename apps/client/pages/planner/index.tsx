@@ -108,6 +108,7 @@ const Page = () => {
         placeholder="Enter the department for your plan (e.g. 'CIS' or 'ACCT')"
         variant={"blank"}
       />
+      
       <div className="flex flex-col h-full w-full p-6">
         <div className="flex flex-row w-full">
           {/* Semester Builder Section */}
@@ -154,7 +155,6 @@ const Page = () => {
             <div className="flex px-0 flex-col max-h-96 overflow-auto">
               {results.length > 0 &&
                 results.slice(0, 20).map((course) => (
-                  //console.log(course),
                   <CourseCard addCourse={addCourse} course={course} key={Math.random()} />
                 ))}
             </div>
