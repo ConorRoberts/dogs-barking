@@ -23,17 +23,17 @@ const getCourses = async (query?: GetCoursesQuery): Promise<Course[]> => {
 
     const result = await session.run(
       `
-            MATCH (c: Course)
-            call{
-                WITH c
-                MATCH (s: School ${school && `{abbrev: "${school}"}`})-[:OFFERS]->(c)
-                return s.abbrev as school
-            } 
-            return c, school
-            ORDER BY school, c.id
-            SKIP(${+pageSize * +page}) 
-            LIMIT(${pageSize})
-            `
+        MATCH (c: Course)
+        call{
+            WITH c
+            MATCH (s: School ${school && `{abbrev: "${school}"}`})-[:OFFERS]->(c)
+            return s.abbrev as school
+        } 
+        return c, school
+        ORDER BY school, c.id
+        SKIP(${+pageSize * +page}) 
+        LIMIT(${pageSize})
+      `
     );
 
     await session.close();

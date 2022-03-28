@@ -24,8 +24,8 @@ const queryCourses = async (query: CourseQuery) => {
       }
       ${query.degree?.length > 0 ? "WHERE program.degree = $degree" : ""}
       ${query.school?.length > 0 ? "WHERE school.abbrev = $school" : ""}
-      ${query.scope==="undergrad" ? "WHERE course.number < 5000" : ""}
-      ${query.scope==="grad" ? "WHERE course.number > 5000" : ""}
+      ${query.scope === "undergrad" ? "WHERE course.number < 5000" : ""}
+      ${query.scope === "grad" ? "WHERE course.number > 5000" : ""}
       ${query.courseId?.length > 0 ? "WHERE course.id STARTS WITH $courseId" : ""}
       ${query.department?.length > 0 ? "WHERE course.department = $department" : ""}
       ${!isNaN(query.weight) ? `WHERE course.weight = $weight` : ""}
@@ -33,7 +33,7 @@ const queryCourses = async (query: CourseQuery) => {
       ${query.name?.length > 0 ? `WHERE course.name STARTS WITH $name` : ""}
       ${query.description?.length > 0 ? `WHERE course.description =~ ".*${query.description}.*"` : ""}
 
-      return course
+      return course, id(course) as nodeId
 
       ${
         query.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir)
@@ -49,7 +49,7 @@ const queryCourses = async (query: CourseQuery) => {
   await db.close();
   await driver.close();
 
-  return data.records.map((e) => e.get(0).properties);
+  return data.records.map((e) => ({ ...e.get("course").properties, nodeId: e.get("nodeId").low }));
 };
 
 export default queryCourses;
