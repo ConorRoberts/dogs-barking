@@ -6,7 +6,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx --fix",
-    "test": "jest --detectOpenHandles --forceExit"
+    "test": "test:jest & test:playwright",
+    "test:jest": "jest --detectOpenHandles --forceExit",
+    "test:playwright": "playwright test [a-z]+.spec.ts"
   },
   "dependencies": {
     "@dogs-barking/common": "latest",
@@ -35,6 +37,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@playwright/test": "^1.20.1",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@types/dagre": "^0.7.47",
