@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import neo4j from "neo4j-driver";
 import getNeo4jDriver from "@utils/getNeo4jDriver";
 
 /**

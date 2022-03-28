@@ -27,7 +27,7 @@ const Page = (props: PageProps) => {
       <MetaData title="Home" />
       <div className="flex flex-col gap-8">
         <div className="relative w-24 h-24 mx-auto shadow-md rounded-full">
-          <Image src="/icons/Logo.svg" layout="fill" objectFit="contain" />
+          <Image src="/icons/Logo.svg" layout="fill" objectFit="contain" alt="SVG dog in white circle" />
         </div>
         <h1 className="flex-1 text-center">Dogs Barking Inc.</h1>
       </div>
@@ -56,7 +56,7 @@ const Page = (props: PageProps) => {
         {showResults && (
           <div className="absolute rounded-xl top-full left-0 right-0 h-6 z-10">
             {results.slice(0, 10).map((e) => (
-              <Link href={`/course/${e.nodeId}`} key={e.nodeId}>
+              <Link href={`/course/${e.nodeId}`} key={e.nodeId} passHref>
                 <div className="bg-white dark:bg-gray-800 px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm hover:text-gray-500 dark:hover:text-gray-300 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16">
                   <p>{e.id}</p>
                   <p className="truncate">{e.name}</p>
@@ -71,8 +71,8 @@ const Page = (props: PageProps) => {
         <h3 className="mb-2 text-center">About</h3>
         <p className="">
           Welcome to Dogs Barking Inc! On this site we deliver an intuitive service that enables our users to quickly
-          and easily filter through Course data that otherwise may be difficult to find on a school's native website.
-          Users can view stylized graphs that are intertwined by their relationship to other courses.
+          and easily filter through Course data that otherwise may be difficult to find on a school&apos;s native
+          website. Users can view stylized graphs that are intertwined by their relationship to other courses.
         </p>
       </div>
       <div className="text-center">

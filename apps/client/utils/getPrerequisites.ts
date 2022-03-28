@@ -1,3 +1,4 @@
+import { Record } from "neo4j-driver";
 import getNeo4jDriver from "./getNeo4jDriver";
 
 /**
@@ -5,7 +6,7 @@ import getNeo4jDriver from "./getNeo4jDriver";
  * @param nodeId
  * @returns
  */
-const getPrerequisites = async (nodeId: string): Promise<any[]> => {
+const getPrerequisites = async (nodeId: string): Promise<Record[]> => {
   try {
     const driver = getNeo4jDriver();
     const session = driver.session();

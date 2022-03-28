@@ -9,7 +9,7 @@ const CourseNode = (props: Node<Course>) => {
   const { data, id } = props;
   const dispatch = useDispatch();
   return (
-    <Link href={`/course/${id}`}>
+    <Link href={`/course/${id}`} passHref>
       <div
         className={`min-w-max py-3 px-4 ${getNodeColour(data)} text-white rounded-md`}
         onClick={() => dispatch(setSelectedNode(props))}>
