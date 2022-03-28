@@ -16,8 +16,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         -[:AREA_REQUIRES]->(c:Course) 
         where id(p) = $programId
         return p,c
-        SKIP(${+pageSize * +pageNum}) 
-        LIMIT(${pageSize}) 
       `,
       { programId: +programId }
     );

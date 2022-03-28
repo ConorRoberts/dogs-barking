@@ -20,6 +20,10 @@ interface PageProps {
   nodes: Node<Course>[];
   edges: Edge[];
 }
+
+const unSelectedStyle = "w-40 h-20 text-white rounded-md bg-blue-500 hover:bg-blue-400";
+const selectedStyle = "w-40 h-20 text-white rounded-md bg-blue-700 hover:bg-blue-600";
+
 const Page = ({ program, school, nodes, edges }: PageProps) => {
   const [majorCourses, setMajorCourses] = useState(null);
   const [minorCourses, setMinorCourses] = useState(null);
@@ -33,27 +37,30 @@ const Page = ({ program, school, nodes, edges }: PageProps) => {
   const [selectedMinor, isMinor] = useState(false);
   const [selectedAOC, isAOC] = useState(false);
   
-  useQuery("programs", async () => {
-    try {
-      const { data } = await axios.get(`/api/db/programs/${router.query.programId}`);
-      setMajorCourses(data.major);
-      setMinorCourses(data.minor);
-      setAreaCourses(data.area);
-      console.log("Working");
-      if (majorCourses?.length > 0){
-        isMajor(true);
-        setMajorVisible(true);
-      }
-      else if (minorCourses?.length > 0){
-        isMinor(true);
-        setMinorVisible(true);
-      }
-      else if (areaCourses?.length > 0){
-        isAOC(true);
-        setAOCVisible(true);
-      }
-    } catch (error) {
-      console.error(error);
+  useQuery("programs", () => {
+    axios.get(`/api/program/${router.query.programId}/major`)
+    .then((res) => setMajorCourses(res.data.major))
+    .catch((err) => console.log(err));
+
+    axios.get(`/api/program/${router.query.programId}/minor`)
+    .then((res) => setMinorCourses(res.data.minor))
+    .catch((err) => console.log(err));
+
+    axios.get(`/api/program/${router.query.programId}/area`)
+    .then((res) => setAreaCourses(res.data.area))
+    .catch((err) => console.log(err));
+
+    if (majorCourses?.length > 0){
+      isMajor(true);
+      setMajorVisible(true);
+    }
+    else if (minorCourses?.length > 0){
+      isMinor(true);
+      setMinorVisible(true);
+    }
+    else if (areaCourses?.length > 0){
+      isAOC(true);
+      setAOCVisible(true);
     }
   });
 
@@ -118,30 +125,24 @@ const Page = ({ program, school, nodes, edges }: PageProps) => {
       <p className="text-center text-slate-800">{school.name}</p>
       <div></div>
       <div className="grid my-20 mx-52 grid-cols-3 place-items-center">
-        { (majorCourses && majorCourses.length > 0) && selectedMajor ? <button className="w-40 h-20 text-white rounded-md bg-blue-700 hover:bg-blue-600" onClick={toggleMajor}>
-          Major
-        </button> : <button className="w-40 h-20 text-white rounded-md bg-blue-500 hover:bg-blue-400" onClick={toggleMajor}>
-          Major
-        </button> 
+
+        {(majorCourses && majorCourses.length > 0) && 
+          <button className={selectedMajor? selectedStyle : unSelectedStyle} onClick={toggleMajor}>
+            Major
+          </button>
         }
 
+        {(minorCourses && minorCourses.length > 0) && 
+          <button className={selectedMinor? selectedStyle : unSelectedStyle} onClick={toggleMinor}>
+            Minor
+          </button>
+        }
 
-
-
-
-        
-        
-        { selectedMinor ? <button className="w-40 h-20 text-white rounded-md bg-blue-700 hover:bg-blue-600" onClick={toggleMinor}>
-          Minor
-        </button> : <button className="w-40 h-20 text-white rounded-md bg-blue-500 hover:bg-blue-400" onClick={toggleMinor}>
-          Minor
-        </button> }
-
-        { selectedAOC ? <button className="w-40 h-20 text-white rounded-md bg-blue-700 hover:bg-blue-600" onClick={toggleAOC}>
-          AOC
-        </button> : <button className="w-40 h-20 text-white rounded-md bg-blue-500 hover:bg-blue-400" onClick={toggleAOC}>
-          AOC
-        </button> }
+        {(areaCourses && areaCourses.length > 0) && 
+          <button className={selectedAOC? selectedStyle : unSelectedStyle} onClick={toggleAOC}>
+            Area
+          </button>
+        }
 
       </div>
       { showMajor ? <Major /> : null }

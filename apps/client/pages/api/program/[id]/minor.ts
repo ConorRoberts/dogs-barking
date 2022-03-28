@@ -14,11 +14,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const db = driver.session();
     const querydata = await db.run(
       `
-            match (p:Program {id: "${id}"}) 
-            -[:MINOR_REQUIRES]->(c:Course) 
+            match (p:Program) 
+            -[:MINOR_REQUIRES]->(c:Course)
+            where id(p) = ${id}
             return p,c
-            SKIP(${+pageSize * +pageNum}) 
-            LIMIT(${pageSize}) 
             `,
       {}
     );
