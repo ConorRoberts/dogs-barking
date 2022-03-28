@@ -52,7 +52,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Course[]>) => {
       const pageSize = parseInt((req.query.pageSize as string) ?? "50");
       const degree = req.query.degree as string;
       const school = req.query.school as string;
-      const scope = req.query.scope as string;
+      const scope = req.query.scope as "all" | "undergrad" | "grad";
       const sortKey = req.query.sortKey as string;
       const sortDir = req.query.sortDir as "asc" | "desc";
       const description = req.query.description as string;
@@ -73,7 +73,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Course[]>) => {
           sortDir,
           description,
           prerequisites,
-          scope: scope as "all" | "undergrad" | "grad",
+          scope,
         })
       );
     }
