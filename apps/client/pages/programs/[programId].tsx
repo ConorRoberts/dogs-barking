@@ -39,16 +39,16 @@ const Page = ({ program, school, nodes, edges }: PageProps) => {
   
   useQuery("programs", () => {
     axios.get(`/api/program/${router.query.programId}/major`)
-    .then((res) => setMajorCourses(res.data.major))
-    .catch((err) => console.log(err));
+      .then((res) => setMajorCourses(res.data.major))
+      .catch((err) => console.log(err));
 
     axios.get(`/api/program/${router.query.programId}/minor`)
-    .then((res) => setMinorCourses(res.data.minor))
-    .catch((err) => console.log(err));
+      .then((res) => setMinorCourses(res.data.minor))
+      .catch((err) => console.log(err));
 
     axios.get(`/api/program/${router.query.programId}/area`)
-    .then((res) => setAreaCourses(res.data.area))
-    .catch((err) => console.log(err));
+      .then((res) => setAreaCourses(res.data.area))
+      .catch((err) => console.log(err));
 
     if (majorCourses?.length > 0){
       isMajor(true);

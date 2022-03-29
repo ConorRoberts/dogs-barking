@@ -67,9 +67,9 @@ export default function AddSemesterModal(props) {
       // Then the number contains a decimal.
       setIsYearError(true);
       setYearError("Year must be a whole number (contain no decimal points).");
-    } else if (Number(semesterYear) <= 2020) {
+    } else if (Number(semesterYear) <= 2020 || Number(semesterYear) > 2050) {
       setIsYearError(true);
-      setYearError("Year must be at least 2021 or greater.");
+      setYearError("Year must be at least 2021 and at most 2050.");
     } else {
       setIsYearError(false);
     }
@@ -109,6 +109,7 @@ export default function AddSemesterModal(props) {
             setSemesterName(event.target.value);
             validateSemester();
           }}
+          onKeyUp={() => validateSemester()}
           className="mb-2"
           placeholder="Enter a name for the semester. (e.g 'Semester 1')"
         />
@@ -137,6 +138,7 @@ export default function AddSemesterModal(props) {
             setSemesterYear(event.target.value);
             validateSemester();
           }}
+          onKeyUp={() => validateSemester()}
           className="mb-2"
           placeholder="Enter the semester's year. (e.g '2022')"
         />

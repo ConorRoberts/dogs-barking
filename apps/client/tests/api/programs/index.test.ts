@@ -8,5 +8,5 @@ test("Fetch all programs", async () => {
   await handler(req, res);
   const data = res._getJSONData();
   expect(res.statusCode).toBe(200);
-  expect(data.length).toBe(200);
+  expect(data.length).toBe(50);
 });
