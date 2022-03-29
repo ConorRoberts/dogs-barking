@@ -1,5 +1,4 @@
 {
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:356466505463:task-definition/client-fargate:1",
   "containerDefinitions": [
     {
       "name": "client",
@@ -8,7 +7,7 @@
       "links": [],
       "portMappings": [
         {
-          "containerPort": 3000,
+          "containerPort": 443,
           "hostPort": 443,
           "protocol": "tcp"
         }
@@ -19,7 +18,7 @@
       "environment": [
         {
           "name": "PORT",
-          "value": "3000"
+          "value": "443"
         }
       ],
       "environmentFiles": [],
@@ -49,9 +48,7 @@
   "taskRoleArn": "arn:aws:iam::356466505463:role/ecsTaskExecutionRole",
   "executionRoleArn": "arn:aws:iam::356466505463:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",
-  "revision": 1,
   "volumes": [],
-  "status": "ACTIVE",
   "requiresAttributes": [
     {
       "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
@@ -85,10 +82,7 @@
     }
   ],
   "placementConstraints": [],
-  "compatibilities": ["EC2", "FARGATE"],
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "512",
-  "memory": "1024",
-  "registeredAt": "2022-03-27T22:41:49.788000-04:00",
-  "registeredBy": "arn:aws:iam::356466505463:root"
+  "memory": "1024"
 }
