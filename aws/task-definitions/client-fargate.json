@@ -8,7 +8,7 @@
       "links": [],
       "portMappings": [
         {
-          "containerPort": 443,
+          "containerPort": 3000,
           "hostPort": 443,
           "protocol": "tcp"
         }
@@ -19,7 +19,7 @@
       "environment": [
         {
           "name": "PORT",
-          "value": "443"
+          "value": "3000"
         }
       ],
       "environmentFiles": [],
