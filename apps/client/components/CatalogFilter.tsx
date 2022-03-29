@@ -22,7 +22,7 @@ const validFilters = {
     { label: "Program Code", key: "id" },
     { label: "School", key: "school" },
   ]
-}
+};
 
 const CatalogFilter = ({ handleSubmit }) => {
   const { pageState, type, filters, scope } = useSelector<RootState, CatalogState>((state) => state.catalog);
@@ -38,7 +38,7 @@ const CatalogFilter = ({ handleSubmit }) => {
     clearFilters();
     dispatch(setPageState({...pageState, pageNum: 0}));
     dispatch(setCatalogType(type));
-  }
+  };
 
   useEffect(() => {
     clearFilters();

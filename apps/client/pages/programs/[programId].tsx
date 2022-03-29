@@ -14,17 +14,22 @@ import React, { useState } from "react";
 import { Edge, Node } from "react-flow-renderer";
 import { useQuery } from "react-query";
 
+interface programGraph {
+  nodes: Node<Course>[];
+  edges: Edge[];
+}
 interface PageProps {
   program: Program;
   school: School;
-  nodes: Node<Course>[];
-  edges: Edge[];
+  major: programGraph;
+  minor: programGraph;
+  area: programGraph;
 }
 
 const unSelectedStyle = "w-40 h-20 text-white rounded-md bg-blue-500 hover:bg-blue-400";
 const selectedStyle = "w-40 h-20 text-white rounded-md bg-blue-700 hover:bg-blue-600";
 
-const Page = ({ program, school, nodes, edges }: PageProps) => {
+const Page = ({ program, school, major, minor, area }: PageProps) => {
   const [majorCourses, setMajorCourses] = useState(null);
   const [minorCourses, setMinorCourses] = useState(null);
   const [areaCourses, setAreaCourses] = useState(null);
@@ -108,16 +113,6 @@ const Page = ({ program, school, nodes, edges }: PageProps) => {
       setAOCVisible(true);
     }
   };
-
-  const Major = () => (   
-    <CourseGraph edges={edges} nodes={nodes} />
-  );
-  const Minor = () => (   
-    <h3 className="text-center text-slate-800">Displaying Minor</h3>
-  );
-  const AOC = () => (   
-    <h3 className="text-center text-slate-800">Displaying AOC</h3>
-  );
   
   return (
     <div>
@@ -145,9 +140,15 @@ const Page = ({ program, school, nodes, edges }: PageProps) => {
         }
 
       </div>
-      { showMajor ? <Major /> : null }
-      { showMinor ? <Minor /> : null }
-      { showAOC ? <AOC /> : null }
+      {showMajor && 
+        <CourseGraph edges={major.edges} nodes={major.nodes} />
+      }
+      { showMinor && 
+        <CourseGraph edges={minor.edges} nodes={minor.nodes} />
+      }
+      { showAOC && 
+        <CourseGraph edges={area.edges} nodes={area.nodes} /> 
+      }
     </div>
   );
 };
@@ -156,15 +157,43 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const programId = context.query.programId as string;
   const school = await getProgramSchool(programId);
   const program = await getProgram(programId);
-  const requiredCourses = await getProgramRequireds(programId);
-  const courses = await getProgramPrerequisites(programId);
-  const { nodes, edges } = createPrerequisiteGraph(courses, requiredCourses);
+
+  const major = {nodes: [], edges: []};
+  const minor = {nodes: [], edges: []};
+  const area = {nodes: [], edges: []};
+
+  // grabs data for majors
+  const requiredCourses_major = await getProgramRequireds(programId, "major");
+  const courses_major = await getProgramPrerequisites(programId, "major");
+  const { nodes:major_nodes , edges:major_edges } = createPrerequisiteGraph(courses_major, requiredCourses_major);
+
+  // grabs data for minors
+  const requiredCourses_minor = await getProgramRequireds(programId, "minor");
+  const courses_minor = await getProgramPrerequisites(programId, "minor");
+  const { nodes:minor_nodes , edges:minor_edges } = createPrerequisiteGraph(courses_minor, requiredCourses_minor);
+  
+  // grabs data for AOC
+  const requiredCourses_area = await getProgramRequireds(programId, "area");
+  const courses_area = await getProgramPrerequisites(programId, "area");
+  const { nodes:area_nodes , edges:area_edges } = createPrerequisiteGraph(courses_area, requiredCourses_area);
+  
+  // set all data points
+  major.nodes = major_nodes;
+  major.edges = major_edges;
+
+  minor.nodes = minor_nodes;
+  minor.edges = minor_edges;
+
+  area.nodes = area_nodes;
+  area.edges = area_edges;
+  
   return {
     props: {
       program,
       school,
-      nodes,
-      edges,
+      major,
+      minor,
+      area,
     },
   };
 };
