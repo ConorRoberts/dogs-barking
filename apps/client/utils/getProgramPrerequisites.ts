@@ -4,7 +4,7 @@ import getNeo4jDriver from "./getNeo4jDriver";
 const getProgramPrerequisites = async(programId:string, type?:string):Promise<Record[]> => {
   const driver = getNeo4jDriver();
   const db = driver.session();
-  let queryStr = ""
+  let queryStr = "";
   switch (type) {
     case "major":
       queryStr = `
@@ -13,7 +13,7 @@ const getProgramPrerequisites = async(programId:string, type?:string):Promise<Re
       where id(p) = $programId
       return nodes(q)
       `;
-    break;
+      break;
     case "minor":
       queryStr = `
       match q=(p:Program) 
@@ -21,7 +21,7 @@ const getProgramPrerequisites = async(programId:string, type?:string):Promise<Re
       where id(p) = $programId
       return nodes(q)
       `;
-    break;
+      break;
     case "area":
       queryStr = `
       match q=(p:Program) 
@@ -29,7 +29,7 @@ const getProgramPrerequisites = async(programId:string, type?:string):Promise<Re
       where id(p) = $programId
       return nodes(q)
       `;
-    break;
+      break;
     default:
       queryStr = `
       match q=(p:Program) 
@@ -37,7 +37,7 @@ const getProgramPrerequisites = async(programId:string, type?:string):Promise<Re
       where id(p) = $programId
       return nodes(q)
       `;
-    break;
+      break;
   }
   const data = await db.run(
     queryStr,

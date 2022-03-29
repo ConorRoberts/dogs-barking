@@ -53,13 +53,13 @@ const PageIndex = (counts: PageIndexProps) => {
         ...pageState,
         pageNum: num > totalEntries ? totalEntries : num,
       })
-      );
-    };
+    );
+  };
     
-    const pageNums = {
-      start: (pageState.pageNum * pageState.pageSize) + 1,
-      end: (pageState.pageNum + 1) * pageState.pageSize
-    };
+  const pageNums = {
+    start: (pageState.pageNum * pageState.pageSize) + 1,
+    end: (pageState.pageNum + 1) * pageState.pageSize
+  };
   return (
     <div className="flex flex-row text-center justify-between">
       <nav className="rounded text-sm divide-y divide-gray-300 dark:divide-gray-300">
@@ -97,11 +97,11 @@ const PageIndex = (counts: PageIndexProps) => {
           </button>
         </div>
         {totalEntries > 0 ?
-        <p>
-          {pageNums.start} - {(pageNums.end > totalEntries) ? totalEntries : pageNums.end} of {totalEntries}
-        </p>
-        : 
-        <p>0 of 0</p>}
+          <p>
+            {pageNums.start} - {(pageNums.end > totalEntries) ? totalEntries : pageNums.end} of {totalEntries}
+          </p>
+          : 
+          <p>0 of 0</p>}
       </nav>
     </div>
   );

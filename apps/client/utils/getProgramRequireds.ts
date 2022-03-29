@@ -12,7 +12,7 @@ const getProgramRequireds = async (programId: string, type:string): Promise<any[
       where id(p) = $programId 
       return nodes(q)
       `;
-    break;
+      break;
     case "minor":
       queryStr = `
       match q=(p:Program) 
@@ -20,7 +20,7 @@ const getProgramRequireds = async (programId: string, type:string): Promise<any[
       where id(p) = $programId 
       return nodes(q)
       `;
-    break;
+      break;
     case "area":
       queryStr = `
       match q=(p:Program) 
@@ -28,7 +28,7 @@ const getProgramRequireds = async (programId: string, type:string): Promise<any[
       where id(p) = $programId 
       return nodes(q)
       `;
-    break;
+      break;
   }
   const program_specific = await db2.run(
     queryStr,

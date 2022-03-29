@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import queryPrograms from "@utils/queryPrograms";
-import getNeo4jDriver from "@utils/getNeo4jDriver";
 
 /**
  * @swagger
@@ -24,26 +23,26 @@ import getNeo4jDriver from "@utils/getNeo4jDriver";
  *      401:
  *        description: Unauthorized
  */
- const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
   try {
     if (method === "GET") {
-        const programId = req.query.id as string ?? "";
-        const name = req.query.name as string ?? "";
-        const school = req.query.school as string ?? "";
-        const pageSize = parseInt((req.query.pageSize as string) ?? "50");
-        const pageNum = parseInt((req.query.pageNum as string) ?? "0");
-        const sortDir = req.query.sortDir as "asc" | "desc" ?? "asc";
-        const sortKey = (req.query.sortKey as string === "courseCode") ? "id" : req.query.sortKey as string;
-        return res.status(200).json(await queryPrograms({
-            programId,
-            name,
-            school,
-            pageSize,
-            pageNum,
-            sortDir,
-            sortKey,
-        }));
+      const programId = req.query.id as string ?? "";
+      const name = req.query.name as string ?? "";
+      const school = req.query.school as string ?? "";
+      const pageSize = parseInt((req.query.pageSize as string) ?? "50");
+      const pageNum = parseInt((req.query.pageNum as string) ?? "0");
+      const sortDir = req.query.sortDir as "asc" | "desc" ?? "asc";
+      const sortKey = (req.query.sortKey as string === "courseCode") ? "id" : req.query.sortKey as string;
+      return res.status(200).json(await queryPrograms({
+        programId,
+        name,
+        school,
+        pageSize,
+        pageNum,
+        sortDir,
+        sortKey,
+      }));
     } else if (method === "POST") {
       return res.status(201).json({});
     } else {
