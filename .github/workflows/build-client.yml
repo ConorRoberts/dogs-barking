@@ -8,9 +8,9 @@ on:
 env:
   AWS_REGION: us-east-1                  
   ECR_REPOSITORY: dogs-barking        
-  ECS_SERVICE: client              
+  ECS_SERVICE: client-fargate              
   ECS_CLUSTER: dogs-barking-cluster               
-  ECS_TASK_DEFINITION: ./aws/task-definitions/client.json 
+  ECS_TASK_DEFINITION: ./aws/task-definitions/client-fargate.json 
   CONTAINER_NAME: client        
 
 jobs:
