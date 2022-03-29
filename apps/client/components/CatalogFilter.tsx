@@ -5,16 +5,24 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@redux/store";
 import { Button, Input, Select } from "./form";
 
-const validFilters = [
-  { label: "Degree", key: "degree" },
-  { label: "School", key: "school" },
-  { label: "Department", key: "department" },
-  { label: "Prerequisites", key: "prerequisites" },
-  { label: "Keywords", key: "keywords" },
-  { label: "Course Code", key: "id" },
-  { label: "Course Number", key: "number" },
-  { label: "Course Name", key: "name" },
-];
+const validFilters = {
+  courses: [
+    { label: "Degree", key: "degree" },
+    { label: "School", key: "school" },
+    { label: "Department", key: "department" },
+    { label: "Prerequisites", key: "prerequisites" },
+    { label: "Keywords", key: "keywords" },
+    { label: "Course Code", key: "id" },
+    { label: "Course Number", key: "number" },
+    { label: "Course Name", key: "name" },
+  ],
+  programs: [
+    { label: "Degree", key: "degree" },
+    { label: "Name", key: "name" },
+    { label: "Program Code", key: "id" },
+    { label: "School", key: "school" },
+  ]
+}
 
 const CatalogFilter = ({ handleSubmit }) => {
   const { pageState, type, filters, scope } = useSelector<RootState, CatalogState>((state) => state.catalog);
@@ -26,6 +34,12 @@ const CatalogFilter = ({ handleSubmit }) => {
     dispatch(resetFilters());
   }, [dispatch]);
 
+  const toggleType = (type:string) => {
+    clearFilters();
+    dispatch(setPageState({...pageState, pageNum: 0}));
+    dispatch(setCatalogType(type));
+  }
+
   useEffect(() => {
     clearFilters();
   }, [type, clearFilters]);
@@ -35,12 +49,12 @@ const CatalogFilter = ({ handleSubmit }) => {
       <div className="grid grid-cols-2 gap-4">
         <Button
           variant={type === "courses" ? "default" : "outline"}
-          onClick={() => dispatch(setCatalogType("courses"))}>
+          onClick={() => toggleType("courses")}>
           Courses
         </Button>
         <Button
           variant={type === "programs" ? "default" : "outline"}
-          onClick={() => dispatch(setCatalogType("programs"))}>
+          onClick={() => toggleType("programs")}>
           Programs
         </Button>
       </div>
@@ -48,7 +62,7 @@ const CatalogFilter = ({ handleSubmit }) => {
         <div>
           <p className="mb-1">Sort Key</p>
           <Select onChange={(e) => dispatch(setPageState({ sortKey: e.target.value }))} value={pageState.sortKey}>
-            {validFilters.map(({ key, label }) => (
+            {validFilters[type].map(({ key, label }) => (
               <option value={key} key={`sort-key-${key}`}>
                 {label}
               </option>
@@ -85,7 +99,7 @@ const CatalogFilter = ({ handleSubmit }) => {
           <div>
             <p>Filter key</p>
             <Select value={filterKey} onChange={(e) => setFilterKey(e.target.value)}>
-              {validFilters.map(({ key, label }) => (
+              {validFilters[type].map(({ key, label }) => (
                 <option value={key} key={`option-${key}`}>
                   {label}
                 </option>
@@ -109,7 +123,7 @@ const CatalogFilter = ({ handleSubmit }) => {
         <div className="divide-y divide-gray-300 dark:divide-gray-800">
           {Object.entries(filters).map(([key, value]) => (
             <div className="grid grid-cols-2 gap-4 capitalize py-2" key={`filter-key-${key}`}>
-              <p>{validFilters.find((e) => e.key === key).label}</p>
+              <p>{validFilters[type].find((e) => e.key === key).label}</p>
               <p>{value}</p>
             </div>
           ))}

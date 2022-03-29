@@ -33,8 +33,9 @@ const queryCourses = async (query: CourseQuery) => {
       ${query.name?.length > 0 ? `WHERE course.name STARTS WITH $name` : ""}
       ${query.description?.length > 0 ? `WHERE course.description =~ ".*${query.description}.*"` : ""}
 
-      return course, id(course) as nodeId
-
+      with collect(course) as courses, count (course) as total
+      unwind courses as course
+      return course, id(course) as nodeId, total
       ${
         query.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir)
           ? `ORDER BY course.${query.sortKey} ${query.sortDir}`
@@ -48,8 +49,7 @@ const queryCourses = async (query: CourseQuery) => {
   );
   await db.close();
   await driver.close();
-
-  return data.records.map((e) => ({ ...e.get("course").properties, nodeId: e.get("nodeId").low }));
+  return data.records.map((e) => ({ ...e.get("course").properties, nodeId: e.get("nodeId").low, total: e.get("total").low }));
 };
 
 export default queryCourses;

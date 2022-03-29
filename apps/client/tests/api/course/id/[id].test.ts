@@ -1,4 +1,3 @@
-
 import handler from "../../../../pages/api/course/[id]";
 import httpMocks from "node-mocks-http";
 import { NextApiRequest, NextApiResponse } from "next";

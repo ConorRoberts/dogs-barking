@@ -6,7 +6,7 @@ import Link from "next/link";
 import axios from "axios";
 import PageIndex from "@components/PageIndex";
 import { LoadingIcon } from "@components/Icons";
-import { CatalogState } from "@redux/catalog";
+import { CatalogState, setPageState } from "@redux/catalog";
 import { RootState } from "@redux/store";
 import { useSelector } from "react-redux";
 
@@ -21,6 +21,7 @@ const Page = ({ counts }: PageProps) => {
   const { filters, pageState, type, scope } = useSelector<RootState, CatalogState>((state) => state.catalog);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [total, setTotal] = useState(0);
 
   const handleSubmit = useCallback(
     async (e?: FormEvent) => {
@@ -30,9 +31,21 @@ const Page = ({ counts }: PageProps) => {
       try {
         if (type === "courses") {
           const res = await axios.get("/api/course", { params: { ...filters, ...pageState, scope } });
+          // Set total number of nodes returned instead of all nodes in the database
+          if (res.data.length > 0) {
+            setTotal(res.data[0].total);
+          } else {
+            setTotal(0);
+          }
           setData(res.data);
         } else if (type === "programs") {
-          const res = await axios.get("/api/program");
+          const res = await axios.get("/api/program", { params: { ...filters, ...pageState } });
+          // Set total number of nodes returned instead of all nodes in the database
+          if (res.data.length > 0) {
+            setTotal(res.data[0].total);
+          } else {
+            setTotal(0);
+          }
           setData(res.data);
         }
       } catch (error) {
@@ -56,7 +69,7 @@ const Page = ({ counts }: PageProps) => {
       <div className="flex gap-4">
         <div className="flex-1">
           <div className="flex justify-center my-2">
-            <PageIndex {...counts} />
+            <PageIndex totalEntries={total}/>
           </div>
           <div>
             {loading && <LoadingIcon size={45} className="animate-spin text-gray-500" />}
