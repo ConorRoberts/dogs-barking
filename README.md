@@ -1,5 +1,9 @@
 # CIS3760 - Team 5
 
+Our project leverages Next.js, for both its frontend and a serverless backend. React flow for graphing, neo4j for our database storage and a variety of AWS services. EC2, Amplify, Elasticache, EKS, Docker to name a few. Our project uses Jest, Playwright, Eslint and Cypress as forms of web scraping and unit testing to ensure a clean production build.
+
+This project serves as a course management utility for University of Guelph Students. It includes a full catalog of all courses and programs, with their respective prerequisite trees available on tap to anyone. It also includes a degree planner feature for students who want to map out their degree programs, semester by semester.
+
 ## Getting started
 
 ```text
@@ -44,14 +48,7 @@ npm run dev for development mode
 npm start for production
 
 Updating to production ->
-Ensure any changes pass unit testing, then run the following commands:
-- npm run build
-This will push the required files to the nginx server
-```
-
-### Backend API
-
-```text
-cd apps/api
-... Coming soon
+Fork/Clone the repository making any necessary changes.
+Ensure any changes pass linting and unit testing requirements.
+Submit a pull request with a brief statement of any changes
 ```
