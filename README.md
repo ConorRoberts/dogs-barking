@@ -7,7 +7,7 @@ This project serves as a course management utility for University of Guelph Stud
 ## Getting started
 
 ```text
-Clone the repo using git clone https://gitlab.socs.uoguelph.ca/crober35/w22_cis3760_team5.git
+Clone/Fork the repo using git clone https://github.com/ConorRoberts/dogs-barking.git
 ```
 
 Install the project dependencies by running
