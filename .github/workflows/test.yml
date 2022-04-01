@@ -1,13 +1,21 @@
-name: "Test"
+name: Cypress Tests
+
 on: [pull_request]
+
 jobs:
-  test:
+  cypress-run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Setup PNPM
         uses: pnpm/action-setup@v2.2.1
       - name: Install modules
         run: pnpm i
-      - name: Run tests
-        run: pnpm test
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        env:
+          PORT: 3000
+        with:
+          build: pnpm build
+          start: pnpm start
