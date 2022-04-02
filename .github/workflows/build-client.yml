@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "apps/client/**"
 
 env:
   AWS_REGION: us-east-1                  

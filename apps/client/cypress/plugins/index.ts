@@ -1,4 +1,3 @@
-/// <reference types="cypress" />
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
@@ -11,11 +10,11 @@
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
+import * as Cypress from "cypress";
 
-/**
- * @type {Cypress.PluginConfig}
- */
-module.exports = (_on, _config) => {
+const plugins = (_on, _config: Cypress.PluginConfig) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-}
+};
+
+export default plugins;
