@@ -8,13 +8,13 @@ const getUniquePrerequisites = async (nodeId: string) => {
       `
       MATCH (course:Course)-[:HAS_PREREQUISITE]->(prereq:Course)
       where id(course) = ${nodeId}
-      return collect({id: prereq.id, nodeId: id(prereq)}) as prereqs
+      return id(prereq) as parentId,collect({id: prereq.id, nodeId: id(prereq)}) as prereqs
 
       UNION ALL
 
       MATCH (course:Course)-[:HAS_PREREQUISITE]->(prereq:PrerequisiteBlock)-[:OR]->(prereqCourse:Course)
       where id(course) = ${nodeId}
-      return collect({id: prereqCourse.id, nodeId: id(prereqCourse)}) as prereqs
+      return id(prereq) as parentId, collect({id: prereqCourse.id, nodeId: id(prereqCourse)}) as prereqs
 
       `,
       { nodeId: +nodeId }
