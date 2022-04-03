@@ -9,6 +9,7 @@ import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import Rating from "@components/Rating";
 import getPrerequisites from "@utils/getPrerequisites";
 import getRating from "@utils/getRating";
+import Link from "next/link";
 
 interface PageProps {
   course: Course;
@@ -29,7 +30,9 @@ const Page = ({ course, school, nodes, edges, rating }: PageProps) => {
         <h2 className="text-center mb-1">
           {course.name} ({course.id})
         </h2>
-        <p className="text-center text-gray-400">{school.name}</p>
+        <Link passHref href={`/school/${school.nodeId}`}>
+          <p className="text-center text-gray-400">{school.name}</p>
+        </Link>
       </div>
       <div className="flex flex-col gap-4">
         <p>{course.description}</p>
