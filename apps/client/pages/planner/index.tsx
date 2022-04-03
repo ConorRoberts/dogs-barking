@@ -111,6 +111,7 @@ const Page = () => {
         if (prereq.length === 1) { // Then the array holds just a single required course.
   
           if (!isCourseCurrentlyEnrolled(currentlyEnrolledCourses, prereq[0].id)) {
+            console.log("S");
             newWarnings.push({
               type: "PREREQ NOT MET",
               message: "Cannot enroll in '" + enrolledCourse.id + "' before taking '" + prereq[0].id + "'",
