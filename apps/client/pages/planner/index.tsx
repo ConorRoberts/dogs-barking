@@ -1,6 +1,6 @@
 import AddSemesterModal from "@components/AddSemesterModal";
 import CourseCard from "@components/CourseCard";
-import { Input } from "@components/form";
+import { Button, Input, Modal } from "@components/form";
 import SemesterCard from "@components/SemesterCard";
 import useCourseSearch from "@hooks/useCourseSearch";
 import { AuthState } from "@redux/auth";
@@ -23,7 +23,8 @@ const Page = () => {
   const [departmentName, setDepartmentName] = useState("");
   const [_showSearchResults, setShowSearchResults] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
-
+  const [viewPlanPopupVisible, setViewPlanPopupVisible] = useState(false);
+  
   const { results } = useCourseSearch(searchText);
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
@@ -44,6 +45,31 @@ const Page = () => {
 
   const writeReduxDepartment = (department: string) => {
     dispatch(setDepartment(department));
+  };
+
+  const planIsValid = () => { 
+    if (plan.warnings.length > 0) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  };
+
+  const planModalOKClick = () => { 
+    setViewPlanPopupVisible(false);
+  };
+
+  const viewPlan = () => {
+    console.log("WARNINGS: ");
+    console.log(plan.warnings);
+
+    if (planIsValid) {
+      setViewPlanPopupVisible(false);
+    }
+    else { 
+      setViewPlanPopupVisible(true);
+    }
   };
 
   const addCourse = (courseToAdd: Course) => {
@@ -162,10 +188,31 @@ const Page = () => {
             {/* Other Button Functionality */}
             <div className="flex flex-row w-full">
               <div className="flex flex-col w-full p-6 place-content-center">
+                {viewPlanPopupVisible ?
+                  <Modal size="xl" onClose={() => setViewPlanPopupVisible(false)}>
+                    <div className="flex flex-col place-self-center place-content-center overflow-auto">
+                      <h5 className="place-self-center">Error Building Plan View</h5>
+                      <p className="place-self-center text-red-500 italic">There exist issues with your plan: </p>
+                      {plan.warnings.length === 0 ?
+                        null
+                        :
+                        <ul>
+                          {plan.warnings.map((warning) => {
+                            <li className="pt-1 pr-1" key={Math.random()}>(WARNING: {warning.type}) - {warning.message}</li>;
+                          })}
+                        </ul>
+                      }
+                      <p className="place-self-center text-red-500 italic">Please fix these issues so that you can view your plan.</p>
+                      <Button onClick={planModalOKClick} className="place-self-center rounded-md mt-6 bg-blue-500 hover:bg-blue-400 over">OK</Button>
+                    </div>
+                  </Modal>
+                  :
+                  null}
+
                 <Link href="/view_plan" passHref>
-                  <button className="w-40 h-10 place-self-center text-white rounded-md bg-blue-500 hover:bg-blue-400">
+                  <Button onClick={viewPlan} className="w-40 h-10 place-self-center text-white rounded-md bg-blue-500 hover:bg-blue-400">
                     View Plan
-                  </button>
+                  </Button>
                 </Link>
               </div>
             </div>
