@@ -1,8 +1,9 @@
 import CourseChip from "./CourseChip";
 import { useDispatch, useSelector } from "react-redux";
-import { PlannerState, setPlannedSemesters } from "@redux/planner";
+import { PlannerState, setPlannedSemesters, setWarnings } from "@redux/planner";
 import { RootState } from "@redux/store";
-import { Course, Semester } from "@typedefs/DegreePlan";
+import { Course, Semester, Warning } from "@typedefs/DegreePlan";
+
 
 interface SemesterCardProps{
   semesterID : string;
@@ -25,6 +26,7 @@ const SemesterCard = (props : SemesterCardProps) => {
   const {
     plan: { semesters },
   } = useSelector<RootState, PlannerState>((state) => state.planner);
+  const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const dispatch = useDispatch();
 
   const writeEditMode = (thisSemester: Semester, isEditing: boolean) => {
@@ -67,6 +69,39 @@ const SemesterCard = (props : SemesterCardProps) => {
 
   const removeSemesterClick = (semesterID: string) => {
     dispatch(setPlannedSemesters(semesters.filter((semester) => semester.id !== semesterID)));
+  };
+
+  const getCurrentlyPlannedCourses = () => {
+    const currentlyPlannedCourses: Course[] = [];
+    const plannedSemesters = [...plan.semesters];
+    
+    for (const semester of plannedSemesters) {
+      for (const course of semester.courses) {
+        currentlyPlannedCourses.push(course);
+      }
+    }
+
+    return currentlyPlannedCourses;
+  };
+
+  const orBlockToString = (orBlock) => {
+    console.log("OR BLOCK: ");
+    console.log(orBlock);
+
+    let returnStr = "";
+    let count = 0;
+    for (const courseID of orBlock) {
+      if (count === 0) {
+        returnStr += "'" + courseID.id + "'";
+      }
+      else {
+        returnStr += " or '" + courseID.id + "'";
+      }
+
+      count++;
+    }
+
+    return returnStr;
   };
 
   const removeCourse = (courseID: string) => {

@@ -17,76 +17,6 @@ const CourseCard = (props : CourseCardProps) => {
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const dispatch = useDispatch();
 
-  const isCourseCurrentlyEnrolled = (enrolledCourses : Course[], courseIDToCheck : string) => {
-    for (const course of enrolledCourses) { 
-      if (course.id === courseIDToCheck) { 
-        return true;
-      }
-    }
-
-    return false;
-  };
-
-  const orBlockToString = (orBlock) => {
-    console.log("OR BLOCK: ");
-    console.log(orBlock);
-
-    let returnStr = "";
-    let count = 0;
-    for (const courseID of orBlock) {
-      if (count === 0) {
-        returnStr += "'" + courseID.id + "'";
-      }
-      else {
-        returnStr += " or '" + courseID.id + "'";
-      }
-
-      count++;
-    }
-
-    return returnStr;
-  };
-
-  const writePrereqWarnings = (currentlyEnrolledCourses: Course[], parentCode : string, coursePrereqs) => { 
-    const newWarnings : Warning[] = [...plan.warnings];
-    if (coursePrereqs.length === 0) { // Then no prereqs exist for the course
-      dispatch(setWarnings(newWarnings));
-      return;
-    }
-
-    for (const prereq of coursePrereqs) {
-      if (prereq.length === 1) { // Then the array holds just a single required course.  
-        if (!isCourseCurrentlyEnrolled(currentlyEnrolledCourses, prereq)) {
-          newWarnings.push({
-            type: "PREREQ NOT MET",
-            message: "Cannot enroll in '" + parentCode + "' before taking '" + prereq.id + "'",
-            courseID: prereq as string
-          });
-        }
-      }
-      else {
-        let orBlockSatisfied = false;
-        for (const courseID of prereq) {
-          if (isCourseCurrentlyEnrolled(currentlyEnrolledCourses, courseID)) {
-            orBlockSatisfied = true;
-            break;
-          }
-        }
-
-        if (!orBlockSatisfied) {
-          newWarnings.push({
-            type: "PREREQ NOT MET",
-            message: "Cannot enroll in '" + parentCode + "' before taking at least one of " + orBlockToString(prereq) + ".",
-            courseID: prereq as string
-          });
-        }
-      }
-    }
-
-    //Write the warnings back to redux. If the warning array is empty, than the plan ius considered valid.
-    dispatch(setWarnings(newWarnings));
-  };
-
   const isSemesterBeingEdited = () => {
     const newSemesters = [...plan.semesters];
     const semesterToEdit = { ...newSemesters.find((semester) => semester.isEditing == true) };
@@ -131,7 +61,6 @@ const CourseCard = (props : CourseCardProps) => {
     else { 
       console.log(results);
       addCourse(course);
-      writePrereqWarnings(getCurrentlyPlannedCourses(), course.id, results);
     }
   };
 
