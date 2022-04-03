@@ -6,32 +6,24 @@ const getUniquePrerequisites = async (nodeId: string) => {
     const session = driver.session();
     const data = await session.run(
       `
-            MATCH p=(course:Course)-[:HAS_PREREQUISITE|OR*0..20]->(prereq)
-            where id(course) = ${nodeId}
-            return nodes(p) as nodes
-          `,
+      MATCH (course:Course)-[:HAS_PREREQUISITE]->(prereq:Course)
+      where id(course) = ${nodeId}
+      return collect({id: prereq.id, nodeId: id(prereq)}) as prereqs
+
+      UNION ALL
+
+      MATCH (course:Course)-[:HAS_PREREQUISITE]->(prereq:PrerequisiteBlock)-[:OR]->(prereqCourse:Course)
+      where id(course) = ${nodeId}
+      return collect({id: prereqCourse.id, nodeId: id(prereqCourse)}) as prereqs
+
+      `,
       { nodeId: +nodeId }
     );
 
     await session.close();
     await driver.close();
 
-    const result = [];
-
-    data.records.forEach((record) => {
-      record.get("nodes").forEach((node) => {
-        const newNode = { id: node.properties.id, nodeId: node.identity.low.toString() };
-
-        if (
-          !result.find((n) => n.nodeId === newNode.nodeId) &&
-          node.properties?.name !== undefined &&
-          newNode.nodeId !== nodeId
-        )
-          result.push(newNode);
-      });
-    });
-
-    return result;
+    return data.records.map((e) => e.get("prereqs").map((node) => ({ ...node, nodeId: node.nodeId.low })));
   } catch (error) {
     console.error(error);
     return [];
