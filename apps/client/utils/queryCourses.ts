@@ -16,6 +16,7 @@ const generateQueryStr = (query: CourseQuery) => {
   {query.name?.length > 0 ? str += " course.name STARTS WITH $name AND" : ""}
   {query.description?.length > 0 ? str += ' course.description =~ ".*${query.description}.*"' : ""}
   
+  // Remove trailing 'WHERE' or 'AND' if any
   const index = str.lastIndexOf(" ");
   const lastWord = str.substring(index + 1, str.length);
   if (lastWord === "WHERE" || lastWord === "AND") {
