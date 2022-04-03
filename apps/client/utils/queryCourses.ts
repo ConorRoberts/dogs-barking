@@ -3,6 +3,27 @@
 import CourseQuery from "@dogs-barking/common/types/CourseQuery";
 import getNeo4jDriver from "./getNeo4jDriver";
 
+const generateQueryStr = (query: CourseQuery) => {
+  let str = "WHERE"
+  {query.degree?.length > 0 ? str += " program.degree = $degree AND" : ""}
+  {query.school?.length > 0 ? str += " school.abbrev = $school AND" : ""}
+  {query.scope === "undergrad" ? str += " course.number < 5000 AND" : ""}
+  {query.scope === "grad" ? str += " course.number > 5000 AND" : ""}
+  {query.courseId?.length > 0 ? str += " course.id STARTS WITH $courseId AND" : ""}
+  {query.department?.length > 0 ? str += " course.department = $department AND" : ""}
+  {!isNaN(query.weight) ? str += " course.weight = $weight AND" : ""}
+  {!isNaN(query.number) ? str += " course.number = $number AND" : ""}
+  {query.name?.length > 0 ? str += " course.name STARTS WITH $name AND" : ""}
+  {query.description?.length > 0 ? str += ' course.description =~ ".*${query.description}.*"' : ""}
+  
+  const index = str.lastIndexOf(" ");
+  const lastWord = str.substring(index + 1, str.length);
+  if (lastWord === "WHERE" || lastWord === "AND") {
+    str = str.substring(0, index);
+  }
+  return str;
+}
+
 /**
  * Excecutes a complex query to get all courses based on search criteria
  * @param query
@@ -10,6 +31,7 @@ import getNeo4jDriver from "./getNeo4jDriver";
 const queryCourses = async (query: CourseQuery) => {
   const driver = getNeo4jDriver();
   const db = driver.session();
+  const str = generateQueryStr(query);
 
   const data = await db.run(
     `
@@ -22,16 +44,8 @@ const queryCourses = async (query: CourseQuery) => {
           ? `-[:HAS_PREREQUISITE]->(pc: Course) WHERE pc.id IN [${query.prerequisites.map((e) => `"${e}"`).join(",")}]`
           : ""
       }
-      ${query.degree?.length > 0 ? "WHERE program.degree = $degree" : ""}
-      ${query.school?.length > 0 ? "WHERE school.abbrev = $school" : ""}
-      ${query.scope === "undergrad" ? "WHERE course.number < 5000" : ""}
-      ${query.scope === "grad" ? "WHERE course.number > 5000" : ""}
-      ${query.courseId?.length > 0 ? "WHERE course.id STARTS WITH $courseId" : ""}
-      ${query.department?.length > 0 ? "WHERE course.department = $department" : ""}
-      ${!isNaN(query.weight) ? `WHERE course.weight = $weight` : ""}
-      ${!isNaN(query.number) ? `WHERE course.number = $number` : ""}
-      ${query.name?.length > 0 ? `WHERE course.name STARTS WITH $name` : ""}
-      ${query.description?.length > 0 ? `WHERE course.description =~ ".*${query.description}.*"` : ""}
+
+      ${str}
 
       with collect(course) as courses, count (course) as total
       unwind courses as course
