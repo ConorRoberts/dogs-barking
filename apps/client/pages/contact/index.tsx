@@ -14,7 +14,7 @@ const Page = () => {
           role="Full-Stack Developer"
           email="benproskilled@gmail.com"
           imagePath="/assets/contact_images/Ben.jpg"
-          alt="Dev 1 Image"
+          alt="Ben Carlson headshot"
         />
         <DevMember
           name="Conor Roberts"
@@ -25,31 +25,31 @@ const Page = () => {
         />
         <DevMember
           name="Greg Shalay"
-          role="Frontend Design & Development"
+          role="Full-Stack Developer"
           email="greg_shalay@outlook.com"
           imagePath="/assets/contact_images/Greg.jpg"
-          alt="Dev 3 Image"
+          alt="Greg Shalay headshot"
         />
         <DevMember
           name="Noah Hatt"
           role="Full-Stack Developer"
           email="hattnoah@gmail.com"
           imagePath="/assets/contact_images/Noah.png"
-          alt="Dev 4 Image"
+          alt="Noah Hatt headshot"
         />
         <DevMember
           name="Karan Swatch"
           role="Full-Stack Developer"
           email="karanswatch0@gmail.com"
           imagePath="/assets/contact_images/Karan.jpeg"
-          alt="Dev 5 Image"
+          alt="Karan Swatch headshot"
         />
         <DevMember
-          name="Dev Member 6"
-          role="Role 6"
-          email="dev6@gmail.com"
-          imagePath="/assets/contact_images/bender.jpg"
-          alt="Dev 6 Image"
+          name="Dylan So"
+          role="Full-Stack Developer"
+          email="dylan.11012@gmail.com"
+          imagePath="/assets/contact_images/Dylan.jpg"
+          alt="Dylan So headshot"
         />
       </div>
     </div>

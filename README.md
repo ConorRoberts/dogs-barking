@@ -1,9 +1,13 @@
 # CIS3760 - Team 5
 
+This project serves as a course management utility for University of Guelph Students. It includes a full catalog of all courses and programs, with their respective prerequisite trees available on tap to anyone. It also includes a degree planner feature for students who want to map out their degree programs, semester by semester.
+
+Our project leverages Next.js, hosted on an ECS cluster, for both its frontend and a API. React flow for graphing and Neo4j for our database storage. Our project uses Jest and Cypress as forms of web scraping and unit testing to ensure a clean production build.
+
 ## Getting started
 
 ```text
-Clone the repo using git clone https://gitlab.socs.uoguelph.ca/crober35/w22_cis3760_team5.git
+Clone/Fork the repo using git clone https://github.com/ConorRoberts/dogs-barking.git
 ```
 
 Install the project dependencies by running
@@ -44,14 +48,7 @@ npm run dev for development mode
 npm start for production
 
 Updating to production ->
-Ensure any changes pass unit testing, then run the following commands:
-- npm run build
-This will push the required files to the nginx server
-```
-
-### Backend API
-
-```text
-cd apps/api
-... Coming soon
+Fork/Clone the repository making any necessary changes.
+Ensure any changes pass linting and unit testing requirements.
+Submit a pull request with a brief statement of any changes
 ```

@@ -4,6 +4,7 @@ import { PlannerState, setPlannedSemesters } from "@redux/planner";
 import { RootState } from "@redux/store";
 import { Course, Semester } from "@typedefs/DegreePlan";
 
+
 interface SemesterCardProps{
   semesterID : string;
   currentEditState : boolean;
@@ -11,7 +12,8 @@ interface SemesterCardProps{
   timeOfYear : string;
   courses : Course[];
   year : string;
-  index : number;
+  index: number;
+  viewPlan(): void;
 }
 
 const SemesterCard = (props : SemesterCardProps) => {
@@ -21,10 +23,12 @@ const SemesterCard = (props : SemesterCardProps) => {
   const { timeOfYear } = props;
   const { courses } = props;
   const { year } = props;
+  const { viewPlan } = props;
 
   const {
     plan: { semesters },
   } = useSelector<RootState, PlannerState>((state) => state.planner);
+  const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const dispatch = useDispatch();
 
   const writeEditMode = (thisSemester: Semester, isEditing: boolean) => {
@@ -67,6 +71,7 @@ const SemesterCard = (props : SemesterCardProps) => {
 
   const removeSemesterClick = (semesterID: string) => {
     dispatch(setPlannedSemesters(semesters.filter((semester) => semester.id !== semesterID)));
+    viewPlan();
   };
 
   const removeCourse = (courseID: string) => {
@@ -116,6 +121,7 @@ const SemesterCard = (props : SemesterCardProps) => {
               course={course}
               removeCourse={removeCourse}
               isEditing={currentEditState}
+              viewPlan={viewPlan}
               key={course.id + Math.random().toString()}
             />
           ))}
@@ -125,6 +131,7 @@ const SemesterCard = (props : SemesterCardProps) => {
               course={course}
               removeCourse={removeCourse}
               isEditing={currentEditState}
+              viewPlan={viewPlan}
               key={course.id + Math.random().toString()}
             />
           ))}

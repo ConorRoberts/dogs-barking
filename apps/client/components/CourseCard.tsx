@@ -6,21 +6,15 @@ import { useSelector } from "react-redux";
 
 interface CourseCardProps {
   course : Course;
-  addCourse(courseToAdd : Course) : void;
+  addCourse(courseToAdd: Course): void;
+  viewPlan(): void;
 }
 
 const CourseCard = (props : CourseCardProps) => {
   const { course } = props;
   const { addCourse } = props;
+  const { viewPlan } = props;
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
-
-  const isPlannerStateEmpty = () => {
-    if (plan.semesters.length == 0) {
-      return true;
-    }
-
-    return false;
-  };
 
   const isSemesterBeingEdited = () => {
     const newSemesters = [...plan.semesters];
@@ -33,8 +27,40 @@ const CourseCard = (props : CourseCardProps) => {
     return true;
   };
 
+  const getCurrentlyPlannedCourses = () => {
+    const currentlyPlannedCourses: Course[] = [];
+    const plannedSemesters = [...plan.semesters];
+    
+    for (const semester of plannedSemesters) {
+      for (const course of semester.courses) {
+        currentlyPlannedCourses.push(course);
+      }
+    }
+
+    return currentlyPlannedCourses;
+  };
+
+  const planAlreadyContainsCourse = (courseID : string) => {
+    // Get prereq string array here...
+    const currentPlannedCourses = getCurrentlyPlannedCourses();
+
+    for (const course of currentPlannedCourses) { 
+      if (courseID === course.id) { 
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   const addCourseClick = () => {
-    addCourse(course);
+    if (planAlreadyContainsCourse(course.id)) {
+      console.info("Cannot add course '" + course.name + "': It already exists in your plan.");
+    }
+    else {
+      addCourse(course);
+      viewPlan();
+    }
   };
 
   return (

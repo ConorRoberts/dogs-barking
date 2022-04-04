@@ -1,3 +1,10 @@
+export interface Warning {
+    type: string;
+    message : string;
+    courseID : string;
+    
+}
+
 export interface Course{
     id: string;
     name: string;
@@ -21,6 +28,7 @@ export interface DegreePlan {
     semesters: Semester[];
     department: string;
     number: number;
+    warnings: Warning[];
 }
 
 export default DegreePlan;
