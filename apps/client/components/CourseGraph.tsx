@@ -6,7 +6,7 @@ import ReactFlow, {
   Edge,
   useNodesState,
   useEdgesState,
-  getConnectedEdges,
+  getConnectedEdges
 } from "react-flow-renderer";
 import nodeTypes from "@config/nodeTypes";
 import { useEffect } from "react";
@@ -27,18 +27,27 @@ const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, height }: Cours
     setEdges(initialEdges);
   }, [initialNodes, initialEdges, setEdges, setNodes]);
 
-  //TODO: Change this to hide nodes onclick
+  // Performs graph dfs
   const nodeOnClick =  (node: Node) => {
-    if (node.type !== "prerequisiteblock") return;
+    if (!node) return;
     const nid = node.id;
-    const connected = getConnectedEdges([node], edges).filter((edge) => edge.source === nid);
+    const connected = getConnectedEdges([node], edges).filter((edge) => edge.target === nid);
+    const nids = [];
     connected.map((edge) =>{
       if(!edge.animated && edge.style.stroke?.includes("red")) {
         edge.style = { stroke: "gray" };
-      } else if (!edge.animated){
+      } else if (edge.animated && edge.style.stroke?.includes("red")) {
+        edge.style = {stroke: "blue"};
+      } else{
         edge.style = { stroke: "red" };
       }
+      nids.push(edge.source);
     });
+    // Perform dfs/backtracking
+    for (const nid1 of nids) {
+      const node = nodes.find((node) => node.id === nid1);
+      nodeOnClick(node);
+    }
   };
 
   return (
