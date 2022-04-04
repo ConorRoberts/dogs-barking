@@ -1,6 +1,7 @@
 import AddSemesterModal from "@components/AddSemesterModal";
 import CourseCard from "@components/CourseCard";
 import { Button, Input, Modal } from "@components/form";
+import { LoadingIcon } from "@components/Icons";
 import SemesterCard from "@components/SemesterCard";
 import useCourseSearch from "@hooks/useCourseSearch";
 import { AuthState } from "@redux/auth";
@@ -25,6 +26,7 @@ const Page = () => {
   const [_showSearchResults, setShowSearchResults] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [viewPlanPopupVisible, setViewPlanPopupVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   
   const { results } = useCourseSearch(searchText);
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
@@ -61,10 +63,8 @@ const Page = () => {
     setViewPlanPopupVisible(false);
   };
 
-  const isCourseCurrentlyEnrolled = (enrolledCourses : Course[], courseIDToCheck : string) => {
-    console.log(" ---- " + courseIDToCheck);
+  const isCourseCurrentlyEnrolled = (enrolledCourses : Course[], courseIDToCheck : string) : boolean => {
     for (const course of enrolledCourses) { 
-      console.log("++++ " + course.id);
       if (course.id == courseIDToCheck) { 
         return true;
       }
@@ -74,9 +74,6 @@ const Page = () => {
   };
 
   const orBlockToString = (orBlock) => {
-    console.log("OR BLOCK: ");
-    console.log(orBlock);
-
     let returnStr = "";
     let count = 0;
     for (const courseID of orBlock) {
@@ -95,13 +92,13 @@ const Page = () => {
 
   const writePrereqWarnings = async (currentlyEnrolledCourses: Course[]) => { 
     const newWarnings: Warning[] = [];
-    
-    for (const enrolledCourse of currentlyEnrolledCourses) { 
+    for (const enrolledCourse of currentlyEnrolledCourses) {
       const { data } = await axios.get(`/api/course/prerequisites`, {
         params: {
           id: enrolledCourse.nodeId,
         },
       });
+
       if (data.length === 0) { // Then no prereqs exist for the course
         dispatch(setWarnings(newWarnings));
         return;
@@ -110,8 +107,7 @@ const Page = () => {
       for (const prereq of data) {
         if (prereq.length === 1) { // Then the array holds just a single required course.
   
-          if (!isCourseCurrentlyEnrolled(currentlyEnrolledCourses, prereq[0].id)) {
-            console.log("S");
+          if (isCourseCurrentlyEnrolled(currentlyEnrolledCourses, prereq[0].id) === false) {
             newWarnings.push({
               type: "PREREQ NOT MET",
               message: "Cannot enroll in '" + enrolledCourse.id + "' before taking '" + prereq[0].id + "'",
@@ -121,8 +117,8 @@ const Page = () => {
         }
         else {
           let orBlockSatisfied = false;
-          for (const courseID of prereq) {
-            if (isCourseCurrentlyEnrolled(currentlyEnrolledCourses, courseID)) {
+          for (const course of prereq) {
+            if (isCourseCurrentlyEnrolled(currentlyEnrolledCourses, course.id) === true) {
               orBlockSatisfied = true;
               break;
             }
@@ -158,10 +154,19 @@ const Page = () => {
 
   const viewPlan = async () => {
     const enrolledCourses = getCurrentlyPlannedCourses();
+    
+    setIsLoading(true);
     await writePrereqWarnings(enrolledCourses);
+    setIsLoading(false);
+    //setTimeout(() => 3000);
 
-    console.log("WARNINGS: ");
+    console.log("WARNINGS:");
     console.log(plan.warnings);
+
+  };
+
+  const viewPlanClick = () => {
+    viewPlan();
 
     if (planIsValid()) {
       setViewPlanPopupVisible(false);
@@ -169,7 +174,7 @@ const Page = () => {
     else { 
       setViewPlanPopupVisible(true);
     }
-  };
+  }
 
   const addCourse = (courseToAdd: Course) => {
     const newSemesters = [...plan.semesters];
@@ -210,6 +215,7 @@ const Page = () => {
     }
   };
 
+  
   return user != null ? (
     <>
       <h2 className="py-4 text-center font-medium">Degree Planner</h2>
@@ -255,6 +261,7 @@ const Page = () => {
                     timeOfYear={semester.timeOfYear}
                     year={semester.year}
                     index={index}
+                    viewPlan={viewPlan}
                     courses={semester.courses}
                     key={`semester-card-${index}`}
                   />
@@ -280,7 +287,7 @@ const Page = () => {
             <div className="flex px-0 flex-col max-h-96 overflow-auto">
               {results.length > 0 &&
                 results.slice(0, 20).map((course) => (
-                  <CourseCard addCourse={addCourse} course={course} key={Math.random()} />
+                  <CourseCard addCourse={addCourse} viewPlan={viewPlan} course={course} key={Math.random()} />
                 ))}
             </div>
 
@@ -308,11 +315,15 @@ const Page = () => {
                   :
                   null}
 
-                <Link href={ plan.warnings.length === 0 ? "/view_plan" : "" } passHref>
-                  <button onClick={viewPlan} className="w-40 h-10 place-self-center text-white rounded-md bg-blue-500 hover:bg-blue-400">
-                    View Plan
-                  </button>
-                </Link>
+                {isLoading ? 
+                  <LoadingIcon className="animate-spin w-16 h-16 text-black dark:text-white" />
+                  :
+                  <Link href={ plan.warnings.length == 0 ? "/view_plan" : "" } passHref>
+                    <button onClick={viewPlanClick} className="w-40 h-10 place-self-center text-white rounded-md bg-blue-500 hover:bg-blue-400">
+                      View Plan
+                    </button>
+                  </Link>
+                }
               </div>
             </div>
           </div>

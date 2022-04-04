@@ -2,7 +2,8 @@ import { Course } from "@typedefs/DegreePlan";
 import React from "react";
 
 interface CourseChipProps{
-  removeCourse(courseID : string) : void;
+  removeCourse(courseID: string): void;
+  viewPlan(): void;
   isEditing: boolean;
   course : Course;
 }
@@ -16,14 +17,17 @@ const CourseChip = (props : CourseChipProps) => {
   const { removeCourse } = props;
   const { isEditing } = props;
   const { course } = props;
+  const { viewPlan } = props;
 
   /**
  * Function that handles the onClick event for the removal of a course from a semester.
  * @param props
  * @returns
  */
+  
   const removeCourseClick = () => {
     removeCourse(course.id);
+    viewPlan();
   };
 
   return (

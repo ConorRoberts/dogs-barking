@@ -1,21 +1,20 @@
-import { PlannerState, setWarnings } from "@redux/planner";
+import { PlannerState } from "@redux/planner";
 import { RootState } from "@redux/store";
-import { Course, Warning } from "@typedefs/DegreePlan";
-import useUniquePrereqs from "@hooks/useUniquePrereqs";
+import { Course } from "@typedefs/DegreePlan";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 interface CourseCardProps {
   course : Course;
-  addCourse(courseToAdd : Course) : void;
+  addCourse(courseToAdd: Course): void;
+  viewPlan(): void;
 }
 
 const CourseCard = (props : CourseCardProps) => {
   const { course } = props;
   const { addCourse } = props;
-  const { results } = useUniquePrereqs(course.nodeId);
+  const { viewPlan } = props;
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
-  const dispatch = useDispatch();
 
   const isSemesterBeingEdited = () => {
     const newSemesters = [...plan.semesters];
@@ -58,9 +57,9 @@ const CourseCard = (props : CourseCardProps) => {
     if (planAlreadyContainsCourse(course.id)) {
       console.info("Cannot add course '" + course.name + "': It already exists in your plan.");
     }
-    else { 
-      console.log(results);
+    else {
       addCourse(course);
+      viewPlan();
     }
   };
 
