@@ -46,9 +46,9 @@ const Page = () => {
         />
         <DevMember
           name="Dylan So"
-          role="Role 6"
-          email="dev6@gmail.com"
-          imagePath="/assets/contact_images/bender.jpg"
+          role="Full-Stack Developer"
+          email="dylan.11012@gmail.com"
+          imagePath="/assets/contact_images/Dylan.jpg"
           alt="Dylan So headshot"
         />
       </div>
