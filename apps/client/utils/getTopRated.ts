@@ -21,8 +21,8 @@ const getTopRated = async (school: string, count: string, ratingType: string, de
         WHERE rating.${ratingType} IS NOT NULL
         RETURN 
         c,
-        rating.${ratingType} as ${ratingType}
-        ORDER BY rating.${ratingType} ${sortType}
+        avg(rating.${ratingType}) as ${ratingType}
+        ORDER BY ${ratingType} ${sortType}
         LIMIT ${count}
     `,
   );
