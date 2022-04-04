@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "apps/client/**"
+      - ".github/workflows/build-client.yml"
 
 env:
   AWS_REGION: us-east-1                  

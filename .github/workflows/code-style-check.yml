@@ -1,7 +1,7 @@
-name: "Lint"
-on: [pull_request]
+name: Prettier and Eslint
+on: [push]
 jobs:
-  eslint:
+  prettier-and-eslint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
