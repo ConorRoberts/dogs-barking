@@ -1,9 +1,6 @@
 name: Run Frontend Tests
 
-on:
-  pull_request:
-    branches:
-      - main
+on: [pull_request]
 
 jobs:
   cypress-run:
