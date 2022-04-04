@@ -48,7 +48,6 @@ const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, height }: Cours
         style={{
           height: `${height ?? 600}px`,
         }}>
-        <MetaData title="Course Graph" />
         <ReactFlowProvider>
           <ReactFlow
             nodes={nodes}
