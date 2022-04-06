@@ -13,7 +13,7 @@ import Link from "next/link";
 
 interface PageProps {
   course: Course;
-  school: School;
+  school: any;
   nodes: Node<Course>[];
   edges: Edge[];
   rating: {
