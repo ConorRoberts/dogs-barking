@@ -1,7 +1,7 @@
 {
   "courses": [
     {
-      "id": 0.45915309135379245,
+      "id": 0.49610325820516366,
       "description": "This course will introduce students to the fundamental concepts and practices of Financial Accounting. Students are expected to become adept at performing the functions related to the accounting cycle, including the preparation of financial statements. Offering(s): Also  offered through Distance Education  format.Restriction(s): ACCT*2220. This is a  Priority Access Course. Enrolment may be  restricted to particular programs or  specializations. See department for more  information.Department(s): Department of  ManagementNo description available.",
       "code": "ACCT1220",
       "department": "ACCT",
@@ -9,29 +9,29 @@
       "title": "Intro Financial Accounting",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.25148081565287717,
-        0.09076267787160308,
-        0.6451268238679204,
-        0.0537318054604099,
-        0.3719939632377198,
-        0.7571361174923579,
-        0.5344249467905242,
-        0.4117418498640222,
-        0.611916363704861,
-        0.0255635461165451,
-        0.26070402081371635,
-        0.8792380555723895,
-        0.4707577747465228,
-        0.13974506810085252,
-        0.9705898245619746,
-        0.0012960355002298307
+        0.5734123985963331,
+        0.9825225908038986,
+        0.3194449829480721,
+        0.319771111449896,
+        0.4054254868739886,
+        0.5924506924055801,
+        0.5528473279089161,
+        0.32869245152109783,
+        0.4751336509513815,
+        0.748464631020128,
+        0.17544251001372002,
+        0.3310713743236031,
+        0.2423978144929544,
+        0.8831098363859229,
+        0.31479888416315993,
+        0.3776968909800309
       ],
       "offerings": "Also  offered through Distance Education  format.",
       "restrictions": "ACCT*2220. This is a  Priority Access Course. Enrolment may be  restricted to particular programs or  specializations. See department for more  information.",
       "departments": "Department of  Management"
     },
     {
-      "id": 0.5266712648917107,
+      "id": 0.5187583828451676,
       "description": "This course requires students to apply the  fundamental principles emanating from  accounting's conceptual framework and undertake  the practice of financial accounting. Students  will become adept at performing the functions  related to each step in the accounting cycle, up  to and including the preparation of the financial  statements and client reports. Students will also  develop the skills necessary for assessing an  organization's system of internal controls and  financial conditions. Offering(s): Also offered through Distance Education format.Restriction(s): ACCT*2240. This is a Priority Access Course. Enrolment may be restricted to particular programs or specializations. See department for more  information.Department(s): Department of  ManagementNo description available.",
       "code": "ACCT1240",
       "department": "ACCT",
@@ -39,15 +39,15 @@
       "title": "Applied Financial Accounting",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.3769061552411441,
-        0.8252179395978614
+        0.06194843956895557,
+        0.1607427558786665
       ],
       "offerings": "Also offered through Distance Education format.",
       "restrictions": "ACCT*2240. This is a Priority Access Course. Enrolment may be restricted to particular programs or specializations. See department for more  information.",
       "departments": "Department of  Management"
     },
     {
-      "id": 0.14073695318079893,
+      "id": 0.5923658330085753,
       "description": "This course emphasizes the use of accounting  information to facilitate effective management  decisions. Topics include cost determination,  cost control and analysis, budgeting,  profit-volume analysis and capital investment  analysis. Equate(s): AGEC*2230,  BUS*2230Restriction(s): This is a Priority  Access Course. Enrolment may be restricted to  particular programs or specializations. See  department for more information.Department(s):  Department of ManagementNo description available.",
       "code": "ACCT2230",
       "department": "ACCT",
@@ -55,16 +55,16 @@
       "title": "Management Accounting",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.7007022089799186,
-        0.3500598067644125,
-        0.5636901671861203
+        0.0012100596782127493,
+        0.4059561201733324,
+        0.9478266524421439
       ],
       "undefined": "AGEC*2230,  BUS*2230",
       "restrictions": "This is a Priority  Access Course. Enrolment may be restricted to  particular programs or specializations. See  department for more information.",
       "departments": "Department of Management"
     },
     {
-      "id": 0.9721931890947071,
+      "id": 0.6987075475176114,
       "description": "This course continues the managerial decision  making focus of ACCT*2230. Topics include process  costing, transfer pricing, the decision making  process, variances and performance measurement.  Offering(s): Also offered through Distance  Education format.Equate(s):  BUS*3230Restriction(s): Enrolment may be  restricted to particular degrees or programs. See  department for more information.Department(s):  Department of ManagementNo description available.",
       "code": "ACCT3230",
       "department": "ACCT",
@@ -72,9 +72,9 @@
       "title": "Intermediate Mgmt Accounting",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.6365217729362282,
-        0.22235321430823274,
-        0.0861708785918347
+        0.08889727172600659,
+        0.38206808873939346,
+        0.7428021518166166
       ],
       "offerings": "Also offered through Distance  Education format.",
       "undefined": "BUS*3230",
@@ -82,7 +82,7 @@
       "departments": "Department of Management"
     },
     {
-      "id": 0.38243985441481354,
+      "id": 0.24089061670797696,
       "description": "Auditing I is an examination of the principles  and theory underlying the practice of auditing.  Concepts of materiality and audit risk are  examined and discussed. Sources and techniques  for gathering auditing evidence will also be  examined. Modern organizations rely on  information systems, technology and internal  controls to manage and monitor their operations  and the impact of these systems on the quality of  information produced and on the scope of audits  are important elements of this course.  Department(s): Department of ManagementNo description available.",
       "code": "ACCT3280",
       "department": "ACCT",
@@ -90,12 +90,12 @@
       "title": "Auditing I",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.745745262752052
+        0.2505067635201592
       ],
       "departments": "Department of Management"
     },
     {
-      "id": 0.3695480935401627,
+      "id": 0.6862855802174315,
       "description": "This course presents a critical evaluation of  accounting concepts, principles and practices in  relation to both the traditional and current  value accounting measurement models. Emphasis  will be on the effect of alternative accounting  practices and measurement models on income  determination and asset valuation. Offering(s):  Also offered through Distance Education  format.Equate(s): BUS*3330Restriction(s):  This is a Priority Access Course. Enrolment may  be restricted to particular programs or  specializations. See department for more  information.Department(s): Department of  ManagementNo description available.",
       "code": "ACCT3330",
       "department": "ACCT",
@@ -103,9 +103,9 @@
       "title": "Intermed Financial Account I",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.7952811035652143,
-        0.3944352392080437,
-        0.01992691168470806
+        0.8102333816536731,
+        0.0647201372481272,
+        0.4977288865745668
       ],
       "offerings": "Also offered through Distance Education  format.",
       "undefined": "BUS*3330",
@@ -113,7 +113,7 @@
       "departments": "Department of  Management"
     },
     {
-      "id": 0.7092067802906357,
+      "id": 0.8713019719245734,
       "description": "This course focuses on how entities account for  current and non-current liabilities and equity  accounts, including, income taxes, leases,  pensions and other post retirement benefits,  share equity and retained earnings, stock  options. Additional topics may include earnings  per share, restatements and statement analysis.  Department(s): Department of ManagementNo description available.",
       "code": "ACCT3340",
       "department": "ACCT",
@@ -121,12 +121,12 @@
       "title": "Intermed Financial Account II",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.8974439255521667
+        0.1923018691528855
       ],
       "departments": "Department of Management"
     },
     {
-      "id": 0.22413577316081668,
+      "id": 0.03664804890127149,
       "description": "The fundamentals of the tax system as it applies  to all taxpayers will be the focus of the first  half of the course. The second half will develop  forms of business organizations from a tax  perspective. Basic tax planning techniques which  attempt to maximize the cash flows and returns on  investments will then be studied. The emphasis in  the course is on business decision making. A  review of personal financial planning and  investment decisions will also be included.  Restriction(s): This is a Priority Access Course. Enrolment may be restricted to  particular degrees or programs. See the  department for more information.Department(s):  Department of ManagementNo description available.",
       "code": "ACCT3350",
       "department": "ACCT",
@@ -134,13 +134,13 @@
       "title": "Taxation",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.21174489718593592
+        0.022191186049665523
       ],
       "restrictions": "This is a Priority Access Course. Enrolment may be restricted to  particular degrees or programs. See the  department for more information.",
       "departments": "Department of Management"
     },
     {
-      "id": 0.9935774653146057,
+      "id": 0.3492786021582297,
       "description": "This course is a critical evaluation of issues  and problems associated with business  combinations, long-term intercorporate  investments, foreign operations and accounting  for not-for-profit organizations. There is a  strong emphasis on applying this body of  knowledge through practical problems. Equate(s):  BUS*4220Restriction(s): Enrolment may be  restricted to particular degrees or programs. See  the department for more  information.Department(s): Department of  ManagementNo description available.",
       "code": "ACCT4220",
       "department": "ACCT",
@@ -148,14 +148,14 @@
       "title": "Advanced Financial Accounting",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.5164378200589081
+        0.9612397798457146
       ],
       "undefined": "BUS*4220",
       "restrictions": "Enrolment may be  restricted to particular degrees or programs. See  the department for more  information.",
       "departments": "Department of  Management"
     },
     {
-      "id": 0.5847741190076805,
+      "id": 0.4313311182261601,
       "description": "This course provides advanced coverage of  management accounting concepts and the  application of management accounting information  for managerial decision-making. This course  extends the concepts covered in intermediate  management accounting and also integrates  pertinent situational problems from other  functional areas of enterprises such as global  trade and process controls. Equate(s):  BUS*4230Restriction(s): This is a Priority Access Course. Enrolment may be restricted to particular degrees or programs. See the department for more information.Department(s): Department of ManagementNo description available.",
       "code": "ACCT4230",
       "department": "ACCT",
@@ -163,15 +163,15 @@
       "title": "Advanced Management Accounting",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.15311684447975527,
-        0.39256928600431884
+        0.27438210031444865,
+        0.4503416803739868
       ],
       "undefined": "BUS*4230",
       "restrictions": "This is a Priority Access Course. Enrolment may be restricted to particular degrees or programs. See the department for more information.",
       "departments": "Department of Management"
     },
     {
-      "id": 0.38273789906887945,
+      "id": 0.6519601942865001,
       "description": "This course considers a number of advanced topics  concerning both the auditor and audit techniques  within the context of public accounting. It  builds on the knowledge of the audit task derived  in Auditing I - ACCT*3280 as well as the depth  and breadth of knowledge gained in ACCT*3330 and  ACCT*3340. Equate(s): BUS*4270Department(s):  Department of ManagementNo description available.",
       "code": "ACCT4270",
       "department": "ACCT",
@@ -183,7 +183,7 @@
       "departments": "Department of Management"
     },
     {
-      "id": 0.919432203679637,
+      "id": 0.04774951105477032,
       "description": "This course introduces the student to the field  of auditing within a computer based environment.  Students will develop an enhanced understanding  of information systems, information system risks,  management controls, control evaluation, audit  strategies, and computer assisted audit  techniques. The course will also introduce data  analytic techniques used to analyze structured  and unstructured data. Equate(s):  BUS*4290Department(s): Department of  ManagementNo description available.",
       "code": "ACCT4290",
       "department": "ACCT",
@@ -191,14 +191,14 @@
       "title": "IT Auditing & Data Analytics",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.2110174580621791,
-        0.9766402936235299
+        0.9488509112127517,
+        0.838767971300509
       ],
       "undefined": "BUS*4290",
       "departments": "Department of  Management"
     },
     {
-      "id": 0.8578740532676223,
+      "id": 0.3972365982949666,
       "description": "This course will draw on accounting research,  primarily empirical research. Rather than  covering specific GAAP rules, the course will  focus on how investors react to GAAP rules, why  financial information is important, and how its  use/misuse affects investor decision making and  management behaviour. The course is thus about  accounting, instead of about how to apply  accounting standards.Department(s): Department of ManagementNo description available.",
       "code": "ACCT4340",
       "department": "ACCT",
@@ -206,12 +206,12 @@
       "title": "Accounting Theory",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.9398705576155189
+        0.5233082400877069
       ],
       "departments": "Department of Management"
     },
     {
-      "id": 0.0808122030819447,
+      "id": 0.4785670880376425,
       "description": "An intensive study of the Canadian Income Tax Act  and related statutes, this course will focus on  the application to the taxation of individuals,  partnerships and corporations. A strong emphasis  will be placed on compliance and tax planning.  Equate(s): BUS*4350Department(s): Department  of ManagementNo description available.",
       "code": "ACCT4350",
       "department": "ACCT",
@@ -223,7 +223,7 @@
       "departments": "Department  of Management"
     },
     {
-      "id": 0.2814078067900694,
+      "id": 0.34974518265876253,
       "description": "This course will help students develop an  analytical approach to analyzing accounting  problems and improve professional judgement.  Students will apply previously-gained technical  knowledge of accounting, tax, assurance, finance,  and corporate governance to various financial  reporting and advisory problems and scenarios.  They will develop an enhanced understanding of  the impact of user and preparer objectives on the  selection of accounting policies, and accounting  estimates in an environment of some uncertainty.  Department(s): Department of ManagementNo description available.",
       "code": "ACCT4440",
       "department": "ACCT",
@@ -231,12 +231,12 @@
       "title": "Integrated Cases in Accounting",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.1426048838686922
+        0.9457326908889252
       ],
       "departments": "Department of Management"
     },
     {
-      "id": 0.12351558500233017,
+      "id": 0.4932845951018756,
       "description": "\"Integrated Cases I\" is a required course for  students pursuing a Chartered Professional  Accountant (CPA) designation and will provide  students with an in-depth knowledge of financial  reporting and auditing. The course will integrate  topics from both the finance and taxation areas  of the CPA competency map. The course will also  assist students in developing their problem  solving and decision making abilities and  communication skills, which are part of the  enabling competencies of the CPA competency map.  Restriction(s): Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.Department(s):  Department of ManagementNo description available.",
       "code": "ACCT6100",
       "department": "ACCT",
@@ -244,13 +244,13 @@
       "title": "Integrated Cases I",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.6310191619205168
+        0.31244087213150995
       ],
       "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
       "departments": "Department of Management"
     },
     {
-      "id": 0.9206987170644187,
+      "id": 0.619612676379093,
       "description": "\"Integrated Cases II\" is a required course for  students pursuing a Chartered Professional  Accountant (CPA) designation and will provide  students with an in-depth knowledge of management  accounting. The course will integrate topics from  both the strategy and governance and the finance  areas of the CPA competency map. The course will  also assist students in developing their problem  solving and decision-making abilities and  communication skills, which are part of the  enabling competencies of the CPA competency map.  Restriction(s): Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.Department(s):  Department of ManagementNo description available.",
       "code": "ACCT6200",
       "department": "ACCT",
@@ -258,13 +258,13 @@
       "title": "Integrated Cases II",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.9093385743350908
+        0.5185442054011804
       ],
       "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
       "departments": "Department of Management"
     },
     {
-      "id": 0.47560490684604706,
+      "id": 0.10685236674755783,
       "description": "This course is intended to help students achieve  the competencies related to Elective Module 4  (E4) - Taxation in the CPA Competency Map. It  covers the competencies necessary to provide  taxation services and guidance. Topics include:  compliance and tax-planning issues for both  individuals and corporate entities, as well as,  partnerships and trusts, risk tolerance of all  stakeholders involved, tax governance, controls,  and risk management, and the importance of taking  taxes into account when making business and  investment decisions.. Restriction(s):  Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.Department(s): Department of  ManagementNo description available.",
       "code": "ACCT6300",
       "department": "ACCT",
@@ -272,13 +272,13 @@
       "title": "Taxation",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.6777252433403314
+        0.25910477001985144
       ],
       "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
       "departments": "Department of  Management"
     },
     {
-      "id": 0.645058484079972,
+      "id": 0.02874617381238087,
       "description": "Performance Management is an elective course for  students pursuing a Chartered Professional  Accountant (CPA) designation and will build on  students' management accounting knowledge from  both their undergraduate courses as well as  \"Integrated Cases II\". The course will also  assist students in further developing their  problem solving and decision-making abilities and  communication skills, which are part of the  enabling competencies of the CPA competency map.  Restriction(s): Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.Department(s):  Department of ManagementNo description available.",
       "code": "ACCT6400",
       "department": "ACCT",
@@ -290,7 +290,7 @@
       "departments": "Department of Management"
     },
     {
-      "id": 0.27000798794485226,
+      "id": 0.45985523883772306,
       "description": "This course develops the competencies necessary  to assess an entity's assurance needs and perform  both internal audit projects and external  assurance engagements. The CPA Competency Map  describes in detail the two types of competencies  - technical and enabling - that employers in  public practice, industry, and government require  of accounting professionals. As such, the CPA  Competency Map will be utilized in this course to  help ensure that students meet the course  learning objectives. Restriction(s): Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.Department(s): Department of ManagementNo description available.",
       "code": "ACCT6500",
       "department": "ACCT",
@@ -298,13 +298,13 @@
       "title": "Assurance",
       "credits": 0.5,
       "HAS_SECTION": [
-        0.32660385390327007
+        0.9125500449411148
       ],
       "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
       "departments": "Department of Management"
     },
     {
-      "id": 0.8933544002512215,
+      "id": 0.7028959964130916,
       "description": "The course will build upon the conceptual  foundation developed in undergraduate  introductory finance courses. The focus of the  course is on the development of competencies in  identifying, analyzing, evaluating and making  appropriate recommendations for investing and  financing decisions in a variety of professional  contexts, particularly in the areas of treasury  management, valuation, and risk management. There  will be a strong emphasis on applying the body of  knowledge in integrated case problems.  Restriction(s): Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP Management students.Department(s):  Department of ManagementNo description available.",
       "code": "ACCT6600",
       "department": "ACCT",
@@ -316,7 +316,7 @@
       "departments": "Department of Management"
     },
     {
-      "id": 0.3305407582862201,
+      "id": 0.25945559958529807,
       "description": "This introductory course provides an overview of  Canadian and global agri-food systems. Students  will be introduced to many different facets of  agriculture, including primary production  (conventional and organic) of commodity,  mid-value and high-value crops, and livestock.  Students will explore the agri-food system by  tracing consumer end-products back to primary  production. Modern, industrial agri-food systems  as well as subsistence farming will be discussed.  The course incorporates an experiential learning  component in which students will explore a new  agri-food opportunity for Ontario by designing  and assessing the value chain. Restriction(s):  AGR*1100. AGR*1250. Restricted to students in  BAH.FARE, BSC(AGR), Minor in  AgricultureDepartment(s): Department of Plant  Agriculture, Department of Animal BiosciencesNo description available.",
       "code": "AGR1110",
       "department": "AGR",
@@ -328,7 +328,7 @@
       "departments": "Department of Plant  Agriculture, Department of Animal Biosciences"
     },
     {
-      "id": 0.7046142836576053,
+      "id": 0.8186701685471418,
       "description": "This course is designed to introduce the student to animal production systems in Canada. Dairy, poultry and egg productions are covered throughout the value-chain. Topics include food, health and wellness (domestic animals and human), nutrition, housing, genetics, reproduction, husbandry practices and processing. The course includes laboratories and animal production unit tours. Restriction(s): AGR*2350. Restricted to students in BSCH.ABIO, BBRM.EQM, and BSAG majors/minor.Department(s): Department of Animal BiosciencesNo description available.",
       "code": "AGR1350",
       "department": "AGR",
@@ -340,19 +340,21 @@
       "departments": "Department of Animal Biosciences"
     },
     {
-      "id": 0.7460700711267898,
+      "id": 0.41167247044521704,
       "description": "This course considers the interactions of all  important biophysical, technical and  socioeconomic components of farming systems and  examines these systems as the fundamental units  of study. Mineral cycles, energy transformations,  biological processes and socioeconomic  relationships are analyzed as a whole in an  interdisciplinary fashion. Restriction(s):  CROP*2110Department(s): Department of Plant  Agriculture, Department of Animal BiosciencesNo description available.",
       "code": "AGR2050",
       "department": "AGR",
       "number": 2050,
       "title": "Agroecology",
       "credits": 0.5,
-      "HAS_SECTION": [],
+      "HAS_SECTION": [
+        0.6113596132296351
+      ],
       "restrictions": "CROP*2110",
       "departments": "Department of Plant  Agriculture, Department of Animal Biosciences"
     },
     {
-      "id": 0.974938625023229,
+      "id": 0.15616454004080538,
       "description": "This course will provide students interested in  international development with an introductory  mechanistic understanding of the biology  underlying crop production in developing nations.  Emphasis will be placed on simple, low-cost  solutions from biology that have the potential to  aid efforts in international development. This  course is accessible to science and non-science  students. Restriction(s):  AGR*2470Department(s): Department of Plant  AgricultureNo description available.",
       "code": "AGR2150",
       "department": "AGR",
@@ -364,7 +366,7 @@
       "departments": "Department of Plant  Agriculture"
     },
     {
-      "id": 0.5646011642574071,
+      "id": 0.8000087112141694,
       "description": "This course is an introduction to soil resources  with emphasis on management practices that will  sustain the productivity of these resources and  enhance the quality of the ecosystems of which  they are a part. Students will develop a  management plan for a farm that will take into  account the roles of geological,  geomorphological, biological, climatic and  temporal factors on the formation, properties and  uses of soils. The management plans will be  placed in the broader context of provincial  policies related to soil, air and water resources  and local zoning regulations. Restriction(s):  ENVS*2060 or SOIL*2010Department(s): School of  Environmental SciencesNo description available.",
       "code": "AGR2320",
       "department": "AGR",
@@ -376,7 +378,7 @@
       "departments": "School of  Environmental Sciences"
     },
     {
-      "id": 0.9817746366779954,
+      "id": 0.34835644909377095,
       "description": "This course is designed to introduce the student to animal production systems in Canada. Beef, swine, companion animals, aquaculture, mink and other alternative animals will be covered throughout the value-chain. Topics include food, health and wellness (domestic animals and human), nutrition, housing, genetics, reproduction, husbandry practices and processing. The course includes laboratories and animal production unit tours. Department(s): Department of Animal BiosciencesNo description available.",
       "code": "AGR2350",
       "department": "AGR",
@@ -387,7 +389,7 @@
       "departments": "Department of Animal Biosciences"
     },
     {
-      "id": 0.7252774026561963,
+      "id": 0.6763868596304334,
       "description": "The basic principles of plant morphology,  nutrition, growth and development will be related  to where and how agriculturally significant  plants are grown. Agroecosystems and farming  systems will be considered as frameworks for crop  production analyses. The course uses examples  from temperate, sub-tropical and tropical crops  and cropping systems. Labs include  problem-solving exercises in the context of plant  production. Restriction(s):  AGR*2150Department(s): Department of Plant  AgricultureNo description available.",
       "code": "AGR2470",
       "department": "AGR",
@@ -399,7 +401,7 @@
       "departments": "Department of Plant  Agriculture"
     },
     {
-      "id": 0.41343559844353805,
+      "id": 0.5684009071129732,
       "description": "This course introduces students to a wide range of tropical and subtropical agricultural production systems and issues. The course is comprised of a weekly 3 hour evening lecture and a ten day field trip to Costa Rica where students will visit corporate and individual farms, and university and government research stations. The field trip occurs during Reading Week in February. This course must be recorded as part of your Winter course selection. A student fee will be assessed to cover transportation, lodging and meals in addition to tuition and compulsory fees. Students must identify their interest in taking this course by contacting the instructor before the October course selection period of the previous year. For information regarding fees, see the Department of Plant Agriculture Website. Restriction(s): Registration in BSC(AGR)or BA.ID or Minor in Agriculture Instructor consent required.Department(s): Department of Plant AgricultureNo description available.",
       "code": "AGR2500",
       "department": "AGR",
@@ -411,7 +413,7 @@
       "departments": "Department of Plant Agriculture"
     },
     {
-      "id": 0.9339733418994858,
+      "id": 0.12713457466261202,
       "description": "A special study option that enables undergraduate  students in semesters 5 through 8 to undertake  specific projects in agricultural sciences. The  topic of the special study will be determined in  consultation with a faculty member and the  individual student. Students are responsible for  making appropriate arrangements with faculty at  the departmental and/or college level prior to  registration for the course. Restriction(s):  Instructor consent required.Department(s):  Department of Plant AgricultureNo description available.",
       "code": "AGR3010",
       "department": "AGR",
@@ -428,9 +430,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:20 AM",
-      "id": 0.8172539346225156,
-      "location": "Guelph",
-      "hall": "ROZH",
+      "id": 0.8345496917295534,
+      "location": "ROZH",
       "room": "104",
       "monday": false,
       "tuesday": false,
@@ -443,9 +444,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:20 AM",
-      "id": 0.40758803683667955,
-      "location": "Guelph",
-      "hall": "ROZH",
+      "id": 0.26630477554884435,
+      "location": "ROZH",
       "room": "104",
       "monday": false,
       "tuesday": false,
@@ -458,9 +458,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:20 AM",
-      "id": 0.36613433767091563,
-      "location": "Guelph",
-      "hall": "ROZH",
+      "id": 0.2546563575580605,
+      "location": "ROZH",
       "room": "104",
       "monday": false,
       "tuesday": false,
@@ -473,9 +472,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:20 AM",
-      "id": 0.0077616181618227476,
-      "location": "Guelph",
-      "hall": "ROZH",
+      "id": 0.47184558407895594,
+      "location": "ROZH",
       "room": "104",
       "monday": false,
       "tuesday": false,
@@ -488,9 +486,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:20 AM",
-      "id": 0.07139995087760953,
-      "location": "Guelph",
-      "hall": "ROZH",
+      "id": 0.7177836205518906,
+      "location": "ROZH",
       "room": "104",
       "monday": false,
       "tuesday": false,
@@ -503,9 +500,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:20 AM",
-      "id": 0.4012897140507439,
-      "location": "Guelph",
-      "hall": "ROZH",
+      "id": 0.8449457800274061,
+      "location": "ROZH",
       "room": "104",
       "monday": false,
       "tuesday": false,
@@ -518,9 +514,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:20 AM",
-      "id": 0.5584902912230323,
-      "location": "Guelph",
-      "hall": "ROZH",
+      "id": 0.4793630986628159,
+      "location": "ROZH",
       "room": "104",
       "monday": false,
       "tuesday": false,
@@ -533,9 +528,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:20 AM",
-      "id": 0.6729015114831876,
-      "location": "Guelph",
-      "hall": "ROZH",
+      "id": 0.05774790766632165,
+      "location": "ROZH",
       "room": "104",
       "monday": false,
       "tuesday": false,
@@ -548,9 +542,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:20 AM",
-      "id": 0.7205618738925958,
-      "location": "Guelph",
-      "hall": "ROZH",
+      "id": 0.668551308972164,
+      "location": "ROZH",
       "room": "104",
       "monday": false,
       "tuesday": false,
@@ -563,9 +556,8 @@
     {
       "startTime": "1:30 PM",
       "endTime": "3:20 PM",
-      "id": 0.2707191359416212,
-      "location": "Guelph",
-      "hall": "AD-S",
+      "id": 0.18887692138382883,
+      "location": "AD-S",
       "room": "VIRTUAL",
       "monday": false,
       "tuesday": false,
@@ -578,9 +570,8 @@
     {
       "startTime": "1:30 PM",
       "endTime": "3:20 PM",
-      "id": 0.9774740304948295,
-      "location": "Guelph",
-      "hall": "AD-S",
+      "id": 0.5615744241003056,
+      "location": "AD-S",
       "room": "VIRTUAL",
       "monday": false,
       "tuesday": false,
@@ -593,9 +584,8 @@
     {
       "startTime": "1:30 PM",
       "endTime": "3:20 PM",
-      "id": 0.28065158671979185,
-      "location": "Guelph",
-      "hall": "AD-S",
+      "id": 0.5317532829516403,
+      "location": "AD-S",
       "room": "VIRTUAL",
       "monday": false,
       "tuesday": false,
@@ -608,9 +598,8 @@
     {
       "startTime": "1:30 PM",
       "endTime": "3:20 PM",
-      "id": 0.8229026410780351,
-      "location": "Guelph",
-      "hall": "AD-S",
+      "id": 0.773443714629144,
+      "location": "AD-S",
       "room": "VIRTUAL",
       "monday": false,
       "tuesday": false,
@@ -623,9 +612,8 @@
     {
       "startTime": "1:30 PM",
       "endTime": "3:20 PM",
-      "id": 0.5364824163630602,
-      "location": "Guelph",
-      "hall": "AD-S",
+      "id": 0.08768254778351925,
+      "location": "AD-S",
       "room": "VIRTUAL",
       "monday": false,
       "tuesday": false,
@@ -638,9 +626,8 @@
     {
       "startTime": "1:30 PM",
       "endTime": "3:20 PM",
-      "id": 0.8381962454670713,
-      "location": "Guelph",
-      "hall": "AD-S",
+      "id": 0.4849162053857563,
+      "location": "AD-S",
       "room": "VIRTUAL",
       "monday": false,
       "tuesday": false,
@@ -653,9 +640,8 @@
     {
       "startTime": "4:00 PM",
       "endTime": "5:20 PM",
-      "id": 0.46352688900614303,
-      "location": "Guelph",
-      "hall": "MAC",
+      "id": 0.5702655319499574,
+      "location": "MAC",
       "room": "149",
       "monday": true,
       "tuesday": false,
@@ -668,9 +654,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "9:50 AM",
-      "id": 0.7076363623433628,
-      "location": "Guelph",
-      "hall": "MAC",
+      "id": 0.44954026729294183,
+      "location": "MAC",
       "room": "149",
       "monday": true,
       "tuesday": false,
@@ -683,9 +668,8 @@
     {
       "startTime": "7:00 PM",
       "endTime": "9:50 PM",
-      "id": 0.7630767022471561,
-      "location": "Guelph",
-      "hall": "ROZH",
+      "id": 0.12633987876597863,
+      "location": "ROZH",
       "room": "104",
       "monday": false,
       "tuesday": true,
@@ -698,9 +682,8 @@
     {
       "startTime": "10:00 AM",
       "endTime": "11:20 AM",
-      "id": 0.2988311157436059,
-      "location": "Guelph",
-      "hall": "MCKN",
+      "id": 0.9184192786966843,
+      "location": "MCKN",
       "room": "115",
       "monday": true,
       "tuesday": false,
@@ -713,9 +696,8 @@
     {
       "startTime": "4:00 PM",
       "endTime": "5:20 PM",
-      "id": 0.47549340453273503,
-      "location": "Guelph",
-      "hall": "MCKN",
+      "id": 0.6710260120017988,
+      "location": "MCKN",
       "room": "115",
       "monday": true,
       "tuesday": false,
@@ -728,9 +710,8 @@
     {
       "startTime": "11:30 AM",
       "endTime": "12:50 PM",
-      "id": 0.44671508080410915,
-      "location": "Guelph",
-      "hall": "MCKN",
+      "id": 0.468100286388212,
+      "location": "MCKN",
       "room": "116",
       "monday": true,
       "tuesday": false,
@@ -743,9 +724,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "9:50 AM",
-      "id": 0.970540065077349,
-      "location": "Guelph",
-      "hall": "MAC",
+      "id": 0.3552452509672106,
+      "location": "MAC",
       "room": "149",
       "monday": false,
       "tuesday": true,
@@ -758,9 +738,8 @@
     {
       "startTime": "10:00 AM",
       "endTime": "11:20 AM",
-      "id": 0.04574210882257557,
-      "location": "Guelph",
-      "hall": "MCKN",
+      "id": 0.3375228898308589,
+      "location": "MCKN",
       "room": "120",
       "monday": true,
       "tuesday": false,
@@ -773,9 +752,8 @@
     {
       "startTime": "10:00 AM",
       "endTime": "11:20 AM",
-      "id": 0.7491249060690133,
-      "location": "Guelph",
-      "hall": "AD-S",
+      "id": 0.3433636268284843,
+      "location": "AD-S",
       "room": "VIRTUAL",
       "monday": true,
       "tuesday": false,
@@ -788,9 +766,8 @@
     {
       "startTime": "2:30 PM",
       "endTime": "3:50 PM",
-      "id": 0.9964204650117432,
-      "location": "Guelph",
-      "hall": "RICH",
+      "id": 0.14801595165633397,
+      "location": "RICH",
       "room": "2529",
       "monday": false,
       "tuesday": true,
@@ -803,9 +780,8 @@
     {
       "startTime": "1:00 PM",
       "endTime": "2:20 PM",
-      "id": 0.09239388674035487,
-      "location": "Guelph",
-      "hall": "MAC",
+      "id": 0.1035026417534235,
+      "location": "MAC",
       "room": "149",
       "monday": false,
       "tuesday": true,
@@ -818,9 +794,8 @@
     {
       "startTime": "1:00 PM",
       "endTime": "2:20 PM",
-      "id": 0.8228427957724103,
-      "location": "Guelph",
-      "hall": "MACS",
+      "id": 0.049878673506236204,
+      "location": "MACS",
       "room": "209",
       "monday": false,
       "tuesday": true,
@@ -833,9 +808,8 @@
     {
       "startTime": "11:30 AM",
       "endTime": "12:50 PM",
-      "id": 0.29181038970483053,
-      "location": "Guelph",
-      "hall": "MCLN",
+      "id": 0.08215501781950829,
+      "location": "MCLN",
       "room": "107",
       "monday": true,
       "tuesday": false,
@@ -848,9 +822,8 @@
     {
       "startTime": "4:00 PM",
       "endTime": "5:20 PM",
-      "id": 0.5556529904387786,
-      "location": "Guelph",
-      "hall": "MACS",
+      "id": 0.38441534619156625,
+      "location": "MACS",
       "room": "209",
       "monday": true,
       "tuesday": false,
@@ -863,9 +836,8 @@
     {
       "startTime": "11:30 AM",
       "endTime": "12:50 PM",
-      "id": 0.39934453153144034,
-      "location": "Guelph",
-      "hall": "GRHM",
+      "id": 0.49711126164125985,
+      "location": "GRHM",
       "room": "2310",
       "monday": false,
       "tuesday": false,
@@ -878,9 +850,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "9:50 AM",
-      "id": 0.46978432449424123,
-      "location": "Guelph",
-      "hall": "GFTC",
+      "id": 0.18258165156691653,
+      "location": "GFTC",
       "room": "241",
       "monday": false,
       "tuesday": false,
@@ -893,9 +864,8 @@
     {
       "startTime": "10:00 AM",
       "endTime": "11:20 AM",
-      "id": 0.8068265791712532,
-      "location": "Guelph",
-      "hall": "MCLN",
+      "id": 0.21973178909488578,
+      "location": "MCLN",
       "room": "107",
       "monday": true,
       "tuesday": false,
@@ -908,9 +878,8 @@
     {
       "startTime": "5:30 PM",
       "endTime": "6:50 PM",
-      "id": 0.06772190233023268,
-      "location": "Guelph",
-      "hall": "CRSC",
+      "id": 0.663701535426996,
+      "location": "CRSC",
       "room": "116",
       "monday": true,
       "tuesday": false,
@@ -923,9 +892,8 @@
     {
       "startTime": "",
       "endTime": "",
-      "id": 0.8343778157383821,
-      "location": "Guelph",
-      "hall": "MAC",
+      "id": 0.046826270538413706,
+      "location": "MAC",
       "room": "232",
       "monday": false,
       "tuesday": false,
@@ -938,9 +906,8 @@
     {
       "startTime": "",
       "endTime": "",
-      "id": 0.6927374239016646,
-      "location": "Guelph",
-      "hall": "MAC",
+      "id": 0.0066312679903473,
+      "location": "MAC",
       "room": "232",
       "monday": false,
       "tuesday": false,
@@ -953,9 +920,8 @@
     {
       "startTime": "",
       "endTime": "",
-      "id": 0.7921966456112042,
-      "location": "Guelph",
-      "hall": "MAC",
+      "id": 0.15324491178989685,
+      "location": "MAC",
       "room": "232",
       "monday": false,
       "tuesday": false,
@@ -968,14 +934,27 @@
     {
       "startTime": "",
       "endTime": "",
-      "id": 0.411224663151178,
-      "location": "Guelph",
-      "hall": "MAC",
+      "id": 0.6285177752201305,
+      "location": "MAC",
       "room": "232",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
       "thursday": false,
+      "friday": false,
+      "saturday": false,
+      "sunday": false
+    },
+    {
+      "startTime": "8:30 AM",
+      "endTime": "9:50 AM",
+      "id": 0.6619952156210318,
+      "location": "MCLN",
+      "room": "102",
+      "monday": false,
+      "tuesday": true,
+      "wednesday": false,
+      "thursday": true,
       "friday": false,
       "saturday": false,
       "sunday": false
@@ -985,9 +964,8 @@
     {
       "startTime": "5:30 PM",
       "endTime": "6:20 PM",
-      "id": 0.6679412404355163,
-      "location": "Guelph",
-      "hall": "MCLN",
+      "id": 0.778414785935136,
+      "location": "MCLN",
       "room": "107",
       "monday": false,
       "tuesday": false,
@@ -1000,9 +978,8 @@
     {
       "startTime": "2:30 PM",
       "endTime": "3:20 PM",
-      "id": 0.2324270330934768,
-      "location": "Guelph",
-      "hall": "MACS",
+      "id": 0.6556286925861268,
+      "location": "MACS",
       "room": "121",
       "monday": true,
       "tuesday": false,
@@ -1015,9 +992,8 @@
     {
       "startTime": "9:30 AM",
       "endTime": "10:20 AM",
-      "id": 0.12676380245483987,
-      "location": "Guelph",
-      "hall": "MACS",
+      "id": 0.3595439554139206,
+      "location": "MACS",
       "room": "121",
       "monday": true,
       "tuesday": false,
@@ -1030,9 +1006,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "9:20 AM",
-      "id": 0.6622368868950805,
-      "location": "Guelph",
-      "hall": "MACS",
+      "id": 0.654852456737272,
+      "location": "MACS",
       "room": "121",
       "monday": false,
       "tuesday": false,
@@ -1045,9 +1020,8 @@
     {
       "startTime": "5:30 PM",
       "endTime": "6:20 PM",
-      "id": 0.41434301782282645,
-      "location": "Guelph",
-      "hall": "MACS",
+      "id": 0.657951411046646,
+      "location": "MACS",
       "room": "121",
       "monday": true,
       "tuesday": false,
@@ -1060,9 +1034,8 @@
     {
       "startTime": "10:30 AM",
       "endTime": "11:20 AM",
-      "id": 0.9506564532478812,
-      "location": "Guelph",
-      "hall": "MACS",
+      "id": 0.8823949908837709,
+      "location": "MACS",
       "room": "121",
       "monday": true,
       "tuesday": false,
@@ -1075,9 +1048,8 @@
     {
       "startTime": "1:30 PM",
       "endTime": "2:20 PM",
-      "id": 0.332443276045818,
-      "location": "Guelph",
-      "hall": "MACS",
+      "id": 0.6308491631930486,
+      "location": "MACS",
       "room": "121",
       "monday": false,
       "tuesday": false,
@@ -1090,9 +1062,8 @@
     {
       "startTime": "4:30 PM",
       "endTime": "5:20 PM",
-      "id": 0.12901972426995556,
-      "location": "Guelph",
-      "hall": "MACS",
+      "id": 0.5115344338672088,
+      "location": "MACS",
       "room": "121",
       "monday": false,
       "tuesday": true,
@@ -1105,9 +1076,8 @@
     {
       "startTime": "11:30 AM",
       "endTime": "12:20 PM",
-      "id": 0.38150623695814523,
-      "location": "Guelph",
-      "hall": "MACS",
+      "id": 0.12613963466481581,
+      "location": "MACS",
       "room": "121",
       "monday": false,
       "tuesday": false,
@@ -1120,9 +1090,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "9:20 AM",
-      "id": 0.3408960199492097,
-      "location": "Guelph",
-      "hall": "AD-S",
+      "id": 0.29021761079394714,
+      "location": "AD-S",
       "room": "VIRTUAL",
       "monday": false,
       "tuesday": false,
@@ -1135,9 +1104,8 @@
     {
       "startTime": "10:30 AM",
       "endTime": "11:20 AM",
-      "id": 0.0061970618858020465,
-      "location": "Guelph",
-      "hall": "AD-S",
+      "id": 0.6460948019752251,
+      "location": "AD-S",
       "room": "VIRTUAL",
       "monday": false,
       "tuesday": true,
@@ -1150,9 +1118,8 @@
     {
       "startTime": "9:30 AM",
       "endTime": "10:20 AM",
-      "id": 0.06387492576185538,
-      "location": "Guelph",
-      "hall": "AD-S",
+      "id": 0.8486273316050728,
+      "location": "AD-S",
       "room": "VIRTUAL",
       "monday": false,
       "tuesday": false,
@@ -1165,9 +1132,8 @@
     {
       "startTime": "7:00 PM",
       "endTime": "7:50 PM",
-      "id": 0.6303777747271986,
-      "location": "Guelph",
-      "hall": "AD-S",
+      "id": 0.6831081318340511,
+      "location": "AD-S",
       "room": "VIRTUAL",
       "monday": true,
       "tuesday": false,
@@ -1180,9 +1146,8 @@
     {
       "startTime": "7:00 PM",
       "endTime": "7:50 PM",
-      "id": 0.9894086531586166,
-      "location": "Guelph",
-      "hall": "AD-S",
+      "id": 0.975377446890074,
+      "location": "AD-S",
       "room": "VIRTUAL",
       "monday": false,
       "tuesday": false,
@@ -1195,9 +1160,8 @@
     {
       "startTime": "8:30 AM",
       "endTime": "9:20 AM",
-      "id": 0.9552060190560683,
-      "location": "Guelph",
-      "hall": "AD-S",
+      "id": 0.5499573501288639,
+      "location": "AD-S",
       "room": "VIRTUAL",
       "monday": true,
       "tuesday": false,
@@ -1213,8 +1177,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.23171559003859654,
-      "location": "Guelph",
+      "id": 0.8800357522726601,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1226,8 +1191,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.5918496569297134,
-      "location": "Guelph",
+      "id": 0.2939618419525234,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1239,8 +1205,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.12561456760355738,
-      "location": "Guelph",
+      "id": 0.5513761714624472,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1252,8 +1219,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.49816725773285,
-      "location": "Guelph",
+      "id": 0.7339902392269622,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1265,8 +1233,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.7358650882756419,
-      "location": "Guelph",
+      "id": 0.632487147241652,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1278,8 +1247,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.10105509135270041,
-      "location": "Guelph",
+      "id": 0.90975377769699,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1291,8 +1261,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.7723864458262941,
-      "location": "Guelph",
+      "id": 0.8340842790462322,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1304,8 +1275,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.23971744631569436,
-      "location": "Guelph",
+      "id": 0.03652471554701431,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1317,8 +1289,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.9624681695002413,
-      "location": "Guelph",
+      "id": 0.9840312528062827,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1330,8 +1303,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.7512752797241968,
-      "location": "Guelph",
+      "id": 0.09291773189174979,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1343,8 +1317,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.513814862884364,
-      "location": "Guelph",
+      "id": 0.043112889711269586,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1356,8 +1331,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.030126847422453196,
-      "location": "Guelph",
+      "id": 0.8510333936467591,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1369,8 +1345,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.10163729349199224,
-      "location": "Guelph",
+      "id": 0.44515849327871493,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1382,8 +1359,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.5784950107464384,
-      "location": "Guelph",
+      "id": 0.847698714006957,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1395,8 +1373,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.10876038381649877,
-      "location": "Guelph",
+      "id": 0.7704645645938268,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1408,8 +1387,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.41690629554623215,
-      "location": "Guelph",
+      "id": 0.30887232032040957,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1421,8 +1401,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.6894681262312701,
-      "location": "Guelph",
+      "id": 0.12776761992097496,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1434,8 +1415,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.8910574410795808,
-      "location": "Guelph",
+      "id": 0.524834948713812,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1447,8 +1429,9 @@
     {
       "startTime": "11:30 AM",
       "endTime": "1:30 PM",
-      "id": 0.8230991443891702,
-      "location": "Guelph",
+      "id": 0.7097900696280783,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": false,
@@ -1460,8 +1443,9 @@
     {
       "startTime": "2:30 PM",
       "endTime": "4:30 PM",
-      "id": 0.5298284784976528,
-      "location": "Guelph",
+      "id": 0.8991580139613173,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": true,
       "tuesday": false,
       "wednesday": false,
@@ -1473,8 +1457,9 @@
     {
       "startTime": "2:30 PM",
       "endTime": "4:30 PM",
-      "id": 0.8398934110713152,
-      "location": "Guelph",
+      "id": 0.028716182974663607,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": true,
       "tuesday": false,
       "wednesday": false,
@@ -1486,8 +1471,9 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:30 AM",
-      "id": 0.9576553353304973,
-      "location": "Guelph",
+      "id": 0.6039003150470459,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": true,
       "wednesday": false,
@@ -1499,8 +1485,9 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:30 AM",
-      "id": 0.7114379914122679,
-      "location": "Guelph",
+      "id": 0.6777901551474093,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": true,
       "wednesday": false,
@@ -1512,8 +1499,9 @@
     {
       "startTime": "2:30 PM",
       "endTime": "4:30 PM",
-      "id": 0.61428079559344,
-      "location": "Guelph",
+      "id": 0.7887673616565047,
+      "location": "MACS",
+      "room": "121",
       "monday": false,
       "tuesday": true,
       "wednesday": false,
@@ -1525,8 +1513,9 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:30 AM",
-      "id": 0.9557741401569351,
-      "location": "Guelph",
+      "id": 0.706488359678999,
+      "location": "MCLN",
+      "room": "102",
       "monday": false,
       "tuesday": true,
       "wednesday": false,
@@ -1538,8 +1527,9 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:30 AM",
-      "id": 0.8612684264013444,
-      "location": "Guelph",
+      "id": 0.2692761820796703,
+      "location": "MCLN",
+      "room": "102",
       "monday": false,
       "tuesday": true,
       "wednesday": false,
@@ -1551,8 +1541,9 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:30 AM",
-      "id": 0.034035604696176724,
-      "location": "Guelph",
+      "id": 0.12180514007117682,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": true,
       "tuesday": false,
       "wednesday": false,
@@ -1564,8 +1555,9 @@
     {
       "startTime": "8:30 AM",
       "endTime": "10:30 AM",
-      "id": 0.5261477255099793,
-      "location": "Guelph",
+      "id": 0.31331487381578405,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": true,
       "tuesday": false,
       "wednesday": false,
@@ -1577,8 +1569,23 @@
     {
       "startTime": "7:00 PM",
       "endTime": "9:00 PM",
-      "id": 0.8665795214761061,
-      "location": "Guelph",
+      "id": 0.8062310915389996,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": true,
+      "thursday": false,
+      "friday": false,
+      "saturday": false,
+      "sunday": false
+    },
+    {
+      "startTime": "2:30 PM",
+      "endTime": "4:30 PM",
+      "id": 0.5727603022731202,
+      "location": "SEE",
+      "room": "ONLINE",
       "monday": false,
       "tuesday": false,
       "wednesday": true,
@@ -1590,262 +1597,262 @@
   ],
   "sections": [
     {
-      "id": 0.25148081565287717,
+      "id": 0.5734123985963331,
       "code": "0101",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.8172539346225156
+        0.8345496917295534
       ],
       "HAS_EXAM": [
-        0.23171559003859654
+        0.8800357522726601
       ],
       "HAS_SEMINAR": [
-        0.6679412404355163
+        0.778414785935136
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.09076267787160308,
+      "id": 0.9825225908038986,
       "code": "0102",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.40758803683667955
+        0.26630477554884435
       ],
       "HAS_EXAM": [
-        0.5918496569297134
+        0.2939618419525234
       ],
       "HAS_SEMINAR": [
-        0.2324270330934768
+        0.6556286925861268
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.6451268238679204,
+      "id": 0.3194449829480721,
       "code": "0103",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.36613433767091563
+        0.2546563575580605
       ],
       "HAS_EXAM": [
-        0.12561456760355738
+        0.5513761714624472
       ],
       "HAS_SEMINAR": [
-        0.12676380245483987
+        0.3595439554139206
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.0537318054604099,
+      "id": 0.319771111449896,
       "code": "0104",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.0077616181618227476
+        0.47184558407895594
       ],
       "HAS_EXAM": [
-        0.49816725773285
+        0.7339902392269622
       ],
       "HAS_SEMINAR": [
-        0.6622368868950805
+        0.654852456737272
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.3719939632377198,
+      "id": 0.4054254868739886,
       "code": "0105",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.07139995087760953
+        0.7177836205518906
       ],
       "HAS_EXAM": [
-        0.7358650882756419
+        0.632487147241652
       ],
       "HAS_SEMINAR": [
-        0.41434301782282645
+        0.657951411046646
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.7571361174923579,
+      "id": 0.5924506924055801,
       "code": "0106",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.4012897140507439
+        0.8449457800274061
       ],
       "HAS_EXAM": [
-        0.10105509135270041
+        0.90975377769699
       ],
       "HAS_SEMINAR": [
-        0.9506564532478812
+        0.8823949908837709
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.5344249467905242,
+      "id": 0.5528473279089161,
       "code": "0107",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.5584902912230323
+        0.4793630986628159
       ],
       "HAS_EXAM": [
-        0.7723864458262941
+        0.8340842790462322
       ],
       "HAS_SEMINAR": [
-        0.332443276045818
+        0.6308491631930486
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.4117418498640222,
+      "id": 0.32869245152109783,
       "code": "0108",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.6729015114831876
+        0.05774790766632165
       ],
       "HAS_EXAM": [
-        0.23971744631569436
+        0.03652471554701431
       ],
       "HAS_SEMINAR": [
-        0.12901972426995556
+        0.5115344338672088
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.611916363704861,
+      "id": 0.4751336509513815,
       "code": "0109",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.7205618738925958
+        0.668551308972164
       ],
       "HAS_EXAM": [
-        0.9624681695002413
+        0.9840312528062827
       ],
       "HAS_SEMINAR": [
-        0.38150623695814523
+        0.12613963466481581
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.0255635461165451,
+      "id": 0.748464631020128,
       "code": "0210",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.2707191359416212
+        0.18887692138382883
       ],
       "HAS_EXAM": [
-        0.7512752797241968
+        0.09291773189174979
       ],
       "HAS_SEMINAR": [
-        0.3408960199492097
+        0.29021761079394714
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.26070402081371635,
+      "id": 0.17544251001372002,
       "code": "0211",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.9774740304948295
+        0.5615744241003056
       ],
       "HAS_EXAM": [
-        0.513814862884364
+        0.043112889711269586
       ],
       "HAS_SEMINAR": [
-        0.0061970618858020465
+        0.6460948019752251
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.8792380555723895,
+      "id": 0.3310713743236031,
       "code": "0212",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.28065158671979185
+        0.5317532829516403
       ],
       "HAS_EXAM": [
-        0.030126847422453196
+        0.8510333936467591
       ],
       "HAS_SEMINAR": [
-        0.06387492576185538
+        0.8486273316050728
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.4707577747465228,
+      "id": 0.2423978144929544,
       "code": "0213",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.8229026410780351
+        0.773443714629144
       ],
       "HAS_EXAM": [
-        0.10163729349199224
+        0.44515849327871493
       ],
       "HAS_SEMINAR": [
-        0.6303777747271986
+        0.6831081318340511
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.13974506810085252,
+      "id": 0.8831098363859229,
       "code": "0214",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.5364824163630602
+        0.08768254778351925
       ],
       "HAS_EXAM": [
-        0.5784950107464384
+        0.847698714006957
       ],
       "HAS_SEMINAR": [
-        0.9894086531586166
+        0.975377446890074
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.9705898245619746,
+      "id": 0.31479888416315993,
       "code": "0215",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.8381962454670713
+        0.4849162053857563
       ],
       "HAS_EXAM": [
-        0.10876038381649877
+        0.7704645645938268
       ],
       "HAS_SEMINAR": [
-        0.9552060190560683
+        0.5499573501288639
       ],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.0012960355002298307,
+      "id": 0.3776968909800309,
       "code": "DE01",
       "term": "Summer 2022",
       "INSTRUCTED_BY": "",
@@ -1856,162 +1863,65 @@
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.3769061552411441,
+      "id": 0.06194843956895557,
       "code": "01",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.46352688900614303
+        0.5702655319499574
       ],
       "HAS_EXAM": [
-        0.41690629554623215
+        0.30887232032040957
       ],
       "HAS_SEMINAR": [],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.8252179395978614,
+      "id": 0.1607427558786665,
       "code": "02",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.7076363623433628
+        0.44954026729294183
       ],
       "HAS_EXAM": [
-        0.6894681262312701
+        0.12776761992097496
       ],
       "HAS_SEMINAR": [],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.7007022089799186,
+      "id": 0.0012100596782127493,
       "code": "01",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.7630767022471561
+        0.12633987876597863
       ],
       "HAS_EXAM": [
-        0.8910574410795808
+        0.524834948713812
       ],
       "HAS_SEMINAR": [],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.3500598067644125,
+      "id": 0.4059561201733324,
       "code": "DE01",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [],
       "HAS_EXAM": [
-        0.8230991443891702
+        0.7097900696280783
       ],
       "HAS_SEMINAR": [],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.5636901671861203,
-      "code": "DE01",
-      "term": "Summer 2022",
-      "INSTRUCTED_BY": "",
-      "HAS_LECTURE": [],
-      "HAS_EXAM": [],
-      "HAS_SEMINAR": [],
-      "HAS_LAB": [],
-      "HAS_TUTORIAL": []
-    },
-    {
-      "id": 0.6365217729362282,
-      "code": "01",
-      "term": "Winter 2022",
-      "INSTRUCTED_BY": "",
-      "HAS_LECTURE": [
-        0.2988311157436059
-      ],
-      "HAS_EXAM": [
-        0.5298284784976528
-      ],
-      "HAS_SEMINAR": [],
-      "HAS_LAB": [],
-      "HAS_TUTORIAL": []
-    },
-    {
-      "id": 0.22235321430823274,
-      "code": "02",
-      "term": "Winter 2022",
-      "INSTRUCTED_BY": "",
-      "HAS_LECTURE": [
-        0.47549340453273503
-      ],
-      "HAS_EXAM": [
-        0.8398934110713152
-      ],
-      "HAS_SEMINAR": [],
-      "HAS_LAB": [],
-      "HAS_TUTORIAL": []
-    },
-    {
-      "id": 0.0861708785918347,
-      "code": "01",
-      "term": "Summer 2022",
-      "INSTRUCTED_BY": "",
-      "HAS_LECTURE": [
-        0.44671508080410915
-      ],
-      "HAS_EXAM": [],
-      "HAS_SEMINAR": [],
-      "HAS_LAB": [],
-      "HAS_TUTORIAL": []
-    },
-    {
-      "id": 0.745745262752052,
-      "code": "01",
-      "term": "Summer 2022",
-      "INSTRUCTED_BY": "",
-      "HAS_LECTURE": [
-        0.970540065077349
-      ],
-      "HAS_EXAM": [],
-      "HAS_SEMINAR": [],
-      "HAS_LAB": [],
-      "HAS_TUTORIAL": []
-    },
-    {
-      "id": 0.7952811035652143,
-      "code": "01",
-      "term": "Winter 2022",
-      "INSTRUCTED_BY": "",
-      "HAS_LECTURE": [
-        0.04574210882257557
-      ],
-      "HAS_EXAM": [
-        0.9576553353304973
-      ],
-      "HAS_SEMINAR": [],
-      "HAS_LAB": [],
-      "HAS_TUTORIAL": []
-    },
-    {
-      "id": 0.3944352392080437,
-      "code": "02",
-      "term": "Winter 2022",
-      "INSTRUCTED_BY": "",
-      "HAS_LECTURE": [
-        0.7491249060690133
-      ],
-      "HAS_EXAM": [
-        0.7114379914122679
-      ],
-      "HAS_SEMINAR": [],
-      "HAS_LAB": [],
-      "HAS_TUTORIAL": []
-    },
-    {
-      "id": 0.01992691168470806,
+      "id": 0.9478266524421439,
       "code": "DE01",
       "term": "Summer 2022",
       "INSTRUCTED_BY": "",
@@ -2022,141 +1932,210 @@
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.8974439255521667,
-      "code": "01",
-      "term": "Summer 2022",
-      "INSTRUCTED_BY": "",
-      "HAS_LECTURE": [
-        0.9964204650117432
-      ],
-      "HAS_EXAM": [],
-      "HAS_SEMINAR": [],
-      "HAS_LAB": [],
-      "HAS_TUTORIAL": []
-    },
-    {
-      "id": 0.21174489718593592,
-      "code": "01",
-      "term": "Summer 2022",
-      "INSTRUCTED_BY": "",
-      "HAS_LECTURE": [
-        0.09239388674035487
-      ],
-      "HAS_EXAM": [],
-      "HAS_SEMINAR": [],
-      "HAS_LAB": [],
-      "HAS_TUTORIAL": []
-    },
-    {
-      "id": 0.5164378200589081,
+      "id": 0.08889727172600659,
       "code": "01",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.8228427957724103
+        0.9184192786966843
       ],
       "HAS_EXAM": [
-        0.61428079559344
+        0.8991580139613173
       ],
       "HAS_SEMINAR": [],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.15311684447975527,
-      "code": "01",
-      "term": "Winter 2022",
-      "INSTRUCTED_BY": "",
-      "HAS_LECTURE": [
-        0.29181038970483053
-      ],
-      "HAS_EXAM": [
-        0.9557741401569351
-      ],
-      "HAS_SEMINAR": [],
-      "HAS_LAB": [],
-      "HAS_TUTORIAL": []
-    },
-    {
-      "id": 0.39256928600431884,
+      "id": 0.38206808873939346,
       "code": "02",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.5556529904387786
+        0.6710260120017988
       ],
       "HAS_EXAM": [
-        0.8612684264013444
+        0.028716182974663607
       ],
       "HAS_SEMINAR": [],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.2110174580621791,
+      "id": 0.7428021518166166,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": "",
+      "HAS_LECTURE": [
+        0.468100286388212
+      ],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.2505067635201592,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": "",
+      "HAS_LECTURE": [
+        0.3552452509672106
+      ],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.8102333816536731,
       "code": "01",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.39934453153144034
+        0.3375228898308589
       ],
       "HAS_EXAM": [
-        0.034035604696176724
+        0.6039003150470459
       ],
       "HAS_SEMINAR": [],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.9766402936235299,
+      "id": 0.0647201372481272,
       "code": "02",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.46978432449424123
+        0.3433636268284843
       ],
       "HAS_EXAM": [
-        0.5261477255099793
+        0.6777901551474093
       ],
       "HAS_SEMINAR": [],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.9398705576155189,
+      "id": 0.4977288865745668,
+      "code": "DE01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": "",
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.1923018691528855,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": "",
+      "HAS_LECTURE": [
+        0.14801595165633397
+      ],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.022191186049665523,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": "",
+      "HAS_LECTURE": [
+        0.1035026417534235
+      ],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.9612397798457146,
       "code": "01",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.8068265791712532
+        0.049878673506236204
       ],
-      "HAS_EXAM": [],
+      "HAS_EXAM": [
+        0.7887673616565047
+      ],
       "HAS_SEMINAR": [],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.1426048838686922,
+      "id": 0.27438210031444865,
       "code": "01",
       "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.06772190233023268
+        0.08215501781950829
       ],
       "HAS_EXAM": [
-        0.8665795214761061
+        0.706488359678999
       ],
       "HAS_SEMINAR": [],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.6310191619205168,
-      "code": "01",
-      "term": "Summer 2022",
+      "id": 0.4503416803739868,
+      "code": "02",
+      "term": "Winter 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.8343778157383821
+        0.38441534619156625
+      ],
+      "HAS_EXAM": [
+        0.2692761820796703
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.9488509112127517,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": "",
+      "HAS_LECTURE": [
+        0.49711126164125985
+      ],
+      "HAS_EXAM": [
+        0.12180514007117682
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.838767971300509,
+      "code": "02",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": "",
+      "HAS_LECTURE": [
+        0.18258165156691653
+      ],
+      "HAS_EXAM": [
+        0.31331487381578405
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.5233082400877069,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": "",
+      "HAS_LECTURE": [
+        0.21973178909488578
       ],
       "HAS_EXAM": [],
       "HAS_SEMINAR": [],
@@ -2164,12 +2143,27 @@
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.9093385743350908,
+      "id": 0.9457326908889252,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": "",
+      "HAS_LECTURE": [
+        0.663701535426996
+      ],
+      "HAS_EXAM": [
+        0.8062310915389996
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.31244087213150995,
       "code": "01",
       "term": "Summer 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.6927374239016646
+        0.046826270538413706
       ],
       "HAS_EXAM": [],
       "HAS_SEMINAR": [],
@@ -2177,12 +2171,12 @@
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.6777252433403314,
+      "id": 0.5185442054011804,
       "code": "01",
       "term": "Summer 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.7921966456112042
+        0.0066312679903473
       ],
       "HAS_EXAM": [],
       "HAS_SEMINAR": [],
@@ -2190,14 +2184,42 @@
       "HAS_TUTORIAL": []
     },
     {
-      "id": 0.32660385390327007,
+      "id": 0.25910477001985144,
       "code": "01",
       "term": "Summer 2022",
       "INSTRUCTED_BY": "",
       "HAS_LECTURE": [
-        0.411224663151178
+        0.15324491178989685
       ],
       "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.9125500449411148,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": "",
+      "HAS_LECTURE": [
+        0.6285177752201305
+      ],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.6113596132296351,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": "",
+      "HAS_LECTURE": [
+        0.6619952156210318
+      ],
+      "HAS_EXAM": [
+        0.5727603022731202
+      ],
       "HAS_SEMINAR": [],
       "HAS_LAB": [],
       "HAS_TUTORIAL": []
