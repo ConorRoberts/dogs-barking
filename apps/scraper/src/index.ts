@@ -60,8 +60,11 @@ import getNeo4jDriver from "./getNeo4jDriver";
 
     for (const sectionId of course.HAS_SECTION) {
       const section = data.sections.find((e) => e.id === sectionId);
+      const instructor = data.instructors.find((e) => e.id === section.INSTRUCTED_BY);
+
       if (!section) continue;
 
+      // Add section, instructors
       session = driver.session();
       await session.run(
         `   
@@ -77,8 +80,12 @@ import getNeo4jDriver from "./getNeo4jDriver";
 
             CREATE (course)-[:HAS_SECTION]->(section)
 
+            MERGE (section)->[:INSTRUCTED_BY]->(instructor:Instructor {
+                name: $instructorName
+            })
+
         `,
-        { ...section, courseCode: course.code }
+        { ...section, courseCode: course.code, instructorName: instructor.name }
       );
       await session.close();
 
@@ -112,9 +119,98 @@ import getNeo4jDriver from "./getNeo4jDriver";
         );
         await session.close();
       }
+      for (const labId of section.HAS_LAB) {
+        const lab = data.lectures.find((e) => e.id === labId);
+        session = driver.session();
+        await session.run(
+          `
+            MATCH 
+            (course:Course {code :$courseCode})
+            -[:HAS_SECTION]->
+            (section:Section {code: $sectionCode})
+
+            CREATE (lab:Lab {
+                startTime: $endTime,
+                endTime: $endTime,
+                location: $location,
+                room: $room,
+                monday: $monday,
+                tuesday: $tuesday,
+                wednesday: $wednesday,
+                thursday: $thursday,
+                friday: $friday,
+                saturday: $saturday,
+                sunday: $sunday
+            })
+
+            CREATE (section)-[:HAS_LECTURE]->(lecture)
+        `,
+          { ...lab, courseCode: course.code, sectionCode: section.code }
+        );
+        await session.close();
+      }
+      for (const seminarId of section.HAS_SEMINAR) {
+        const seminar = data.seminars.find((e) => e.id === seminarId);
+        session = driver.session();
+        await session.run(
+          `
+            MATCH 
+            (course:Course {code :$courseCode})
+            -[:HAS_SECTION]->
+            (section:Section {code: $sectionCode})
+
+            CREATE (lab:Seminar {
+                startTime: $endTime,
+                endTime: $endTime,
+                location: $location,
+                room: $room,
+                monday: $monday,
+                tuesday: $tuesday,
+                wednesday: $wednesday,
+                thursday: $thursday,
+                friday: $friday,
+                saturday: $saturday,
+                sunday: $sunday
+            })
+
+            CREATE (section)-[:HAS_LECTURE]->(lecture)
+        `,
+          { ...seminar, courseCode: course.code, sectionCode: section.code }
+        );
+        await session.close();
+      }
+      for (const tutorialId of section.HAS_SEMINAR) {
+        const tutorial = data.tutorials.find((e) => e.id === tutorialId);
+        session = driver.session();
+        await session.run(
+          `
+            MATCH 
+            (course:Course {code :$courseCode})
+            -[:HAS_SECTION]->
+            (section:Section {code: $sectionCode})
+
+            CREATE (lab:Tutorial {
+                startTime: $endTime,
+                endTime: $endTime,
+                location: $location,
+                room: $room,
+                monday: $monday,
+                tuesday: $tuesday,
+                wednesday: $wednesday,
+                thursday: $thursday,
+                friday: $friday,
+                saturday: $saturday,
+                sunday: $sunday
+            })
+
+            CREATE (section)-[:HAS_LECTURE]->(lecture)
+        `,
+          { ...tutorial, courseCode: course.code, sectionCode: section.code }
+        );
+        await session.close();
+      }
     }
   }
 
-  await session.close();
   await driver.close();
 })();
