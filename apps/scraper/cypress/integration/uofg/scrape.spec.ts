@@ -86,15 +86,13 @@ describe("Scrape courses from UofG", () => {
               id: Math.random(),
               code: sectionCode,
               term: sectionTerms[groupIndex],
-              INSTRUCTED_BY: "",
+              INSTRUCTED_BY: 0,
               HAS_LECTURE: [],
               HAS_EXAM: [],
               HAS_SEMINAR: [],
               HAS_LAB: [],
               HAS_TUTORIAL: [],
             };
-
-            cy.log(sectionCode);
 
             const sectionId = textElement.getAttribute("id");
 
@@ -105,6 +103,29 @@ describe("Scrape courses from UofG", () => {
               // Is this some hidden garbage that we don't need? If so, skip.
               if (row.getAttribute("style")?.includes("display: none")) return;
 
+              // This is the row that contains instructor data
+              if (index === 0) {
+                // Get the last td in this row
+                const td = row.querySelector("td:last-child");
+                // Select first span within first div of this td
+                const instructorName = td.querySelector("div > span:first-child").textContent.trim();
+
+                // Check for an instructor with a matching name
+                const instructor = instructors.find((i) => i.name === instructorName);
+
+                // If we don't have an instructor with this name, create one
+                if (!instructor) {
+                  const id = Math.random();
+                  instructors.push({
+                    id,
+                    name: instructorName,
+                  });
+                  section.INSTRUCTED_BY = id;
+                } else {
+                  section.INSTRUCTED_BY = instructor.id;
+                }
+              }
+
               // Text content for the "days" attribute
               const daysTextContent = row.querySelector(`#${sectionId}-meeting-days-${index}`)?.textContent?.trim();
 
@@ -114,6 +135,7 @@ describe("Scrape courses from UofG", () => {
                 endTime: row.querySelector(`#${sectionId}-meeting-times-end-${index}`)?.textContent?.trim(),
                 id: Math.random(),
               };
+
               row.querySelectorAll("td.esg-table-body__td.search-sectionlocations div span").forEach((e, itemIndex) => {
                 let text = e?.textContent.trim();
                 if (text.length === 0) return;

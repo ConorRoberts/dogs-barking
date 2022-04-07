@@ -61,8 +61,7 @@ import getNeo4jDriver from "./getNeo4jDriver";
     for (const sectionId of course.HAS_SECTION) {
       const section = data.sections.find((e) => e.id === sectionId);
       const instructor = data.instructors.find((e) => e.id === section.INSTRUCTED_BY);
-
-      if (!section) continue;
+      if (!instructor || !section) continue;
 
       // Add section, instructors
       session = driver.session();
@@ -80,10 +79,11 @@ import getNeo4jDriver from "./getNeo4jDriver";
 
             CREATE (course)-[:HAS_SECTION]->(section)
 
-            MERGE (section)->[:INSTRUCTED_BY]->(instructor:Instructor {
+            MERGE (instructor:Instructor {
                 name: $instructorName
             })
 
+            CREATE (section)-[:INSTRUCTED_BY]->(instructor)
         `,
         { ...section, courseCode: course.code, instructorName: instructor.name }
       );
@@ -91,9 +91,11 @@ import getNeo4jDriver from "./getNeo4jDriver";
 
       for (const lectureId of section.HAS_LECTURE) {
         const lecture = data.lectures.find((e) => e.id === lectureId);
-        session = driver.session();
-        await session.run(
-          `
+        if (!lecture) continue;
+        try {
+          session = driver.session();
+          await session.run(
+            `
             MATCH 
             (course:Course {code :$courseCode})
             -[:HAS_SECTION]->
@@ -115,15 +117,20 @@ import getNeo4jDriver from "./getNeo4jDriver";
 
             CREATE (section)-[:HAS_LECTURE]->(lecture)
         `,
-          { ...lecture, courseCode: course.code, sectionCode: section.code }
-        );
-        await session.close();
+            { ...lecture, courseCode: course.code, sectionCode: section.code }
+          );
+          await session.close();
+        } catch (error) {
+          console.error("Error creating lecture");
+        }
       }
       for (const labId of section.HAS_LAB) {
         const lab = data.lectures.find((e) => e.id === labId);
-        session = driver.session();
-        await session.run(
-          `
+        if (!lab) continue;
+        try {
+          session = driver.session();
+          await session.run(
+            `
             MATCH 
             (course:Course {code :$courseCode})
             -[:HAS_SECTION]->
@@ -143,23 +150,28 @@ import getNeo4jDriver from "./getNeo4jDriver";
                 sunday: $sunday
             })
 
-            CREATE (section)-[:HAS_LECTURE]->(lecture)
+            CREATE (section)-[:HAS_LAB]->(lab)
         `,
-          { ...lab, courseCode: course.code, sectionCode: section.code }
-        );
-        await session.close();
+            { ...lab, courseCode: course.code, sectionCode: section.code }
+          );
+          await session.close();
+        } catch (error) {
+          console.error("Error creating lab");
+        }
       }
       for (const seminarId of section.HAS_SEMINAR) {
         const seminar = data.seminars.find((e) => e.id === seminarId);
-        session = driver.session();
-        await session.run(
-          `
+        if (!seminar) continue;
+        try {
+          session = driver.session();
+          await session.run(
+            `
             MATCH 
             (course:Course {code :$courseCode})
             -[:HAS_SECTION]->
             (section:Section {code: $sectionCode})
 
-            CREATE (lab:Seminar {
+            CREATE (seminar:Seminar {
                 startTime: $endTime,
                 endTime: $endTime,
                 location: $location,
@@ -173,23 +185,28 @@ import getNeo4jDriver from "./getNeo4jDriver";
                 sunday: $sunday
             })
 
-            CREATE (section)-[:HAS_LECTURE]->(lecture)
+            CREATE (section)-[:HAS_SEMINAR]->(seminar)
         `,
-          { ...seminar, courseCode: course.code, sectionCode: section.code }
-        );
-        await session.close();
+            { ...seminar, courseCode: course.code, sectionCode: section.code }
+          );
+          await session.close();
+        } catch (error) {
+          console.error("Error creating seminar");
+        }
       }
       for (const tutorialId of section.HAS_SEMINAR) {
         const tutorial = data.tutorials.find((e) => e.id === tutorialId);
-        session = driver.session();
-        await session.run(
-          `
+        if (!tutorial) continue;
+        try {
+          session = driver.session();
+          await session.run(
+            `
             MATCH 
             (course:Course {code :$courseCode})
             -[:HAS_SECTION]->
             (section:Section {code: $sectionCode})
 
-            CREATE (lab:Tutorial {
+            CREATE (tutorial:Tutorial {
                 startTime: $endTime,
                 endTime: $endTime,
                 location: $location,
@@ -203,11 +220,14 @@ import getNeo4jDriver from "./getNeo4jDriver";
                 sunday: $sunday
             })
 
-            CREATE (section)-[:HAS_LECTURE]->(lecture)
+            CREATE (section)-[:HAS_TUTORIAL]->(tutorial)
         `,
-          { ...tutorial, courseCode: course.code, sectionCode: section.code }
-        );
-        await session.close();
+            { ...tutorial, courseCode: course.code, sectionCode: section.code }
+          );
+          await session.close();
+        } catch (error) {
+          console.error("Error creating tutorial");
+        }
       }
     }
   }
