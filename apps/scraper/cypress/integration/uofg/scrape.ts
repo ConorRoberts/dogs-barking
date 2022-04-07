@@ -51,7 +51,7 @@ describe("Scrape courses from UofG", () => {
           code,
           department: (code.match(/[A-Z]+/g) ?? [])[0],
           number: parseInt((code.match(/[0-9]+/g) ?? [])[0]),
-          title: title.replace(/([A-Z]+\*[0-9]{4})|(\([0-9\.]+ Credits\))/g, "").trim(),
+          name: title.replace(/([A-Z]+\*[0-9]{4})|(\([0-9\.]+ Credits\))/g, "").trim(),
           credits: parseFloat(
             ((title.match(/\([0-9\.]+ Credits\)/) ?? [])[0].match(/[0-9\.]+/g) ?? [] ?? "")[0].trim()
           ),
