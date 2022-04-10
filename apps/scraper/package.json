@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "dev": "ts-node-dev -r tsconfig-paths/register --poll ./src/index.ts",
+        "dev": "ts-node -r tsconfig-paths/register ./src/index.ts",
         "start": "dev"
     },
     "keywords": [],
@@ -11,15 +11,17 @@
     "license": "ISC",
     "dependencies": {
         "@dogs-barking/common": "^1.0.0",
+        "chalk": "4.1.2",
         "cypress": "^9.5.3",
         "neo4j-driver": "^4.4.3",
+        "playwright": "^1.20.2",
         "tsconfig-paths": "^3.12.0",
         "uuid": "^8.3.2"
     },
     "devDependencies": {
         "@types/node": "^17.0.16",
         "@types/uuid": "^8.3.4",
-        "ts-node-dev": "^1.1.8",
+        "ts-node": "latest",
         "typescript": "^4.5.5"
     }
 }
