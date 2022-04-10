@@ -1,5 +1,5 @@
 import { writeFileSync } from "fs";
-import { devices, chromium, ElementHandle } from "playwright";
+import { devices, chromium, ElementHandle } from "@playwright/test";
 import chalk from "chalk";
 import requisiteFormat from "./requisiteFormat";
 

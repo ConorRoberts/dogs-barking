@@ -1,2 +1,5 @@
 .turbo
 dist
+logs.txt
+scrape-data.json
+pnpm-lock.yaml
