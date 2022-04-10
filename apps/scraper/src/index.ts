@@ -66,14 +66,13 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
     console.log(text);
   };
 
-  
-
   log(`Found ${dptLinks.length} departments. Scraping...`);
 
   for (const dpt of dptLinks) {
     const dptPage = await context.newPage();
     const slug = await dpt.getAttribute("href");
     await dptPage.goto(baseUrl + slug);
+    let currentPage = 1;
 
     try {
       // Wait for the first course in the list to render (5s maximum)
@@ -84,7 +83,11 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
 
     log(chalk.blue(await dpt.textContent()));
 
-    const courseElements = await dptPage.locator("#course-resultul > li").elementHandles();
+    let courseElements = await dptPage.locator("#course-resultul > li").elementHandles();
+
+    let firstCourse = ((await courseElements[0].$eval("div div h3 span", (e) => e.textContent))
+      .trim()
+      .match(/[A-Z]{3,4}\*[0-9]{4}/) ?? [])[0].replace(/\*/g, "");
 
     const scrape = async (elements: ElementHandle<Node>[]) => {
       log(`Found ${elements.length} courses`);
@@ -93,6 +96,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
         try {
           const title = (await course.$eval("div div h3 span", (e) => e.textContent)).trim();
           const code = ((title.match(/[A-Z]{3,4}\*[0-9]{4}/) ?? [])[0] ?? "").replace(/\*/g, "");
+          if (!code) continue;
 
           // Get the inner HTML and get all the text before the second <br> element
           // The description text is typically followed by 2x <br> so we just get the HTML + text up until the 2nd <br> then chop off the last 9 characters
@@ -129,7 +133,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
             const label = await metaLabels[idx].textContent();
             const content = await metaContent[idx].textContent();
             if (!label || !content) return;
-            if(label.includes("Req")) {
+            if (label.includes("Req")) {
               courseObj[labels[label.trim()]] = requisiteFormat(content.replace(/\r/g, "").trim());
             } else {
               courseObj[labels[label.trim()]] = content.trim();
@@ -226,7 +230,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
                   )?.trim();
 
                   let meeting: any = {
-                    days: daysTextContent?.length === 0 ? [] : daysTextContent.split("/"),
+                    days: daysTextContent?.length === 0 ? [] : daysTextContent?.split("/") ?? [],
                     startTime: (
                       await (await row.$(`#${sectionId}-meeting-times-start-${rowIndex}`))?.textContent()
                     )?.trim(),
@@ -298,22 +302,46 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
         }
       }
       const hasNextPage = !(await dptPage.locator("#course-results-next-page").isDisabled());
+      const totalPages = await dptPage.locator("#course-results-total-pages").textContent();
+
+      log(chalk.gray(`Current page: ${currentPage}`));
+      log(chalk.gray(`Total pages: ${totalPages}`));
 
       // If there is another page, we need to call scrape again
       // Exit loop if there are no more pages
-      if (hasNextPage) {
+      if (hasNextPage && currentPage < parseInt(totalPages)) {
         log(chalk.green("Triggering next page..."));
         await dptPage.locator("#course-results-next-page").click();
 
         // Wait for all of these conditions to be met before continuing
-        await dptPage.locator("#aria-announcements p", { hasText: "Loading complete." }).waitFor({ state: "attached" });
+        await dptPage.locator("#aria-announcements p").waitFor({ state: "attached" });
         await dptPage.locator("#aria-announcements p").waitFor({ state: "detached" });
         await dptPage.locator("#main-content #loading").waitFor({ state: "hidden" });
+        await dptPage.locator("#course-results-current-page").waitFor({ state: "visible" });
+        await dptPage.locator("#course-results-total-pages").waitFor({ state: "visible" });
+
+        currentPage++;
+
+        let newCourseElements = [];
+        let newFirstCourse = "";
+
+        while (true) {
+          // Get first course in the list
+          newCourseElements = await dptPage.locator("#course-resultul > li").elementHandles();
+          newFirstCourse = ((await newCourseElements[0].$eval("div div h3 span", (e) => e.textContent))
+            .trim()
+            .match(/[A-Z]{3,4}\*[0-9]{4}/) ?? [])[0].replace(/\*/g, "");
+
+          log(chalk.yellow(`Have courses ${firstCourse} and ${newFirstCourse}`));
+          if (newFirstCourse !== firstCourse) break;
+        }
+
+        courseElements = newCourseElements;
+        firstCourse = newFirstCourse;
 
         log(chalk.green("Scraping next page..."));
 
-        const newCourseElements = await dptPage.locator("#course-resultul > li").elementHandles();
-        await scrape(newCourseElements);
+        await scrape(courseElements);
       }
     };
 
