@@ -1,7 +1,6 @@
 import { writeFileSync } from "fs";
 import { devices, chromium, ElementHandle } from "playwright";
 import chalk from "chalk";
-import { replace } from "lodash";
 import requisiteFormat from "./requisiteFormat";
 
 const labels = {
