@@ -18,7 +18,7 @@
 00:03s	[90mSection code: 0105[39m
 00:03s	[90mInstructor name: Senkl, D[39m
 00:03s	[90mSection code: 0106[39m
-00:04s	[90mInstructor name: Senkl, D[39m
+00:03s	[90mInstructor name: Senkl, D[39m
 00:04s	[90mSection code: 0107[39m
 00:04s	[90mInstructor name: Senkl, D[39m
 00:04s	[90mSection code: 0108[39m
@@ -37,11 +37,11 @@
 00:04s	[90mInstructor name: Senkl, D[39m
 00:04s	[90mSection code: 0215[39m
 00:04s	[90mInstructor name: Senkl, D[39m
-00:05s	[90mSection code: DE01[39m
-00:05s	[90mInstructor name: Nasreen, T[39m
-00:05s	[94mACCT1240 (1)[39m
-00:05s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:05s	[90mClicking section button[39m
+00:04s	[90mSection code: DE01[39m
+00:04s	[90mInstructor name: Nasreen, T[39m
+00:04s	[94mACCT1240 (1)[39m
+00:04s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
+00:04s	[90mClicking section button[39m
 00:05s	[90mFound section list[39m
 00:05s	[90mWinter 2022[39m
 00:05s	[90mFound 1 section groups[39m
@@ -52,13 +52,13 @@
 00:05s	[94mACCT2230 (2)[39m
 00:05s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
 00:05s	[90mClicking section button[39m
-00:06s	[90mFound section list[39m
-00:06s	[90mWinter 2022, Summer 2022[39m
-00:06s	[90mFound 2 section groups[39m
-00:06s	[90mSection code: 01[39m
-00:06s	[90mInstructor name: Ghattas, P[39m
-00:06s	[90mSection code: DE01[39m
-00:06s	[90mInstructor name: Ghattas, P[39m
+00:05s	[90mFound section list[39m
+00:05s	[90mWinter 2022, Summer 2022[39m
+00:05s	[90mFound 2 section groups[39m
+00:05s	[90mSection code: 01[39m
+00:05s	[90mInstructor name: Ghattas, P[39m
+00:05s	[90mSection code: DE01[39m
+00:05s	[90mInstructor name: Ghattas, P[39m
 00:06s	[90mSection code: DE01[39m
 00:06s	[90mInstructor name: Dhaliwal, S[39m
 00:06s	[94mACCT3230 (3)[39m
@@ -69,17 +69,17 @@
 00:06s	[90mFound 2 section groups[39m
 00:06s	[90mSection code: 01[39m
 00:06s	[90mInstructor name: Lassou, P[39m
-00:07s	[90mSection code: 02[39m
-00:07s	[90mInstructor name: Lassou, P[39m
-00:07s	[90mSection code: 01[39m
-00:07s	[90mInstructor name: Murison, R[39m
-00:07s	[94mACCT3280 (4)[39m
-00:07s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:07s	[90mClicking section button[39m
-00:07s	[90mFound section list[39m
-00:07s	[90mSummer 2022[39m
-00:07s	[90mFound 1 section groups[39m
-00:07s	[90mSection code: 01[39m
+00:06s	[90mSection code: 02[39m
+00:06s	[90mInstructor name: Lassou, P[39m
+00:06s	[90mSection code: 01[39m
+00:06s	[90mInstructor name: Murison, R[39m
+00:06s	[94mACCT3280 (4)[39m
+00:06s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
+00:06s	[90mClicking section button[39m
+00:06s	[90mFound section list[39m
+00:06s	[90mSummer 2022[39m
+00:06s	[90mFound 1 section groups[39m
+00:06s	[90mSection code: 01[39m
 00:07s	[90mInstructor name: Zavitz, C[39m
 00:07s	[94mACCT3330 (5)[39m
 00:07s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
@@ -87,16 +87,16 @@
 00:07s	[90mFound section list[39m
 00:07s	[90mWinter 2022, Summer 2022[39m
 00:07s	[90mFound 2 section groups[39m
-00:08s	[90mSection code: 01[39m
-00:08s	[90mInstructor name: Murison, R[39m
-00:08s	[90mSection code: 02[39m
-00:08s	[90mInstructor name: Murison, R[39m
-00:08s	[90mSection code: DE01[39m
-00:08s	[90mInstructor name: Wick, S[39m
-00:08s	[94mACCT3340 (6)[39m
-00:08s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:08s	[90mClicking section button[39m
-00:08s	[90mFound section list[39m
+00:07s	[90mSection code: 01[39m
+00:07s	[90mInstructor name: Murison, R[39m
+00:07s	[90mSection code: 02[39m
+00:07s	[90mInstructor name: Murison, R[39m
+00:07s	[90mSection code: DE01[39m
+00:07s	[90mInstructor name: Wick, S[39m
+00:07s	[94mACCT3340 (6)[39m
+00:07s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
+00:07s	[90mClicking section button[39m
+00:07s	[90mFound section list[39m
 00:08s	[90mSummer 2022[39m
 00:08s	[90mFound 1 section groups[39m
 00:08s	[90mSection code: 01[39m
@@ -108,16 +108,16 @@
 00:08s	[90mSummer 2022[39m
 00:08s	[90mFound 1 section groups[39m
 00:08s	[90mSection code: 01[39m
-00:09s	[90mInstructor name: Dhaliwal, S[39m
-00:09s	[94mACCT4220 (8)[39m
-00:09s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:09s	[90mClicking section button[39m
-00:09s	[90mFound section list[39m
-00:09s	[90mWinter 2022[39m
-00:09s	[90mFound 1 section groups[39m
-00:09s	[90mSection code: 01[39m
-00:09s	[90mInstructor name: Baker, R[39m
-00:09s	[94mACCT4230 (9)[39m
+00:08s	[90mInstructor name: Dhaliwal, S[39m
+00:08s	[94mACCT4220 (8)[39m
+00:08s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
+00:08s	[90mClicking section button[39m
+00:08s	[90mFound section list[39m
+00:08s	[90mWinter 2022[39m
+00:08s	[90mFound 1 section groups[39m
+00:08s	[90mSection code: 01[39m
+00:08s	[90mInstructor name: Baker, R[39m
+00:08s	[94mACCT4230 (9)[39m
 00:09s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
 00:09s	[90mClicking section button[39m
 00:09s	[90mFound section list[39m
@@ -125,37 +125,37 @@
 00:09s	[90mFound 1 section groups[39m
 00:09s	[90mSection code: 01[39m
 00:09s	[90mInstructor name: Jagoda, K[39m
+00:09s	[90mSection code: 02[39m
+00:09s	[90mInstructor name: Jagoda, K[39m
+00:09s	[94mACCT4270 (10)[39m
+00:09s	[94mACCT4290 (11)[39m
+00:09s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
+00:09s	[90mClicking section button[39m
+00:09s	[90mFound section list[39m
+00:09s	[90mWinter 2022[39m
+00:09s	[90mFound 1 section groups[39m
+00:09s	[90mSection code: 01[39m
+00:09s	[90mInstructor name: Hayes, L[39m
 00:10s	[90mSection code: 02[39m
-00:10s	[90mInstructor name: Jagoda, K[39m
-00:10s	[94mACCT4270 (10)[39m
-00:10s	[94mACCT4290 (11)[39m
+00:10s	[90mInstructor name: Hayes, L[39m
+00:10s	[94mACCT4340 (12)[39m
 00:10s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
 00:10s	[90mClicking section button[39m
 00:10s	[90mFound section list[39m
 00:10s	[90mWinter 2022[39m
 00:10s	[90mFound 1 section groups[39m
 00:10s	[90mSection code: 01[39m
-00:10s	[90mInstructor name: Hayes, L[39m
-00:10s	[90mSection code: 02[39m
-00:10s	[90mInstructor name: Hayes, L[39m
-00:10s	[94mACCT4340 (12)[39m
+00:10s	[90mInstructor name: Baker, R[39m
+00:10s	[94mACCT4350 (13)[39m
+00:10s	[94mACCT4440 (14)[39m
 00:10s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
 00:10s	[90mClicking section button[39m
-00:11s	[90mFound section list[39m
-00:11s	[90mWinter 2022[39m
-00:11s	[90mFound 1 section groups[39m
-00:11s	[90mSection code: 01[39m
-00:11s	[90mInstructor name: Baker, R[39m
-00:11s	[94mACCT4350 (13)[39m
-00:11s	[94mACCT4440 (14)[39m
-00:11s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:11s	[90mClicking section button[39m
-00:11s	[90mFound section list[39m
-00:11s	[90mWinter 2022[39m
-00:11s	[90mFound 1 section groups[39m
-00:11s	[90mSection code: 01[39m
-00:11s	[90mInstructor name: Ghattas, P[39m
-00:11s	[94mACCT6100 (15)[39m
+00:10s	[90mFound section list[39m
+00:10s	[90mWinter 2022[39m
+00:10s	[90mFound 1 section groups[39m
+00:10s	[90mSection code: 01[39m
+00:10s	[90mInstructor name: Ghattas, P[39m
+00:10s	[94mACCT6100 (15)[39m
 00:11s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
 00:11s	[90mClicking section button[39m
 00:11s	[90mFound section list[39m
@@ -164,16 +164,16 @@
 00:11s	[90mSection code: 01[39m
 00:11s	[90mInstructor name: Matthews, K[39m
 00:11s	[94mACCT6200 (16)[39m
-00:12s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:12s	[90mClicking section button[39m
-00:12s	[90mFound section list[39m
-00:12s	[90mSummer 2022[39m
-00:12s	[90mFound 1 section groups[39m
-00:12s	[90mSection code: 01[39m
-00:12s	[90mInstructor name: Wick, S[39m
-00:12s	[94mACCT6300 (17)[39m
-00:12s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:12s	[90mClicking section button[39m
+00:11s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
+00:11s	[90mClicking section button[39m
+00:11s	[90mFound section list[39m
+00:11s	[90mSummer 2022[39m
+00:11s	[90mFound 1 section groups[39m
+00:11s	[90mSection code: 01[39m
+00:11s	[90mInstructor name: Wick, S[39m
+00:11s	[94mACCT6300 (17)[39m
+00:11s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
+00:11s	[90mClicking section button[39m
 00:12s	[90mFound section list[39m
 00:12s	[90mSummer 2022[39m
 00:12s	[90mFound 1 section groups[39m
@@ -183,1210 +183,9 @@
 00:12s	[94mACCT6500 (19)[39m
 00:12s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
 00:12s	[90mClicking section button[39m
-00:13s	[90mFound section list[39m
-00:13s	[90mSummer 2022[39m
-00:13s	[90mFound 1 section groups[39m
-00:13s	[90mSection code: 01[39m
-00:13s	[90mInstructor name: Zavitz, C[39m
-00:13s	[94mACCT6600 (20)[39m
-00:13s	[32mDepartment finished. Saved to file.[39m
-00:13s	[34mAgriculture[39m
-00:13s	Found 16 courses
-00:13s	[94mAGR1110 (0)[39m
-00:13s	[94mAGR1350 (1)[39m
-00:13s	[94mAGR2050 (2)[39m
-00:13s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:13s	[90mClicking section button[39m
-00:14s	[90mFound section list[39m
-00:14s	[90mWinter 2022[39m
-00:14s	[90mFound 1 section groups[39m
-00:14s	[90mSection code: 01[39m
-00:14s	[90mInstructor name: Sulik, J[39m
-00:14s	[94mAGR2150 (3)[39m
-00:14s	[94mAGR2320 (4)[39m
-00:14s	[94mAGR2350 (5)[39m
-00:14s	[94mAGR2470 (6)[39m
-00:14s	[94mAGR2500 (7)[39m
-00:14s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:14s	[90mClicking section button[39m
-00:14s	[90mFound section list[39m
-00:14s	[90mWinter 2022[39m
-00:14s	[90mFound 1 section groups[39m
-00:14s	[90mSection code: 01[39m
-00:14s	[90mInstructor name: Jones, A[39m
-00:14s	[94mAGR3010 (8)[39m
-00:14s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:14s	[90mClicking section button[39m
-00:15s	[90mFound section list[39m
-00:15s	[90mWinter 2022, Summer 2022[39m
-00:15s	[90mFound 2 section groups[39m
-00:15s	[90mSection code: 01[39m
-00:15s	[90mInstructor name: Tardif, F[39m
-00:15s	[90mSection code: 01[39m
-00:15s	[90mInstructor name: Tardif, F[39m
-00:15s	[94mAGR3200 (9)[39m
-00:15s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:15s	[90mClicking section button[39m
-00:15s	[90mFound section list[39m
-00:15s	[90mWinter 2022[39m
-00:15s	[90mFound 1 section groups[39m
-00:15s	[90mSection code: 0101[39m
-00:15s	[90mInstructor name: Tulpan, D[39m
-00:15s	[94mAGR3450 (10)[39m
-00:15s	[94mAGR4010 (11)[39m
-00:15s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:15s	[90mClicking section button[39m
-00:16s	[90mFound section list[39m
-00:16s	[90mWinter 2022, Summer 2022[39m
-00:16s	[90mFound 2 section groups[39m
-00:16s	[90mSection code: 01[39m
-00:16s	[90mInstructor name: Robinson, A[39m
-00:16s	[90mSection code: 01[39m
-00:16s	[90mInstructor name: Robinson, A[39m
-00:16s	[94mAGR4020 (12)[39m
-00:16s	[94mAGR4450 (13)[39m
-00:16s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:16s	[90mClicking section button[39m
-00:16s	[90mFound section list[39m
-00:16s	[90mWinter 2022, Summer 2022[39m
-00:16s	[90mFound 2 section groups[39m
-00:16s	[90mSection code: 01[39m
-00:16s	[90mInstructor name: Kalischuk, M[39m
-00:16s	[90mSection code: 01[39m
-00:16s	[90mInstructor name: Kalischuk, M[39m
-00:16s	[94mAGR4460 (14)[39m
-00:16s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:16s	[90mClicking section button[39m
-00:16s	[90mFound section list[39m
-00:17s	[90mWinter 2022, Summer 2022[39m
-00:17s	[90mFound 2 section groups[39m
-00:17s	[90mSection code: 01[39m
-00:17s	[90mInstructor name: Kalischuk, M[39m
-00:17s	[90mSection code: 01[39m
-00:17s	[90mInstructor name: Kalischuk, M[39m
-00:17s	[94mAGR4600 (15)[39m
-00:17s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:17s	[90mClicking section button[39m
-00:17s	[90mFound section list[39m
-00:17s	[90mWinter 2022[39m
-00:17s	[90mFound 1 section groups[39m
-00:17s	[90mSection code: 01[39m
-00:17s	[90mInstructor name: Osborne, V[39m
-00:17s	[90mSection code: 02[39m
-00:17s	[90mInstructor name: Osborne, V[39m
-00:17s	[32mDepartment finished. Saved to file.[39m
-00:18s	[34mAgriculture (Diploma)[39m
-00:18s	Found 30 courses
-00:18s	[94mDAGR1000 (0)[39m
-00:18s	[94mDAGR1070 (1)[39m
-00:18s	[94mDAGR1090 (2)[39m
-00:18s	[94mDAGR1200 (3)[39m
-00:18s	[94mDAGR1300 (4)[39m
-00:18s	[94mDAGR1350 (5)[39m
-00:18s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:18s	[90mClicking section button[39m
-00:18s	[90mFound section list[39m
-00:18s	[90mWinter 2022[39m
-00:18s	[90mFound 1 section groups[39m
-00:18s	[90mSection code: R101[39m
-00:18s	[90mInstructor name: Poehlman, T[39m
-00:19s	[90mSection code: R102[39m
-00:19s	[90mInstructor name: Poehlman, T[39m
-00:19s	[90mSection code: R103[39m
-00:19s	[90mInstructor name: Poehlman, T[39m
-00:19s	[90mSection code: R104[39m
-00:19s	[90mInstructor name: Poehlman, T[39m
-00:19s	[94mDAGR1600 (6)[39m
-00:19s	[94mDAGR2000 (7)[39m
-00:19s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:19s	[90mClicking section button[39m
-00:20s	[90mFound section list[39m
-00:20s	[90mWinter 2022[39m
-00:20s	[90mFound 1 section groups[39m
-00:20s	[90mSection code: R101[39m
-00:20s	[90mInstructor name: Mikel, C[39m
-00:20s	[90mSection code: R102[39m
-00:20s	[90mInstructor name: Mikel, C[39m
-00:20s	[90mSection code: R104[39m
-00:20s	[90mInstructor name: Mikel, C[39m
-00:20s	[94mDAGR2020 (8)[39m
-00:20s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:20s	[90mClicking section button[39m
-00:20s	[90mFound section list[39m
-00:20s	[90mWinter 2022[39m
-00:20s	[90mFound 1 section groups[39m
-00:20s	[90mSection code: R101[39m
-00:20s	[90mInstructor name: Baresich, C[39m
-00:20s	[94mDAGR2090 (9)[39m
-00:20s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:20s	[90mClicking section button[39m
-00:21s	[90mFound section list[39m
-00:21s	[90mWinter 2022[39m
-00:21s	[90mFound 1 section groups[39m
-00:21s	[90mSection code: R101[39m
-00:21s	[90mInstructor name: Cunningham, L[39m
-00:21s	[90mSection code: R102[39m
-00:21s	[90mInstructor name: Cunningham, L[39m
-00:21s	[90mSection code: R103[39m
-00:21s	[90mInstructor name: Cunningham, L[39m
-00:21s	[90mSection code: R104[39m
-00:21s	[90mInstructor name: Cunningham, L[39m
-00:21s	[90mSection code: R105[39m
-00:21s	[90mInstructor name: Cunningham, L[39m
-00:21s	[90mSection code: R210[39m
-00:21s	[90mInstructor name: Cunningham, L[39m
-00:21s	[94mDAGR2150 (10)[39m
-00:21s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:21s	[90mClicking section button[39m
-00:22s	[90mFound section list[39m
-00:22s	[90mWinter 2022[39m
-00:22s	[90mFound 1 section groups[39m
-00:22s	[90mSection code: R101[39m
-00:22s	[90mInstructor name: Rabe, N[39m
-00:22s	[94mDAGR2170 (11)[39m
-00:22s	[94mDAGR2180 (12)[39m
-00:22s	[94mDAGR2200 (13)[39m
-00:22s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:22s	[90mClicking section button[39m
-00:22s	[90mFound section list[39m
-00:22s	[90mWinter 2022[39m
-00:22s	[90mFound 1 section groups[39m
-00:22s	[90mSection code: R101[39m
-00:22s	[90mInstructor name: Gillard, C[39m
-00:23s	[90mSection code: R102[39m
-00:23s	[90mInstructor name: Gillard, C[39m
-00:23s	[94mDAGR2210 (14)[39m
-00:23s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:23s	[90mClicking section button[39m
-00:23s	[90mFound section list[39m
-00:23s	[90mWinter 2022[39m
-00:23s	[90mFound 1 section groups[39m
-00:23s	[90mSection code: R101[39m
-00:23s	[90mInstructor name: Robinson, D[39m
-00:23s	[90mSection code: R102[39m
-00:23s	[90mInstructor name: Robinson, D[39m
-00:23s	[90mSection code: R103[39m
-00:23s	[90mInstructor name: Robinson, D[39m
-00:24s	[90mSection code: R104[39m
-00:24s	[90mInstructor name: Robinson, D[39m
-00:24s	[94mDAGR2220 (15)[39m
-00:24s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:24s	[90mClicking section button[39m
-00:24s	[90mFound section list[39m
-00:24s	[90mWinter 2022[39m
-00:24s	[90mFound 1 section groups[39m
-00:24s	[90mSection code: R101[39m
-00:24s	[90mInstructor name: Robinson, D[39m
-00:24s	[94mDAGR2360 (16)[39m
-00:24s	[94mDAGR3000 (17)[39m
-00:24s	[94mDAGR3040 (18)[39m
-00:24s	[94mDAGR3070 (19)[39m
-00:24s	[94mDAGR3080 (20)[39m
-00:24s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:24s	[90mClicking section button[39m
-00:25s	[90mFound section list[39m
-00:25s	[90mWinter 2022[39m
-00:25s	[90mFound 1 section groups[39m
-00:25s	[90mSection code: R101[39m
-00:25s	[90mInstructor name: Luimes, P[39m
-00:25s	[94mDAGR3130 (21)[39m
-00:25s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:25s	[90mClicking section button[39m
-00:25s	[90mFound section list[39m
-00:25s	[90mWinter 2022[39m
-00:25s	[90mFound 1 section groups[39m
-00:25s	[90mSection code: R101[39m
-00:25s	[90mInstructor name: Kay, G[39m
-00:25s	[94mDAGR3170 (22)[39m
-00:25s	[94mDAGR3180 (23)[39m
-00:25s	[94mDAGR3200 (24)[39m
-00:25s	[94mDAGR3210 (25)[39m
-00:25s	[94mDAGR3250 (26)[39m
-00:25s	[94mDAGR3260 (27)[39m
-00:25s	[94mDAGR3370 (28)[39m
-00:25s	[94mDAGR3510 (29)[39m
-00:25s	[32mTriggering next page...[39m
-00:26s	[32mScraping next page...[39m
-00:26s	Found 17 courses
-00:26s	[94mDAGR3900 (0)[39m
-00:26s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:26s	[90mClicking section button[39m
-00:26s	[90mFound section list[39m
-00:26s	[90mWinter 2022[39m
-00:26s	[90mFound 1 section groups[39m
-00:26s	[90mSection code: R101[39m
-00:26s	[90mInstructor name: TBD[39m
-00:26s	[31mCannot read properties of undefined (reading 'split')[39m
-00:26s	[94mDAGR4010 (1)[39m
-00:26s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:26s	[90mClicking section button[39m
-00:27s	[90mFound section list[39m
-00:27s	[90mWinter 2022[39m
-00:27s	[90mFound 1 section groups[39m
-00:27s	[90mSection code: R101[39m
-00:27s	[90mInstructor name: Burlatschenko, S[39m
-00:27s	[94mDAGR4020 (2)[39m
-00:27s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:27s	[90mClicking section button[39m
-00:27s	[90mFound section list[39m
-00:27s	[90mWinter 2022[39m
-00:27s	[90mFound 1 section groups[39m
-00:27s	[90mSection code: R101[39m
-00:27s	[90mInstructor name: Mikel, C[39m
-00:27s	[94mDAGR4040 (3)[39m
-00:27s	[94mDAGR4090 (4)[39m
-00:28s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:28s	[90mClicking section button[39m
-00:28s	[90mFound section list[39m
-00:28s	[90mWinter 2022[39m
-00:28s	[90mFound 1 section groups[39m
-00:28s	[90mSection code: R101[39m
-00:28s	[90mInstructor name: Cunningham, L[39m
-00:28s	[94mDAGR4100 (5)[39m
-00:28s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:28s	[90mClicking section button[39m
-00:28s	[90mFound section list[39m
-00:28s	[90mWinter 2022[39m
-00:28s	[90mFound 1 section groups[39m
-00:28s	[90mSection code: R101[39m
-00:28s	[90mInstructor name: McClure, G[39m
-00:28s	[94mDAGR4150 (6)[39m
-00:28s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:28s	[90mClicking section button[39m
-00:29s	[90mFound section list[39m
-00:29s	[90mWinter 2022[39m
-00:29s	[90mFound 1 section groups[39m
-00:29s	[90mSection code: R101[39m
-00:29s	[90mInstructor name: Gilroyed, B[39m
-00:29s	[94mDAGR4180 (7)[39m
-00:29s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:29s	[90mClicking section button[39m
-00:29s	[90mFound section list[39m
-00:29s	[90mWinter 2022[39m
-00:29s	[90mFound 1 section groups[39m
-00:29s	[90mSection code: R101[39m
-00:29s	[90mInstructor name: Burnett, T[39m
-00:29s	[94mDAGR4190 (8)[39m
-00:29s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:29s	[90mClicking section button[39m
-00:30s	[90mFound section list[39m
-00:30s	[90mWinter 2022[39m
-00:30s	[90mFound 1 section groups[39m
-00:30s	[90mSection code: R101[39m
-00:30s	[90mInstructor name: Luimes, P[39m
-00:30s	[94mDAGR4200 (9)[39m
-00:30s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:30s	[90mClicking section button[39m
-00:30s	[90mFound section list[39m
-00:30s	[90mWinter 2022[39m
-00:30s	[90mFound 1 section groups[39m
-00:30s	[90mSection code: R101[39m
-00:30s	[90mInstructor name: Young, D[39m
-00:30s	[94mDAGR4210 (10)[39m
-00:30s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:30s	[90mClicking section button[39m
-00:31s	[90mFound section list[39m
-00:31s	[90mWinter 2022[39m
-00:31s	[90mFound 1 section groups[39m
-00:31s	[90mSection code: R101[39m
-00:31s	[90mInstructor name: Hooker, D[39m
-00:31s	[94mDAGR4220 (11)[39m
-00:31s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:31s	[90mClicking section button[39m
-00:31s	[90mFound section list[39m
-00:31s	[90mWinter 2022[39m
-00:31s	[90mFound 1 section groups[39m
-00:31s	[90mSection code: R101[39m
-00:31s	[90mInstructor name: Van Eerd, L[39m
-00:31s	[94mDAGR4350 (12)[39m
-00:31s	[94mDAGR4370 (13)[39m
-00:31s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:31s	[90mClicking section button[39m
-00:32s	[90mFound section list[39m
-00:32s	[90mWinter 2022[39m
-00:32s	[90mFound 1 section groups[39m
-00:32s	[90mSection code: R101[39m
-00:32s	[90mInstructor name: Burnett, T[39m
-00:32s	[94mDAGR4600 (14)[39m
-00:32s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:32s	[90mClicking section button[39m
-00:32s	[90mFound section list[39m
-00:32s	[90mWinter 2022[39m
-00:32s	[90mFound 1 section groups[39m
-00:32s	[90mSection code: R101[39m
-00:32s	[90mInstructor name: Cunningham, L[39m
-00:32s	[94mDAGR4610 (15)[39m
-00:32s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:32s	[90mClicking section button[39m
-00:32s	[90mFound section list[39m
-00:32s	[90mWinter 2022[39m
-00:32s	[90mFound 1 section groups[39m
-00:32s	[90mSection code: R101[39m
-00:32s	[90mInstructor name: Baresich, C[39m
-00:33s	[94mDAGR4650 (16)[39m
-00:33s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:33s	[90mClicking section button[39m
-00:33s	[90mFound section list[39m
-00:33s	[90mWinter 2022[39m
-00:33s	[90mFound 1 section groups[39m
-00:33s	[90mSection code: R101[39m
-00:33s	[90mInstructor name: Baresich, C[39m
-00:33s	[32mDepartment finished. Saved to file.[39m
-00:34s	[34mAnimal Science[39m
-00:34s	Found 30 courses
-00:34s	[94mANSC2210 (0)[39m
-00:34s	[94mANSC2340 (1)[39m
-00:34s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:34s	[90mClicking section button[39m
-00:34s	[90mFound section list[39m
-00:34s	[90mWinter 2022[39m
-00:34s	[90mFound 1 section groups[39m
-00:34s	[90mSection code: 01[39m
-00:34s	[90mInstructor name: Mandell, I[39m
-00:34s	[94mANSC3040 (2)[39m
-00:34s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:34s	[90mClicking section button[39m
-00:36s	[90mFound section list[39m
-00:36s	[90mWinter 2022[39m
-00:36s	[90mFound 1 section groups[39m
-00:36s	[90mSection code: 0101[39m
-00:36s	[90mInstructor name: Werry, N[39m
-00:36s	[90mSection code: 0102[39m
-00:36s	[90mInstructor name: Werry, N[39m
-00:36s	[90mSection code: 0103[39m
-00:36s	[90mInstructor name: Werry, N[39m
-00:36s	[90mSection code: 0104[39m
-00:36s	[90mInstructor name: Werry, N[39m
-00:36s	[90mSection code: 0105[39m
-00:36s	[90mInstructor name: Werry, N[39m
-00:36s	[90mSection code: 0106[39m
-00:36s	[90mInstructor name: Werry, N[39m
-00:36s	[90mSection code: 0107[39m
-00:36s	[90mInstructor name: Werry, N[39m
-00:37s	[90mSection code: 0108[39m
-00:37s	[90mInstructor name: Werry, N[39m
-00:37s	[90mSection code: 0109[39m
-00:37s	[90mInstructor name: Werry, N[39m
-00:37s	[90mSection code: 0110[39m
-00:37s	[90mInstructor name: Werry, N[39m
-00:37s	[94mANSC3050 (3)[39m
-00:37s	[94mANSC3080 (4)[39m
-00:37s	[94mANSC3090 (5)[39m
-00:37s	[94mANSC3120 (6)[39m
-00:37s	[94mANSC3170 (7)[39m
-00:37s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:37s	[90mClicking section button[39m
-00:37s	[90mFound section list[39m
-00:37s	[90mWinter 2022[39m
-00:37s	[90mFound 1 section groups[39m
-00:37s	[90mSection code: 01[39m
-00:37s	[90mInstructor name: Bureau, D[39m
-00:37s	[90mSection code: 02[39m
-00:37s	[90mInstructor name: Bureau, D[39m
-00:37s	[94mANSC3180 (8)[39m
-00:38s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:38s	[90mClicking section button[39m
-00:38s	[90mFound section list[39m
-00:38s	[90mWinter 2022[39m
-00:38s	[90mFound 1 section groups[39m
-00:38s	[90mSection code: 01[39m
-00:38s	[90mInstructor name: Cargo-Froom, C[39m
-00:38s	[94mANSC3270 (9)[39m
-00:38s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:38s	[90mClicking section button[39m
-00:38s	[90mFound section list[39m
-00:38s	[90mWinter 2022[39m
-00:38s	[90mFound 1 section groups[39m
-00:38s	[90mSection code: 01[39m
-00:38s	[90mInstructor name: Karrow, N[39m
-00:38s	[94mANSC4010 (10)[39m
-00:38s	[94mANSC4040 (11)[39m
-00:39s	[94mANSC4050 (12)[39m
-00:39s	[94mANSC4090 (13)[39m
-00:39s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:39s	[90mClicking section button[39m
-00:39s	[90mFound section list[39m
-00:39s	[90mWinter 2022[39m
-00:39s	[90mFound 1 section groups[39m
-00:39s	[90mSection code: 01[39m
-00:39s	[90mInstructor name: Widowski, T[39m
-00:39s	[90mSection code: AU01[39m
-00:39s	[90mInstructor name: TBD[39m
-00:39s	[31mCannot read properties of undefined (reading 'split')[39m
-00:39s	[94mANSC4100 (14)[39m
-00:39s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:39s	[90mClicking section button[39m
-00:39s	[90mFound section list[39m
-00:39s	[90mWinter 2022[39m
-00:39s	[90mFound 1 section groups[39m
-00:39s	[90mSection code: 01[39m
-00:39s	[90mInstructor name: Osborne, V[39m
-00:40s	[90mSection code: 02[39m
-00:40s	[90mInstructor name: Osborne, V[39m
-00:40s	[94mANSC4230 (15)[39m
-00:40s	[94mANSC4260 (16)[39m
-00:40s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:40s	[90mClicking section button[39m
-00:40s	[90mFound section list[39m
-00:40s	[90mWinter 2022[39m
-00:40s	[90mFound 1 section groups[39m
-00:40s	[90mSection code: 0101[39m
-00:40s	[90mInstructor name: Wood, K[39m
-00:40s	[94mANSC4270 (17)[39m
-00:40s	[94mANSC4280 (18)[39m
-00:40s	[94mANSC4290 (19)[39m
-00:40s	[94mANSC4350 (20)[39m
-00:40s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:40s	[90mClicking section button[39m
-00:41s	[90mFound section list[39m
-00:41s	[90mWinter 2022[39m
-00:41s	[90mFound 1 section groups[39m
-00:41s	[90mSection code: 01[39m
-00:41s	[90mInstructor name: Squires, J[39m
-00:41s	[94mANSC4470 (21)[39m
-00:41s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:41s	[90mClicking section button[39m
-00:41s	[90mFound section list[39m
-00:41s	[90mWinter 2022[39m
-00:41s	[90mFound 1 section groups[39m
-00:41s	[90mSection code: 01[39m
-00:41s	[90mInstructor name: Kedzierski, P[39m
-00:41s	[94mANSC4490 (22)[39m
-00:41s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:41s	[90mClicking section button[39m
-00:41s	[90mFound section list[39m
-00:41s	[90mWinter 2022[39m
-00:41s	[90mFound 1 section groups[39m
-00:41s	[90mSection code: 01[39m
-00:41s	[90mInstructor name: Squires, J[39m
-00:42s	[94mANSC4560 (23)[39m
-00:42s	[94mANSC4610 (24)[39m
-00:42s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:42s	[90mClicking section button[39m
-00:42s	[90mFound section list[39m
-00:42s	[90mWinter 2022[39m
-00:42s	[90mFound 1 section groups[39m
-00:42s	[90mSection code: 01[39m
-00:42s	[90mInstructor name: Fan, M[39m
-00:42s	[94mANSC4650 (25)[39m
-00:42s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:42s	[90mClicking section button[39m
-00:42s	[90mFound section list[39m
-00:42s	[90mWinter 2022[39m
-00:42s	[90mFound 1 section groups[39m
-00:42s	[90mSection code: 01[39m
-00:42s	[90mInstructor name: Karrow, N[39m
-00:42s	[94mANSC4700 (26)[39m
-00:42s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:42s	[90mClicking section button[39m
-00:43s	[90mFound section list[39m
-00:43s	[90mWinter 2022[39m
-00:43s	[90mFound 1 section groups[39m
-00:43s	[90mSection code: 01[39m
-00:43s	[90mInstructor name: Li, J[39m
-00:43s	[94mANSC4710 (27)[39m
-00:43s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:43s	[90mClicking section button[39m
-00:43s	[90mFound section list[39m
-00:43s	[90mWinter 2022[39m
-00:43s	[90mFound 1 section groups[39m
-00:43s	[90mSection code: 01[39m
-00:43s	[90mInstructor name: Li, J[39m
-00:43s	[94mANSC6010 (28)[39m
-00:43s	[94mANSC6030 (29)[39m
-00:43s	[32mTriggering next page...[39m
-00:44s	[32mScraping next page...[39m
-00:44s	Found 25 courses
-00:44s	[94mANSC6050 (0)[39m
-00:44s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:44s	[90mClicking section button[39m
-00:44s	[90mFound section list[39m
-00:44s	[90mWinter 2022[39m
-00:44s	[90mFound 1 section groups[39m
-00:44s	[90mSection code: 0101[39m
-00:44s	[90mInstructor name: Baes, C[39m
-00:44s	[94mANSC6070 (1)[39m
-00:44s	[94mANSC6100 (2)[39m
-00:44s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:44s	[90mClicking section button[39m
-00:45s	[90mFound section list[39m
-00:45s	[90mWinter 2022, Summer 2022[39m
-00:45s	[90mFound 2 section groups[39m
-00:45s	[90mSection code: 0101[39m
-00:45s	[90mInstructor name: Tulpan, D[39m
-00:45s	[90mSection code: 02[39m
-00:45s	[90mInstructor name: Karrow, N[39m
-00:45s	[90mSection code: AU01[39m
-00:45s	[90mInstructor name: TBD[39m
-00:45s	[31mCannot read properties of undefined (reading 'split')[39m
-00:45s	[94mANSC6210 (3)[39m
-00:45s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:45s	[90mClicking section button[39m
-00:45s	[90mFound section list[39m
-00:45s	[90mWinter 2022[39m
-00:45s	[90mFound 1 section groups[39m
-00:45s	[90mSection code: 01[39m
-00:45s	[90mInstructor name: Canovas, A[39m
-00:45s	[94mANSC6240 (4)[39m
-00:45s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:45s	[90mClicking section button[39m
-00:46s	[90mFound section list[39m
-00:46s	[90mWinter 2022[39m
-00:46s	[90mFound 1 section groups[39m
-00:46s	[90mSection code: 01[39m
-00:46s	[90mInstructor name: Canovas, A[39m
-00:46s	[90mSection code: AU01[39m
-00:46s	[90mInstructor name: TBD[39m
-00:46s	[31mCannot read properties of undefined (reading 'split')[39m
-00:46s	[94mANSC6250 (5)[39m
-00:46s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:46s	[90mClicking section button[39m
-00:46s	[90mFound section list[39m
-00:46s	[90mWinter 2022[39m
-00:46s	[90mFound 1 section groups[39m
-00:46s	[90mSection code: 01[39m
-00:46s	[90mInstructor name: Wood, K[39m
-00:46s	[94mANSC6330 (6)[39m
-00:46s	[94mANSC6360 (7)[39m
-00:46s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:46s	[90mClicking section button[39m
-00:46s	[90mFound section list[39m
-00:46s	[90mWinter 2022[39m
-00:46s	[90mFound 1 section groups[39m
-00:46s	[90mSection code: 01[39m
-00:46s	[90mInstructor name: Fan, M[39m
-00:47s	[94mANSC6370 (8)[39m
-00:47s	[94mANSC6390 (9)[39m
-00:47s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:47s	[90mClicking section button[39m
-00:47s	[90mFound section list[39m
-00:47s	[90mWinter 2022[39m
-00:47s	[90mFound 1 section groups[39m
-00:47s	[90mSection code: 01[39m
-00:47s	[90mInstructor name: Schenkel, F[39m
-00:47s	[94mANSC6400 (10)[39m
-00:47s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:47s	[90mClicking section button[39m
-00:47s	[90mFound section list[39m
-00:47s	[90mWinter 2022[39m
-00:47s	[90mFound 1 section groups[39m
-00:47s	[90mSection code: 01[39m
-00:47s	[90mInstructor name: Bedecarrats, G[39m
-00:47s	[94mANSC6440 (11)[39m
-00:48s	[94mANSC6450 (12)[39m
-00:48s	[94mANSC6460 (13)[39m
-00:48s	[94mANSC6470 (14)[39m
-00:48s	[94mANSC6480 (15)[39m
-00:48s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:48s	[90mClicking section button[39m
-00:48s	[90mFound section list[39m
-00:48s	[90mWinter 2022[39m
-00:48s	[90mFound 1 section groups[39m
-00:48s	[90mSection code: 01[39m
-00:48s	[90mInstructor name: Bureau, D[39m
-00:48s	[94mANSC6490 (16)[39m
-00:48s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:48s	[90mClicking section button[39m
-00:48s	[90mFound section list[39m
-00:48s	[90mWinter 2022[39m
-00:48s	[90mFound 1 section groups[39m
-00:48s	[90mSection code: 0101[39m
-00:48s	[90mInstructor name: Steele, M[39m
-00:48s	[90mSection code: AU01[39m
-00:49s	[90mInstructor name: TBD[39m
-00:49s	[31mCannot read properties of undefined (reading 'split')[39m
-00:49s	[94mANSC6550 (17)[39m
-00:49s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:49s	[90mClicking section button[39m
-00:49s	[90mFound section list[39m
-00:49s	[90mWinter 2022[39m
-00:49s	[90mFound 1 section groups[39m
-00:49s	[90mSection code: 01[39m
-00:49s	[90mInstructor name: St-Pierre, J[39m
-00:49s	[94mANSC6610 (18)[39m
-00:49s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:49s	[90mClicking section button[39m
-00:49s	[90mFound section list[39m
-00:49s	[90mWinter 2022[39m
-00:49s	[90mFound 1 section groups[39m
-00:49s	[90mSection code: 01[39m
-00:49s	[90mInstructor name: Steele, M[39m
-00:49s	[94mANSC6700 (19)[39m
-00:49s	[94mANSC6710 (20)[39m
-00:49s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:49s	[90mClicking section button[39m
-00:50s	[90mFound section list[39m
-00:50s	[90mWinter 2022[39m
-00:50s	[90mFound 1 section groups[39m
-00:50s	[90mSection code: 01[39m
-00:50s	[90mInstructor name: Lawlis, P[39m
-00:50s	[94mANSC6720 (21)[39m
-00:50s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:50s	[90mClicking section button[39m
-00:50s	[90mFound section list[39m
-00:50s	[90mWinter 2022[39m
-00:50s	[90mFound 1 section groups[39m
-00:50s	[90mSection code: 01[39m
-00:50s	[90mInstructor name: Mason, G[39m
-00:50s	[90mSection code: AU01[39m
-00:50s	[90mInstructor name: TBD[39m
-00:50s	[31mCannot read properties of undefined (reading 'split')[39m
-00:50s	[94mANSC6730 (22)[39m
-00:50s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:50s	[90mClicking section button[39m
-00:51s	[90mFound section list[39m
-00:51s	[90mWinter 2022[39m
-00:51s	[90mFound 1 section groups[39m
-00:51s	[90mSection code: 01[39m
-00:51s	[90mInstructor name: Osborne, V[39m
-00:51s	[94mANSC6740 (23)[39m
-00:51s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:51s	[90mClicking section button[39m
-00:51s	[90mFound section list[39m
-00:51s	[90mSummer 2022[39m
-00:51s	[90mFound 1 section groups[39m
-00:51s	[90mSection code: 01[39m
-00:51s	[90mInstructor name: DeVries, T[39m
-00:51s	[94mANSC6900 (24)[39m
-00:51s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:51s	[90mClicking section button[39m
-00:51s	[90mFound section list[39m
-00:51s	[90mWinter 2022, Summer 2022[39m
-00:51s	[90mFound 2 section groups[39m
-00:51s	[90mSection code: 01[39m
-00:51s	[90mInstructor name: Karrow, N[39m
-00:52s	[90mSection code: 01[39m
-00:52s	[90mInstructor name: Karrow, N[39m
-00:52s	[32mDepartment finished. Saved to file.[39m
-00:52s	[34mAnthropology[39m
-00:52s	Found 30 courses
-00:52s	[94mANTH1120 (0)[39m
-00:52s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:52s	[90mClicking section button[39m
-00:53s	[90mFound section list[39m
-00:53s	[90mWinter 2022[39m
-00:53s	[90mFound 1 section groups[39m
-00:53s	[90mSection code: 01[39m
-00:53s	[90mInstructor name: Steffens, T[39m
-00:53s	[94mANTH1150 (1)[39m
-00:53s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:53s	[90mClicking section button[39m
-00:53s	[90mFound section list[39m
-00:53s	[90mWinter 2022[39m
-00:53s	[90mFound 1 section groups[39m
-00:53s	[90mSection code: 01[39m
-00:53s	[90mInstructor name: McIlwraith, T[39m
-00:53s	[90mSection code: 02[39m
-00:53s	[90mInstructor name: Gulewitsch, V[39m
-00:53s	[94mANTH2180 (2)[39m
-00:53s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:53s	[90mClicking section button[39m
-00:54s	[90mFound section list[39m
-00:54s	[90mWinter 2022[39m
-00:54s	[90mFound 1 section groups[39m
-00:54s	[90mSection code: 01[39m
-00:54s	[90mInstructor name: Steffens, T[39m
-00:54s	[94mANTH2230 (3)[39m
-00:54s	[94mANTH2660 (4)[39m
-00:54s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:54s	[90mClicking section button[39m
-00:54s	[90mFound section list[39m
-00:54s	[90mWinter 2022[39m
-00:54s	[90mFound 1 section groups[39m
-00:54s	[90mSection code: 01[39m
-00:54s	[90mInstructor name: Gulewitsch, V[39m
-00:54s	[94mANTH3550 (5)[39m
-00:54s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:54s	[90mClicking section button[39m
-00:55s	[90mFound section list[39m
-00:55s	[90mWinter 2022[39m
-00:55s	[90mFound 1 section groups[39m
-00:55s	[90mSection code: 01[39m
-00:55s	[90mInstructor name: Finnis, E[39m
-00:55s	[94mANTH3650 (6)[39m
-00:55s	[94mANTH3690 (7)[39m
-00:55s	[94mANTH3770 (8)[39m
-00:55s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:55s	[90mClicking section button[39m
-00:55s	[90mFound section list[39m
-00:55s	[90mWinter 2022[39m
-00:55s	[90mFound 1 section groups[39m
-00:55s	[90mSection code: 01[39m
-00:55s	[90mInstructor name: Sylvain, R[39m
-00:55s	[94mANTH3840 (9)[39m
-00:55s	[94mANTH3850 (10)[39m
-00:55s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:55s	[90mClicking section button[39m
-00:56s	[90mFound section list[39m
-00:56s	[90mWinter 2022[39m
-00:56s	[90mFound 1 section groups[39m
-00:56s	[90mSection code: 01[39m
-00:56s	[90mInstructor name: Kawano, S[39m
-00:56s	[94mANTH3950 (11)[39m
-00:56s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:56s	[90mClicking section button[39m
-00:56s	[90mFound section list[39m
-00:56s	[90mWinter 2022, Summer 2022[39m
-00:56s	[90mFound 2 section groups[39m
-00:56s	[90mSection code: 01[39m
-00:56s	[90mInstructor name: TBD[39m
-00:56s	[90mSection code: 01[39m
-00:56s	[90mInstructor name: TBD[39m
-00:56s	[94mANTH4300 (12)[39m
-00:56s	[94mANTH4440 (13)[39m
-00:56s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:56s	[90mClicking section button[39m
-00:57s	[90mFound section list[39m
-00:57s	[90mWinter 2022[39m
-00:57s	[90mFound 1 section groups[39m
-00:57s	[90mSection code: 01[39m
-00:57s	[90mInstructor name: Sylvain, R[39m
-00:57s	[94mANTH4540 (14)[39m
-00:57s	[94mANTH4550 (15)[39m
-00:57s	[94mANTH4640 (16)[39m
-00:57s	[94mANTH4700 (17)[39m
-00:57s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:57s	[90mClicking section button[39m
-00:57s	[90mFound section list[39m
-00:57s	[90mWinter 2022[39m
-00:57s	[90mFound 1 section groups[39m
-00:57s	[90mSection code: 01[39m
-00:57s	[90mInstructor name: Finnis, E[39m
-00:57s	[94mANTH4740 (18)[39m
-00:57s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:57s	[90mClicking section button[39m
-00:58s	[90mFound section list[39m
-00:58s	[90mWinter 2022[39m
-00:58s	[90mFound 1 section groups[39m
-00:58s	[90mSection code: 01[39m
-00:58s	[90mInstructor name: McIlwraith, T[39m
-00:58s	[94mANTH4840 (19)[39m
-00:58s	[94mANTH4880 (20)[39m
-00:58s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:58s	[90mClicking section button[39m
-00:58s	[90mFound section list[39m
-00:58s	[90mWinter 2022, Summer 2022[39m
-00:58s	[90mFound 2 section groups[39m
-00:58s	[90mSection code: 01[39m
-00:58s	[90mInstructor name: TBD[39m
-00:58s	[90mSection code: 01[39m
-00:58s	[90mInstructor name: TBD[39m
-00:58s	[94mANTH4890 (21)[39m
-00:58s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:58s	[90mClicking section button[39m
-00:59s	[90mFound section list[39m
-00:59s	[90mWinter 2022, Summer 2022[39m
-00:59s	[90mFound 2 section groups[39m
-00:59s	[90mSection code: 01[39m
-00:59s	[90mInstructor name: TBD[39m
-00:59s	[90mSection code: 01[39m
-00:59s	[90mInstructor name: TBD[39m
-00:59s	[94mANTH4900 (22)[39m
-00:59s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:59s	[90mClicking section button[39m
-00:59s	[90mFound section list[39m
-00:59s	[90mWinter 2022, Summer 2022[39m
-00:59s	[90mFound 2 section groups[39m
-00:59s	[90mSection code: 01[39m
-00:59s	[90mInstructor name: TBD[39m
-00:59s	[90mSection code: 01[39m
-00:59s	[90mInstructor name: TBD[39m
-00:59s	[94mANTH4910 (23)[39m
-00:59s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:59s	[90mClicking section button[39m
-00:59s	[90mFound section list[39m
-00:59s	[90mWinter 2022, Summer 2022[39m
-00:59s	[90mFound 2 section groups[39m
-00:60s	[90mSection code: 01[39m
-00:60s	[90mInstructor name: TBD[39m
-00:60s	[90mSection code: 01[39m
-00:60s	[90mInstructor name: TBD[39m
-00:60s	[94mANTH6000 (24)[39m
-00:60s	[94mANTH6080 (25)[39m
-00:60s	[94mANTH6140 (26)[39m
-00:60s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-00:60s	[90mClicking section button[39m
-00:60s	[90mFound section list[39m
-01:00s	[90mWinter 2022[39m
-01:00s	[90mFound 1 section groups[39m
-01:00s	[90mSection code: 01[39m
-01:00s	[90mInstructor name: Kawano, S[39m
-01:00s	[94mANTH6270 (27)[39m
-01:00s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:00s	[90mClicking section button[39m
-01:00s	[90mFound section list[39m
-01:00s	[90mWinter 2022[39m
-01:00s	[90mFound 1 section groups[39m
-01:00s	[90mSection code: 01[39m
-01:00s	[90mInstructor name: Liinamaa, S[39m
-01:01s	[94mANTH6420 (28)[39m
-01:01s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:01s	[90mClicking section button[39m
-01:01s	[90mFound section list[39m
-01:01s	[90mWinter 2022[39m
-01:01s	[90mFound 1 section groups[39m
-01:01s	[90mSection code: 01[39m
-01:01s	[90mInstructor name: Varghese, J[39m
-01:01s	[94mANTH6460 (29)[39m
-01:01s	[32mTriggering next page...[39m
-01:01s	[32mScraping next page...[39m
-01:01s	Found 5 courses
-01:01s	[94mANTH6480 (0)[39m
-01:01s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:01s	[90mClicking section button[39m
-01:02s	[90mFound section list[39m
-01:02s	[90mWinter 2022[39m
-01:02s	[90mFound 1 section groups[39m
-01:02s	[90mSection code: 01[39m
-01:02s	[90mInstructor name: Shalla, V[39m
-01:02s	[94mANTH6550 (1)[39m
-01:02s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:02s	[90mClicking section button[39m
-01:02s	[90mFound section list[39m
-01:02s	[90mWinter 2022, Summer 2022[39m
-01:02s	[90mFound 2 section groups[39m
-01:02s	[90mSection code: 01[39m
-01:02s	[90mInstructor name: TBD[39m
-01:02s	[90mSection code: 01[39m
-01:02s	[90mInstructor name: TBD[39m
-01:02s	[94mANTH6600 (2)[39m
-01:02s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:02s	[90mClicking section button[39m
-01:03s	[90mFound section list[39m
-01:03s	[90mWinter 2022, Summer 2022[39m
-01:03s	[90mFound 2 section groups[39m
-01:03s	[90mSection code: 01[39m
-01:03s	[90mInstructor name: TBD[39m
-01:03s	[90mSection code: 01[39m
-01:03s	[90mInstructor name: TBD[39m
-01:03s	[94mANTH6660 (3)[39m
-01:03s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:03s	[90mClicking section button[39m
-01:03s	[90mFound section list[39m
-01:03s	[90mWinter 2022, Summer 2022[39m
-01:03s	[90mFound 2 section groups[39m
-01:03s	[90mSection code: 01[39m
-01:03s	[90mInstructor name: TBD[39m
-01:03s	[90mSection code: 01[39m
-01:03s	[90mInstructor name: TBD[39m
-01:03s	[94mANTH6700 (4)[39m
-01:03s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:03s	[90mClicking section button[39m
-01:03s	[90mFound section list[39m
-01:03s	[90mWinter 2022[39m
-01:03s	[90mFound 1 section groups[39m
-01:03s	[90mSection code: 01[39m
-01:03s	[90mInstructor name: O'Grady, W[39m
-01:03s	[32mDepartment finished. Saved to file.[39m
-01:04s	[34mArabic[39m
-01:04s	Found 2 courses
-01:04s	[94mARAB1100 (0)[39m
-01:04s	[94mARAB1110 (1)[39m
-01:04s	[32mDepartment finished. Saved to file.[39m
-01:05s	[34mArt History[39m
-01:05s	Found 30 courses
-01:05s	[94mARTH1510 (0)[39m
-01:05s	[94mARTH1520 (1)[39m
-01:05s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:05s	[90mClicking section button[39m
-01:05s	[90mFound section list[39m
-01:05s	[90mWinter 2022[39m
-01:05s	[90mFound 1 section groups[39m
-01:05s	[90mSection code: 01[39m
-01:05s	[90mInstructor name: Jacobson-Konefall, J[39m
-01:05s	[94mARTH2050 (2)[39m
-01:05s	[94mARTH2060 (3)[39m
-01:05s	[94mARTH2070 (4)[39m
-01:05s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:05s	[90mClicking section button[39m
-01:05s	[90mFound section list[39m
-01:06s	[90mWinter 2022[39m
-01:06s	[90mFound 1 section groups[39m
-01:06s	[90mSection code: 01[39m
-01:06s	[90mInstructor name: Patterson, K[39m
-01:06s	[94mARTH2120 (5)[39m
-01:06s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:06s	[90mClicking section button[39m
-01:06s	[90mFound section list[39m
-01:06s	[90mWinter 2022[39m
-01:06s	[90mFound 1 section groups[39m
-01:06s	[90mSection code: 01[39m
-01:06s	[90mInstructor name: Douglas, S[39m
-01:06s	[94mARTH2150 (6)[39m
-01:06s	[94mARTH2220 (7)[39m
-01:06s	[94mARTH2280 (8)[39m
-01:06s	[94mARTH2290 (9)[39m
-01:06s	[94mARTH2480 (10)[39m
-01:06s	[94mARTH2490 (11)[39m
-01:06s	[94mARTH2540 (12)[39m
-01:06s	[94mARTH2550 (13)[39m
-01:06s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:06s	[90mClicking section button[39m
-01:07s	[90mFound section list[39m
-01:07s	[90mWinter 2022[39m
-01:07s	[90mFound 1 section groups[39m
-01:07s	[90mSection code: 01[39m
-01:07s	[90mInstructor name: Meyer, M[39m
-01:07s	[94mARTH2580 (14)[39m
-01:07s	[94mARTH2600 (15)[39m
-01:07s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:07s	[90mClicking section button[39m
-01:07s	[90mFound section list[39m
-01:07s	[90mWinter 2022[39m
-01:07s	[90mFound 1 section groups[39m
-01:07s	[90mSection code: 01[39m
-01:07s	[90mInstructor name: Smylitopoulos, C[39m
-01:07s	[94mARTH2950 (16)[39m
-01:07s	[94mARTH3010 (17)[39m
-01:07s	[94mARTH3060 (18)[39m
-01:07s	[94mARTH3150 (19)[39m
-01:07s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:07s	[90mClicking section button[39m
-01:08s	[90mFound section list[39m
-01:08s	[90mWinter 2022[39m
-01:08s	[90mFound 1 section groups[39m
-01:08s	[90mSection code: 01[39m
-01:08s	[90mInstructor name: Meyer, M[39m
-01:08s	[94mARTH3200 (20)[39m
-01:08s	[94mARTH3210 (21)[39m
-01:08s	[94mARTH3220 (22)[39m
-01:08s	[94mARTH3320 (23)[39m
-01:08s	[94mARTH3330 (24)[39m
-01:08s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:08s	[90mClicking section button[39m
-01:08s	[90mFound section list[39m
-01:08s	[90mWinter 2022[39m
-01:08s	[90mFound 1 section groups[39m
-01:08s	[90mSection code: 01[39m
-01:08s	[90mInstructor name: Marner, D[39m
-01:08s	[94mARTH3340 (25)[39m
-01:08s	[94mARTH3520 (26)[39m
-01:08s	[94mARTH3600 (27)[39m
-01:08s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:08s	[90mClicking section button[39m
-01:08s	[90mFound section list[39m
-01:08s	[90mWinter 2022[39m
-01:08s	[90mFound 1 section groups[39m
-01:09s	[90mSection code: 01[39m
-01:09s	[90mInstructor name: Smylitopoulos, C[39m
-01:09s	[94mARTH3620 (28)[39m
-01:09s	[94mARTH3780 (29)[39m
-01:09s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:09s	[90mClicking section button[39m
-01:09s	[90mFound section list[39m
-01:09s	[90mWinter 2022[39m
-01:09s	[90mFound 1 section groups[39m
-01:09s	[90mSection code: 01[39m
-01:09s	[90mInstructor name: Jacobson-Konefall, J[39m
-01:09s	[32mTriggering next page...[39m
-01:09s	[32mScraping next page...[39m
-01:09s	Found 7 courses
-01:10s	[94mARTH4310 (0)[39m
-01:10s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:10s	[90mClicking section button[39m
-01:10s	[90mFound section list[39m
-01:10s	[90mWinter 2022[39m
-01:10s	[90mFound 1 section groups[39m
-01:10s	[90mSection code: 01[39m
-01:10s	[90mInstructor name: Douglas, S[39m
-01:10s	[94mARTH4320 (1)[39m
-01:10s	[94mARTH4330 (2)[39m
-01:10s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:10s	[90mClicking section button[39m
-01:10s	[90mFound section list[39m
-01:10s	[90mWinter 2022[39m
-01:10s	[90mFound 1 section groups[39m
-01:10s	[90mSection code: 01[39m
-01:10s	[90mInstructor name: Marner, D[39m
-01:10s	[94mARTH4340 (3)[39m
-01:10s	[94mARTH4350 (4)[39m
-01:10s	[94mARTH4600 (5)[39m
-01:10s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:10s	[90mClicking section button[39m
-01:11s	[90mFound section list[39m
-01:11s	[90mWinter 2022, Summer 2022[39m
-01:11s	[90mFound 2 section groups[39m
-01:11s	[90mSection code: 01[39m
-01:11s	[90mInstructor name: TBD[39m
-01:11s	[90mSection code: 01[39m
-01:11s	[90mInstructor name: TBD[39m
-01:11s	[94mARTH4800 (6)[39m
-01:11s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:11s	[90mClicking section button[39m
-01:11s	[90mFound section list[39m
-01:11s	[90mWinter 2022, Summer 2022[39m
-01:11s	[90mFound 2 section groups[39m
-01:11s	[90mSection code: 01[39m
-01:11s	[90mInstructor name: TBD[39m
-01:11s	[90mSection code: 01[39m
-01:11s	[90mInstructor name: TBD[39m
-01:11s	[32mDepartment finished. Saved to file.[39m
-01:12s	[34mArt History and Visual Culture[39m
-01:12s	Found 11 courses
-01:12s	[94mAVC6100 (0)[39m
-01:12s	[94mAVC6200 (1)[39m
-01:12s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:12s	[90mClicking section button[39m
-01:12s	[90mFound section list[39m
-01:12s	[90mWinter 2022[39m
-01:12s	[90mFound 1 section groups[39m
-01:12s	[90mSection code: 01[39m
-01:12s	[90mInstructor name: McCabe, S[39m
-01:12s	[94mAVC6300 (2)[39m
-01:12s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:12s	[90mClicking section button[39m
-01:13s	[90mFound section list[39m
-01:13s	[90mWinter 2022[39m
-01:13s	[90mFound 1 section groups[39m
-01:13s	[90mSection code: 01[39m
-01:13s	[90mInstructor name: Jacobson-Konefall, J[39m
-01:13s	[90mSection code: AU01[39m
-01:13s	[90mInstructor name: TBD[39m
-01:13s	[31mCannot read properties of undefined (reading 'split')[39m
-01:13s	[94mAVC6310 (3)[39m
-01:13s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:13s	[90mClicking section button[39m
-01:13s	[90mFound section list[39m
-01:13s	[90mWinter 2022[39m
-01:13s	[90mFound 1 section groups[39m
-01:13s	[90mSection code: 01[39m
-01:13s	[90mInstructor name: Douglas, S[39m
-01:13s	[94mAVC6320 (4)[39m
-01:13s	[94mAVC6330 (5)[39m
-01:13s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:13s	[90mClicking section button[39m
-01:13s	[90mFound section list[39m
-01:13s	[90mWinter 2022[39m
-01:13s	[90mFound 1 section groups[39m
-01:13s	[90mSection code: 01[39m
-01:13s	[90mInstructor name: Marner, D[39m
-01:13s	[94mAVC6340 (6)[39m
-01:13s	[94mAVC6350 (7)[39m
-01:14s	[94mAVC6400 (8)[39m
-01:14s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:14s	[90mClicking section button[39m
-01:14s	[90mFound section list[39m
-01:14s	[90mWinter 2022, Summer 2022[39m
-01:14s	[90mFound 2 section groups[39m
-01:14s	[90mSection code: 01[39m
-01:14s	[90mInstructor name: TBD[39m
-01:14s	[90mSection code: 01[39m
-01:14s	[90mInstructor name: TBD[39m
-01:14s	[94mAVC6500 (9)[39m
-01:14s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:14s	[90mClicking section button[39m
-01:14s	[90mFound section list[39m
-01:14s	[90mWinter 2022[39m
-01:14s	[90mFound 1 section groups[39m
-01:14s	[90mSection code: 01[39m
-01:14s	[90mInstructor name: TBD[39m
-01:14s	[94mAVC6800 (10)[39m
-01:14s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:14s	[90mClicking section button[39m
-01:15s	[90mFound section list[39m
-01:15s	[90mWinter 2022, Summer 2022[39m
-01:15s	[90mFound 2 section groups[39m
-01:15s	[90mSection code: 01[39m
-01:15s	[90mInstructor name: TBD[39m
-01:15s	[90mSection code: 01[39m
-01:15s	[90mInstructor name: TBD[39m
-01:15s	[32mDepartment finished. Saved to file.[39m
-01:15s	[34mArts and Sciences[39m
-01:15s	Found 12 courses
-01:15s	[94mASCI1110 (0)[39m
-01:15s	[94mASCI1120 (1)[39m
-01:15s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:16s	[90mClicking section button[39m
-01:16s	[90mFound section list[39m
-01:16s	[90mWinter 2022[39m
-01:16s	[90mFound 1 section groups[39m
-01:16s	[90mSection code: 0101[39m
-01:16s	[90mInstructor name: Barclay, P[39m
-01:16s	[90mSection code: 0102[39m
-01:16s	[90mInstructor name: Barclay, P[39m
-01:17s	[90mSection code: 0103[39m
-01:17s	[90mInstructor name: Barclay, P[39m
-01:17s	[90mSection code: 0104[39m
-01:17s	[90mInstructor name: Barclay, P[39m
-01:17s	[90mSection code: 0105[39m
-01:17s	[90mInstructor name: Barclay, P[39m
-01:17s	[90mSection code: 0106[39m
-01:17s	[90mInstructor name: Barclay, P[39m
-01:17s	[94mASCI2050 (2)[39m
-01:17s	[94mASCI3000 (3)[39m
-01:17s	[94mASCI3100 (4)[39m
-01:17s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:17s	[90mClicking section button[39m
-01:17s	[90mFound section list[39m
-01:17s	[90mWinter 2022[39m
-01:17s	[90mFound 1 section groups[39m
-01:17s	[90mSection code: 01[39m
-01:17s	[90mInstructor name: Bruce, D[39m
-01:17s	[94mASCI3200 (5)[39m
-01:17s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:17s	[90mClicking section button[39m
-01:18s	[90mFound section list[39m
-01:18s	[90mWinter 2022[39m
-01:18s	[90mFound 1 section groups[39m
-01:18s	[90mSection code: 01[39m
-01:18s	[90mInstructor name: Malloy-Weir, L[39m
-01:18s	[94mASCI3700 (6)[39m
-01:18s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:18s	[90mClicking section button[39m
-01:18s	[90mFound section list[39m
-01:18s	[90mWinter 2022, Summer 2022[39m
-01:18s	[90mFound 2 section groups[39m
-01:18s	[90mSection code: 01[39m
-01:18s	[90mInstructor name: TBD[39m
-01:18s	[90mSection code: 01[39m
-01:18s	[90mInstructor name: TBD[39m
-01:18s	[94mASCI4010 (7)[39m
-01:18s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:18s	[90mClicking section button[39m
-01:19s	[90mFound section list[39m
-01:19s	[90mWinter 2022[39m
-01:19s	[90mFound 1 section groups[39m
-01:19s	[90mSection code: 01[39m
-01:19s	[90mInstructor name: Barclay, P[39m
-01:19s	[94mASCI4020 (8)[39m
-01:19s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:19s	[90mClicking section button[39m
-01:19s	[90mFound section list[39m
-01:19s	[90mWinter 2022[39m
-01:19s	[90mFound 1 section groups[39m
-01:19s	[90mSection code: 01[39m
-01:19s	[90mInstructor name: Goldenberg, M[39m
-01:19s	[94mASCI4030 (9)[39m
-01:19s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:19s	[90mClicking section button[39m
-01:19s	[90mFound section list[39m
-01:19s	[90mWinter 2022[39m
-01:19s	[90mFound 1 section groups[39m
-01:19s	[90mSection code: 01[39m
-01:20s	[90mInstructor name: Evans, N[39m
-01:20s	[94mASCI4700 (10)[39m
-01:20s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:20s	[90mClicking section button[39m
-01:20s	[90mFound section list[39m
-01:20s	[90mWinter 2022, Summer 2022[39m
-01:20s	[90mFound 2 section groups[39m
-01:20s	[90mSection code: 01[39m
-01:20s	[90mInstructor name: TBD[39m
-01:20s	[90mSection code: 02[39m
-01:20s	[90mInstructor name: TBD[39m
-01:20s	[90mSection code: 03[39m
-01:20s	[90mInstructor name: TBD[39m
-01:20s	[90mSection code: 01[39m
-01:20s	[90mInstructor name: TBD[39m
-01:20s	[94mASCI4710 (11)[39m
-01:20s	[90mFound sections. Waiting for button to be attached to the DOM.[39m
-01:20s	[90mClicking section button[39m
-01:21s	[90mFound section list[39m
-01:21s	[90mWinter 2022, Summer 2022[39m
-01:21s	[90mFound 2 section groups[39m
-01:21s	[90mSection code: 01[39m
-01:21s	[90mInstructor name: TBD[39m
-01:21s	[90mSection code: 02[39m
-01:21s	[90mInstructor name: TBD[39m
-01:21s	[90mSection code: 01[39m
-01:21s	[90mInstructor name: TBD[39m
+00:12s	[90mFound section list[39m
+00:12s	[90mSummer 2022[39m
+00:12s	[90mFound 1 section groups[39m
+00:12s	[90mSection code: 01[39m
+00:12s	[90mInstructor name: Zavitz, C[39m
+00:12s	[94mACCT6600 (20)[39m

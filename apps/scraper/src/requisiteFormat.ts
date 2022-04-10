@@ -1,6 +1,8 @@
 const requisiteFormat = (requisite: string) => {
-    let returnString = requisite;
-    return returnString;
+    let reqArray = requisite.split(/\n/g);
+    console.log(reqArray);
+
+    return reqArray;
 };
 
 export default requisiteFormat;
