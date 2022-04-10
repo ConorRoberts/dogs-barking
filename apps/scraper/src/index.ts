@@ -9,6 +9,7 @@ const labels = {
   "Locations:": "locations",
   "Offered:": "formats",
   "Department(s):": "departments",
+  "Equate(s):": "equates",
 };
 
 const meetingDays = {
@@ -93,13 +94,11 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
           // Get the inner HTML and get all the text before the second <br> element
           // The description text is typically followed by 2x <br> so we just get the HTML + text up until the 2nd <br> then chop off the last 9 characters
           const description = (await course.$eval("div.search-coursedescription", (e) => e.innerHTML))
-            .match(/.+<br>/g)
-            .at(0)
-            .slice(0, -9)
+            .match(/(.+<br>)/)
+            ?.at(0)
+            .slice(0, -8)
             .trim()
             .replace(/ +/g, " ");
-
-          log(chalk.yellow(description));
 
           log(chalk.blueBright(`${code} (${courseIndex++})`));
 
@@ -287,8 +286,6 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
           }
 
           courses.push(courseObj);
-
-          log(chalk.gray(`Saved ${code}`));
         } catch (error) {
           log(chalk.red(error.message));
         }
@@ -330,7 +327,4 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
   await browser.close();
 
   log(chalk.green("Scraping done!"));
-  // log(chalk.blue("Saving to file..."));
-
-  // log(chalk.green("File saved! Exiting."));
 })();
