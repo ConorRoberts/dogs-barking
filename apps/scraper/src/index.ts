@@ -1,6 +1,8 @@
 import { writeFileSync } from "fs";
 import { devices, chromium, ElementHandle } from "playwright";
 import chalk from "chalk";
+import { replace } from "lodash";
+import requisiteFormat from "./requisiteFormat";
 
 const labels = {
   "Offering(s):": "offerings",
@@ -65,6 +67,8 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
     console.log(text);
   };
 
+  
+
   log(`Found ${dptLinks.length} departments. Scraping...`);
 
   for (const dpt of dptLinks) {
@@ -126,7 +130,11 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
             const label = await metaLabels[idx].textContent();
             const content = await metaContent[idx].textContent();
             if (!label || !content) return;
-            courseObj[labels[label.trim()]] = content.trim().replace(/ +/g, " ");
+            if(label.includes("Req")) {
+              courseObj[labels[label.trim()]] = requisiteFormat(content.replace(/\r/g, "").trim());
+            } else {
+              courseObj[labels[label.trim()]] = content.trim();
+            }
           }
 
           const sectionButton = await course.$("button.esg-collapsible-group__toggle");
