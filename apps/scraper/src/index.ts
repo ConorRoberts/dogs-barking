@@ -1,7 +1,7 @@
 import { writeFileSync } from "fs";
 import { devices, chromium, ElementHandle } from "@playwright/test";
 import chalk from "chalk";
-import requisiteFormat from "./requisiteFormat";
+import {requisiteScrape} from "./requisiteFormat";
 
 const labels = {
   "Offering(s):": "offerings",
@@ -133,8 +133,8 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
             const label = await metaLabels[idx].textContent();
             const content = await metaContent[idx].textContent();
             if (!label || !content) return;
-            if (label.includes("Req")) {
-              courseObj[labels[label.trim()]] = requisiteFormat(content.replace(/\r/g, "").trim());
+            if(label.includes("Req")) {
+              courseObj[labels[label.trim()]] = requisiteScrape(content.replace(/\r/g, "").trim());
             } else {
               courseObj[labels[label.trim()]] = content.trim();
             }

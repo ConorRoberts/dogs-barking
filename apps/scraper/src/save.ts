@@ -1,6 +1,7 @@
 import fs from "fs";
 import "tsconfig-paths/register";
 import getNeo4jDriver from "./getNeo4jDriver";
+import { requisiteData } from "./requisiteFormat";
 
 const save = async () => {
   const data = JSON.parse(fs.readFileSync("scrape-data.json", "utf-8"));
@@ -56,6 +57,14 @@ const save = async () => {
       await session.close();
     } catch (error) {
       console.error("Failed to add course");
+    }
+
+    if(!course.requisites.includes("None")){
+      for (const requisite of course.requisites) {
+        requisiteData(requisite);
+      }
+    } else {
+
     }
 
     for (const sectionId of course.HAS_SECTION) {
