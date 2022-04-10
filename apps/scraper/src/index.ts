@@ -82,16 +82,18 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
 
     const courseElements = await dptPage.locator("#course-resultul > li").elementHandles();
 
-    log(`Found ${courseElements.length} courses`);
-
     const scrape = async (elements: ElementHandle<Node>[]) => {
+      log(`Found ${elements.length} courses`);
+      let courseIndex = 0;
       for (const course of elements) {
         try {
           const title = (await course.$eval("div div h3 span", (e) => e.textContent)).trim();
           const code = ((title.match(/[A-Z]{3,4}\*[0-9]{4}/) ?? [])[0] ?? "").replace(/\*/g, "");
-          const description = (await course.$eval("div.search-coursedescription", (e) => e.textContent)).trim();
+          const description = (await course.$eval("div.search-coursedescription", (e) => e.textContent))
+            .trim()
+            .replace(/ +/g, " ");
 
-          log(code);
+          log(chalk.blueBright(`${code} (${courseIndex++})`));
 
           let courseObj = {
             id: Math.random(),
@@ -117,16 +119,20 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
             courseObj[labels[label.trim()]] = content.trim();
           }
 
-          log(chalk.gray("Opening section list"));
-
           const sectionButton = await course.$("button.esg-collapsible-group__toggle");
           if (sectionButton) {
+            log(chalk.gray("Found sections. Waiting for button to be attached to the DOM."));
+            await course.waitForSelector("button.esg-collapsible-group__toggle", { timeout: 5000 });
+
+            log(chalk.gray("Clicking section button"));
             await sectionButton?.click();
 
             await course.waitForSelector(
               "div.esg-collapsible-group__body.esg-is-open div[data-bind='foreach: TermsAndSections'] > h4:nth-child(1)",
               { timeout: 5000 }
             );
+
+            log(chalk.gray("Found section list"));
 
             const sectionTerms = [];
             const sectionTermElements = await course.$$("div[data-bind='foreach: TermsAndSections'] > h4");
@@ -141,10 +147,12 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
             // Iterate over all sections for this course
             const sectionElements = await course.$$(`div[data-bind='foreach: TermsAndSections'] > ul`);
             let groupIndex = 0;
+            log(chalk.gray(`Found ${sectionElements.length} section groups`));
             for (const list of sectionElements) {
               for (const sectionElement of await list.$$("li")) {
                 const textElement = await sectionElement.$("a.search-sectiondetailslink");
                 const sectionCode = (await textElement.textContent()).trim().split("*")[2];
+                log(chalk.gray(`Section code: ${sectionCode}`));
 
                 let section = {
                   id: Math.random(),
@@ -167,14 +175,17 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
                 let rowIndex = 0;
                 for (const row of tableRows) {
                   // Is this some hidden garbage that we don't need? If so, skip.
-                  if ((await row.getAttribute("style"))?.includes("display: none")) return;
+                  if ((await row.getAttribute("style"))?.includes("display: none")) continue;
 
                   // This is the row that contains instructor data
                   if (rowIndex === 0) {
                     // Get the last td in this row
                     const td = await row.$("td:last-child");
+
                     // Select first span within first div of this td
-                    const instructorName = (await (await td.$("div > span:first-child")).textContent()).trim();
+                    let instructorName = (await (await td.$("div > span:first-child"))?.textContent())?.trim();
+                    if (!instructorName) instructorName = "TBD";
+                    log(chalk.gray(`Instructor name: ${instructorName}`));
 
                     // Check for an instructor with a matching name
                     const instructor = instructors.find((i) => i.name === instructorName);
@@ -193,63 +204,70 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
                   }
 
                   // Text content for the "days" attribute
-                  // const daysTextContent = (
-                  //   await (await row.$(`#${sectionId}-meeting-days-${index}`)).textContent()
-                  // ).trim();
+                  const daysTextContent = (
+                    await (await row.$(`#${sectionId}-meeting-days-${rowIndex}`))?.textContent()
+                  )?.trim();
 
-                  // let meeting: any = {
-                  //   days: daysTextContent.length === 0 ? [] : daysTextContent.split("/"),
-                  //   startTime: (
-                  //     await (await row.$(`#${sectionId}-meeting-times-start-${index}`))?.textContent()
-                  //   )?.trim(),
-                  //   endTime: (await (await row.$(`#${sectionId}-meeting-times-end-${index}`))?.textContent())?.trim(),
-                  //   id: Math.random(),
-                  // };
+                  log(chalk.yellow(sectionId));
 
-                  // let itemIndex = 0;
-                  // for (const e of await row.$$("td.esg-table-body__td.search-sectionlocations div span")) {
-                  //   let text = (await e?.textContent()).trim();
-                  //   if (text.length === 0) return;
-                  //   if (itemIndex === 2) meeting.location = text;
-                  //   else if (itemIndex === 3) meeting.room = text;
+                  let meeting: any = {
+                    days: daysTextContent.length === 0 ? [] : daysTextContent.split("/"),
+                    startTime: (
+                      await (await row.$(`#${sectionId}-meeting-times-start-${rowIndex}`))?.textContent()
+                    )?.trim(),
+                    endTime: (
+                      await (await row.$(`#${sectionId}-meeting-times-end-${rowIndex}`))?.textContent()
+                    )?.trim(),
+                    id: Math.random(),
+                  };
 
-                  //   itemIndex++;
-                  // }
+                  let itemIndex = 0;
+                  for (const e of await row.$$("td.esg-table-body__td.search-sectionlocations div span")) {
+                    let text = (await e?.textContent())?.trim();
+                    if (text?.length === 0) continue;
+                    if (itemIndex === 2) meeting.location = text;
+                    else if (itemIndex === 3) meeting.room = text;
 
-                  // if (meeting.location === "VIRTUAL") {
-                  //   delete meeting.room;
-                  // }
+                    itemIndex++;
+                  }
+
+                  if (meeting.location === "VIRTUAL") {
+                    delete meeting.room;
+                  }
 
                   // LAB, LEC, SEM, etc.
-                  // const meetingType = (
-                  //   await (await row.$(`#${sectionId}-meeting-instructional-method-${index}`))?.textContent()
-                  // ).trim();
+                  const meetingType = (
+                    await (await row.$(`#${sectionId}-meeting-instructional-method-${index}`))?.textContent()
+                  )?.trim();
 
                   // Convert meeting days into booleans on our section object
-                  // Object.entries(meetingDays).forEach(([key, val]) => {
-                  //   meeting[val] = meeting.days.includes(key);
-                  // });
+                  Object.entries(meetingDays).forEach(([key, val]) => {
+                    meeting[val] = meeting.days.includes(key);
+                  });
 
-                  // delete meeting.days;
+                  delete meeting.days;
 
-                  //   if (meetingType === "LEC") {
-                  //     lectures.push(meeting);
-                  //     section.HAS_LECTURE.push(meeting.id);
-                  //   } else if (meetingType === "SEM") {
-                  //     seminars.push(meeting);
-                  //     section.HAS_SEMINAR.push(meeting.id);
-                  //   } else if (meetingType === "TUT") {
-                  //     tutorials.push(meeting);
-                  //     section.HAS_TUTORIAL.push(meeting.id);
-                  //   } else if (meetingType === "LAB") {
-                  //     labs.push(meeting);
-                  //     section.HAS_LAB.push(meeting.id);
-                  //   } else if (meetingType === "EXAM") {
-                  //     exams.push(meeting);
-                  //     section.HAS_EXAM.push(meeting.id);
-                  //   }
+                  if (meetingType === "LEC") {
+                    lectures.push(meeting);
+                    section.HAS_LECTURE.push(meeting.id);
+                  } else if (meetingType === "SEM") {
+                    seminars.push(meeting);
+                    section.HAS_SEMINAR.push(meeting.id);
+                  } else if (meetingType === "TUT") {
+                    tutorials.push(meeting);
+                    section.HAS_TUTORIAL.push(meeting.id);
+                  } else if (meetingType === "LAB") {
+                    labs.push(meeting);
+                    section.HAS_LAB.push(meeting.id);
+                  } else if (meetingType === "EXAM") {
+                    exams.push(meeting);
+                    section.HAS_EXAM.push(meeting.id);
+                  }
 
-                  //   meetings.push(meeting);
+                  meetings.push(meeting);
+
+                  rowIndex++;
+                  // log(chalk.gray("Row index: " + rowIndex));
                 }
 
                 courseObj.HAS_SECTION.push(section.id);
@@ -260,201 +278,50 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
           }
 
           courses.push(courseObj);
+
+          log(chalk.gray(`Saved ${code}`));
         } catch (error) {
-          log(chalk.red("Error scraping course", error.message));
+          log(chalk.red(error.message));
         }
+      }
+      const hasNextPage = !(await dptPage.locator("#course-results-next-page").isDisabled());
+
+      // If there is another page, we need to call scrape again
+      // Exit loop if there are no more pages
+      if (hasNextPage) {
+        log(chalk.green("Triggering next page..."));
+        await dptPage.locator("#course-results-next-page").click();
+
+        // Wait for all of these conditions to be met before continuing
+        await dptPage.locator("#aria-announcements p", { hasText: "Loading complete." }).waitFor({ state: "attached" });
+        await dptPage.locator("#aria-announcements p").waitFor({ state: "detached" });
+        await dptPage.locator("#main-content #loading").waitFor({ state: "hidden" });
+
+        log(chalk.green("Scraping next page..."));
+
+        const newCourseElements = await dptPage.locator("#course-resultul > li").elementHandles();
+        await scrape(newCourseElements);
       }
     };
 
+    // Call scrape which will run recursively until the department has been scraped completely
     await scrape(courseElements);
 
-    const hasNextPage = !(await dptPage.locator("#course-results-next-page").isDisabled());
+    // Write data to file. This runs multiple times over the course of the program so that we have data "checkpoints"
+    writeFileSync(
+      "scrape-data.json",
+      JSON.stringify({ courses, labs, lectures, seminars, tutorials, exams, sections, instructors }, null, 2)
+    );
+    writeFileSync("logs.txt", logs.join("\n"));
 
-    if (hasNextPage) {
-      await dptPage.locator("#course-results-next-page").click();
-
-      // Wait for all of these conditions to be met before continuing
-      await dptPage.locator("#aria-announcements p").waitFor({ state: "attached" });
-      await dptPage.locator("#aria-announcements p").waitFor({ state: "detached" });
-      await dptPage.locator("#main-content #loading").waitFor({ state: "hidden" });
-
-      log(chalk.green("Scraping next page..."));
-
-      const newCourseElements = await dptPage.locator("#course-resultul > li").elementHandles();
-      await scrape(newCourseElements);
-    } else {
-      writeFileSync(
-        "scrape-data.json",
-        JSON.stringify({ courses, labs, lectures, seminars, tutorials, exams, sections, instructors }, null, 2)
-      );
-
-      log(chalk.green("Done"));
-      await dptPage.close();
-    }
+    log(chalk.green("Program finished. Saved to file."));
+    await dptPage.close();
   }
 
   await browser.close();
 
   log(chalk.green("Scraping done!"));
-  log(chalk.blue("Saving to file..."));
+  // log(chalk.blue("Saving to file..."));
 
-  log(chalk.green("File saved! Exiting."));
-
-  writeFileSync("logs.txt", logs.join("\n"));
+  // log(chalk.green("File saved! Exiting."));
 })();
-
-
-
-//   // Iterate over all courses
-//   cy.get("#course-resultul > li")
-//     .each(($li) => {
-//       const title = $li.find("div div h3 span").text().trim();
-
-//       const code = ((title.match(/[A-Z]{3,4}\*[0-9]{4}/) ?? [])[0] ?? "").replace(/\*/g, "");
-//       cy.task("log", code);
-
-//       let course = {
-//         id: Math.random(),
-//         description: $li.find("div.search-coursedescription").text().trim(),
-//         code,
-//         department: (code.match(/[A-Z]+/g) ?? [])[0],
-//         number: parseInt((code.match(/[0-9]+/g) ?? [])[0]),
-//         name: title.replace(/([A-Z]+\*[0-9]{4})|(\([0-9\.]+ Credits\))/g, "").trim(),
-//         credits: parseFloat(((title.match(/\([0-9\.]+ Credits\)/) ?? [])[0].match(/[0-9\.]+/g) ?? [] ?? "")[0].trim()),
-//         HAS_SECTION: [],
-//       };
-
-//       // Fill out the rest of the course object
-//       // Properties such as offerings, restrictions, requisites, locations, formats, and departments
-//       $li.find("div.search-coursedataheader").each((_index, $div) => {
-//         const label = $div.textContent.trim();
-//         if (!label) return;
-
-//         const content = $div.nextSibling;
-//         const span = content.childNodes[0];
-
-//         if (span) course[labels[label]] = span.textContent.trim();
-//       });
-
-//       // Get the terms for this course's sections
-//       const sectionTerms = [];
-//       $li.find("div[data-bind='foreach: TermsAndSections'] > h4").each((index, e) => {
-//         const term = e.textContent.trim();
-//         sectionTerms[index] = term;
-//       });
-
-//       // Iterate over all sections for this course
-//       $li.find(`div[data-bind='foreach: TermsAndSections'] > ul`).each((groupIndex, list) => {
-//         list.querySelectorAll("li").forEach((sectionElement) => {
-//           const textElement = sectionElement.querySelector("a.search-sectiondetailslink");
-//           const sectionCode = textElement.textContent.trim().split("*")[2];
-//           const section = {
-//             id: Math.random(),
-//             code: sectionCode,
-//             term: sectionTerms[groupIndex],
-//             INSTRUCTED_BY: 0,
-//             HAS_LECTURE: [],
-//             HAS_EXAM: [],
-//             HAS_SEMINAR: [],
-//             HAS_LAB: [],
-//             HAS_TUTORIAL: [],
-//           };
-
-//           const sectionId = textElement.getAttribute("id");
-
-//           let meetings = [];
-
-//           // Iterate over section rows
-//           sectionElement.querySelectorAll("table tbody tr").forEach((row, index) => {
-//             // Is this some hidden garbage that we don't need? If so, skip.
-//             if (row.getAttribute("style")?.includes("display: none")) return;
-
-//             // This is the row that contains instructor data
-//             if (index === 0) {
-//               // Get the last td in this row
-//               const td = row.querySelector("td:last-child");
-//               // Select first span within first div of this td
-//               const instructorName = td.querySelector("div > span:first-child").textContent.trim();
-
-//               // Check for an instructor with a matching name
-//               const instructor = instructors.find((i) => i.name === instructorName);
-
-//               // If we don't have an instructor with this name, create one
-//               if (!instructor) {
-//                 const id = Math.random();
-//                 instructors.push({
-//                   id,
-//                   name: instructorName,
-//                 });
-//                 section.INSTRUCTED_BY = id;
-//               } else {
-//                 section.INSTRUCTED_BY = instructor.id;
-//               }
-//             }
-
-//             // Text content for the "days" attribute
-//             const daysTextContent = row.querySelector(`#${sectionId}-meeting-days-${index}`)?.textContent?.trim();
-
-//             let meeting: any = {
-//               days: daysTextContent.length === 0 ? [] : daysTextContent.split("/"),
-//               startTime: row.querySelector(`#${sectionId}-meeting-times-start-${index}`)?.textContent?.trim(),
-//               endTime: row.querySelector(`#${sectionId}-meeting-times-end-${index}`)?.textContent?.trim(),
-//               id: Math.random(),
-//             };
-
-//             row.querySelectorAll("td.esg-table-body__td.search-sectionlocations div span").forEach((e, itemIndex) => {
-//               let text = e?.textContent.trim();
-//               if (text.length === 0) return;
-//               if (itemIndex === 2) meeting.location = text;
-//               else if (itemIndex === 3) meeting.room = text;
-//             });
-
-//             if (meeting.location === "VIRTUAL") {
-//               delete meeting.room;
-//             }
-
-//             // LAB, LEC, SEM, etc.
-//             const meetingType = row
-//               .querySelector(`#${sectionId}-meeting-instructional-method-${index}`)
-//               ?.textContent.trim();
-
-//             // Convert meeting days into booleans on our section object
-//             Object.entries(meetingDays).forEach(([key, val]) => {
-//               meeting[val] = meeting.days.includes(key);
-//             });
-
-//             delete meeting.days;
-
-//             if (meetingType === "LEC") {
-//               lectures.push(meeting);
-//               section.HAS_LECTURE.push(meeting.id);
-//             } else if (meetingType === "SEM") {
-//               seminars.push(meeting);
-//               section.HAS_SEMINAR.push(meeting.id);
-//             } else if (meetingType === "TUT") {
-//               tutorials.push(meeting);
-//               section.HAS_TUTORIAL.push(meeting.id);
-//             } else if (meetingType === "LAB") {
-//               labs.push(meeting);
-//               section.HAS_LAB.push(meeting.id);
-//             } else if (meetingType === "EXAM") {
-//               exams.push(meeting);
-//               section.HAS_EXAM.push(meeting.id);
-//             }
-
-//             meetings.push(meeting);
-//           });
-
-//           course.HAS_SECTION.push(section.id);
-//           sections.push(section);
-//         });
-//       });
-
-//       courses.push(course);
-//     })
-//     .then(() => {
-//       cy.get("#loading").find("div:nth-child(1)", { timeout: 30000 }).should("not.have.attr", "style", "display: none");
-
-//       scrape();
-//     });
-// };

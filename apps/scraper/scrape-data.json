@@ -1,8 +1,378 @@
 {
   "courses": [
     {
-      "id": 0.22552496262953525,
-      "description": "This introductory course provides an overview of  Canadian and global agri-food systems. Students  will be introduced to many different facets of  agriculture, including primary production  (conventional and organic) of commodity,  mid-value and high-value crops, and livestock.  Students will explore the agri-food system by  tracing consumer end-products back to primary  production. Modern, industrial agri-food systems  as well as subsistence farming will be discussed.  The course incorporates an experiential learning  component in which students will explore a new  agri-food opportunity for Ontario by designing  and assessing the value chain. Restriction(s):  AGR*1100. AGR*1250. Restricted to students in  BAH.FARE, BSC(AGR), Minor in  AgricultureDepartment(s): Department of Plant  Agriculture, Department of Animal Biosciences",
+      "id": 0.11011534992817862,
+      "description": "This course will introduce students to the fundamental concepts and practices of Financial Accounting. Students are expected to become adept at performing the functions related to the accounting cycle, including the preparation of financial statements. Offering(s): Also offered through Distance Education format.Restriction(s): ACCT*2220. This is a Priority Access Course. Enrolment may be restricted to particular programs or specializations. See department for more information.Department(s): Department of Management",
+      "code": "ACCT1220",
+      "department": "ACCT",
+      "number": 1220,
+      "name": "Intro Financial Accounting",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.047791952572308505,
+        0.9387162892078564,
+        0.8082046750254819,
+        0.6171222396550626,
+        0.02232092983434497,
+        0.7577990285276321,
+        0.834331497589615,
+        0.11987527118963559,
+        0.9780818684159978,
+        0.15219378283932206,
+        0.31516085735864663,
+        0.1861329237609708,
+        0.09183914148095962,
+        0.11796811750707326,
+        0.43177335121474547,
+        0.7338564864903301
+      ],
+      "offerings": "Also  offered through Distance Education  format.",
+      "restrictions": "ACCT*2220. This is a  Priority Access Course. Enrolment may be  restricted to particular programs or  specializations. See department for more  information.",
+      "departments": "Department of  Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "undefined": "Summer, Fall, and Winter, All Years"
+    },
+    {
+      "id": 0.1424513721975591,
+      "description": "This course requires students to apply the fundamental principles emanating from accounting's conceptual framework and undertake the practice of financial accounting. Students will become adept at performing the functions related to each step in the accounting cycle, up to and including the preparation of the financial statements and client reports. Students will also develop the skills necessary for assessing an organization's system of internal controls and financial conditions. Offering(s): Also offered through Distance Education format.Restriction(s): ACCT*2240. This is a Priority Access Course. Enrolment may be restricted to particular programs or specializations. See department for more information.Department(s): Department of Management",
+      "code": "ACCT1240",
+      "department": "ACCT",
+      "number": 1240,
+      "name": "Applied Financial Accounting",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.8062976068893732,
+        0.8505724671712653
+      ],
+      "offerings": "Also offered through Distance Education format.",
+      "restrictions": "ACCT*2240. This is a Priority Access Course. Enrolment may be restricted to particular programs or specializations. See department for more  information.",
+      "departments": "Department of  Management",
+      "requisites": "ACCT*1220 or ACCT*2220\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Winter Only, All Years"
+    },
+    {
+      "id": 0.5925694001594739,
+      "description": "This course emphasizes the use of accounting information to facilitate effective management decisions. Topics include cost determination, cost control and analysis, budgeting, profit-volume analysis and capital investment analysis. Equate(s): AGEC*2230, BUS*2230Restriction(s): This is a Priority Access Course. Enrolment may be restricted to particular programs or specializations. See department for more information.Department(s): Department of Management",
+      "code": "ACCT2230",
+      "department": "ACCT",
+      "number": 2230,
+      "name": "Management Accounting",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.7790252629188548,
+        0.9935233101061507,
+        0.7169861768284858
+      ],
+      "undefined": "Fall and Winter, All Years",
+      "restrictions": "This is a Priority  Access Course. Enrolment may be restricted to  particular programs or specializations. See  department for more information.",
+      "departments": "Department of Management",
+      "requisites": "ACCT*1220 or ACCT*2220\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph"
+    },
+    {
+      "id": 0.9032176016520659,
+      "description": "This course continues the managerial decision making focus of ACCT*2230. Topics include process costing, transfer pricing, the decision making process, variances and performance measurement. Offering(s): Also offered through Distance Education format.Equate(s): BUS*3230Restriction(s): Enrolment may be restricted to particular degrees or programs. See department for more information.Department(s): Department of Management",
+      "code": "ACCT3230",
+      "department": "ACCT",
+      "number": 3230,
+      "name": "Intermediate Mgmt Accounting",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.07254599298057074,
+        0.022967745132664863,
+        0.17370595523966892
+      ],
+      "offerings": "Also offered through Distance  Education format.",
+      "undefined": "Winter and Summer, All Years",
+      "restrictions": "Enrolment may be  restricted to particular degrees or programs. See  department for more information.",
+      "departments": "Department of Management",
+      "requisites": "ACCT*2230\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph"
+    },
+    {
+      "id": 0.24812966988589724,
+      "description": "Auditing I is an examination of the principles and theory underlying the practice of auditing. Concepts of materiality and audit risk are examined and discussed. Sources and techniques for gathering auditing evidence will also be examined. Modern organizations rely on information systems, technology and internal controls to manage and monitor their operations and the impact of these systems on the quality of information produced and on the scope of audits are important elements of this course. Department(s): Department of Management",
+      "code": "ACCT3280",
+      "department": "ACCT",
+      "number": 3280,
+      "name": "Auditing I",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.930517531615358
+      ],
+      "departments": "Department of Management",
+      "requisites": "ACCT*3330\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Summer and Fall, All Years"
+    },
+    {
+      "id": 0.8231978820370525,
+      "description": "This course presents a critical evaluation of accounting concepts, principles and practices in relation to both the traditional and current value accounting measurement models. Emphasis will be on the effect of alternative accounting practices and measurement models on income determination and asset valuation. Offering(s): Also offered through Distance Education format.Equate(s): BUS*3330Restriction(s): This is a Priority Access Course. Enrolment may be restricted to particular programs or specializations. See department for more information.Department(s): Department of Management",
+      "code": "ACCT3330",
+      "department": "ACCT",
+      "number": 3330,
+      "name": "Intermed Financial Account I",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.1069720554711957,
+        0.23116865615873383,
+        0.07833409677324377
+      ],
+      "offerings": "Also offered through Distance Education  format.",
+      "undefined": "Fall and Winter, All Years",
+      "restrictions": "This is a Priority Access Course. Enrolment may  be restricted to particular programs or  specializations. See department for more  information.",
+      "departments": "Department of  Management",
+      "requisites": "ACCT*1220 or ACCT*2220\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph"
+    },
+    {
+      "id": 0.6573382977106885,
+      "description": "This course focuses on how entities account for current and non-current liabilities and equity accounts, including, income taxes, leases, pensions and other post retirement benefits, share equity and retained earnings, stock options. Additional topics may include earnings per share, restatements and statement analysis. Department(s): Department of Management",
+      "code": "ACCT3340",
+      "department": "ACCT",
+      "number": 3340,
+      "name": "Intermed Financial Account II",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.7552918035914229
+      ],
+      "departments": "Department of Management",
+      "requisites": "ACCT*3330\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Summer and Fall, All Years"
+    },
+    {
+      "id": 0.7851815756208309,
+      "description": "The fundamentals of the tax system as it applies to all taxpayers will be the focus of the first half of the course. The second half will develop forms of business organizations from a tax perspective. Basic tax planning techniques which attempt to maximize the cash flows and returns on investments will then be studied. The emphasis in the course is on business decision making. A review of personal financial planning and investment decisions will also be included. Restriction(s): This is a Priority Access Course. Enrolment may be restricted to particular degrees or programs. See the department for more information.Department(s): Department of Management",
+      "code": "ACCT3350",
+      "department": "ACCT",
+      "number": 3350,
+      "name": "Taxation",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.2411189743879334
+      ],
+      "restrictions": "This is a Priority Access Course. Enrolment may be restricted to  particular degrees or programs. See the  department for more information.",
+      "departments": "Department of Management",
+      "requisites": "ACCT*3330\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Summer and Fall, All Years"
+    },
+    {
+      "id": 0.6334597075858224,
+      "description": "This course is a critical evaluation of issues and problems associated with business combinations, long-term intercorporate investments, foreign operations and accounting for not-for-profit organizations. There is a strong emphasis on applying this body of knowledge through practical problems. Equate(s): BUS*4220Restriction(s): Enrolment may be restricted to particular degrees or programs. See the department for more information.Department(s): Department of Management",
+      "code": "ACCT4220",
+      "department": "ACCT",
+      "number": 4220,
+      "name": "Advanced Financial Accounting",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.3726673468109951
+      ],
+      "undefined": "Fall Only, All Years",
+      "restrictions": "Enrolment may be  restricted to particular degrees or programs. See  the department for more  information.",
+      "departments": "Department of  Management",
+      "requisites": "(ACCT*3330 or BUS*3330), (ACCT*3340 or BUS*3340)\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph"
+    },
+    {
+      "id": 0.4239020886603768,
+      "description": "This course provides advanced coverage of management accounting concepts and the application of management accounting information for managerial decision-making. This course extends the concepts covered in intermediate management accounting and also integrates pertinent situational problems from other functional areas of enterprises such as global trade and process controls. Equate(s): BUS*4230Restriction(s): This is a Priority Access Course. Enrolment may be restricted to particular degrees or programs. See the department for more information.Department(s): Department of Management",
+      "code": "ACCT4230",
+      "department": "ACCT",
+      "number": 4230,
+      "name": "Advanced Management Accounting",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.5283619882452959,
+        0.22102373331442737
+      ],
+      "undefined": "Winter Only, All Years",
+      "restrictions": "This is a Priority Access Course. Enrolment may be restricted to particular degrees or programs. See the department for more information.",
+      "departments": "Department of Management",
+      "requisites": "ACCT*3230 or BUS*3230\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph"
+    },
+    {
+      "id": 0.9748503869980194,
+      "description": "This course considers a number of advanced topics concerning both the auditor and audit techniques within the context of public accounting. It builds on the knowledge of the audit task derived in Auditing I - ACCT*3280 as well as the depth and breadth of knowledge gained in ACCT*3330 and ACCT*3340. Equate(s): BUS*4270Department(s): Department of Management",
+      "code": "ACCT4270",
+      "department": "ACCT",
+      "number": 4270,
+      "name": "Auditing II",
+      "credits": 0.5,
+      "HAS_SECTION": [],
+      "undefined": "Fall Only, All Years",
+      "departments": "Department of Management",
+      "requisites": "ACCT*3280 or BUS*3280\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph"
+    },
+    {
+      "id": 0.018057003178912234,
+      "description": "This course introduces the student to the field of auditing within a computer based environment. Students will develop an enhanced understanding of information systems, information system risks, management controls, control evaluation, audit strategies, and computer assisted audit techniques. The course will also introduce data analytic techniques used to analyze structured and unstructured data. Equate(s): BUS*4290Department(s): Department of Management",
+      "code": "ACCT4290",
+      "department": "ACCT",
+      "number": 4290,
+      "name": "IT Auditing & Data Analytics",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.7427229002128235,
+        0.5859801234157471
+      ],
+      "undefined": "Winter Only, All Years",
+      "departments": "Department of  Management",
+      "requisites": "ACCT*3280 or BUS*4280\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph"
+    },
+    {
+      "id": 0.2298298838229209,
+      "description": "This course will draw on accounting research, primarily empirical research. Rather than covering specific GAAP rules, the course will focus on how investors react to GAAP rules, why financial information is important, and how its use/misuse affects investor decision making and management behaviour. The course is thus about accounting, instead of about how to apply accounting standards.Department(s): Department of Management",
+      "code": "ACCT4340",
+      "department": "ACCT",
+      "number": 4340,
+      "name": "Accounting Theory",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.036570791620033294
+      ],
+      "departments": "Department of Management",
+      "requisites": "15.00 credits including ACCT*3340   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Winter Only, All Years"
+    },
+    {
+      "id": 0.3114106721195793,
+      "description": "An intensive study of the Canadian Income Tax Act and related statutes, this course will focus on the application to the taxation of individuals, partnerships and corporations. A strong emphasis will be placed on compliance and tax planning. Equate(s): BUS*4350Department(s): Department of Management",
+      "code": "ACCT4350",
+      "department": "ACCT",
+      "number": 4350,
+      "name": "Income Taxation II",
+      "credits": 0.5,
+      "HAS_SECTION": [],
+      "undefined": "Fall Only, All Years",
+      "departments": "Department  of Management",
+      "requisites": "ACCT*3350 or BUS*3350\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph"
+    },
+    {
+      "id": 0.8045359601274302,
+      "description": "This course will help students develop an analytical approach to analyzing accounting problems and improve professional judgement. Students will apply previously-gained technical knowledge of accounting, tax, assurance, finance, and corporate governance to various financial reporting and advisory problems and scenarios. They will develop an enhanced understanding of the impact of user and preparer objectives on the selection of accounting policies, and accounting estimates in an environment of some uncertainty. Department(s): Department of Management",
+      "code": "ACCT4440",
+      "department": "ACCT",
+      "number": 4440,
+      "name": "Integrated Cases in Accounting",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.030898037203112683
+      ],
+      "departments": "Department of Management",
+      "requisites": "15.00 credits including ACCT*3280, ACCT*3340, ACCT*3350   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Winter Only, All Years"
+    },
+    {
+      "id": 0.32920606674901753,
+      "description": "\"Integrated Cases I\" is a required course for students pursuing a Chartered Professional Accountant (CPA) designation and will provide students with an in-depth knowledge of financial reporting and auditing. The course will integrate topics from both the finance and taxation areas of the CPA competency map. The course will also assist students in developing their problem solving and decision making abilities and communication skills, which are part of the enabling competencies of the CPA competency map. Restriction(s): Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.Department(s): Department of Management",
+      "code": "ACCT6100",
+      "department": "ACCT",
+      "number": 6100,
+      "name": "Integrated Cases I",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.7737683272032347
+      ],
+      "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
+      "departments": "Department of Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "undefined": "Summer Only, All Years"
+    },
+    {
+      "id": 0.037037541804615826,
+      "description": "\"Integrated Cases II\" is a required course for students pursuing a Chartered Professional Accountant (CPA) designation and will provide students with an in-depth knowledge of management accounting. The course will integrate topics from both the strategy and governance and the finance areas of the CPA competency map. The course will also assist students in developing their problem solving and decision-making abilities and communication skills, which are part of the enabling competencies of the CPA competency map. Restriction(s): Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.Department(s): Department of Management",
+      "code": "ACCT6200",
+      "department": "ACCT",
+      "number": 6200,
+      "name": "Integrated Cases II",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.19846976299662145
+      ],
+      "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
+      "departments": "Department of Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "undefined": "Summer Only, All Years"
+    },
+    {
+      "id": 0.7395735325907267,
+      "description": "This course is intended to help students achieve the competencies related to Elective Module 4 (E4) - Taxation in the CPA Competency Map. It covers the competencies necessary to provide taxation services and guidance. Topics include: compliance and tax-planning issues for both individuals and corporate entities, as well as, partnerships and trusts, risk tolerance of all stakeholders involved, tax governance, controls, and risk management, and the importance of taking taxes into account when making business and investment decisions.. Restriction(s): Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.Department(s): Department of Management",
+      "code": "ACCT6300",
+      "department": "ACCT",
+      "number": 6300,
+      "name": "Taxation",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.35523153632978066
+      ],
+      "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
+      "departments": "Department of  Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "undefined": "Summer Only, All Years"
+    },
+    {
+      "id": 0.045488127996130556,
+      "description": "Performance Management is an elective course for students pursuing a Chartered Professional Accountant (CPA) designation and will build on students' management accounting knowledge from both their undergraduate courses as well as \"Integrated Cases II\". The course will also assist students in further developing their problem solving and decision-making abilities and communication skills, which are part of the enabling competencies of the CPA competency map. Restriction(s): Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.Department(s): Department of Management",
+      "code": "ACCT6400",
+      "department": "ACCT",
+      "number": 6400,
+      "name": "Performance Management",
+      "credits": 0.5,
+      "HAS_SECTION": [],
+      "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
+      "departments": "Department of Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "undefined": "Unspecified, All Years"
+    },
+    {
+      "id": 0.7939763677979141,
+      "description": "This course develops the competencies necessary to assess an entity's assurance needs and perform both internal audit projects and external assurance engagements. The CPA Competency Map describes in detail the two types of competencies - technical and enabling - that employers in public practice, industry, and government require of accounting professionals. As such, the CPA Competency Map will be utilized in this course to help ensure that students meet the course learning objectives. Restriction(s): Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.Department(s): Department of Management",
+      "code": "ACCT6500",
+      "department": "ACCT",
+      "number": 6500,
+      "name": "Assurance",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.39527090165765455
+      ],
+      "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
+      "departments": "Department of Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "undefined": "Summer Only, All Years"
+    },
+    {
+      "id": 0.4595253552585472,
+      "description": "The course will build upon the conceptual foundation developed in undergraduate introductory finance courses. The focus of the course is on the development of competencies in identifying, analyzing, evaluating and making appropriate recommendations for investing and financing decisions in a variety of professional contexts, particularly in the areas of treasury management, valuation, and risk management. There will be a strong emphasis on applying the body of knowledge in integrated case problems. Restriction(s): Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP Management students.Department(s): Department of Management",
+      "code": "ACCT6600",
+      "department": "ACCT",
+      "number": 6600,
+      "name": "Financial Management",
+      "credits": 0.5,
+      "HAS_SECTION": [],
+      "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP Management students.",
+      "departments": "Department of Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "undefined": "Unspecified, All Years"
+    },
+    {
+      "id": 0.5867789840649571,
+      "description": "This introductory course provides an overview of Canadian and global agri-food systems. Students will be introduced to many different facets of agriculture, including primary production (conventional and organic) of commodity, mid-value and high-value crops, and livestock. Students will explore the agri-food system by tracing consumer end-products back to primary production. Modern, industrial agri-food systems as well as subsistence farming will be discussed. The course incorporates an experiential learning component in which students will explore a new agri-food opportunity for Ontario by designing and assessing the value chain. Restriction(s): AGR*1100. AGR*1250. Restricted to students in BAH.FARE, BSC(AGR), Minor in AgricultureDepartment(s): Department of Plant Agriculture, Department of Animal Biosciences",
       "code": "AGR1110",
       "department": "AGR",
       "number": 1110,
@@ -16,7 +386,7 @@
       "undefined": "Fall Only, All Years"
     },
     {
-      "id": 0.1788505134955487,
+      "id": 0.9048548956356086,
       "description": "This course is designed to introduce the student to animal production systems in Canada. Dairy, poultry and egg productions are covered throughout the value-chain. Topics include food, health and wellness (domestic animals and human), nutrition, housing, genetics, reproduction, husbandry practices and processing. The course includes laboratories and animal production unit tours. Restriction(s): AGR*2350. Restricted to students in BSCH.ABIO, BBRM.EQM, and BSAG majors/minor.Department(s): Department of Animal Biosciences",
       "code": "AGR1350",
       "department": "AGR",
@@ -29,26 +399,1316 @@
       "requisites": "1 of BIOL*1050, BIOL*1070, BIOL*1080 BIOL*1090   - Must be completed prior to taking this course.",
       "locations": "Guelph",
       "undefined": "Winter Only, All Years"
+    },
+    {
+      "id": 0.10029416170334504,
+      "description": "This course considers the interactions of all important biophysical, technical and socioeconomic components of farming systems and examines these systems as the fundamental units of study. Mineral cycles, energy transformations, biological processes and socioeconomic relationships are analyzed as a whole in an interdisciplinary fashion. Restriction(s): CROP*2110Department(s): Department of Plant Agriculture, Department of Animal Biosciences",
+      "code": "AGR2050",
+      "department": "AGR",
+      "number": 2050,
+      "name": "Agroecology",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.6479450891924288
+      ],
+      "restrictions": "CROP*2110",
+      "departments": "Department of Plant  Agriculture, Department of Animal Biosciences",
+      "requisites": "(AGR*1110 or AGR*2150), (BIOL*1050 or BIOL*1070)\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Winter Only, All Years"
+    },
+    {
+      "id": 0.18755594215395988,
+      "description": "This course will provide students interested in international development with an introductory mechanistic understanding of the biology underlying crop production in developing nations. Emphasis will be placed on simple, low-cost solutions from biology that have the potential to aid efforts in international development. This course is accessible to science and non-science students. Restriction(s): AGR*2470Department(s): Department of Plant Agriculture",
+      "code": "AGR2150",
+      "department": "AGR",
+      "number": 2150,
+      "name": "Plant Ag. for Int'l Devmt",
+      "credits": 0.5,
+      "HAS_SECTION": [],
+      "restrictions": "AGR*2470",
+      "departments": "Department of Plant  Agriculture",
+      "requisites": "4.00 credits\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Fall Only, All Years"
+    },
+    {
+      "id": 0.9510027489996709,
+      "description": "This course is an introduction to soil resources with emphasis on management practices that will sustain the productivity of these resources and enhance the quality of the ecosystems of which they are a part. Students will develop a management plan for a farm that will take into account the roles of geological, geomorphological, biological, climatic and temporal factors on the formation, properties and uses of soils. The management plans will be placed in the broader context of provincial policies related to soil, air and water resources and local zoning regulations. Restriction(s): ENVS*2060 or SOIL*2010Department(s): School of Environmental Sciences",
+      "code": "AGR2320",
+      "department": "AGR",
+      "number": 2320,
+      "name": "Soils in Agroecosystems",
+      "credits": 0.5,
+      "HAS_SECTION": [],
+      "restrictions": "ENVS*2060 or SOIL*2010",
+      "departments": "School of  Environmental Sciences",
+      "requisites": "2.50 credits\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Fall Only, All Years"
+    },
+    {
+      "id": 0.07595012338121965,
+      "description": "This course is designed to introduce the student to animal production systems in Canada. Beef, swine, companion animals, aquaculture, mink and other alternative animals will be covered throughout the value-chain. Topics include food, health and wellness (domestic animals and human), nutrition, housing, genetics, reproduction, husbandry practices and processing. The course includes laboratories and animal production unit tours. Department(s): Department of Animal Biosciences",
+      "code": "AGR2350",
+      "department": "AGR",
+      "number": 2350,
+      "name": "Animal Prod Sys & Industry",
+      "credits": 0.5,
+      "HAS_SECTION": [],
+      "departments": "Department of Animal Biosciences",
+      "requisites": "(2 of BIOL*1050, BIOL*1070, BIOL*1080, BIOL*1090)   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Fall Only, All Years"
+    },
+    {
+      "id": 0.9866497649654282,
+      "description": "The basic principles of plant morphology, nutrition, growth and development will be related to where and how agriculturally significant plants are grown. Agroecosystems and farming systems will be considered as frameworks for crop production analyses. The course uses examples from temperate, sub-tropical and tropical crops and cropping systems. Labs include problem-solving exercises in the context of plant production. Restriction(s): AGR*2150Department(s): Department of Plant Agriculture",
+      "code": "AGR2470",
+      "department": "AGR",
+      "number": 2470,
+      "name": "Intro to Plant Agriculture",
+      "credits": 0.5,
+      "HAS_SECTION": [],
+      "restrictions": "AGR*2150",
+      "departments": "Department of Plant  Agriculture",
+      "requisites": "BIOL*1050 or BIOL*1070\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Fall Only, All Years"
+    },
+    {
+      "id": 0.6125190794302333,
+      "description": "This course introduces students to a wide range of tropical and subtropical agricultural production systems and issues. The course is comprised of a weekly 3 hour evening lecture and a ten day field trip to Costa Rica where students will visit corporate and individual farms, and university and government research stations. The field trip occurs during Reading Week in February. This course must be recorded as part of your Winter course selection. A student fee will be assessed to cover transportation, lodging and meals in addition to tuition and compulsory fees. Students must identify their interest in taking this course by contacting the instructor before the October course selection period of the previous year. For information regarding fees, see the Department of Plant Agriculture Website. Restriction(s): Registration in BSC(AGR)or BA.ID or Minor in Agriculture Instructor consent required.Department(s): Department of Plant Agriculture",
+      "code": "AGR2500",
+      "department": "AGR",
+      "number": 2500,
+      "name": "Field Crse Int'l Agriculture",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.6741484165246823
+      ],
+      "restrictions": "Registration in BSC(AGR)or BA.ID or Minor in Agriculture Instructor consent required.",
+      "departments": "Department of Plant Agriculture",
+      "requisites": "(AGR*1110 or AGR*1250) or registration in International  Development\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Winter Only, All Years"
+    },
+    {
+      "id": 0.8363522742608243,
+      "description": "A special study option that enables undergraduate students in semesters 5 through 8 to undertake specific projects in agricultural sciences. The topic of the special study will be determined in consultation with a faculty member and the individual student. Students are responsible for making appropriate arrangements with faculty at the departmental and/or college level prior to registration for the course. Restriction(s): Instructor consent required.Department(s): Department of Plant Agriculture",
+      "code": "AGR3010",
+      "department": "AGR",
+      "number": 3010,
+      "name": "Spec. Studies in Agr. Sci. I",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.40050347112799844,
+        0.8568066394116156
+      ],
+      "restrictions": "Instructor consent required.",
+      "departments": "Department of Plant Agriculture",
+      "requisites": "10.00 credits\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Summer, Fall, and Winter, All Years"
+    },
+    {
+      "id": 0.8409529860783009,
+      "description": "This course focuses on computational aspects of analytical techniques for biological data. Topics covered include, how to operate a computer efficiently when using biological data, types of biological data used in animal biosciences, how to prepare biological data for analysis, programming skills for bio-data organization, manipulation and problem solving, bio-data visualization, and computational aspects of data modelling. Restriction(s): Restricted to students in BSCH.ABIO, BSAG.AGRS, BSAG.ANSC, BBRM.EQM.Department(s): Animal Biosciences",
+      "code": "AGR3200",
+      "department": "AGR",
+      "number": 3200,
+      "name": "Computing for Bioscientists",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.08757963749521913
+      ],
+      "restrictions": "Restricted to students in BSCH.ABIO, BSAG.AGRS, BSAG.ANSC, BBRM.EQM.",
+      "departments": "Animal Biosciences",
+      "requisites": "9.50 credits   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Winter Only, All Years"
+    },
+    {
+      "id": 0.1818507480490108,
+      "description": "This course provides students with an opportunity to enhance their understanding of the principles and processes of agricultural research. The course will provide students with a foundation in critical thinking, experimental design and data analysis that will be applicable to independent research projects and graduate studies. Students will also explore the practical requirements and limitations of scientific research. Laboratory and field safety, animal care, intellectual property and research ethics will be reviewed. Students will be required to practice both oral presentation and writing skills as core components of their evaluation. Restriction(s): Enrollment in the BSC(AGR), BBRM, BSC.ABIO, BSC.PLSC or Minor in Agriculture.Department(s): Department of Plant Agriculture, Department of Animal Biosciences",
+      "code": "AGR3450",
+      "department": "AGR",
+      "number": 3450,
+      "name": "Research Methods",
+      "credits": 0.5,
+      "HAS_SECTION": [],
+      "restrictions": "Enrollment in the BSC(AGR), BBRM, BSC.ABIO,  BSC.PLSC or Minor in Agriculture.",
+      "departments": "Department of Plant Agriculture, Department of  Animal Biosciences",
+      "requisites": "Completion of 7.50 credits including (1 of GEOG*2460,  STAT*2040 , STAT*2060, STAT*2080)\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Fall Only, All Years"
+    },
+    {
+      "id": 0.1618211590954124,
+      "description": "This special study option enables undergraduate students in semesters 5 through 8 to undertake specific projects in agricultural science. The topic of the special study will be determined in consultation with a faculty member and the individual student. Students are responsible for making appropriate arrangements with faculty member prior to registration for the course. Restriction(s): Instructor consent required.Department(s): Department of Animal Biosciences",
+      "code": "AGR4010",
+      "department": "AGR",
+      "number": 4010,
+      "name": "Spec. Studies in Agr. Sci. II",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.24356516504952608,
+        0.5860357350526582
+      ],
+      "restrictions": "Instructor consent  required.",
+      "departments": "Department of Animal  Biosciences",
+      "requisites": "15.00 credits\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Summer, Fall, and Winter, All Years"
+    },
+    {
+      "id": 0.7531213824071092,
+      "description": "This course will be a survey of principles and applications of technologies supporting precision farming and planning for natural resource data management. Topics will include Global positioning system (GPS), yield monitoring and mapping, remote sensing, geographic information system (GIS), variable rate technologies (VRT), data layering, Internet information access, and computer software for management. Department(s): Department of Plant Agriculture",
+      "code": "AGR4020",
+      "department": "AGR",
+      "number": 4020,
+      "name": "Precision Agriculture",
+      "credits": 0.5,
+      "HAS_SECTION": [],
+      "departments": "Department of Plant Agriculture",
+      "requisites": "AGR*2470, STAT*2040, (BIOL*1050 or BIOL*1070)\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Fall Only, All Years"
+    },
+    {
+      "id": 0.3618051741299677,
+      "description": "This course provides for the independent study of a current topic in agricultural or environmental science designed to encourage senior undergraduates to conduct research. The course includes participation in meetings organized by the coordinator and working with a faculty advisor to develop a research project, formulate hypotheses, and conduct a thorough literature search related to the proposed work. Students will carry out independent library research, potentially conduct preliminary research, prepare a written research proposal and make a presentation to other students on the research plan and preliminary results, if applicable. Students should make arrangements with both the faculty advisor and the course coordinator at least one semester before starting the course. The course will normally be followed by AGR*4460 to provide 2 semesters to complete the research project. Restriction(s): Permission of the course coordinator (contingent on the availability and agreement of a faculty advisor). BSC.Agr or BSC or BBRM, 70% cumulative average.Department(s): Department of Plant Agriculture",
+      "code": "AGR4450",
+      "department": "AGR",
+      "number": 4450,
+      "name": "Research Project I",
+      "credits": 0.5,
+      "HAS_SECTION": [
+        0.38632631241826454,
+        0.3441734066406563
+      ],
+      "restrictions": "Permission of the  course coordinator (contingent on the  availability and agreement of a faculty advisor).  BSC.Agr or BSC or BBRM, 70% cumulative  average.",
+      "departments": "Department of Plant Agriculture",
+      "requisites": "10.00 credits\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Summer, Fall, and Winter, All Years"
+    },
+    {
+      "id": 0.7014340719022587,
+      "description": "Independent study of a current topic in agricultural or environmental science designed to encourage senior undergraduates to conduct research. The focus of this course will be the completion of the research plan developed in AGR*4450 by the student in consultation with a faculty advisor. The course includes participation in meetings organized by the coordinator and meetings with a faculty advisor to review research progress. Students will carry out independent research, prepare a written report of the research findings in a scholarly style and make a presentation to other students in the course of the research results. Open to students in semesters 6, 7 and 8 of the B.SC. (Agr.) or B.Sc. degree program. Restriction(s): Permission of the course coordinator and faculty advisor.Department(s): Dean's Office, Ontario Agricultural College",
+      "code": "AGR4460",
+      "department": "AGR",
+      "number": 4460,
+      "name": "Research Project II",
+      "credits": 1,
+      "HAS_SECTION": [
+        0.4716682840006321,
+        0.6731830275425017
+      ],
+      "restrictions": "Permission of the course coordinator and faculty  advisor.",
+      "departments": "Dean's Office, Ontario  Agricultural College",
+      "requisites": "AGR*4450\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Summer, Fall, and Winter, All Years"
+    },
+    {
+      "id": 0.7432445518436397,
+      "description": "The issues facing the agriculture and food sector are many and varied and relate to the economy, the environment and society. Within these issues there are problems which require thoughtful solutions. Working in teams, with guidance from faculty advisors, students will have an opportunity to develop solutions to real-world problems facing the agriculture and food sector. In the process students will have an opportunity to develop their research, communication, presentation, writing and group work skills. Restriction(s): Registration in BSC.AGR, BBRM, BCOMM.FAB, BCOMM.FAB:C, BSC.PLSC, or BA.FARE program, or Minor in Agriculture.Department(s): Department of Plant Agriculture",
+      "code": "AGR4600",
+      "department": "AGR",
+      "number": 4600,
+      "name": "Agriculture and Food Issues",
+      "credits": 1,
+      "HAS_SECTION": [
+        0.8514235337202902,
+        0.4265877700308749
+      ],
+      "restrictions": "Registration in BSC.AGR, BBRM,  BCOMM.FAB, BCOMM.FAB:C, BSC.PLSC, or BA.FARE  program, or Minor in Agriculture.",
+      "departments": "Department of Plant Agriculture",
+      "requisites": "12.50 credits\r   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "undefined": "Winter Only, All Years"
     }
   ],
-  "labs": [],
+  "labs": [
+    {
+      "startTime": "3:30 PM",
+      "endTime": "5:20 PM",
+      "id": 0.2614462217899802,
+      "location": "AD-S",
+      "room": "VIRTUAL",
+      "monday": false,
+      "tuesday": true,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": false,
+      "sunday": false
+    }
+  ],
   "lectures": [],
   "seminars": [],
   "tutorials": [],
-  "exams": [],
-  "sections": [],
+  "exams": [
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.8913962253968895,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.6753522245444845,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.605315891460954,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.11314421853915646,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.2525118235184187,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.7456801988685544,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.3936414737091911,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.735919215085753,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.47025381167350533,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.7654152706760191,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.47207202795913705,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.08669415993411955,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.7787933738918433,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.11986675374331202,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.9062645990215206,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.8742165527463728,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "11:30 AM",
+      "endTime": "1:30 PM",
+      "id": 0.8657828751756205,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": true,
+      "sunday": false
+    },
+    {
+      "startTime": "2:30 PM",
+      "endTime": "4:30 PM",
+      "id": 0.4462458414001129,
+      "location": "MACS",
+      "room": "121",
+      "monday": false,
+      "tuesday": true,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": false,
+      "sunday": false
+    },
+    {
+      "startTime": "8:30 AM",
+      "endTime": "10:30 AM",
+      "id": 0.41262016674229485,
+      "location": "MCLN",
+      "room": "102",
+      "monday": false,
+      "tuesday": true,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": false,
+      "sunday": false
+    },
+    {
+      "startTime": "8:30 AM",
+      "endTime": "10:30 AM",
+      "id": 0.883295297756411,
+      "location": "MCLN",
+      "room": "102",
+      "monday": false,
+      "tuesday": true,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": false,
+      "sunday": false
+    },
+    {
+      "startTime": "8:30 AM",
+      "endTime": "10:30 AM",
+      "id": 0.30799864860809634,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": true,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": false,
+      "sunday": false
+    },
+    {
+      "startTime": "8:30 AM",
+      "endTime": "10:30 AM",
+      "id": 0.23225478897875518,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": true,
+      "tuesday": false,
+      "wednesday": false,
+      "thursday": false,
+      "friday": false,
+      "saturday": false,
+      "sunday": false
+    },
+    {
+      "startTime": "7:00 PM",
+      "endTime": "9:00 PM",
+      "id": 0.735616560334297,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": true,
+      "thursday": false,
+      "friday": false,
+      "saturday": false,
+      "sunday": false
+    },
+    {
+      "startTime": "2:30 PM",
+      "endTime": "4:30 PM",
+      "id": 0.5306559789382508,
+      "location": "SEE",
+      "room": "ONLINE",
+      "monday": false,
+      "tuesday": false,
+      "wednesday": true,
+      "thursday": false,
+      "friday": false,
+      "saturday": false,
+      "sunday": false
+    }
+  ],
+  "sections": [
+    {
+      "id": 0.047791952572308505,
+      "code": "0101",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.8913962253968895
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.9387162892078564,
+      "code": "0102",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.6753522245444845
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.8082046750254819,
+      "code": "0103",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.605315891460954
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.6171222396550626,
+      "code": "0104",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.11314421853915646
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.02232092983434497,
+      "code": "0105",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.2525118235184187
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.7577990285276321,
+      "code": "0106",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.7456801988685544
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.834331497589615,
+      "code": "0107",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.3936414737091911
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.11987527118963559,
+      "code": "0108",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.735919215085753
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.9780818684159978,
+      "code": "0109",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.47025381167350533
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.15219378283932206,
+      "code": "0210",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.7654152706760191
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.31516085735864663,
+      "code": "0211",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.47207202795913705
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.1861329237609708,
+      "code": "0212",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.08669415993411955
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.09183914148095962,
+      "code": "0213",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.7787933738918433
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.11796811750707326,
+      "code": "0214",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.11986675374331202
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.43177335121474547,
+      "code": "0215",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9373188018662764,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.9062645990215206
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.7338564864903301,
+      "code": "DE01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.9695348348135915,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.8062976068893732,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.18301972968789104,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.8742165527463728
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.8505724671712653,
+      "code": "02",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.18301972968789104,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.8657828751756205
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.7790252629188548,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.7987799181727031,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.9935233101061507,
+      "code": "DE01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.7987799181727031,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.7169861768284858,
+      "code": "DE01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.5667580824788259,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.07254599298057074,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.20078978259258196,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.022967745132664863,
+      "code": "02",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.20078978259258196,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.17370595523966892,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.6632927900651748,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.930517531615358,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.18301972968789104,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.1069720554711957,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.6632927900651748,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.23116865615873383,
+      "code": "02",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.6632927900651748,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.07833409677324377,
+      "code": "DE01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.3183187614029279,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.7552918035914229,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.6632927900651748,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.2411189743879334,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.5667580824788259,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.3726673468109951,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.4380127850102966,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.4462458414001129
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.5283619882452959,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.1301353921128019,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.41262016674229485
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.22102373331442737,
+      "code": "02",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.1301353921128019,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.883295297756411
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.7427229002128235,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9625544905826566,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.30799864860809634
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.5859801234157471,
+      "code": "02",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.9625544905826566,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.23225478897875518
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.036570791620033294,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.4380127850102966,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.030898037203112683,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.7987799181727031,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.735616560334297
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.7737683272032347,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.324305505183599,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.19846976299662145,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.3183187614029279,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.35523153632978066,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.5667580824788259,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.39527090165765455,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.18301972968789104,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.6479450891924288,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.5454782507575977,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [
+        0.5306559789382508
+      ],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.6741484165246823,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.5986464811031464,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.40050347112799844,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.7983543262760215,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.8568066394116156,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.7983543262760215,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.08757963749521913,
+      "code": "0101",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.32571465627056395,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [
+        0.2614462217899802
+      ],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.24356516504952608,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.5512187981343497,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.5860357350526582,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.5512187981343497,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.38632631241826454,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.7797533245265145,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.3441734066406563,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.7797533245265145,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.4716682840006321,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.7797533245265145,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.6731830275425017,
+      "code": "01",
+      "term": "Summer 2022",
+      "INSTRUCTED_BY": 0.7797533245265145,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.8514235337202902,
+      "code": "01",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.4036650661819934,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    },
+    {
+      "id": 0.4265877700308749,
+      "code": "02",
+      "term": "Winter 2022",
+      "INSTRUCTED_BY": 0.4036650661819934,
+      "HAS_LECTURE": [],
+      "HAS_EXAM": [],
+      "HAS_SEMINAR": [],
+      "HAS_LAB": [],
+      "HAS_TUTORIAL": []
+    }
+  ],
   "instructors": [
     {
-      "id": 0.45929704044261954,
+      "id": 0.9373188018662764,
       "name": "Senkl, D"
     },
     {
-      "id": 0.8022207596525046,
-      "name": "Guelph"
+      "id": 0.9695348348135915,
+      "name": "Nasreen, T"
     },
     {
-      "id": 0.308479309392067,
+      "id": 0.18301972968789104,
+      "name": "Zavitz, C"
+    },
+    {
+      "id": 0.7987799181727031,
+      "name": "Ghattas, P"
+    },
+    {
+      "id": 0.5667580824788259,
+      "name": "Dhaliwal, S"
+    },
+    {
+      "id": 0.20078978259258196,
+      "name": "Lassou, P"
+    },
+    {
+      "id": 0.6632927900651748,
+      "name": "Murison, R"
+    },
+    {
+      "id": 0.3183187614029279,
+      "name": "Wick, S"
+    },
+    {
+      "id": 0.4380127850102966,
+      "name": "Baker, R"
+    },
+    {
+      "id": 0.1301353921128019,
+      "name": "Jagoda, K"
+    },
+    {
+      "id": 0.9625544905826566,
+      "name": "Hayes, L"
+    },
+    {
+      "id": 0.324305505183599,
+      "name": "Matthews, K"
+    },
+    {
+      "id": 0.5454782507575977,
       "name": "Sulik, J"
+    },
+    {
+      "id": 0.5986464811031464,
+      "name": "Jones, A"
+    },
+    {
+      "id": 0.7983543262760215,
+      "name": "Tardif, F"
+    },
+    {
+      "id": 0.32571465627056395,
+      "name": "Tulpan, D"
+    },
+    {
+      "id": 0.5512187981343497,
+      "name": "Robinson, A"
+    },
+    {
+      "id": 0.7797533245265145,
+      "name": "Kalischuk, M"
+    },
+    {
+      "id": 0.4036650661819934,
+      "name": "Osborne, V"
     }
   ]
 }
