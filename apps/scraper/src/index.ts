@@ -7,7 +7,7 @@ const labels = {
   "Restriction(s):": "restrictions",
   "Requisites:": "requisites",
   "Locations:": "locations",
-  Offered: "formats",
+  "Offered:": "formats",
   "Department(s):": "departments",
 };
 
@@ -89,9 +89,17 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
         try {
           const title = (await course.$eval("div div h3 span", (e) => e.textContent)).trim();
           const code = ((title.match(/[A-Z]{3,4}\*[0-9]{4}/) ?? [])[0] ?? "").replace(/\*/g, "");
-          const description = (await course.$eval("div.search-coursedescription", (e) => e.textContent))
+
+          // Get the inner HTML and get all the text before the second <br> element
+          // The description text is typically followed by 2x <br> so we just get the HTML + text up until the 2nd <br> then chop off the last 9 characters
+          const description = (await course.$eval("div.search-coursedescription", (e) => e.innerHTML))
+            .match(/.+<br>/g)
+            .at(0)
+            .slice(0, -9)
             .trim()
             .replace(/ +/g, " ");
+
+          log(chalk.yellow(description));
 
           log(chalk.blueBright(`${code} (${courseIndex++})`));
 
@@ -99,9 +107,12 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
             id: Math.random(),
             description,
             code,
-            department: (code.match(/[A-Z]+/g) ?? [])[0],
+            department: (code.match(/[A-Z]+/g) ?? [])[0].replace(/ +/g, " "),
             number: parseInt((code.match(/[0-9]+/g) ?? [])[0]),
-            name: title.replace(/([A-Z]+\*[0-9]{4})|(\([0-9\.]+ Credits\))/g, "").trim(),
+            name: title
+              .replace(/([A-Z]+\*[0-9]{4})|(\([0-9\.]+ Credits\))/g, "")
+              .trim()
+              .replace(/ +/g, " "),
             credits: parseFloat(
               ((title.match(/\([0-9\.]+ Credits\)/) ?? [])[0].match(/[0-9\.]+/g) ?? [] ?? "")[0].trim()
             ),
@@ -116,7 +127,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
             const label = await metaLabels[idx].textContent();
             const content = await metaContent[idx].textContent();
             if (!label || !content) return;
-            courseObj[labels[label.trim()]] = content.trim();
+            courseObj[labels[label.trim()]] = content.trim().replace(/ +/g, " ");
           }
 
           const sectionButton = await course.$("button.esg-collapsible-group__toggle");
@@ -208,10 +219,8 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
                     await (await row.$(`#${sectionId}-meeting-days-${rowIndex}`))?.textContent()
                   )?.trim();
 
-                  log(chalk.yellow(sectionId));
-
                   let meeting: any = {
-                    days: daysTextContent.length === 0 ? [] : daysTextContent.split("/"),
+                    days: daysTextContent?.length === 0 ? [] : daysTextContent.split("/"),
                     startTime: (
                       await (await row.$(`#${sectionId}-meeting-times-start-${rowIndex}`))?.textContent()
                     )?.trim(),
@@ -314,7 +323,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
     );
     writeFileSync("logs.txt", logs.join("\n"));
 
-    log(chalk.green("Program finished. Saved to file."));
+    log(chalk.green("Department finished. Saved to file."));
     await dptPage.close();
   }
 
