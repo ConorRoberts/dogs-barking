@@ -57,7 +57,7 @@ const save = async () => {
         province: "Ontario",
         postalCode: "N1G4V4",
         country: "Canada",
-        phone: "519-824-4120"
+        phone: "519-824-4120",
         id: "${randomUUID()}"
     })
   `);
@@ -99,19 +99,19 @@ const save = async () => {
     // ("CIS*2520, (CIS*2430 or ENGG*1420)");
     // ("[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520");
 
-    const ONE_OF_REGEX = /1 of ([A-Z]{2,4}\*[0-9]{4}, )+[A-Z]{2,4}\*[0-9]{4}/g;
+    const ONE_OF_REGEX = /[0-9]+ of ([A-Z]{2,4}\*[0-9]{4}, )+[A-Z]{2,4}\*[0-9]{4}/g;
 
     // Handle requisites
     const requisiteText = (course.requisites as string)
       .replace("- Must be completed prior to taking this course.", "")
       .trim();
-
+    log(chalk.gray(requisiteText));
     if (ONE_OF_REGEX.test(requisiteText)) {
       // ("1 of CIS*1200, CIS*1300, CIS*1500");
       for (const statement of requisiteText.match(ONE_OF_REGEX)) {
         const numCourses = statement.match(/^[0-9]+/g).at(0);
 
-        const courses = statement.match(courseCodeRegex);
+        const courses = statement.match(courseCodeRegex) ?? [];
 
         const orBlockId = randomUUID();
 
@@ -127,9 +127,11 @@ const save = async () => {
           })
           CREATE (c)-[:HAS_PREREQUISITE]->(orBlock)
         `,
-          { code: course.code, numCourses: Number(numCourses), id: orBlockId }
+          { code: course.code.replace("*", ""), numCourses: Number(numCourses), id: orBlockId }
         );
         await session.close();
+
+        log(chalk.yellow(`Added OrBlock for ${course.code.replace("*", "")}`));
 
         // Attach courses to that OrBlock
         for (const orBlockCourse of courses) {
@@ -140,9 +142,11 @@ const save = async () => {
             MATCH (block:OrBlock {id: $orBlockId})
             CREATE (block)-[:REQUIRES]->(c)
           `,
-            { code: orBlockCourse, numCourses: Number(numCourses), orBlockId }
+            { code: orBlockCourse.replace("*", ""), numCourses: Number(numCourses), orBlockId }
           );
           await session.close();
+
+          log(chalk.yellowBright(`Added link ${course.code.replace("*", "")} -> OrBlock -> ${orBlockCourse.replace("*", "")}`));
         }
       }
     }
