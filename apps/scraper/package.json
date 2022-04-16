@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "ts-node -r tsconfig-paths/register ./src/index.ts",
-    "start": "dev"
+    "scrape": "ts-node -r tsconfig-paths/register ./src/index.ts",
+    "save": "ts-node -r tsconfig-paths/register ./src/save.ts"
   },
   "keywords": [],
   "author": "",

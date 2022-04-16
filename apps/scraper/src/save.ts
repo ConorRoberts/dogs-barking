@@ -1,10 +1,38 @@
-import fs from "fs";
+import fs, { readdirSync } from "fs";
 import "tsconfig-paths/register";
+import { courseCodeRegex } from "./config";
 import getNeo4jDriver from "./getNeo4jDriver";
-import { requisiteData } from "./requisiteFormat";
+import chalk from "chalk";
+import { randomUUID } from "crypto";
 
 const save = async () => {
-  const data = JSON.parse(fs.readFileSync("scrape-data.json", "utf-8"));
+  const startTime = new Date().getTime();
+
+  const log = (msg: string) => {
+    const endTime = new Date().getTime();
+    const time = (endTime - startTime) / 1000;
+    const timestamp =
+      Math.floor(time / 60)
+        .toFixed(0)
+        .padStart(2, "0") +
+      ":" +
+      (time % 60).toFixed(0).padStart(2, "0") +
+      "s";
+
+    const text = timestamp + "\t" + msg;
+    console.log(text);
+  };
+
+  const files = readdirSync("./data");
+
+  // Get file with greatest number
+  const file = files.reduce((prev, curr) => {
+    const prevNum = Number(prev.split(".")[0]);
+    const currNum = Number(curr.split(".")[0]);
+    return prevNum > currNum ? prev : curr;
+  });
+
+  const data = JSON.parse(fs.readFileSync("data/" + file, "utf-8"));
   const driver = getNeo4jDriver();
   let session = driver.session();
 
@@ -30,8 +58,11 @@ const save = async () => {
         postalCode: "N1G4V4",
         country: "Canada",
         phone: "519-824-4120"
+        id: "${randomUUID()}"
     })
   `);
+
+  log(chalk.blue("Added school"));
 
   await session.close();
 
@@ -48,23 +79,72 @@ const save = async () => {
             description: $description,
             credits: $credits,
             department: $department,
-            number: $number
+            number: $number,
+            id: $id
         }) 
         CREATE (school)-[:HAS_COURSE]->(c)
         `,
-        course
+        { ...course, id: randomUUID() }
       );
       await session.close();
+
+      log(chalk.green(`Added ${course.code}`));
     } catch (error) {
       console.error("Failed to add course");
+      log(chalk.red(error));
     }
 
-    if(!course.requisites.includes("None")){
-      for (const requisite of course.requisites) {
-        requisiteData(requisite);
-      }
-    } else {
+    //   ("(ACCT*3330 or BUS*3330), (ACCT*3340 or BUS*3340)");
+    // ("15.00 credits including ACCT*3280, ACCT*3340, ACCT*3350");
+    // ("CIS*2520, (CIS*2430 or ENGG*1420)");
+    // ("[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520");
 
+    const ONE_OF_REGEX = /1 of ([A-Z]{2,4}\*[0-9]{4}, )+[A-Z]{2,4}\*[0-9]{4}/g;
+
+    // Handle requisites
+    const requisiteText = (course.requisites as string)
+      .replace("- Must be completed prior to taking this course.", "")
+      .trim();
+
+    if (ONE_OF_REGEX.test(requisiteText)) {
+      // ("1 of CIS*1200, CIS*1300, CIS*1500");
+      for (const statement of requisiteText.match(ONE_OF_REGEX)) {
+        const numCourses = statement.match(/^[0-9]+/g).at(0);
+
+        const courses = statement.match(courseCodeRegex);
+
+        const orBlockId = randomUUID();
+
+        // Create an OrBlock using numCourses as target
+        session = driver.session();
+        await session.run(
+          `
+          MATCH (c:Course {code: $code})
+          CREATE (orBlock:OrBlock {
+              target: $numCourses,
+              id: $id,
+              type: "course"
+          })
+          CREATE (c)-[:HAS_PREREQUISITE]->(orBlock)
+        `,
+          { code: course.code, numCourses: Number(numCourses), id: orBlockId }
+        );
+        await session.close();
+
+        // Attach courses to that OrBlock
+        for (const orBlockCourse of courses) {
+          session = driver.session();
+          await session.run(
+            `
+            MATCH (course:Course {code: $code})
+            MATCH (block:OrBlock {id: $orBlockId})
+            CREATE (block)-[:REQUIRES]->(c)
+          `,
+            { code: orBlockCourse, numCourses: Number(numCourses), orBlockId }
+          );
+          await session.close();
+        }
+      }
     }
 
     for (const sectionId of course.HAS_SECTION) {
@@ -243,5 +323,9 @@ const save = async () => {
 
   await driver.close();
 };
+
+(async () => {
+  await save();
+})();
 
 export default save;

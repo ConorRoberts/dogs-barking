@@ -1,7 +1,6 @@
 import { writeFileSync } from "fs";
 import { devices, chromium, ElementHandle } from "@playwright/test";
 import chalk from "chalk";
-import {requisiteScrape} from "./requisiteFormat";
 
 const labels = {
   "Offering(s):": "offerings",
@@ -33,6 +32,8 @@ const courses = [],
   instructors = [];
 
 const logs: string[] = [];
+
+const timestamp = new Date().getTime();
 
 const baseUrl = "https://colleague-ss.uoguelph.ca";
 
@@ -87,7 +88,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
 
     let firstCourse = ((await courseElements[0].$eval("div div h3 span", (e) => e.textContent))
       .trim()
-      .match(/[A-Z]{3,4}\*[0-9]{4}/) ?? [])[0].replace(/\*/g, "");
+      .match(/[A-Z]{2,4}\*[0-9]{4}/) ?? [])[0]?.replace(/\*/g, "");
 
     const scrape = async (elements: ElementHandle<Node>[]) => {
       log(`Found ${elements.length} courses`);
@@ -95,7 +96,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
       for (const course of elements) {
         try {
           const title = (await course.$eval("div div h3 span", (e) => e.textContent)).trim();
-          const code = ((title.match(/[A-Z]{3,4}\*[0-9]{4}/) ?? [])[0] ?? "").replace(/\*/g, "");
+          const code = ((title.match(/[A-Z]{2,4}\*[0-9]{4}/) ?? [])[0] ?? "").replace(/\*/g, "");
           if (!code) continue;
 
           // Get the inner HTML and get all the text before the second <br> element
@@ -133,11 +134,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
             const label = await metaLabels[idx].textContent();
             const content = await metaContent[idx].textContent();
             if (!label || !content) return;
-            if(label.includes("Req")) {
-              courseObj[labels[label.trim()]] = requisiteScrape(content.replace(/\r/g, "").trim());
-            } else {
-              courseObj[labels[label.trim()]] = content.trim();
-            }
+            courseObj[labels[label.trim()]] = content.replace(/\r/g, "").trim();
           }
 
           const sectionButton = await course.$("button.esg-collapsible-group__toggle");
@@ -330,7 +327,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
           newCourseElements = await dptPage.locator("#course-resultul > li").elementHandles();
           newFirstCourse = ((await newCourseElements[0].$eval("div div h3 span", (e) => e.textContent))
             .trim()
-            .match(/[A-Z]{3,4}\*[0-9]{4}/) ?? [])[0].replace(/\*/g, "");
+            .match(/[A-Z]{2,4}\*[0-9]{4}/) ?? [])[0].replace(/\*/g, "");
 
           log(chalk.yellow(`Have courses ${firstCourse} and ${newFirstCourse}`));
           if (newFirstCourse !== firstCourse) break;
@@ -350,8 +347,9 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
 
     // Write data to file. This runs multiple times over the course of the program so that we have data "checkpoints"
     writeFileSync(
-      "scrape-data.json",
-      JSON.stringify({ courses, labs, lectures, seminars, tutorials, exams, sections, instructors }, null, 2)
+      `./data/${timestamp}.json`,
+      JSON.stringify({ courses, labs, lectures, seminars, tutorials, exams, sections, instructors }, null, 2),
+      "utf8"
     );
     writeFileSync("logs.txt", logs.join("\n"));
 
