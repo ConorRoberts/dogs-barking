@@ -3,12 +3,12 @@
     "target": "es6",
     "downlevelIteration": true,
     "allowJs": true,
-    "esModuleInterop": true,
     "moduleResolution": "node",
     "module": "commonjs",
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "esModuleInterop": true
   },
   "exclude": ["node_modules"]
 }
