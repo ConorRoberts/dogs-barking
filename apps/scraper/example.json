@@ -85,10 +85,10 @@
     "CREDIT_BLOCKS": {},
     "DIRECT_COURSES": ["course4"],
     "COURSES": {
-        "course1": "CIS*1910",
-        "course2": "CIS*2910",
-        "course3": "ENGG*1500",
-        "course4": "CIS*2520"
+        "CIS*1910",
+        "CIS*2910",
+        "ENGG*1500",
+        "CIS*2520"
     }
 }
 
