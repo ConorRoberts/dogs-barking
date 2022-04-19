@@ -94,98 +94,6 @@ const save = async () => {
       log(chalk.red(error));
     }
 
-    //   ("(ACCT*3330 or BUS*3330), (ACCT*3340 or BUS*3340)");
-    // ("15.00 credits including ACCT*3280, ACCT*3340, ACCT*3350");
-    // ("CIS*2520, (CIS*2430 or ENGG*1420)");
-    // ("[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520");
-
-    const ONE_OF_REGEX = /1 of ([A-Z]{2,4}\*[0-9]{4}, )+[A-Z]{2,4}\*[0-9]{4}/g;
-    const AND_REGEX = /\([A-Z]{2,4}\*[0-9]{4} and [A-Z]{2,4}\*[0-9]{4}\)/g;
-    const OR_REGEX = /\(|\[[A-Z]{2,4}\*[0-9]{4} or [A-Z]{2,4}\*[0-9]{4}\)|\]/g;
-
-    // Handle requisites
-    const requisiteText = (course.requisites as string)
-      .replace("- Must be completed prior to taking this course.", "")
-      .trim();
-
-    if(AND_REGEX.test(requisiteText)) {
-    // ("[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520");
-      for(const statement of requisiteText.match(AND_REGEX)) {
-        const courses = statement.match(courseCodeRegex);
-
-        const andBlockId = randomUUID();
-        
-        // Create an AndBlock
-        session = driver.session();
-        await session.run(
-          `
-          MATCH (c:Course {code: $code})
-          CREATE (andBlock:AndBlock {
-              id: $id,
-          })
-          CREATE (c)-[:HAS_PREREQUISITE]->(andBlock)
-        `,
-          { code: course.code, id: andBlockId }
-        );
-        await session.close();
-      
-        for (const andBlockCourse of courses) {
-          session = driver.session();
-          await session.run(
-          `
-            MATCH (course:Course {code: $code})
-            MATCH (block:AndBlock {id: $andBlockId})
-            CREATE (block)-[:REQUIRES]->(c)
-          `,
-            { code: andBlockCourse, andBlockId }
-          );
-          await session.close();
-        }
-      }
-    
-    }
-
-    if (ONE_OF_REGEX.test(requisiteText)) { 
-      // ("1 of CIS*1200, CIS*1300, CIS*1500");
-      for (const statement of requisiteText.match(ONE_OF_REGEX)) {
-        const numCourses = statement.match(/^[0-9]+/g).at(0);
-
-        const courses = statement.match(courseCodeRegex);
-
-        const orBlockId = randomUUID();
-
-        // Create an OrBlock using numCourses as target
-        session = driver.session();
-        await session.run(
-          `
-          MATCH (c:Course {code: $code})
-          CREATE (orBlock:OrBlock {
-              target: $numCourses,
-              id: $id,
-              type: "course"
-          })
-          CREATE (c)-[:HAS_PREREQUISITE]->(orBlock)
-        `,
-          { code: course.code, numCourses: Number(numCourses), id: orBlockId }
-        );
-        await session.close();
-
-        // Attach courses to that OrBlock
-        for (const orBlockCourse of courses) {
-          session = driver.session();
-          await session.run(
-            `
-            MATCH (course:Course {code: $code})
-            MATCH (block:OrBlock {id: $orBlockId})
-            CREATE (block)-[:REQUIRES]->(c)
-          `,
-            { code: orBlockCourse, numCourses: Number(numCourses), orBlockId }
-          );
-          await session.close();
-        }
-      }
-    }
-
     for (const sectionId of course.HAS_SECTION) {
       const section = data.sections.find((e: any) => e.id === sectionId);
       const instructor = data.instructors.find((e: any) => e.id === section.INSTRUCTED_BY);
@@ -374,8 +282,46 @@ const save = async () => {
     log(chalk.gray(requisiteText));
 
     const oneOfRegex = /[0-9]+ of ([A-Z]{2,4}\*[0-9]{4}, )+[A-Z]{2,4}\*[0-9]{4}/g;
+    const andRegex = /\([A-Z]{2,4}\*[0-9]{4} and [A-Z]{2,4}\*[0-9]{4}\)/g;
     const numberOfStatements = requisiteText.match(oneOfRegex) ?? [];
     requisiteText = requisiteText.replaceAll(oneOfRegex, "");
+
+
+    if(andRegex.test(requisiteText)) {
+    // ("[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520");
+      for(const statement of requisiteText.match(andRegex)) {
+        const courses = statement.match(courseCodeRegex);
+
+        const andBlockId = randomUUID();
+        
+        // Create an AndBlock
+        session = driver.session();
+        await session.run(
+          `
+          MATCH (c:Course {code: $code})
+          CREATE (andBlock:AndBlock {
+              id: $id,
+          })
+          CREATE (c)-[:HAS_PREREQUISITE]->(andBlock)
+        `,
+          { code: course.code, id: andBlockId }
+        );
+        await session.close();
+      
+        for (const andBlockCourse of courses) {
+          session = driver.session();
+          await session.run(
+          `
+            MATCH (course:Course {code: $code})
+            MATCH (block:AndBlock {id: $andBlockId})
+            CREATE (block)-[:REQUIRES]->(c)
+          `,
+            { code: andBlockCourse, andBlockId }
+          );
+          await session.close();
+        }
+      }
+    }
 
     // ("3 of CIS*1200, CIS*1300, CIS*1500");
     for (const statement of numberOfStatements) {
