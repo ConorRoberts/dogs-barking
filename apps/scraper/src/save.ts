@@ -268,6 +268,8 @@ const save = async () => {
     }
   }
 
+
+  //Polling requisite data and creating relationships between nodes
   for (const course of data.courses) {
     //   ("(ACCT*3330 or BUS*3330), (ACCT*3340 or BUS*3340)");
     // ("15.00 credits including ACCT*3280, ACCT*3340, ACCT*3350");
@@ -281,47 +283,52 @@ const save = async () => {
 
     log(chalk.gray(requisiteText));
 
-    const oneOfRegex = /[0-9]+ of ([A-Z]{2,4}\*[0-9]{4}, )+[A-Z]{2,4}\*[0-9]{4}/g;
+   
+
     const andRegex = /\([A-Z]{2,4}\*[0-9]{4} and [A-Z]{2,4}\*[0-9]{4}\)/g;
-    const numberOfStatements = requisiteText.match(oneOfRegex) ?? [];
-    requisiteText = requisiteText.replaceAll(oneOfRegex, "");
+    const andStatements = requisiteText.match(andRegex) ?? [];
+    
 
-
-    if(andRegex.test(requisiteText)) {
     // ("[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520");
-      for(const statement of requisiteText.match(andRegex)) {
-        const courses = statement.match(courseCodeRegex);
+    let andCount = 0;
+    for(const statement of andStatements) {
+      requisiteText = requisiteText.replace(statement, "and" + andCount);
+      const courses = statement.match(courseCodeRegex);
 
-        const andBlockId = randomUUID();
-        
-        // Create an AndBlock
+      const andBlockId = randomUUID();
+      
+      // Create an AndBlock
+      session = driver.session();
+      await session.run(
+        `
+        MATCH (c:Course {code: $code})
+        CREATE (andBlock:AndBlock {
+            id: $id,
+        })
+        CREATE (c)-[:HAS_PREREQUISITE]->(andBlock)
+      `,
+        { code: course.code, id: andBlockId }
+      );
+      await session.close();
+    
+      for (const andBlockCourse of courses) {
         session = driver.session();
         await session.run(
-          `
-          MATCH (c:Course {code: $code})
-          CREATE (andBlock:AndBlock {
-              id: $id,
-          })
-          CREATE (c)-[:HAS_PREREQUISITE]->(andBlock)
+        `
+          MATCH (course:Course {code: $code})
+          MATCH (block:AndBlock {id: $andBlockId})
+          CREATE (block)-[:REQUIRES]->(c)
         `,
-          { code: course.code, id: andBlockId }
+          { code: andBlockCourse, andBlockId }
         );
         await session.close();
-      
-        for (const andBlockCourse of courses) {
-          session = driver.session();
-          await session.run(
-          `
-            MATCH (course:Course {code: $code})
-            MATCH (block:AndBlock {id: $andBlockId})
-            CREATE (block)-[:REQUIRES]->(c)
-          `,
-            { code: andBlockCourse, andBlockId }
-          );
-          await session.close();
-        }
       }
     }
+  
+
+    const oneOfRegex = /[0-9]+ of ([A-Z]{2,4}\*[0-9]{4}, )+[A-Z]{2,4}\*[0-9]{4}/g;
+    const numberOfStatements = requisiteText.match(oneOfRegex) ?? [];
+    requisiteText = requisiteText.replaceAll(oneOfRegex, "");
 
     // ("3 of CIS*1200, CIS*1300, CIS*1500");
     for (const statement of numberOfStatements) {
