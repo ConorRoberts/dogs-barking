@@ -1,9 +1,11 @@
-import fs, { readdirSync } from "fs";
+import fs, { readdirSync, writeFileSync } from "fs";
 import "tsconfig-paths/register";
 import { courseCodeRegex } from "./config";
 import getNeo4jDriver from "./getNeo4jDriver";
 import chalk from "chalk";
 import { randomUUID } from "crypto";
+
+const logs = [];
 
 const save = async () => {
   const startTime = new Date().getTime();
@@ -20,6 +22,7 @@ const save = async () => {
       "s";
 
     const text = timestamp + "\t" + msg;
+    logs.push(text);
     console.log(text);
   };
 
@@ -300,9 +303,9 @@ const save = async () => {
           `
           MATCH (c:Course {code: $code})
           CREATE (andBlock:AndBlock {
-              id: $id,
+              id: $id
           })
-          CREATE (c)-[:HAS_PREREQUISITE]->(andBlock)
+          CREATE (c)-[:REQUIRES]->(andBlock)
         `,
           { code: course.code, id: andBlockId }
         );
@@ -312,7 +315,7 @@ const save = async () => {
           session = driver.session();
           await session.run(
           `
-            MATCH (course:Course {code: $code})
+            MATCH (c:Course {code: $code})
             MATCH (block:AndBlock {id: $andBlockId})
             CREATE (block)-[:REQUIRES]->(c)
           `,
@@ -354,7 +357,7 @@ const save = async () => {
         session = driver.session();
         await session.run(
           `
-            MATCH (course:Course {code: $code})
+            MATCH (c:Course {code: $code})
             MATCH (block:OrBlock {id: $orBlockId})
             CREATE (block)-[:REQUIRES]->(c)
           `,
@@ -397,7 +400,7 @@ const save = async () => {
     }
 
     const multipleOrRegex = /[A-Z]{2,4}\*[0-9]{4}( or [A-Z]{2,4}\*[0-9]{4})+/g;
-    const multipleOrStatements = requisiteText.match(creditRequirementRegex) ?? [];
+    const multipleOrStatements = requisiteText.match(multipleOrRegex) ?? [];
     requisiteText = requisiteText.replaceAll(multipleOrRegex, "");
 
     for (const statement of multipleOrStatements) {
@@ -428,7 +431,7 @@ const save = async () => {
         session = driver.session();
         await session.run(
           `
-            MATCH (course:Course {code: $code})
+            MATCH (c:Course {code: $code})
             MATCH (block:OrBlock {id: $orBlockId})
             CREATE (block)-[:REQUIRES]->(c)
           `,
@@ -467,6 +470,7 @@ const save = async () => {
 
 (async () => {
   await save();
+  writeFileSync("logs.txt", logs.join("\n"));
 })();
 
 export default save;
