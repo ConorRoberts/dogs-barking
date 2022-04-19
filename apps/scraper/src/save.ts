@@ -360,6 +360,162 @@ const save = async () => {
     }
   }
 
+  for (const course of data.courses) {
+    //   ("(ACCT*3330 or BUS*3330), (ACCT*3340 or BUS*3340)");
+    // ("15.00 credits including ACCT*3280, ACCT*3340, ACCT*3350");
+    // ("CIS*2520, (CIS*2430 or ENGG*1420)");
+    // ("[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520");
+
+    // Handle requisites
+    let requisiteText = (course.requisites as string)
+      .replace("- Must be completed prior to taking this course.", "")
+      .trim();
+
+    log(chalk.gray(requisiteText));
+
+    const oneOfRegex = /[0-9]+ of ([A-Z]{2,4}\*[0-9]{4}, )+[A-Z]{2,4}\*[0-9]{4}/g;
+    const numberOfStatements = requisiteText.match(oneOfRegex) ?? [];
+    requisiteText = requisiteText.replaceAll(oneOfRegex, "");
+
+    // ("3 of CIS*1200, CIS*1300, CIS*1500");
+    for (const statement of numberOfStatements) {
+      const numCourses = statement.match(/^[0-9]+/g).at(0);
+
+      const courses = statement.match(courseCodeRegex) ?? [];
+
+      const orBlockId = randomUUID();
+
+      // Create an OrBlock using numCourses as target
+      session = driver.session();
+      await session.run(
+        `
+          MATCH (c:Course {code: $code})
+          CREATE (orBlock:OrBlock {
+              target: $numCourses,
+              id: $id,
+              type: "course"
+          })
+          CREATE (c)-[:REQUIRES]->(orBlock)
+        `,
+        { code: course.code.replace("*", ""), numCourses: Number(numCourses), id: orBlockId }
+      );
+      await session.close();
+
+      log(chalk.yellow(`Added OrBlock for ${course.code.replace("*", "")}`));
+
+      // Attach courses to that OrBlock
+      for (const orBlockCourse of courses) {
+        session = driver.session();
+        await session.run(
+          `
+            MATCH (course:Course {code: $code})
+            MATCH (block:OrBlock {id: $orBlockId})
+            CREATE (block)-[:REQUIRES]->(c)
+          `,
+          { code: orBlockCourse.replace("*", ""), numCourses: Number(numCourses), orBlockId }
+        );
+        await session.close();
+
+        log(
+          chalk.yellowBright(
+            `Added link ${course.code.replace("*", "")} -> OrBlock -> ${orBlockCourse.replace("*", "")}`
+          )
+        );
+      }
+    }
+
+    const creditRequirementRegex = /[0-9]+\.[0-9]+ credits including/g;
+    const creditRequirementStatements = requisiteText.match(creditRequirementRegex) ?? [];
+    requisiteText = requisiteText.replaceAll(creditRequirementRegex, "");
+
+    for (const statement of creditRequirementStatements) {
+      const creditRequirementId = randomUUID();
+      const value = Number(statement.match(/[0-9]+\.[0-9]+/g).at(0));
+
+      // Create an OrBlock using numCourses as target
+      session = driver.session();
+      await session.run(
+        `
+          MATCH (c:Course {code: $code})
+          CREATE (creditRequirement:CreditRequirement {
+              value: $value,
+              id: $id
+          })
+          CREATE (c)-[:REQUIRES]->(creditRequirement)
+        `,
+        { code: course.code.replace("*", ""), id: creditRequirementId, value }
+      );
+      await session.close();
+
+      log(chalk.yellowBright(`Added link ${course.code.replace("*", "")} -> CreditRequirement (${value} credits)`));
+    }
+
+    const multipleOrRegex = /[A-Z]{2,4}\*[0-9]{4}( or [A-Z]{2,4}\*[0-9]{4})+/g;
+    const multipleOrStatements = requisiteText.match(creditRequirementRegex) ?? [];
+    requisiteText = requisiteText.replaceAll(multipleOrRegex, "");
+
+    for (const statement of multipleOrStatements) {
+      const courses = statement.match(courseCodeRegex) ?? [];
+
+      const orBlockId = randomUUID();
+
+      // Create an OrBlock using numCourses as target
+      session = driver.session();
+      await session.run(
+        `
+          MATCH (c:Course {code: $code})
+          CREATE (orBlock:OrBlock {
+              target: $numCourses,
+              id: $id,
+              type: "course"
+          })
+          CREATE (c)-[:REQUIRES]->(orBlock)
+        `,
+        { code: course.code.replace("*", ""), numCourses: courses.length, id: orBlockId }
+      );
+      await session.close();
+
+      log(chalk.yellow(`Added OrBlock for ${course.code.replace("*", "")}`));
+
+      // Attach courses to that OrBlock
+      for (const orBlockCourse of courses) {
+        session = driver.session();
+        await session.run(
+          `
+            MATCH (course:Course {code: $code})
+            MATCH (block:OrBlock {id: $orBlockId})
+            CREATE (block)-[:REQUIRES]->(c)
+          `,
+          { code: orBlockCourse.replace("*", ""), numCourses: courses.length, orBlockId }
+        );
+        await session.close();
+
+        log(
+          chalk.yellowBright(
+            `Added link ${course.code.replace("*", "")} -> OrBlock -> ${orBlockCourse.replace("*", "")}`
+          )
+        );
+      }
+    }
+
+    const courses = requisiteText.match(courseCodeRegex) ?? [];
+
+    for (const requisite of courses) {
+      session = driver.session();
+      await session.run(
+        `
+          MATCH (c:Course {code: $code})
+          MATCH (req:Course {code: $requisiteCode})
+          CREATE (c)-[:REQUIRES]->(req)
+        `,
+        { code: course.code.replace("*", ""), id: randomUUID(), requisiteCode: requisite.replace("*", "") }
+      );
+      await session.close();
+
+      log(chalk.yellowBright(`Added link ${course.code.replace("*", "")} -> ${requisite.replace("*", "")}`));
+    }
+  }
+
   await driver.close();
 };
 
