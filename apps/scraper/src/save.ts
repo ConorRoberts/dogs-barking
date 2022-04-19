@@ -271,7 +271,6 @@ const save = async () => {
     }
   }
 
-
   //Polling requisite data and creating relationships between nodes
   for (const course of data.courses) {
     //   ("(ACCT*3330 or BUS*3330), (ACCT*3340 or BUS*3340)");
@@ -286,20 +285,17 @@ const save = async () => {
 
     log(chalk.gray(requisiteText));
 
-   
-
     const andRegex = /\([A-Z]{2,4}\*[0-9]{4} and [A-Z]{2,4}\*[0-9]{4}\)/g;
     const andStatements = requisiteText.match(andRegex) ?? [];
-    
 
     // ("[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520");
     let andCount = 0;
-    for(const statement of andStatements) {
+    for (const statement of andStatements) {
       requisiteText = requisiteText.replace(statement, "and" + andCount);
       const courses = statement.match(courseCodeRegex);
 
       const andBlockId = randomUUID();
-      
+
       // Create an AndBlock
       session = driver.session();
       await session.run(
@@ -313,7 +309,7 @@ const save = async () => {
         { code: course.code, id: andBlockId }
       );
       await session.close();
-    
+
       for (const andBlockCourse of courses) {
         session = driver.session();
         await session.run(
@@ -324,14 +320,14 @@ const save = async () => {
           })
           CREATE (c)-[:REQUIRES]->(andBlock)
         `,
-          { code: andBlockCourse, andBlockId }
+          { code: andBlockCourse.replace("*", ""), andBlockId }
         );
         await session.close();
-      
+
         for (const andBlockCourse of courses) {
           session = driver.session();
           await session.run(
-          `
+            `
             MATCH (c:Course {code: $code})
             MATCH (block:AndBlock {id: $andBlockId})
             CREATE (block)-[:REQUIRES]->(c)
@@ -342,7 +338,6 @@ const save = async () => {
         }
       }
     }
-  
 
     const oneOfRegex = /[0-9]+ of ([A-Z]{2,4}\*[0-9]{4}, )+[A-Z]{2,4}\*[0-9]{4}/g;
     const numberOfStatements = requisiteText.match(oneOfRegex) ?? [];
