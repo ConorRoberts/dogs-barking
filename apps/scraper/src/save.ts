@@ -291,6 +291,7 @@ const save = async () => {
     // ("[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520");
     let andCount = 0;
     for (const statement of andStatements) {
+      log(chalk.gray("And statement: " + statement));
       requisiteText = requisiteText.replace(statement, "and" + andCount);
       const courses = statement.match(courseCodeRegex);
 
@@ -302,9 +303,9 @@ const save = async () => {
         `
         MATCH (c:Course {code: $code})
         CREATE (andBlock:AndBlock {
-            id: $id,
+            id: $id
         })
-        CREATE (c)-[:HAS_PREREQUISITE]->(andBlock)
+        CREATE (c)-[:REQUIRES]->(andBlock)
       `,
         { code: course.code, id: andBlockId }
       );
@@ -320,7 +321,7 @@ const save = async () => {
           })
           CREATE (c)-[:REQUIRES]->(andBlock)
         `,
-          { code: andBlockCourse.replace("*", ""), andBlockId }
+          { code: andBlockCourse.replace("*", ""), id: andBlockId }
         );
         await session.close();
 
