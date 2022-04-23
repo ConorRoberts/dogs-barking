@@ -3,6 +3,9 @@ interface UserAttributes {
   birthdate: string;
   name: string;
   email: string;
+  school: string;
+  major: string;
+  minor: string;
 }
 
 export default UserAttributes;
