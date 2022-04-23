@@ -25,12 +25,17 @@ const Page = () => {
     <div>
       <div className="mx-auto w-full max-w-3xl">
         <h1 className="text-center">Profile</h1>
-        <Formik initialValues={{
-          school: user.school,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-        }}>
+        <Formik
+          initialValues={{
+            school: user.school,
+            email: user.email,
+            name: user.name,
+            major: user.major,
+            minor: user.minor,
+          }}
+          onSubmit={() => {
+            console.log("Submit");
+          }}>
           {({ handleSubmit, isSubmitting }) => (
             <Form>
               <div>

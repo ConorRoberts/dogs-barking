@@ -6,10 +6,6 @@ import ReactFlow, {
   Edge,
   useNodesState,
   useEdgesState,
-<<<<<<< HEAD
-=======
-  getConnectedEdges
->>>>>>> main
 } from "react-flow-renderer";
 import nodeTypes from "@config/nodeTypes";
 import { useEffect } from "react";
@@ -30,32 +26,6 @@ const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, height }: Cours
     setEdges(initialEdges);
   }, [initialNodes, initialEdges, setEdges, setNodes]);
 
-<<<<<<< HEAD
-=======
-  // Performs graph dfs
-  const nodeOnClick =  (node: Node) => {
-    if (!node) return;
-    const nid = node.id;
-    const connected = getConnectedEdges([node], edges).filter((edge) => edge.target === nid);
-    const nids = [];
-    connected.map((edge) =>{
-      if(!edge.animated && edge.style.stroke?.includes("red")) {
-        edge.style = { stroke: "gray" };
-      } else if (edge.animated && edge.style.stroke?.includes("red")) {
-        edge.style = {stroke: "blue"};
-      } else{
-        edge.style = { stroke: "red" };
-      }
-      nids.push(edge.source);
-    });
-    // Perform dfs/backtracking
-    for (const nid1 of nids) {
-      const node = nodes.find((node) => node.id === nid1);
-      nodeOnClick(node);
-    }
-  };
-
->>>>>>> main
   return (
     <div className="flex flex-col w-full">
       <div
