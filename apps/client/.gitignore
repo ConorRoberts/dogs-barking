@@ -24,3 +24,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+.env.*
+
+# Cypress
+
+cypress/videos

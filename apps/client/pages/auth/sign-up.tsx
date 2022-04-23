@@ -1,5 +1,5 @@
 import { Auth } from "aws-amplify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, CustomErrorMessage, Input } from "@components/form";
 import { LoadingIcon } from "@components/Icons";
@@ -75,6 +75,10 @@ const Page = () => {
     birthdate: Yup.string().required("Birthday is required"),
     name: Yup.string().required("Name is required"),
   });
+
+  useEffect(() => {
+    setSubmitError("");
+  }, [authStage]);
 
   return (
     <div className="flex-1 flex justify-center items-center">

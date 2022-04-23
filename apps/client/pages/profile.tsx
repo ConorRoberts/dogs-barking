@@ -1,6 +1,9 @@
+import { Select } from "@components/form";
 import LoadingScreen from "@components/LoadingScreen";
+import schools from "@config/schools";
 import { AuthState } from "@redux/auth";
 import { RootState } from "@redux/store";
+import { Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -21,7 +24,26 @@ const Page = () => {
   return (
     <div>
       <div className="mx-auto w-full max-w-3xl">
-        <h3 className="text-center">Nothing to see here yet</h3>
+        <h1 className="text-center">Profile</h1>
+        <Formik initialValues={{
+          school: user.school,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        }}>
+          {({ handleSubmit, isSubmitting }) => (
+            <Form>
+              <div>
+                <p>School</p>
+                <Select name="school">
+                  {schools.map((e, index) => (
+                    <option key={`school-option-${index}`}>{e.name}</option>
+                  ))}
+                </Select>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );

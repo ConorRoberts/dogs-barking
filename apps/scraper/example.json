@@ -1,0 +1,397 @@
+//(ACCT*3330 or BUS*3330), (ACCT*3340 or BUS*3340)
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 1,
+            "requirements":["course1", "course2"]
+        },
+        "or2": {
+            "amount": 1,
+            "requirements":["course3", "course4"]
+        }
+    },
+    "AND_BLOCKS": {
+    },
+    "CREDIT_BLOCKS": {},
+    "COURSE_BLOCKS": {
+
+    },
+    "COURSES": {
+        "course1": "ACCT*3330",
+        "course2": "BUS*3330",
+        "course3": "ACCT*3340",
+        "course4": "BUS*3340"
+    }
+}
+
+//ECON*1100, (1 of IPS*1500, MATH*1030, MATH*1080, MATH*1200)
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 1,
+            "requirements": ["course2", "course3", "course4", "course5"]
+        }
+    },
+    "AND_BLOCKS": {
+    },
+    "CREDIT_BLOCKS": {},
+    "DIRECT_COURSES": ["course1"],
+    "COURSES": {
+        "course1": "ECON*1100",
+        "course2": "IPS*1500",
+        "course3": "MATH*1030",
+        "course4": "MATH*1080",
+        "course5": "MATH*1200"
+    }
+}
+
+//(CIS*2500 or ENGG*1420), (1 of CIS*1910, ENGG*1500, MATH*2000
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 1,
+            "requirements": ["course1", "course2"]
+        },
+        "or2": {
+            "amount": 1,
+            "requirements": ["course3", "course4", "course5"]
+        }
+    },
+    "AND_BLOCKS": {
+    },
+    "CREDIT_BLOCKS": {},
+    "DIRECT_COURSES": [],
+    "COURSES": {
+        "course1": "CIS*2500",
+        "course2": "ENGG*1420",
+        "course3": "CIS*1910",
+        "course4": "ENGG*1500",
+        "course5": "MATH*2000"
+    }
+}
+
+
+//[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 1,
+            "requirements": ["course1", "and1"]
+        }
+    },
+    "AND_BLOCKS": {
+        "and1": ["course2", "course3"]
+    },
+    "CREDIT_BLOCKS": {},
+    "DIRECT_COURSES": ["course4"],
+    "COURSES": {
+        "CIS*1910",
+        "CIS*2910",
+        "ENGG*1500",
+        "CIS*2520"
+    }
+}
+
+//(ECON*3600 or ECON*3810), ECON*3740, [1 of ECON*3510,  ECON*3710, (ECON*3960 or FIN*3500)]
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 1,
+            "requirements": ["course1", "course2"]
+        },
+        "or2": {
+            "amount": 1,
+            "requirements": ["course4", "course5", "or3"]
+        },
+        "or3": {
+            "amount": 1,
+            "requirements": ["course6", "course7"]
+        }
+    },
+    "AND_BLOCKS": {},
+    "CREDIT_BLOCKS": {},
+    "DIRECT_COURSES": ["course3"],
+    "COURSES": {
+        "course1": "ECON*3600",
+        "course2": "ECON*3810",
+        "course3": "ECON*3740",
+        "course4": "ECON*3510",
+        "course5": "ECON*3710",
+        "course6": "ECON*3960",
+        "course7": "FIN*3500"
+    }
+}
+
+
+//(CIS*3750 or CIS*3760), (CIS*2460 or STAT*2040)
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 1,
+            "requirements": ["course1", "course2"]
+        },
+        "or2": {
+            "amount": 1,
+            "requirements": ["course3", "course4"]
+        }
+    },
+    "AND_BLOCKS": {},
+    "CREDIT_BLOCKS": {},
+    "DIRECT_COURSES": [],
+    "COURSES": {
+        "course1": "CIS*3750",
+        "course2": "CIS*3760",
+        "course3": "CIS*2460",
+        "course4": "STAT*2040"
+    }
+}
+
+
+//CIS*3110, (1 of CIS*3750, CIS*3760, ENGG*4450)
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 1,
+            "requirements": ["course1", "course2", "course3"]
+        },
+    },
+    "AND_BLOCKS": {},
+    "CREDIT_BLOCKS": {},
+    "DIRECT_COURSES": ["course1"],
+    "COURSES": {
+        "course1": "CIS*3110",
+        "course2": "CIS*3750",
+        "course3": "CIS*3760",
+        "course4": "ENGG*4450"
+    }
+}
+
+
+//PSYC*2070, PSYC*2360, (2 of PSYC*2020, PSYC*2310,  PSYC*2450, PSYC*2740), (1 of PSYC*2330, PSYC*2390,  PSYC*2410, PSYC*2650) 
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 2,
+            "requirements": ["course3", "course4", "course5", "course6"]
+        },
+        "or2": {
+            "amount": 1,
+            "requirements": ["course7", "course8", "course9", "course10"]
+        }
+    },
+    "AND_BLOCKS": {},
+    "CREDIT_BLOCKS": {},
+    "DIRECT_COURSES": ["course1", "course2"],
+    "COURSES": {
+        "course1": "PSYC*2070",
+        "course2": "PSYC*2360",
+        "course3": "PSYC*2020",
+        "course4": "PSYC*2310",
+        "course5": "PSYC*2450",
+        "course6": "PSYC*2740",
+        "course7": "PSYC*2330",
+        "course8": "PSYC*2390",
+        "course9": "PSYC*2410",
+        "course10": "PSYC*2650"
+    }
+}
+
+
+//10.00 credits, (2 of ARTH*1520, EURO*1050, EURO*1100,  EURO*1200, EURO*2200, EURO*2300, EURO*3000, EURO*3300,  HIST*2510, HIST*3090, MUSC*1060, POLS*3450)
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 2,
+            "requirements": ["course1", "course2", "course3", "course4", "course5", "course6", "course7", "course8", "course9", "course10", "course11", "course12"]
+        },
+    },
+    "AND_BLOCKS": {},
+    "CREDIT_BLOCKS": {
+        "credit1": {
+            "amount": 10,
+            "requirements": []
+        }
+    },
+    "DIRECT_COURSES": [],
+    "COURSES": {
+        "course1": "ARTH*1520",
+        "course2": "EURO*1050",
+        "course3": "EURO*1100",
+        "course4": "EURO*1200",
+        "course5": "EURO*2200",
+        "course6": "EURO*2300",
+        "course7": "EURO*3000",
+        "course8": "EURO*3300",
+        "course9": "HIST*2510",
+        "course10": "HIST*3090",
+        "course11": "MUSC*1060",
+        "course12": "POLS*3450"
+    }
+}
+
+
+//10.00 credits including, (EURO*1100 or EURO*1200),  EURO*2200, EURO*3000, EURO*3300
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 1,
+            "requirements": ["course1", "course2"]
+        }
+    },
+    "AND_BLOCKS": {},
+    "CREDIT_BLOCKS": {
+        "credit1": {
+            "amount": 10,
+            "requirements": []
+        }
+    },
+    "DIRECT_COURSES": ["course3", "course4", "course5"],
+    "COURSES": {
+        "course1": "EURO*1100",
+        "course2": "EURO*1200",
+        "course3": "EURO*2200",
+        "course4": "EURO*3000",
+        "course5": "EURO*3300"
+    }
+}
+
+
+//7.50 credits including (1 of HIST*2500, HIST*2510,  HIST*2800, HIST*2930)
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 1,
+            "requirements": ["course1", "course2", "course3", "course4"]
+        }
+    },
+    "AND_BLOCKS": {},
+    "CREDIT_BLOCKS": {
+        "credit1": {
+            "amount": 7.5,
+            "requirements": ["or1"]
+        }
+    },
+    "DIRECT_COURSES": [],
+    "COURSES": {
+        "course1": "HIST*2500",
+        "course2": "HIST*2510",
+        "course3": "HIST*2800",
+        "course4": "HIST*2930"
+    }
+}
+
+
+//7.50 credits including (1 of HIST*1150, HIST*2240,  HIST*2890, HIST*2910, HIST*2930)
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 1,
+            "requirements": ["course1", "course2", "course3", "course4", "course5"]
+        }
+    },
+    "AND_BLOCKS": {},
+    "CREDIT_BLOCKS": {
+        "credit1": {
+            "amount": 7.5,
+            "requirements": ["or1"]
+        }
+    },
+    "DIRECT_COURSES": [],
+    "COURSES": {
+        "course1": "HIST*1150",
+        "course2": "HIST*2240",
+        "course3": "HIST*2890",
+        "course4": "HIST*2910",
+        "course5": "HIST*2930"
+    }
+}
+
+
+//10.00 credits including 1.50 credits in History at the  3000-level
+{
+    "OR_BLOCKS": {},
+    "AND_BLOCKS": {},
+    "CREDIT_BLOCKS": {
+        "credit1": {
+            "amount": 10,
+            "requirements": ["credit2"]
+        },
+        "credit2": {
+            "amount": 1.5,
+            "requirements": ["History-3000"]
+        }
+    },
+    "DIRECT_COURSES": [],
+    "COURSES": {}
+}
+
+
+//10.00 credits including (1 of HIST*2340, HIST*2960,  HIST*3410, HIST*3910)
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 1,
+            "requirements": ["course1", "course2", "course3", "course4"]
+        }
+    },
+    "AND_BLOCKS": {},
+    "CREDIT_BLOCKS": {
+        "credit1": {
+            "amount": 10,
+            "requirements": ["or1"]
+        }
+    },
+    "DIRECT_COURSES": [],
+    "COURSES": {
+        "course1": "HIST*2340",
+        "course2": "HIST*2960",
+        "course3": "HIST*3410",
+        "course4": "HIST*3910"
+    }
+}
+
+
+//10.00 credits including HIST*2450, and at least 1.00  credits in History at the 3000 level or above.
+{
+    "OR_BLOCKS": {},
+    "AND_BLOCKS": {},
+    "CREDIT_BLOCKS": {
+        "credit1": {
+            "amount": 10,
+            "requirements": ["credit2"]
+        },
+        "credit2": {
+            "amount": 1,
+            "requirements": ["History-3000+"]
+        }
+    },
+    "DIRECT_COURSES": ["course1"],
+    "COURSES": {
+        "course1": "HIST*2450"
+    }
+}
+
+
+//10.00 credits including (1 of HIST*2510, HIST*2820,  HIST*3270, HIST*3820)
+{
+    "OR_BLOCKS": {
+        "or1": {
+            "amount": 1,
+            "requirements": ["course1", "course2", "course3", "course4"]
+        }
+    },
+    "AND_BLOCKS": {},
+    "CREDIT_BLOCKS": {
+        "credit1": {
+            "amount": 10,
+            "requirements": ["or1"]
+        }
+    },
+    "DIRECT_COURSES": [],
+    "COURSES": {
+        "course1": "HIST*2510",
+        "course2": "HIST*2820",
+        "course3": "HIST*3270",
+        "course4": "HIST*3820"
+    }
+}

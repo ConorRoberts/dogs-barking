@@ -19,24 +19,6 @@ const Page = () => {
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   const dispatch = useDispatch();
 
-  // This function runs when the form below is submitted
-  const handleSignIn = async ({ email, password }) => {
-    try {
-      // Authenticate with AWS
-      await Auth.signIn({
-        username: email,
-        password,
-      });
-
-      // Set the user in the redux store
-      dispatch(signIn());
-
-      // Redirect to the home page
-      await router.push("/");
-    } catch (error) {
-      setSignInError("Invalid username or password");
-    }
-  };
   useEffect(() => {
     // If there exists a user in the redux store, redirect to the home page
     // We don't want people who are logged in to be using this page
@@ -55,7 +37,23 @@ const Page = () => {
         </p>
         <Formik
           initialValues={{ email: "", password: "" }}
-          onSubmit={handleSignIn}
+          onSubmit={async ({ email, password }) => {
+            try {
+              // Authenticate with AWS
+              await Auth.signIn({
+                username: email,
+                password,
+              });
+
+              // Set the user in the redux store
+              dispatch(signIn());
+
+              // Redirect to the home page
+              await router.push("/");
+            } catch (error) {
+              setSignInError("Invalid username or password");
+            }
+          }}
           validationSchema={Yup.object({
             email: Yup.string().required("Email is required"),
             password: Yup.string().required("Password is required"),

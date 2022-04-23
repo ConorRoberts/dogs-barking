@@ -6,7 +6,10 @@ import ReactFlow, {
   Edge,
   useNodesState,
   useEdgesState,
+<<<<<<< HEAD
+=======
   getConnectedEdges
+>>>>>>> main
 } from "react-flow-renderer";
 import nodeTypes from "@config/nodeTypes";
 import { useEffect } from "react";
@@ -27,6 +30,8 @@ const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, height }: Cours
     setEdges(initialEdges);
   }, [initialNodes, initialEdges, setEdges, setNodes]);
 
+<<<<<<< HEAD
+=======
   // Performs graph dfs
   const nodeOnClick =  (node: Node) => {
     if (!node) return;
@@ -50,6 +55,7 @@ const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, height }: Cours
     }
   };
 
+>>>>>>> main
   return (
     <div className="flex flex-col w-full">
       <div
@@ -61,7 +67,6 @@ const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, height }: Cours
           <ReactFlow
             nodes={nodes}
             edges={edges}
-            onNodeClick={(event, node) => nodeOnClick(node)}
             nodeTypes={nodeTypes}
             nodesDraggable={false}
             nodesConnectable={false}

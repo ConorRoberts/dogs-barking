@@ -1,6 +1,9 @@
 import createUser from "@utils/createUser";
 import { NextApiRequest, NextApiResponse } from "next";
 
+/**
+ * @POST Create a new user
+ */
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
   try {
@@ -10,7 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       await createUser(req.body);
       return res.status(201).json({});
     } else {
-      return res.status(404).json("Method unsupported");
+      return new Error("Method unsupported");
     }
   } catch (error) {
     return res.status(400).json(error);

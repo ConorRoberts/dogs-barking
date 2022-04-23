@@ -1,2 +1,4 @@
 .turbo
 dist
+logs.txt
+pnpm-lock.yaml
