@@ -4,10 +4,13 @@ import { courseCodeRegex } from "./config";
 import getNeo4jDriver from "./getNeo4jDriver";
 import chalk from "chalk";
 import { randomUUID } from "crypto";
+import dotenv from "dotenv";
 
 const logs = [];
 
 const save = async () => {
+  dotenv.config({ path: ".env" });
+  
   const startTime = new Date().getTime();
 
   const log = (msg: string) => {

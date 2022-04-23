@@ -1,17 +1,28 @@
-name: Run Frontend Tests
-
-on: [pull_request]
-
+name: Verify code before merging with main
+on: [push,pull_request]
 jobs:
-  cypress-run:
+  style-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: npm i
+      - name: Run ESlint
+        run: npm run lint
+      - name: Run Prettier
+        run: npm run format
+  test-frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Setup PNPM
         uses: pnpm/action-setup@v2.2.1
+
       - name: Install modules
         run: pnpm i
+        
       - name: Cypress run
         uses: cypress-io/github-action@v2
         env:
