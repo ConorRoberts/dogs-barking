@@ -17,17 +17,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2.2.1
-
       - name: Install modules
-        run: pnpm i
+        run: npm i
         
       - name: Cypress run
         uses: cypress-io/github-action@v2
         env:
           PORT: 3000
         with:
-          build: pnpm build
-          start: pnpm start
+          build: npm run build
+          start: npm run start
           project: ./apps/client
