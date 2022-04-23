@@ -25,6 +25,6 @@ jobs:
         env:
           PORT: 3000
         with:
-          build: npm run build
-          start: npm run start
+          build: npm run build --prefix ./apps/client
+          start: npm run start --prefix ./apps/client
           project: ./apps/client

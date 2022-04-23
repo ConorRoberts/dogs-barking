@@ -174,7 +174,7 @@ const Page = () => {
     else { 
       setViewPlanPopupVisible(true);
     }
-  }
+  };
 
   const addCourse = (courseToAdd: Course) => {
     const newSemesters = [...plan.semesters];
