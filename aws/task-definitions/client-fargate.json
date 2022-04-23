@@ -1,96 +1,88 @@
 {
-    "taskDefinition": {
-        "taskDefinitionArn": "arn:aws:ecs:us-east-1:356466505463:task-definition/client-fargate:1",
-        "containerDefinitions": [
-            {
-                "name": "client",
-                "image": "356466505463.dkr.ecr.us-east-1.amazonaws.com/dogs-barking:client",
-                "cpu": 0,
-                "links": [],
-                "portMappings": [
-                    {
-                        "containerPort": 443,
-                        "hostPort": 443,
-                        "protocol": "tcp"
-                    }
-                ],
-                "essential": true,
-                "entryPoint": [],
-                "command": [],
-                "environment": [],
-                "environmentFiles": [],
-                "mountPoints": [],
-                "volumesFrom": [],
-                "secrets": [],
-                "dnsServers": [],
-                "dnsSearchDomains": [],
-                "extraHosts": [],
-                "dockerSecurityOptions": [],
-                "dockerLabels": {},
-                "ulimits": [],
-                "logConfiguration": {
-                    "logDriver": "awslogs",
-                    "options": {
-                        "awslogs-create-group": "true",
-                        "awslogs-group": "/ecs/client-fargate",
-                        "awslogs-region": "us-east-1",
-                        "awslogs-stream-prefix": "ecs"
-                    },
-                    "secretOptions": []
-                },
-                "systemControls": []
-            }
-        ],
-        "family": "client-fargate",
-        "taskRoleArn": "arn:aws:iam::356466505463:role/ecsTaskExecutionRole",
-        "executionRoleArn": "arn:aws:iam::356466505463:role/ecsTaskExecutionRole",
-        "networkMode": "awsvpc",
-        "revision": 1,
-        "volumes": [],
-        "status": "ACTIVE",
-        "requiresAttributes": [
-            {
-                "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
-            },
-            {
-                "name": "ecs.capability.execution-role-awslogs"
-            },
-            {
-                "name": "com.amazonaws.ecs.capability.ecr-auth"
-            },
-            {
-                "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
-            },
-            {
-                "name": "com.amazonaws.ecs.capability.docker-remote-api.1.17"
-            },
-            {
-                "name": "com.amazonaws.ecs.capability.task-iam-role"
-            },
-            {
-                "name": "ecs.capability.execution-role-ecr-pull"
-            },
-            {
-                "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
-            },
-            {
-                "name": "ecs.capability.task-eni"
-            },
-            {
-                "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
-            }
-        ],
-        "placementConstraints": [],
-        "compatibilities": [
-            "EC2",
-            "FARGATE"
-        ],
-        "requiresCompatibilities": [
-            "FARGATE"
-        ],
-        "cpu": "512",
-        "memory": "1024",
-        "registeredAt": "2022-03-27T22:41:49.788000-04:00",
-        "registeredBy": "arn:aws:iam::356466505463:root"
+  "containerDefinitions": [
+    {
+      "name": "client",
+      "image": "356466505463.dkr.ecr.us-east-1.amazonaws.com/dogs-barking:client",
+      "cpu": 0,
+      "links": [],
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "entryPoint": [],
+      "command": [],
+      "environment": [
+        {
+          "name": "PORT",
+          "value": "80"
+        }
+      ],
+      "environmentFiles": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "secrets": [],
+      "dnsServers": [],
+      "dnsSearchDomains": [],
+      "extraHosts": [],
+      "dockerSecurityOptions": [],
+      "dockerLabels": {},
+      "ulimits": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/ecs/client-fargate",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      },
+      "systemControls": []
     }
+  ],
+  "family": "client-fargate",
+  "taskRoleArn": "arn:aws:iam::356466505463:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::356466505463:role/ecsTaskExecutionRole",
+  "networkMode": "awsvpc",
+  "volumes": [],
+  "requiresAttributes": [
+    {
+      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+    },
+    {
+      "name": "ecs.capability.execution-role-awslogs"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.ecr-auth"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.17"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.task-iam-role"
+    },
+    {
+      "name": "ecs.capability.execution-role-ecr-pull"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+    },
+    {
+      "name": "ecs.capability.task-eni"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+    }
+  ],
+  "placementConstraints": [],
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024"
 }

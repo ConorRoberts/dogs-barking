@@ -1,12 +1,14 @@
 import AddSemesterModal from "@components/AddSemesterModal";
 import CourseCard from "@components/CourseCard";
-import { Input } from "@components/form";
+import { Button, Input, Modal } from "@components/form";
+import { LoadingIcon } from "@components/Icons";
 import SemesterCard from "@components/SemesterCard";
 import useCourseSearch from "@hooks/useCourseSearch";
 import { AuthState } from "@redux/auth";
-import { PlannerState, setPlanName, setDepartment, setPlannedSemesters } from "@redux/planner";
+import { PlannerState, setPlanName, setDepartment, setPlannedSemesters, setWarnings } from "@redux/planner";
 import { RootState } from "@redux/store";
-import { Course } from "@typedefs/DegreePlan";
+import { Course, Warning } from "@typedefs/DegreePlan";
+import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +25,9 @@ const Page = () => {
   const [departmentName, setDepartmentName] = useState("");
   const [_showSearchResults, setShowSearchResults] = useState(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
-
+  const [viewPlanPopupVisible, setViewPlanPopupVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  
   const { results } = useCourseSearch(searchText);
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
@@ -45,6 +49,132 @@ const Page = () => {
   const writeReduxDepartment = (department: string) => {
     dispatch(setDepartment(department));
   };
+
+  const planIsValid = () => { 
+    if (plan.warnings.length > 0) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  };
+
+  const planModalOKClick = () => { 
+    setViewPlanPopupVisible(false);
+  };
+
+  const isCourseCurrentlyEnrolled = (enrolledCourses : Course[], courseIDToCheck : string) : boolean => {
+    for (const course of enrolledCourses) { 
+      if (course.id == courseIDToCheck) { 
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  const orBlockToString = (orBlock) => {
+    let returnStr = "";
+    let count = 0;
+    for (const courseID of orBlock) {
+      if (count === 0) {
+        returnStr += "'" + courseID.id + "'";
+      }
+      else {
+        returnStr += " or '" + courseID.id + "'";
+      }
+
+      count++;
+    }
+
+    return returnStr;
+  };
+
+  const writePrereqWarnings = async (currentlyEnrolledCourses: Course[]) => { 
+    const newWarnings: Warning[] = [];
+    for (const enrolledCourse of currentlyEnrolledCourses) {
+      const { data } = await axios.get(`/api/course/prerequisites`, {
+        params: {
+          id: enrolledCourse.nodeId,
+        },
+      });
+
+      if (data.length === 0) { // Then no prereqs exist for the course
+        dispatch(setWarnings(newWarnings));
+        return;
+      }
+  
+      for (const prereq of data) {
+        if (prereq.length === 1) { // Then the array holds just a single required course.
+  
+          if (isCourseCurrentlyEnrolled(currentlyEnrolledCourses, prereq[0].id) === false) {
+            newWarnings.push({
+              type: "PREREQ NOT MET",
+              message: "Cannot enroll in '" + enrolledCourse.id + "' before taking '" + prereq[0].id + "'",
+              courseID: prereq as string
+            });
+          }
+        }
+        else {
+          let orBlockSatisfied = false;
+          for (const course of prereq) {
+            if (isCourseCurrentlyEnrolled(currentlyEnrolledCourses, course.id) === true) {
+              orBlockSatisfied = true;
+              break;
+            }
+          }
+  
+          if (!orBlockSatisfied) {
+            newWarnings.push({
+              type: "PREREQ NOT MET",
+              message: "Cannot enroll in '" + enrolledCourse.id + "' before taking at least one of " + orBlockToString(prereq) + ".",
+              courseID: prereq as string
+            });
+          }
+        }
+      }
+    }
+
+    //Write the warnings back to redux. If the warning array is empty, than the plan ius considered valid.
+    dispatch(setWarnings(newWarnings));
+  };
+
+  const getCurrentlyPlannedCourses = () => {
+    const currentlyPlannedCourses: Course[] = [];
+    const plannedSemesters = [...plan.semesters];
+    
+    for (const semester of plannedSemesters) {
+      for (const course of semester.courses) {
+        currentlyPlannedCourses.push(course);
+      }
+    }
+
+    return currentlyPlannedCourses;
+  };
+
+  const viewPlan = async () => {
+    const enrolledCourses = getCurrentlyPlannedCourses();
+    
+    setIsLoading(true);
+    await writePrereqWarnings(enrolledCourses);
+    setIsLoading(false);
+    //setTimeout(() => 3000);
+
+    console.log("WARNINGS:");
+    console.log(plan.warnings);
+
+  };
+
+  const viewPlanClick = () => {
+    viewPlan();
+
+    if (planIsValid()) {
+      setViewPlanPopupVisible(false);
+    }
+    else { 
+      setViewPlanPopupVisible(true);
+    }
+  }
 
   const addCourse = (courseToAdd: Course) => {
     const newSemesters = [...plan.semesters];
@@ -85,6 +215,7 @@ const Page = () => {
     }
   };
 
+  
   return user != null ? (
     <>
       <h2 className="py-4 text-center font-medium">Degree Planner</h2>
@@ -130,6 +261,7 @@ const Page = () => {
                     timeOfYear={semester.timeOfYear}
                     year={semester.year}
                     index={index}
+                    viewPlan={viewPlan}
                     courses={semester.courses}
                     key={`semester-card-${index}`}
                   />
@@ -155,18 +287,43 @@ const Page = () => {
             <div className="flex px-0 flex-col max-h-96 overflow-auto">
               {results.length > 0 &&
                 results.slice(0, 20).map((course) => (
-                  <CourseCard addCourse={addCourse} course={course} key={Math.random()} />
+                  <CourseCard addCourse={addCourse} viewPlan={viewPlan} course={course} key={Math.random()} />
                 ))}
             </div>
 
             {/* Other Button Functionality */}
             <div className="flex flex-row w-full">
               <div className="flex flex-col w-full p-6 place-content-center">
-                <Link href="/view_plan" passHref>
-                  <button className="w-40 h-10 place-self-center text-white rounded-md bg-blue-500 hover:bg-blue-400">
-                    View Plan
-                  </button>
-                </Link>
+                {viewPlanPopupVisible ?
+                  <Modal size="xl" onClose={() => setViewPlanPopupVisible(false)}>
+                    <div className="flex flex-col place-self-center place-content-center overflow-auto">
+                      <h5 className="place-self-center">Error Building Plan View</h5>
+                      <p className="place-self-center text-red-500 italic">There exist issues with your plan: </p>
+                      <ul>
+                        {plan.warnings.map((warning) => {
+                          return (
+                            <li className="py-2 px-8 text-md text-yellow-600" key={Math.random()}>
+                              <span className="font-bold">(WARNING: {warning.type})</span><span className="italic"> - {warning.message}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                      <p className="place-self-center text-red-500 italic">Please fix these issues so that you can view your plan.</p>
+                      <Button onClick={planModalOKClick} className="place-self-center rounded-md mt-6 bg-blue-500 hover:bg-blue-400 over">OK</Button>
+                    </div>
+                  </Modal>
+                  :
+                  null}
+
+                {isLoading ? 
+                  <LoadingIcon className="animate-spin w-16 h-16 text-black dark:text-white" />
+                  :
+                  <Link href={ plan.warnings.length == 0 ? "/view_plan" : "" } passHref>
+                    <button onClick={viewPlanClick} className="w-40 h-10 place-self-center text-white rounded-md bg-blue-500 hover:bg-blue-400">
+                      View Plan
+                    </button>
+                  </Link>
+                }
               </div>
             </div>
           </div>

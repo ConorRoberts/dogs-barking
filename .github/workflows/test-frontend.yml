@@ -1,4 +1,4 @@
-name: Cypress Tests
+name: Run Frontend Tests
 
 on: [pull_request]
 
@@ -19,3 +19,4 @@ jobs:
         with:
           build: pnpm build
           start: pnpm start
+          project: ./apps/client

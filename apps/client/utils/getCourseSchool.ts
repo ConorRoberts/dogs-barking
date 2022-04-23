@@ -15,7 +15,7 @@ const getCourseSchool = async (courseNodeId: string): Promise<School> => {
     `
         MATCH(school:School)-[:OFFERS]->(course:Course)
         where id(course) = $nodeId 
-        return school
+        return school,id(school) as nodeId
         `,
     { nodeId: +courseNodeId }
   );
@@ -23,7 +23,7 @@ const getCourseSchool = async (courseNodeId: string): Promise<School> => {
   await session.close();
   await driver.close();
 
-  return data.records[0].get("school").properties;
+  return { ...data.records[0].get("school").properties, nodeId: data.records[0].get("nodeId").toString() };
 };
 
 export default getCourseSchool;
