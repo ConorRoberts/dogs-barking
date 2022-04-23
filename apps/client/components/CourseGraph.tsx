@@ -6,7 +6,6 @@ import ReactFlow, {
   Edge,
   useNodesState,
   useEdgesState,
-  getConnectedEdges,
 } from "react-flow-renderer";
 import nodeTypes from "@config/nodeTypes";
 import { useEffect } from "react";
@@ -27,20 +26,6 @@ const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, height }: Cours
     setEdges(initialEdges);
   }, [initialNodes, initialEdges, setEdges, setNodes]);
 
-  //TODO: Change this to hide nodes onclick
-  const nodeOnClick =  (node: Node) => {
-    if (node.type !== "prerequisiteblock") return;
-    const nid = node.id;
-    const connected = getConnectedEdges([node], edges).filter((edge) => edge.source === nid);
-    connected.map((edge) =>{
-      if(!edge.animated && edge.style.stroke?.includes("red")) {
-        edge.style = { stroke: "gray" };
-      } else if (!edge.animated){
-        edge.style = { stroke: "red" };
-      }
-    });
-  };
-
   return (
     <div className="flex flex-col w-full">
       <div
@@ -53,7 +38,6 @@ const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, height }: Cours
           <ReactFlow
             nodes={nodes}
             edges={edges}
-            onNodeClick={(event, node) => nodeOnClick(node)}
             nodeTypes={nodeTypes}
             nodesDraggable={false}
             nodesConnectable={false}

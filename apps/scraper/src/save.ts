@@ -85,7 +85,7 @@ const save = async () => {
             number: $number,
             id: $id
         }) 
-        CREATE (school)-[:HAS_COURSE]->(c)
+        CREATE (school)-[:HAS]->(c)
         `,
         { ...course, id: randomUUID() }
       );
@@ -116,7 +116,7 @@ const save = async () => {
                 term: $term
             })
 
-            CREATE (course)-[:HAS_SECTION]->(section)
+            CREATE (course)-[:HAS]->(section)
 
             MERGE (instructor:Instructor {
                 name: $instructorName
@@ -137,7 +137,7 @@ const save = async () => {
             `
             MATCH 
             (course:Course {code :$courseCode})
-            -[:HAS_SECTION]->
+            -[:HAS]->
             (section:Section {code: $sectionCode})
 
             CREATE (lecture:Lecture {
@@ -154,7 +154,7 @@ const save = async () => {
                 sunday: $sunday
             })
 
-            CREATE (section)-[:HAS_LECTURE]->(lecture)
+            CREATE (section)-[:HAS]->(lecture)
         `,
             { ...lecture, courseCode: course.code, sectionCode: section.code }
           );
@@ -172,7 +172,7 @@ const save = async () => {
             `
             MATCH 
             (course:Course {code :$courseCode})
-            -[:HAS_SECTION]->
+            -[:HAS]->
             (section:Section {code: $sectionCode})
 
             CREATE (lab:Lab {
@@ -189,7 +189,7 @@ const save = async () => {
                 sunday: $sunday
             })
 
-            CREATE (section)-[:HAS_LAB]->(lab)
+            CREATE (section)-[:HAS]->(lab)
         `,
             { ...lab, courseCode: course.code, sectionCode: section.code }
           );
@@ -207,7 +207,7 @@ const save = async () => {
             `
             MATCH 
             (course:Course {code :$courseCode})
-            -[:HAS_SECTION]->
+            -[:HAS]->
             (section:Section {code: $sectionCode})
 
             CREATE (seminar:Seminar {
@@ -224,7 +224,7 @@ const save = async () => {
                 sunday: $sunday
             })
 
-            CREATE (section)-[:HAS_SEMINAR]->(seminar)
+            CREATE (section)-[:HAS]->(seminar)
         `,
             { ...seminar, courseCode: course.code, sectionCode: section.code }
           );
@@ -242,7 +242,7 @@ const save = async () => {
             `
             MATCH 
             (course:Course {code :$courseCode})
-            -[:HAS_SECTION]->
+            -[:HAS]->
             (section:Section {code: $sectionCode})
 
             CREATE (tutorial:Tutorial {
@@ -259,7 +259,7 @@ const save = async () => {
                 sunday: $sunday
             })
 
-            CREATE (section)-[:HAS_TUTORIAL]->(tutorial)
+            CREATE (section)-[:HAS]->(tutorial)
         `,
             { ...tutorial, courseCode: course.code, sectionCode: section.code }
           );
@@ -271,12 +271,12 @@ const save = async () => {
     }
   }
 
-  //Polling requisite data and creating relationships between nodes
+  // Polling requisite data and creating relationships between nodes
   for (const course of data.courses) {
-    //   ("(ACCT*3330 or BUS*3330), (ACCT*3340 or BUS*3340)");
-    // ("15.00 credits including ACCT*3280, ACCT*3340, ACCT*3350");
-    // ("CIS*2520, (CIS*2430 or ENGG*1420)");
-    // ("[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520");
+    // (ACCT*3330 or BUS*3330), (ACCT*3340 or BUS*3340)
+    // 15.00 credits including ACCT*3280, ACCT*3340, ACCT*3350
+    // CIS*2520, (CIS*2430 or ENGG*1420)
+    // [CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520
 
     // Handle requisites
     let requisiteText = (course.requisites as string)

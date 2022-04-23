@@ -66,7 +66,6 @@ importers:
       next: latest
       next-pwa: ^3.1.0
       node-mocks-http: ^1.11.0
-      nodemailer: ^6.7.3
       postcss: ^8.4.4
       ps-scrollbar-tailwind: ^0.0.1
       react: ^17.0.2
@@ -95,11 +94,10 @@ importers:
       next: 12.1.5_react-dom@17.0.2+react@17.0.2
       next-pwa: 3.1.5_next@12.1.5+webpack@5.69.1
       node-mocks-http: 1.11.0
-      nodemailer: 6.7.3
       ps-scrollbar-tailwind: 0.0.1_833e1018ad0d7954aa80c53675939269
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      react-flow-renderer: 10.1.0_react-dom@17.0.2+react@17.0.2
+      react-flow-renderer: 10.1.2_react-dom@17.0.2+react@17.0.2
       react-icons: 4.3.1_react@17.0.2
       react-query: 3.34.16_react-dom@17.0.2+react@17.0.2
       react-redux: 7.2.6_react-dom@17.0.2+react@17.0.2
@@ -8898,11 +8896,6 @@ packages:
   /node-releases/2.0.1:
     resolution: {integrity: sha512-CqyzN6z7Q6aMeF/ktcMVTzhAHCEpf8SOarwpzpf8pNBY2k5/oM34UHldUwp8VKI7uxct2HxSRdJjBaZeESzcxA==}
 
-  /nodemailer/6.7.3:
-    resolution: {integrity: sha512-KUdDsspqx89sD4UUyUKzdlUOper3hRkDVkrKh/89G+d9WKsU5ox51NWS4tB1XR5dPUdR4SP0E3molyEfOvSa3g==}
-    engines: {node: '>=6.0.0'}
-    dev: false
-
   /normalize-path/3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
@@ -9619,8 +9612,8 @@ packages:
     resolution: {integrity: sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==}
     dev: false
 
-  /react-flow-renderer/10.1.0_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-vEhGimnFR2WZR4IBnsYMi+S0eJO9hS5K7yWjhTQ4Xz825Tx97iPhz3AC79cOwtGOaFTb9+nhaD+K+ZXY5czHXQ==}
+  /react-flow-renderer/10.1.2_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-gWDYmXSz0pT3fbUoDI4L49GSzKJNBhp0z1h1hN4L9YbzqBITowCQodxKHHkIQHW9V103xdd+SSZOmRvrA9uybg==}
     engines: {node: '>=14'}
     peerDependencies:
       react: 16 || 17

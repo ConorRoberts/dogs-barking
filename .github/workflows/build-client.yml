@@ -54,6 +54,10 @@ jobs:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
+          environment-variables: |
+            NEO4j_USERNAME=${{ secrets.NEO4J_USERNAME }}
+            NEO4J_PASSWORD=${{ secrets.NEO4J_PASSWORD }}
+            NEO4J_HOST=${{secrets.NEO4J_HOST}}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@de0132cf8cdedb79975c6d42b77eb7ea193cf28e

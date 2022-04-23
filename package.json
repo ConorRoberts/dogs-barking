@@ -13,9 +13,7 @@
         "lint:fix": "eslint ./** --fix",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
         "scrape": "turbo run dev --scope=scraper",
-        "cli": "ts-node-dev --poll ./apps/cli/index.ts",
         "test": "turbo run test",
-        "api": "turbo run dev --scope=api",
         "client": "turbo run dev --scope=web-client"
     },
     "devDependencies": {

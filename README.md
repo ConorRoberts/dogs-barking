@@ -6,49 +6,9 @@ This project serves as a course management utility for University of Guelph Stud
 
 ## Getting started
 
-```text
-Clone/Fork the repo using git clone https://github.com/ConorRoberts/dogs-barking.git
-```
-
-Install the project dependencies by running
+1. Install `pnpm` if not already installed
+2. Run `pnpm install` to install all dependencies
 
 ```text
 pnpm install
-```
-
-### Installing dependencies
-
-Ensure you run this in the root directory
-
-```text
-chmod +x docs/install-script.sh && ./docs/install-script.sh
-```
-
-## Running Programs
-
-### CLI System
-
-```text
-cd apps/cli
-npm run dev
-```
-
-### Scraper
-
-```text
-cd apps/scraper
-npm start
-```
-
-### Web Client
-
-```text
-cd apps/client
-npm run dev for development mode
-npm start for production
-
-Updating to production ->
-Fork/Clone the repository making any necessary changes.
-Ensure any changes pass linting and unit testing requirements.
-Submit a pull request with a brief statement of any changes
 ```
