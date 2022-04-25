@@ -79,6 +79,7 @@ const save = async () => {
       await session.run(
         `
         MATCH (school: School {short: "UOFG"})
+
         CREATE (c:Course {
             code: $code,
             name: $name,
@@ -88,7 +89,8 @@ const save = async () => {
             number: $number,
             id: $id
         }) 
-        CREATE (school)-[:HAS]->(c)
+
+        CREATE (school)-[:OFFERS]->(c)
         `,
         { description: "", ...course, id: randomUUID() }
       );
@@ -522,40 +524,116 @@ const save = async () => {
 
       log(`${chalk.green("Added program:")} ${chalk.white(key)}`);
 
-
       if (program["major"] && program["major"].courses) {
         for (const { course: courseBlock, section = "" } of program["major"].courses) {
           const blockId = randomUUID();
+          const blockCourses = courseBlock.split("/").map(e => e.trim());
 
-          session = driver.session();
-          await session.run(
-            `
-              MATCH (program:Program {id: $programId})
-              CREATE (program)-[:MAJOR_REQUIRES]->(block:OrBlock {
-                id: $blockId,
-                note: $note,
-                target: 1,
-                type: "course"
-              })
-              `, { programId, blockId, note: section }
-          );
-          await session.close();
-
-          for (const course of courseBlock.split("/").map(e => e.trim())) {
+          if (blockCourses.length > 1) {
             session = driver.session();
             await session.run(
               `
-                  MATCH (block:OrBlock {id: $blockId})
-                  MATCH (course:Course {code: $code})
-                  CREATE (block)-[:REQUIRES]->(course)
-                  `,
-              { code: course.replace("*", ""), blockId }
+                MATCH (program:Program {id: $programId})
+                CREATE (program)-[:MAJOR_REQUIRES]->(block:OrBlock {
+                  id: $blockId,
+                  note: $note,
+                  target: 1,
+                  type: "course"
+                })
+                `, { programId, blockId, note: section }
+            );
+            await session.close();
+
+            for (const course of courseBlock.split("/").map(e => e.trim())) {
+              session = driver.session();
+              await session.run(
+                `
+                    MATCH (block:OrBlock {id: $blockId})
+                    MATCH (course:Course {code: $code})
+                    CREATE (block)-[:REQUIRES]->(course)
+                    `,
+                { code: course.replace("*", ""), blockId }
+              );
+              await session.close();
+            }
+          } else {
+            const [course] = blockCourses;
+            session = driver.session();
+            await session.run(
+              `
+                MATCH (program:Program {id: $programId})
+                MATCH (course:Course {code: $code})
+                CREATE (program)-[:REQUIRES]->(course)
+              `,
+              { code: course.replace("*", ""), programId }
+            );
+            await session.close();
+          }
+        }
+        for (const block of program.major.options) {
+          session = driver.session();
+
+          await session.run(`
+            MATCH (program:Program {id: $programId})
+            CREATE (program)-[:MAJOR_REQUIRES]->(block:OrBlock {
+              id: $blockId,
+              note: $note,
+              target: $target,
+              department: $department,
+              level: $level
+            })
+            
+          `, { programId, blockId: randomUUID(), note: block.text, target: block.targetWeight, department: block.dpt, level: block.level });
+          await session.close();
+        }
+      }
+      if (program["minor"] && program["minor"].courses) {
+        for (const { course: courseBlock, section = "" } of program["minor"].courses) {
+          const blockId = randomUUID();
+          const blockCourses = courseBlock.split("/").map(e => e.trim());
+
+          if (blockCourses.length > 1) {
+            session = driver.session();
+            await session.run(
+              `
+                MATCH (program:Program {id: $programId})
+                CREATE (program)-[:MINOR_REQUIRES]->(block:OrBlock {
+                  id: $blockId,
+                  note: $note,
+                  target: 1,
+                  type: "course"
+                })
+                `, { programId, blockId, note: section }
+            );
+            await session.close();
+
+            for (const course of courseBlock.split("/").map(e => e.trim())) {
+              session = driver.session();
+              await session.run(
+                `
+                    MATCH (block:OrBlock {id: $blockId})
+                    MATCH (course:Course {code: $code})
+                    CREATE (block)-[:REQUIRES]->(course)
+                    `,
+                { code: course.replace("*", ""), blockId }
+              );
+              await session.close();
+            }
+          } else {
+            const [course] = blockCourses;
+            session = driver.session();
+            await session.run(
+              `
+                MATCH (program:Program {id: $programId})
+                MATCH (course:Course {code: $code})
+                CREATE (program)-[:REQUIRES]->(course)
+              `,
+              { code: course.replace("*", ""), programId }
             );
             await session.close();
           }
         }
       }
-      // log(chalk.yellowBright(`Added: (${key}) - [:MAJOR_REQUIRES] -> (${course.replace("*", "")})`));
     } catch (error) {
       log(chalk.red("Error: " + key + " - " + error));
     }
