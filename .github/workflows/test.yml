@@ -1,4 +1,4 @@
-name: Verify code before merging with main
+name: Test Frontend
 on: [push,pull_request]
 jobs:
   style-check:
