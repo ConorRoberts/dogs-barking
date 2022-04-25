@@ -1,5 +1,7 @@
 # CIS3760 - Team 5
 
+[![Frontend](https://github.com/ConorRoberts/dogs-barking/actions/workflows/pre-merge-main.yml/badge.svg)](https://github.com/ConorRoberts/dogs-barking/actions/workflows/pre-merge-main.yml)
+
 This project serves as a course management utility for University of Guelph Students. It includes a full catalog of all courses and programs, with their respective prerequisite trees available on tap to anyone. It also includes a degree planner feature for students who want to map out their degree programs, semester by semester.
 
 ## Getting started
@@ -19,5 +21,5 @@ This project serves as a course management utility for University of Guelph Stud
 ### Backend
 
     - Neo4j (Database)
-    - EC2 (Hosting)
+    - AWS EC2 (Hosting)
     - Next.js (API)
