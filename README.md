@@ -1,6 +1,7 @@
 # CIS3760 - Team 5
 
 [![Tests](https://github.com/ConorRoberts/dogs-barking/actions/workflows/test.yml/badge.svg)](https://github.com/ConorRoberts/dogs-barking/actions/workflows/test.yml)
+[![Frontend Build](https://github.com/ConorRoberts/dogs-barking/actions/workflows/build-client.yml/badge.svg)](https://github.com/ConorRoberts/dogs-barking/actions/workflows/build-client.yml)
 
 This project serves as a course management utility for University of Guelph Students. It includes a full catalog of all courses and programs, with their respective prerequisite trees available on tap to anyone. It also includes a degree planner feature for students who want to map out their degree programs, semester by semester.
 
