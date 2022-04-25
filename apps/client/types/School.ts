@@ -1,8 +1,17 @@
 interface School {
   name: string;
-  abbrev: string;
+  short: string;
+  url: string;
+  type: string;
+  address: string;
   city: string;
-  nodeId?: string;
+  province: string;
+  postalCode: string;
+  country: string;
+  phone: string;
+  id: string;
+  majors?: object[];
+  minors?: object[];
 }
 
 export default School;

@@ -43,6 +43,8 @@ const Page = ({ program, school, major, minor, area }: PageProps) => {
   const [selectedAOC, isAOC] = useState(false);
   
   useQuery("programs", () => {
+
+    // TODO: Combine these into a single API call
     axios.get(`/api/program/${router.query.programId}/major`)
       .then((res) => setMajorCourses(res.data.major))
       .catch((err) => console.log(err));
@@ -69,6 +71,7 @@ const Page = ({ program, school, major, minor, area }: PageProps) => {
     }
   });
 
+  // Remove all of these
   const toggleMajor = () => {
     setMinorVisible(false);
     isMinor(false);

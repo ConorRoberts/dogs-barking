@@ -35,8 +35,8 @@ const Page = (props: PageProps) => {
         <h3 className="text-xl font-normal text-center mb-2">Find your favourite courses</h3>
 
         <div
-          className={`flex gap-4 items-center rounded-md shadow-md dark:bg-gray-800 bg-white px-4 ${
-            showResults && results.length > 0 && "rounded-b-none"
+          className={`flex gap-4 items-center shadow-md dark:bg-gray-800 bg-white px-4 overflow-hidden rounded-t-md ${
+            showResults && results.length > 0 ? "rounded-b-none" : "rounded-b-md"
           }`}>
           <Input
             onChange={(e) => setText(e.target.value)}
@@ -54,7 +54,7 @@ const Page = (props: PageProps) => {
           </Link>
         </div>
         {showResults && (
-          <div className="absolute rounded-xl top-full left-0 right-0 h-6 z-10">
+          <div className="absolute rounded-b-xl top-full left-0 right-0 z-10 shadow-md bg-white overflow-hidden divide-y divide-gray-100">
             {results.slice(0, 10).map((e) => (
               <Link href={`/course/${e.nodeId}`} key={e.nodeId} passHref>
                 <div className="bg-white dark:bg-gray-800 px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm hover:text-gray-500 dark:hover:text-gray-300 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16">

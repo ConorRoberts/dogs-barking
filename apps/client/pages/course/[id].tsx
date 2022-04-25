@@ -64,12 +64,12 @@ const Page = ({ course, school, nodes, edges, rating }: PageProps) => {
 };
 
 export const getServerSideProps = async (context: NextPageContext) => {
-  const nodeId = context.query.nodeId as string;
-  const course = await getCourse(nodeId);
-  const school = await getCourseSchool(nodeId);
-  const courses = await getPrerequisites(nodeId);
+  const id = context.query.id as string;
+  const course = await getCourse(id);
+  const school = await getCourseSchool(id);
+  const courses = await getPrerequisites(id);
   const { nodes, edges } = createPrerequisiteGraph(courses);
-  const rating = await getRating(nodeId);
+  const rating = await getRating(id);
 
   return {
     props: {
