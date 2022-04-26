@@ -8,19 +8,27 @@ const getSchools = async (): Promise<School[]> => {
 
   const data = await session.run(
     `
-            MATCH (school:School)
-            RETURN
-                [(school)-[:HAS]->(major:Major) | properties(major)] AS majors,
-                [(school)-[:HAS]->(minor:Minor) | properties(minor)] AS minors,
-                properties(school) as school
-        `
+    MATCH (school:School)
+    RETURN
+      properties(school) as school,
+      [
+        (school)-[:OFFERS]->(program:Program) | 
+        {
+          program: properties(program),
+          hasMajor: size([(program)-[:MAJOR_REQUIRES]->(e) | e]) > 0,
+          hasMinor: size([(program)-[:MINOR_REQUIRES]->(e) | e]) > 0
+        }
+      ] as programs
+    `
   );
 
   await session.close();
 
   return data.records.map((record) => ({
-    majors: record.get("majors"),
-    minors: record.get("minors"),
+    programs: record
+      .get("programs")
+      .map(({ program, ...e }) => ({ ...program, ...e }))
+      .sort((a, b) => a.name.localeCompare(b.name)),
     ...record.get("school"),
   }));
 };

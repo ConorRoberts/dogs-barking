@@ -10,8 +10,14 @@ interface School {
   country: string;
   phone: string;
   id: string;
-  majors?: object[];
-  minors?: object[];
+  programs?: [
+    {
+      hasMajor?: boolean;
+      hasMinor?: boolean;
+      short: string;
+      name: string;
+    }
+  ];
 }
 
 export default School;

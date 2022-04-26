@@ -1,8 +1,8 @@
 const config = {
   Auth: {
     region: "us-east-1",
-    userPoolId: process.env.AWS_COGNITO_POOL_ID,
-    userPoolWebClientId: process.env.AWS_COGNITO_WEB_CLIENT_ID,
+    userPoolId: "us-east-1_R2OZq0wrB",
+    userPoolWebClientId: "71uq7hdjavevjqdup36b9imvdq",
   },
 };
 

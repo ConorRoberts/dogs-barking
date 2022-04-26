@@ -10,9 +10,14 @@ export const signIn = createAsyncThunk("auth/signIn", async () => {
   try {
     const res = await Auth.currentAuthenticatedUser();
 
-    const { data } = await axios.get(`/api/user/${res.attributes.sub}`);
+    try {
+      const { data } = await axios.get(`/api/user/${res.attributes.sub}`);
 
-    return data;
+      return { ...res.attributes, ...data };
+    } catch (error) {
+      const { data } = await axios.post(`/api/user/${res.attributes.sub}`);
+      return { ...res.attributes, ...data };
+    }
   } catch (error) {
     return null;
   }

@@ -5,7 +5,7 @@ import getNeo4jDriver from "./getNeo4jDriver";
  * Grab course from DB and return it
  * @param courseCode
  */
-const getCourse = async (nodeId: string): Promise<Course | null> => {
+const getCourse = async (id: string): Promise<Course | null> => {
   const driver = getNeo4jDriver();
   const session = driver.session();
 

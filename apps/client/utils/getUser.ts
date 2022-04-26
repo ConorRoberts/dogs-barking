@@ -12,8 +12,7 @@ const getUser = async (id: string) => {
 
   const result = await session.run(
     `
-        MATCH (user:User)
-        WHERE user.id = $id
+        MATCH (user:User {id: $id})
         RETURN 
           properties(user) as user
     `,
@@ -24,9 +23,6 @@ const getUser = async (id: string) => {
 
   return {
     ...result.records[0].get("user"),
-    birthdate: Object.values(result.records[0].get("user").birthdate)
-      .map((e: { high: number; low: number }) => e.low.toString().padStart(2, "0"))
-      .join("-"),
   };
 };
 

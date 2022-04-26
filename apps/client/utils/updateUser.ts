@@ -6,9 +6,9 @@ const updateUser = async (id: string, data: User) => {
 
   const session = driver.session();
 
-  const result = await session.run(
+  const { records } = await session.run(
     `
-        MATCH (user:User {id: $id})
+        MERGE (user:User {id: $id})
 
         SET user.major = $major
         SET user.minor = $minor
@@ -16,14 +16,11 @@ const updateUser = async (id: string, data: User) => {
 
         RETURN properties(user) as user
         `,
-    { ...data, id }
+    { major: "", minor: "", school: "", ...data, id }
   );
 
   return {
-    ...result.records[0].get("user"),
-    birthdate: Object.values(result.records[0].get("user").birthdate)
-      .map((e: { high: number; low: number }) => e.low.toString().padStart(2, "0"))
-      .join("-"),
+    ...records[0].get("user"),
   };
 };
 

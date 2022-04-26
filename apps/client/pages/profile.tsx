@@ -7,7 +7,7 @@ import getSchools from "@utils/getSchools";
 import axios from "axios";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 interface PageProps {
@@ -17,7 +17,6 @@ interface PageProps {
 const Page = ({ schools }: PageProps) => {
   const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
   const router = useRouter();
-  const [majors, setMajors] = useState([]);
 
   useEffect(() => {
     if (!loading && !user) router.push("/error/403");
@@ -59,13 +58,31 @@ const Page = ({ schools }: PageProps) => {
               <div>
                 <div className="form-label-group">
                   <p>Major</p>
-                  <ErrorMessage name="name" component={CustomErrorMessage} />
+                  <ErrorMessage name="major" component={CustomErrorMessage} />
                 </div>
                 <Select name="major">
                   <option value="">None</option>
-                  {majors.map((e, index) => (
-                    <option key={`school-option-${index}`}>{e.name}</option>
-                  ))}
+                  {schools
+                    .find((e) => e.name === values.school)
+                    ?.programs.filter((e) => e.hasMajor)
+                    .map((e, index) => (
+                      <option key={`school-option-${index}`}>{e.name}</option>
+                    ))}
+                </Select>
+              </div>
+              <div>
+                <div className="form-label-group">
+                  <p>Minor</p>
+                  <ErrorMessage name="minor" component={CustomErrorMessage} />
+                </div>
+                <Select name="minor">
+                  <option value="">None</option>
+                  {schools
+                    .find((e) => e.name === values.school)
+                    ?.programs.filter((e) => e.hasMinor)
+                    .map((e, index) => (
+                      <option key={`school-option-${index}`}>{e.name}</option>
+                    ))}
                 </Select>
               </div>
               <Button type="submit">Save</Button>
