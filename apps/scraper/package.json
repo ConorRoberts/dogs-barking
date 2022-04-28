@@ -3,18 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "save": "node --max-old-space-size=8192 ./src/save.js",
-    "scrape": "node --max-old-space-size=8192 ./src/scrape.js"
+    "save": "ts-node ./src/save.ts",
+    "scrape": "ts-node ./src/scrape.ts",
+    "stinky": "ts-node ./src/save2.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@playwright/test": "^1.20.2",
     "chalk": "4.1.2",
     "dotenv": "^16.0.0",
     "neo4j-driver": "^4.4.3",
-    "uuid": "^8.3.2",
-    "@playwright/test": "^1.20.2"
+    "ts-node": "^10.7.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.5"
   }
 }
 

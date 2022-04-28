@@ -5,23 +5,23 @@ import getNeo4jDriver from "./getNeo4jDriver";
  * @param nodeId
  * @returns
  */
-const getPrerequisites = async (nodeId: string): Promise<any[]> => {
+const getPrerequisites = async (id: string): Promise<any[]> => {
   try {
     const driver = getNeo4jDriver();
     const session = driver.session();
-    const data = await session.run(
+    const { records } = await session.run(
       `
-        MATCH p=(course:Course)-[:HAS_PREREQUISITE|OR*0..20]->(prereq)
-        where id(course) = ${nodeId}
+        MATCH p=(course:Course)-[:REQUIRES*0..20]->(prereq)
+        where course.id = id
         return nodes(p)
       `,
-      { nodeId: +nodeId }
+      { id }
     );
 
     await session.close();
     await driver.close();
 
-    return data.records;
+    return records;
   } catch (error) {
     console.error(error);
     return [];

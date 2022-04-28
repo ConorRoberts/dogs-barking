@@ -2,33 +2,35 @@ import getNeo4jDriver from "./getNeo4jDriver";
 
 /**
  * Gets the previous ratings for a node (Course)
- * @param nodeId
+ * @param id Course ID
  */
-const getRating = async (nodeId: string) => {
+const getRating = async (id: string) => {
   const driver = getNeo4jDriver();
 
   const session = driver.session();
 
-  const result = await session.run(
+  const { records } = await session.run(
     `
         MATCH (c:Course) 
-        WHERE ID(c) = $nodeId
+        WHERE c.id = $id
+
         MATCH (c)-[:HAS_RATING]->(rating:Rating)
+        
         RETURN 
           avg(rating.difficulty) as difficulty,
           avg(rating.timeSpent) as timeSpent,
           avg(rating.usefulness) as usefulness
     `,
-    { nodeId: +nodeId }
+    { id }
   );
 
   await session.close();
   await driver.close();
 
   return {
-    difficulty: result.records[0]?.get("difficulty") ?? 0,
-    usefulness: result.records[0]?.get("usefulness") ?? 0,
-    timeSpent: result.records[0]?.get("timeSpent") ?? 0,
+    difficulty: records[0]?.get("difficulty") ?? 0,
+    usefulness: records[0]?.get("usefulness") ?? 0,
+    timeSpent: records[0]?.get("timeSpent") ?? 0,
   };
 };
 

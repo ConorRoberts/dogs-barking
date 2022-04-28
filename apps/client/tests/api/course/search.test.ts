@@ -1,5 +1,5 @@
 import Course from "@dogs-barking/common/types/Course";
-import handler from "@pages/api/course/search";
+import handler from "@pages/api/search/course";
 import { NextApiRequest, NextApiResponse } from "next";
 import { UOFG_COURSE, UOFT_COURSE } from "@config/regex";
 import httpMocks from "node-mocks-http";

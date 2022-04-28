@@ -6,6 +6,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ErrorIcon, PlusIcon } from "@components/Icons";
 import axios from "axios";
+import PlannerSemester from "@components/PlannerSemester";
+import { PlannerSemesterData } from "@typedefs/DegreePlan";
 
 const Page = () => {
   const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
@@ -41,7 +43,7 @@ const Page = () => {
     })();
   }, [user, router, loading, fetchPlanState]);
 
-  if (!user) return <LoadingScreen />;
+  if (!user || !planState) return <LoadingScreen />;
 
   return (
     <div>
@@ -58,11 +60,8 @@ const Page = () => {
       )}
 
       <div className="flex flex-col gap-8">
-        {planState.semesters.map((semester, index) => (
-          <div key={`semester-${index}`} className="flex flex-col gap-4">
-            {semester.semester}
-            {semester.year}
-          </div>
+        {planState.semesters.map((semester:PlannerSemesterData, index) => (
+          <PlannerSemester key={`semester-${index}`} {...semester}/>
         ))}
         <PlusIcon
           size={30}

@@ -1,13 +1,14 @@
+import School from "@typedefs/School";
+
 type Course = {
   id: string;
   department: string;
   number: number;
+  code: string;
   name: string;
   description: string;
   weight: number;
-  nodeId?: string;
-  school?: string;
-  schoolId?: string;
+  school?: School;
 };
 
 export type CourseIndex = {

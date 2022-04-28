@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Input } from "@components/form";
 import Link from "next/link";
-import useCourseSearch from "@hooks/useCourseSearch";
+import useSearch from "@hooks/useSearch";
 import { Random } from "@components/Icons";
 import CourseGraph from "@components/CourseGraph";
 import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
@@ -19,7 +19,7 @@ interface PageProps {
 
 const Page = (props: PageProps) => {
   const [text, setText] = useState("");
-  const { results } = useCourseSearch(text);
+  const { results } = useSearch(text);
   const [showResults, setShowResults] = useState(false);
 
   return (
@@ -56,9 +56,9 @@ const Page = (props: PageProps) => {
         {showResults && (
           <div className="absolute rounded-b-xl top-full left-0 right-0 z-10 shadow-md bg-white overflow-hidden divide-y divide-gray-100">
             {results.slice(0, 10).map((e) => (
-              <Link href={`/course/${e.nodeId}`} key={e.nodeId} passHref>
+              <Link href={`/course/${e.id}`} key={e.id} passHref>
                 <div className="bg-white dark:bg-gray-800 px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm hover:text-gray-500 dark:hover:text-gray-300 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16">
-                  <p>{e.id}</p>
+                  <p>{e.code}</p>
                   <p className="truncate">{e.name}</p>
                 </div>
               </Link>

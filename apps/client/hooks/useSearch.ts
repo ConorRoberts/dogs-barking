@@ -6,14 +6,20 @@ export interface UseCourseSearchParams {
   description: string;
 }
 
+interface Config {
+  type?: "course" | "program";
+}
+
 /**
  * Calls the API to get the course search results on update of the query params
  * @param params
  * @returns
  */
-const useCourseSearch = (query: string) => {
+const useSearch = (query: string, config?: Config) => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const { type = "course" } = config ?? {};
 
   useEffect(() => {
     setLoading(true);
@@ -24,7 +30,7 @@ const useCourseSearch = (query: string) => {
         return;
       }
 
-      const { data } = await axios.get(`/api/course/search`, {
+      const { data } = await axios.get(`/api/search/${type}`, {
         params: {
           query,
         },
@@ -37,9 +43,9 @@ const useCourseSearch = (query: string) => {
     return () => {
       clearTimeout(timer);
     };
-  }, [query]);
+  }, [query, type]);
 
   return { results, loading };
 };
 
-export default useCourseSearch;
+export default useSearch;

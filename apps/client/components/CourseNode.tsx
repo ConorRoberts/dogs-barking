@@ -2,8 +2,6 @@ import Course from "@dogs-barking/common/types/Course";
 import { Handle, Node, Position } from "react-flow-renderer";
 import getNodeColour from "@utils/getNodeColour";
 import { useDispatch } from "react-redux";
-import { setSelectedNode } from "@redux/graph";
-import Link from "next/link";
 
 const CourseNode = (props: Node<Course>) => {
   const { data, id } = props;

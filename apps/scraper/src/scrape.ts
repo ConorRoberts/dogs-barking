@@ -1,6 +1,15 @@
-const { writeFileSync } = require("fs");
-const { devices, chromium } = require("@playwright/test");
-const chalk = require("chalk");
+import { writeFileSync } from "fs";
+import { devices, chromium, ElementHandle } from "@playwright/test";
+import chalk from "chalk";
+
+export type Meeting = {
+  days: string[];
+  startTime: string;
+  endTime: string;
+  location?: string;
+  id: number;
+  room?: string;
+};
 
 const labels = {
   "Offering(s):": "offerings",
@@ -31,7 +40,7 @@ const courses = [],
   sections = [],
   instructors = [];
 
-const logs = [];
+const logs: string[] = [];
 
 const timestamp = new Date().getTime();
 
@@ -51,7 +60,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
   await page.waitForSelector("section.esg-list-group");
   const dptLinks = await page.locator("section.esg-list-group > a").elementHandles();
 
-  const log = (msg) => {
+  const log = (msg: string) => {
     const endTime = new Date().getTime();
     const time = (endTime - startTime) / 1000;
     const timestamp =
@@ -95,7 +104,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
       let courseIndex = 0;
       for (const course of elements) {
         try {
-          const title = (await course.$eval("div div h3 span", (e) => e.textContent)).trim();
+          const title = (await course.$eval("div div h3 span", (e: ElementHandle) => e.textContent)).trim();
           const code = ((title.match(/[A-Z]{2,4}\*[0-9]{4}/) ?? [])[0] ?? "").replace(/\*/g, "");
           if (!code) continue;
 
@@ -226,7 +235,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
                     await (await row.$(`#${sectionId}-meeting-days-${rowIndex}`))?.textContent()
                   )?.trim();
 
-                  let meeting = {
+                  let meeting: Meeting = {
                     days: daysTextContent?.length === 0 ? [] : daysTextContent?.split("/") ?? [],
                     startTime: (
                       await (await row.$(`#${sectionId}-meeting-times-start-${rowIndex}`))?.textContent()

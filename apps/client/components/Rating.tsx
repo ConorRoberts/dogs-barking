@@ -7,38 +7,40 @@ import { useSelector } from "react-redux";
 import { EmptyStarIcon, FilledStarIcon, Loading } from "./Icons";
 
 interface RatingProps {
-  nodeId: string;
+  courseId: string;
   ratingType: "difficulty" | "usefulness" | "timeSpent";
   initialRating: number;
 }
 
-const Rating = ({ nodeId, ratingType, initialRating }: RatingProps) => {
+const Rating = ({ courseId, ratingType, initialRating }: RatingProps) => {
   const [mouseIndex, setMouseIndex] = useState(-1);
   const [rating, setRating] = useState(initialRating);
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const [updateLoading, setUpdateLoading] = useState(false);
 
   // Update rating on backend
-  const { isLoading: submitRatingLoading, mutate: submitRating } = useMutation(
-    async ({ rating }: { rating: number }) => {
-      if (!user) return;
-      setMouseIndex(-1);
-      try {
-        const { data } = await axios.post("/api/rating", {
-          courseNodeId: nodeId,
-          userId: user.sub,
-          rating,
-          ratingType,
-        });
+  const submitRating = async ({ rating }: { rating: number }) => {
+    setUpdateLoading(true);
+    if (!user) return;
+    setMouseIndex(-1);
+    try {
+      const { data } = await axios.post("/api/rating", {
+        course: courseId,
+        user: user.id,
+        rating,
+        ratingType,
+      });
 
-        setRating(data[ratingType]);
-      } catch (error) {
-        console.error(error);
-      }
+      setRating(data[ratingType]);
+    } catch (error) {
+      console.error(error);
     }
-  );
+    setUpdateLoading(false);
+  };
+
   return (
     <div>
-      {!submitRatingLoading && (
+      {!updateLoading && (
         <div className="flex gap-1 text-2xl">
           {[...new Array(5)].map((_, index) =>
             index + 1 <= rating ? (
@@ -49,7 +51,7 @@ const Rating = ({ nodeId, ratingType, initialRating }: RatingProps) => {
                 onMouseEnter={() => setMouseIndex(index)}
                 onMouseLeave={() => setMouseIndex(-1)}
                 onClick={() => submitRating({ rating: index + 1 })}
-                key={`rating-star-${index}-${nodeId}`}
+                key={`rating-star-${index}-${courseId}`}
               />
             ) : (
               <EmptyStarIcon
@@ -59,15 +61,13 @@ const Rating = ({ nodeId, ratingType, initialRating }: RatingProps) => {
                   mouseIndex >= index && user ? "scale-125 text-yellow-500" : "dark:text-white"
                 } cursor-pointer`}
                 onClick={() => submitRating({ rating: index + 1 })}
-                key={`rating-star-${index}-${nodeId}`}
+                key={`rating-star-${index}-${courseId}`}
               />
             )
           )}
         </div>
       )}
-      {submitRatingLoading && (
-        <Loading className="animate-spin w-5 h-5 text-gray-700 dark:text-gray-400 mx-auto mt-2" />
-      )}
+      {updateLoading && <Loading className="animate-spin w-5 h-5 text-gray-700 dark:text-gray-400 mx-auto mt-2" />}
     </div>
   );
 };

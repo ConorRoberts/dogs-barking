@@ -1,10 +1,9 @@
-const { readdirSync, writeFileSync, readFileSync } = require("fs");
-// const "tsconfig-paths/register";
-const { courseCodeRegex } = require("./config");
-const getNeo4jDriver = require("./getNeo4jDriver");
-const chalk = require("chalk");
-const { randomUUID } = require("crypto");
-const dotenv = require("dotenv");
+import { readdirSync, writeFileSync, readFileSync } from "fs";
+import { courseCodeRegex } from "./config";
+import getNeo4jDriver from "./getNeo4jDriver";
+import chalk from "chalk";
+import dotenv from "dotenv";
+import { v4 } from "uuid";
 
 const logs = [];
 
@@ -45,6 +44,7 @@ const save = async () => {
   // Clear database
   await session.run(`
     MATCH (e)
+    WHERE (e:OrBlock or e:Course or e:CreditRequirement or e:RegistrationRequirement or e:School or e:Program)
     DETACH DELETE e
   `);
 
@@ -52,7 +52,8 @@ const save = async () => {
   session = driver.session();
 
   // Add School
-  await session.run(`
+  await session.run(
+    `
     CREATE (s:School {
         name: "The University of Guelph",
         short: "UOFG",
@@ -64,9 +65,11 @@ const save = async () => {
         postalCode: "N1G4V4",
         country: "Canada",
         phone: "519-824-4120",
-        id: "${randomUUID()}"
+        id: $id
     })
-  `);
+  `,
+    { id: v4() }
+  );
 
   // log(chalk.blue("Added school"));
 
@@ -92,7 +95,7 @@ const save = async () => {
 
         CREATE (school)-[:OFFERS]->(c)
         `,
-        { description: "", ...course, id: randomUUID() }
+        { description: "", ...course, id: v4() }
       );
       await session.close();
 
@@ -284,9 +287,7 @@ const save = async () => {
     // [CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520
 
     // Handle requisites
-    let requisiteText = course.requisites
-      .replace("- Must be completed prior to taking this course.", "")
-      .trim();
+    let requisiteText = course.requisites.replace("- Must be completed prior to taking this course.", "").trim();
 
     log(chalk.gray(requisiteText));
 
@@ -300,7 +301,7 @@ const save = async () => {
       requisiteText = requisiteText.replace(statement, "and" + andCount);
       const courses = statement.match(courseCodeRegex);
 
-      const andBlockId = randomUUID();
+      const andBlockId = v4();
 
       // Create an AndBlock
       session = driver.session();
@@ -355,7 +356,7 @@ const save = async () => {
 
       const courses = statement.match(courseCodeRegex) ?? [];
 
-      const orBlockId = randomUUID();
+      const orBlockId = v4();
 
       // Create an OrBlock using numCourses as target
       session = driver.session();
@@ -401,7 +402,7 @@ const save = async () => {
     requisiteText = requisiteText.replaceAll(creditRequirementRegex, "");
 
     for (const statement of creditRequirementStatements) {
-      const creditRequirementId = randomUUID();
+      const creditRequirementId = v4();
       const value = Number(statement.match(/[0-9]+\.[0-9]+/g).at(0));
 
       // Create an OrBlock using numCourses as target
@@ -429,7 +430,7 @@ const save = async () => {
     for (const statement of multipleOrStatements) {
       const courses = statement.match(courseCodeRegex) ?? [];
 
-      const orBlockId = randomUUID();
+      const orBlockId = v4();
 
       // Create an OrBlock using numCourses as target
       session = driver.session();
@@ -480,7 +481,7 @@ const save = async () => {
           MATCH (req:Course {code: $requisiteCode})
           CREATE (c)-[:REQUIRES]->(req)
         `,
-        { code: course.code.replace("*", ""), id: randomUUID(), requisiteCode: requisite.replace("*", "") }
+        { code: course.code.replace("*", ""), id: v4(), requisiteCode: requisite.replace("*", "") }
       );
       await session.close();
 
@@ -497,14 +498,14 @@ const save = async () => {
     return prevNum > currNum ? prev : curr;
   });
 
-  const programs = Object.entries(JSON.parse(readFileSync("./data/programs/" + programsFile, "utf-8")));
+  const programs: any[] = Object.entries(JSON.parse(readFileSync("./data/programs/" + programsFile, "utf-8")));
 
   // Add programs
   for (const [key, program] of programs) {
     if (program.school !== "uofg") continue;
 
     const school = program.school.toUpperCase();
-    const programId = randomUUID();
+    const programId = v4();
 
     try {
       session = driver.session();
@@ -518,16 +519,17 @@ const save = async () => {
             degree: $degree,
             id: $programId
           })
-        `, { name: program.title, short: key, degree: program.degree, school, programId }
-      )
+        `,
+        { name: program.title, short: key, degree: program.degree, school, programId }
+      );
       await session.close();
 
       log(`${chalk.green("Added program:")} ${chalk.white(key)}`);
 
       if (program["major"] && program["major"].courses) {
         for (const { course: courseBlock, section = "" } of program["major"].courses) {
-          const blockId = randomUUID();
-          const blockCourses = courseBlock.split("/").map(e => e.trim());
+          const blockId = v4();
+          const blockCourses = courseBlock.split("/").map((e) => e.trim());
 
           if (blockCourses.length > 1) {
             session = driver.session();
@@ -540,11 +542,12 @@ const save = async () => {
                   target: 1,
                   type: "course"
                 })
-                `, { programId, blockId, note: section }
+                `,
+              { programId, blockId, note: section }
             );
             await session.close();
 
-            for (const course of courseBlock.split("/").map(e => e.trim())) {
+            for (const course of courseBlock.split("/").map((e) => e.trim())) {
               session = driver.session();
               await session.run(
                 `
@@ -573,7 +576,8 @@ const save = async () => {
         for (const block of program.major.options) {
           session = driver.session();
 
-          await session.run(`
+          await session.run(
+            `
             MATCH (program:Program {id: $programId})
             CREATE (program)-[:MAJOR_REQUIRES]->(block:OrBlock {
               id: $blockId,
@@ -583,14 +587,23 @@ const save = async () => {
               level: $level
             })
             
-          `, { programId, blockId: randomUUID(), note: block.text, target: block.targetWeight, department: block.dpt, level: block.level });
+          `,
+            {
+              programId,
+              blockId: v4(),
+              note: block.text,
+              target: block.targetWeight,
+              department: block.dpt,
+              level: block.level,
+            }
+          );
           await session.close();
         }
       }
       if (program["minor"] && program["minor"].courses) {
         for (const { course: courseBlock, section = "" } of program["minor"].courses) {
-          const blockId = randomUUID();
-          const blockCourses = courseBlock.split("/").map(e => e.trim());
+          const blockId = v4();
+          const blockCourses = courseBlock.split("/").map((e) => e.trim());
 
           if (blockCourses.length > 1) {
             session = driver.session();
@@ -603,11 +616,12 @@ const save = async () => {
                   target: 1,
                   type: "course"
                 })
-                `, { programId, blockId, note: section }
+                `,
+              { programId, blockId, note: section }
             );
             await session.close();
 
-            for (const course of courseBlock.split("/").map(e => e.trim())) {
+            for (const course of courseBlock.split("/").map((e) => e.trim())) {
               session = driver.session();
               await session.run(
                 `
@@ -640,6 +654,30 @@ const save = async () => {
     await session.close();
   }
 
+  try {
+    session = driver.session();
+    // Create fulltext search index for courses
+    await session.run(
+      `
+      DROP INDEX courseSearch
+      `
+    );
+    await session.close();
+  } catch (error) {
+    log(chalk.red(error));
+  }
+  try {
+    session = driver.session();
+    await session.run(
+      `
+      CREATE FULLTEXT INDEX courseSearch FOR (n:Course) ON EACH [n.name,n.code,n.description]
+      `
+    );
+    await session.close();
+  } catch (error) {
+    log(chalk.red(error));
+  }
+
   await driver.close();
 };
 
@@ -647,4 +685,3 @@ const save = async () => {
   await save();
   writeFileSync("logs.txt", logs.join("\n"));
 })();
-
