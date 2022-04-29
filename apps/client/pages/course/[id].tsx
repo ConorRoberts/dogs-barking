@@ -5,19 +5,15 @@ import CourseGraph from "@components/CourseGraph";
 import { Node, Edge } from "react-flow-renderer";
 import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import Rating from "@components/Rating";
-import getPrerequisites from "@utils/getPrerequisites";
 import getRating from "@utils/getRating";
 import Link from "next/link";
+import RatingData from "@typedefs/RatingData";
 
 interface PageProps {
   course: Course;
   nodes: Node<Course>[];
   edges: Edge[];
-  rating: {
-    difficulty: number;
-    usefulness: number;
-    timeSpent: number;
-  };
+  rating: RatingData;
 }
 
 const Page = ({ course, nodes, edges, rating }: PageProps) => {
@@ -52,6 +48,11 @@ const Page = ({ course, nodes, edges, rating }: PageProps) => {
           <Rating courseId={course.id} ratingType="timeSpent" initialRating={rating.timeSpent} />
         </div>
       </div>
+      {rating.ratingCount !== undefined && (
+        <p className="text-gray-500 text-center">
+          This course has been rated {rating.ratingCount} time{rating.ratingCount > 1 && "s"}
+        </p>
+      )}
       <div>
         <h3 className="text-center mb-1">Prerequisites</h3>
         <CourseGraph nodes={nodes} edges={edges} />
@@ -63,8 +64,7 @@ const Page = ({ course, nodes, edges, rating }: PageProps) => {
 export const getServerSideProps = async (context: NextPageContext) => {
   const id = context.query.id as string;
   const course = await getCourse(id);
-  const courses = await getPrerequisites(id);
-  const { nodes, edges } = createPrerequisiteGraph(courses);
+  const { nodes, edges } = createPrerequisiteGraph(course);
   const rating = await getRating(id);
 
   return {

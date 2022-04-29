@@ -1,15 +1,24 @@
+import Course from "@dogs-barking/common/types/Course";
 import useSearch from "@hooks/useSearch";
 import { PlannerSemesterData } from "@typedefs/DegreePlan";
-import Link from "next/link";
 import { useState } from "react";
 import { Button, Input, Modal } from "./form";
-import { PlusIcon, Random } from "./Icons";
+import { PlusIcon } from "./Icons";
 
 const PlannerSemester = (props: PlannerSemesterData) => {
   const [showCourseSelect, setShowCourseSelect] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const [showResults, setShowResults] = useState(false);
   const { results } = useSearch(searchText);
+  const [coursesToAdd, setCoursesToAdd] = useState([]);
+
+  const addCourse = (course: Course) => {
+    setCoursesToAdd([...coursesToAdd, course]);
+  };
+
+  const removeCourse = (course: Course) => {
+    setCoursesToAdd(coursesToAdd.filter((c) => c.id !== course.id));
+  };
+
   return (
     <div>
       {showCourseSelect && (
@@ -19,30 +28,29 @@ const PlannerSemester = (props: PlannerSemesterData) => {
 
             <div
               className={`flex gap-4 items-center shadow-md dark:bg-gray-800 bg-white px-4 overflow-hidden rounded-t-md ${
-                showResults && results.length > 0 ? "rounded-b-none" : "rounded-b-md"
+                results.length > 0 ? "rounded-b-none" : "rounded-b-md"
               }`}>
               <Input
                 onChange={(e) => setSearchText(e.target.value)}
                 value={searchText}
                 placeholder="Course code"
                 className={`py-3 text-xl font-light w-full dark:bg-gray-800`}
-                onBlur={() => setTimeout(() => setShowResults(false), 100)}
-                onFocus={() => setShowResults(true)}
                 variant="blank"
               />
             </div>
-            {showResults && (
-              <div className="absolute rounded-b-xl top-full left-0 right-0 z-10 shadow-md bg-white overflow-hidden divide-y divide-gray-100">
-                {results.slice(0, 10).map((e) => (
-                  <div
-                    className="bg-white dark:bg-gray-800 px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm hover:text-gray-500 dark:hover:text-gray-300 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16"
-                    key={e.id}>
-                    <p>{e.code}</p>
-                    <p className="truncate">{e.name}</p>
-                  </div>
-                ))}
-              </div>
-            )}
+            <div className="rounded-b-xl shadow-md bg-white overflow-hidden divide-y divide-gray-100">
+              {results.slice(0, 10).map((e) => (
+                <div
+                  className={`${
+                    coursesToAdd.find((c) => c.id === e.id) ? "bg-blue-200" : "bg-white"
+                  } dark:bg-gray-800 px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm hover:text-gray-500 dark:hover:text-gray-300 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16`}
+                  key={e.id}
+                  onClick={() => (coursesToAdd.find((c) => c.id === e.id) ? removeCourse(e) : addCourse(e))}>
+                  <p>{e.code}</p>
+                  <p className="truncate">{e.name}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </Modal>
       )}

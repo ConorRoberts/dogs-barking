@@ -44,7 +44,7 @@ const save = async () => {
   // Clear database
   await session.run(`
     MATCH (e)
-    WHERE (e:OrBlock or e:Course or e:CreditRequirement or e:RegistrationRequirement or e:School or e:Program)
+    WHERE (e:OrBlock or e:Course or e:CreditRequirement or e:RegistrationRequirement or e:School or e:Program or e:Section or e:Instructor or e:Lecture)
     DETACH DELETE e
   `);
 
@@ -671,6 +671,30 @@ const save = async () => {
     await session.run(
       `
       CREATE FULLTEXT INDEX courseSearch FOR (n:Course) ON EACH [n.name,n.code,n.description]
+      `
+    );
+    await session.close();
+  } catch (error) {
+    log(chalk.red(error));
+  }
+
+  try {
+    session = driver.session();
+    // Create fulltext search index for courses
+    await session.run(
+      `
+      DROP INDEX programSearch
+      `
+    );
+    await session.close();
+  } catch (error) {
+    log(chalk.red(error));
+  }
+  try {
+    session = driver.session();
+    await session.run(
+      `
+      CREATE FULLTEXT INDEX programSearch FOR (n:Program) ON EACH [n.name,n.short,n.degree]
       `
     );
     await session.close();

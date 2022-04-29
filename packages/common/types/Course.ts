@@ -9,6 +9,7 @@ type Course = {
   description: string;
   weight: number;
   school?: School;
+  requirements: any[];
 };
 
 export type CourseIndex = {

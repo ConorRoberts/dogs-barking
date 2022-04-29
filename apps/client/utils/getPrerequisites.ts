@@ -12,7 +12,7 @@ const getPrerequisites = async (id: string): Promise<any[]> => {
     const { records } = await session.run(
       `
         MATCH p=(course:Course)-[:REQUIRES*0..20]->(prereq)
-        where course.id = id
+        where course.id = $id
         return nodes(p)
       `,
       { id }

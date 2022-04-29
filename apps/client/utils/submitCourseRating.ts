@@ -1,5 +1,6 @@
 import getNeo4jDriver from "./getNeo4jDriver";
 import RatingData from "@typedefs/RatingData";
+import { v4 } from "uuid";
 
 type RatingType = "difficulty" | "timeSpent" | "usefulness";
 
@@ -23,22 +24,26 @@ const submitCourseRating = async (
 
   const { records } = await session.run(
     `
-    MATCH (u:User {id: $user})
-    MATCH (c:Course)
-    WHERE c.id = $course
-    MATCH (c)-[:HAS_RATING]->(allRatings:Rating)
+    CALL {
+      MATCH (u:User {id: $user}),(c:Course {id: $course})
+      
+      MERGE (u)-[:RATED]->(rating:Rating)<-[:HAS_RATING]-(c)
+      ON CREATE
+        SET rating.id = $id
+      
+      SET rating.${ratingType} = $rating
+      SET rating.updatedAt = timestamp()
+    }
+    
+    OPTIONAL MATCH (c)-[:HAS_RATING]->(allRatings:Rating)
 
-    MERGE (u)-[:RATED]->(rating:Rating)<-[:HAS_RATING]-(c)
-
-    SET rating.${ratingType} = $rating
-    SET rating.updatedAt = timestamp()
-
-    RETURN 
+    RETURN
       avg(allRatings.difficulty) as difficulty,
       avg(allRatings.timeSpent) as timeSpent,
-      avg(allRatings.usefulness) as usefulness
-  `,
-    { user, course, rating: +rating }
+      avg(allRatings.usefulness) as usefulness,
+      count(allRatings) as ratingCount
+    `,
+    { user, course, rating: Number(rating), id: v4() }
   );
 
   await session.close();
@@ -48,6 +53,7 @@ const submitCourseRating = async (
     difficulty: records[0]?.get("difficulty") ?? 0,
     timeSpent: records[0]?.get("timeSpent") ?? 0,
     usefulness: records[0]?.get("usefulness") ?? 0,
+    ratingCount: records[0]?.get("ratingCount").low ?? 0,
   };
 };
 

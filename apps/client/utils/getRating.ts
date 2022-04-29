@@ -11,15 +11,13 @@ const getRating = async (id: string) => {
 
   const { records } = await session.run(
     `
-        MATCH (c:Course) 
-        WHERE c.id = $id
-
-        MATCH (c)-[:HAS_RATING]->(rating:Rating)
+        MATCH (c:Course {id: $id})-[:HAS_RATING]->(rating:Rating)
         
-        RETURN 
+        RETURN
           avg(rating.difficulty) as difficulty,
           avg(rating.timeSpent) as timeSpent,
-          avg(rating.usefulness) as usefulness
+          avg(rating.usefulness) as usefulness,
+          count(rating) as ratingCount
     `,
     { id }
   );
@@ -31,6 +29,7 @@ const getRating = async (id: string) => {
     difficulty: records[0]?.get("difficulty") ?? 0,
     usefulness: records[0]?.get("usefulness") ?? 0,
     timeSpent: records[0]?.get("timeSpent") ?? 0,
+    ratingCount: records[0]?.get("ratingCount").low ?? 0,
   };
 };
 

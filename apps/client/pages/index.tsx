@@ -2,7 +2,7 @@ import MetaData from "@components/MetaData";
 import getRandomCourse from "@utils/getRandomCourse";
 import Image from "next/image";
 import { useState } from "react";
-import { Input } from "@components/form";
+import { Button, Input } from "@components/form";
 import Link from "next/link";
 import useSearch from "@hooks/useSearch";
 import { Random } from "@components/Icons";
@@ -10,6 +10,7 @@ import CourseGraph from "@components/CourseGraph";
 import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import { Edge, Node } from "react-flow-renderer";
 import getPrerequisites from "@utils/getPrerequisites";
+import getCourse from "@utils/getCourse";
 
 interface PageProps {
   randomCourseCode: string;
@@ -19,7 +20,8 @@ interface PageProps {
 
 const Page = (props: PageProps) => {
   const [text, setText] = useState("");
-  const { results } = useSearch(text);
+  const [searchType, setSearchType] = useState<"course" | "program">("course");
+  const { results } = useSearch(text, { type: searchType });
   const [showResults, setShowResults] = useState(false);
 
   return (
@@ -34,6 +36,14 @@ const Page = (props: PageProps) => {
       <div className="relative mx-auto max-w-xl w-full">
         <h3 className="text-xl font-normal text-center mb-2">Find your favourite courses</h3>
 
+        <div className="grid gap-2 grid-cols-2 relative z-0">
+          <Button onClick={() => setSearchType("course")} variant={searchType === "course" ? "default" : "outline"}>
+            Course
+          </Button>
+          <Button onClick={() => setSearchType("program")} variant={searchType === "program" ? "default" : "outline"}>
+            Program
+          </Button>
+        </div>
         <div
           className={`flex gap-4 items-center shadow-md dark:bg-gray-800 bg-white px-4 overflow-hidden rounded-t-md ${
             showResults && results.length > 0 ? "rounded-b-none" : "rounded-b-md"
@@ -54,11 +64,11 @@ const Page = (props: PageProps) => {
           </Link>
         </div>
         {showResults && (
-          <div className="absolute rounded-b-xl top-full left-0 right-0 z-10 shadow-md bg-white overflow-hidden divide-y divide-gray-100">
+          <div className="absolute rounded-b-xl top-full left-0 right-0 z-20 shadow-md bg-white overflow-hidden divide-y divide-gray-100">
             {results.slice(0, 10).map((e) => (
-              <Link href={`/course/${e.id}`} key={e.id} passHref>
+              <Link href={`/${searchType}/${e.id}`} key={e.id} passHref>
                 <div className="bg-white dark:bg-gray-800 px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm hover:text-gray-500 dark:hover:text-gray-300 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16">
-                  <p>{e.code}</p>
+                  <p>{searchType === "course" ? e.code : e.short}</p>
                   <p className="truncate">{e.name}</p>
                 </div>
               </Link>
@@ -78,7 +88,7 @@ const Page = (props: PageProps) => {
       <div className="text-center">
         <h3>Visualize Course Requirements</h3>
         <p className="dark:text-gray-400 text-gray-500 mb-4">
-          Prerequisite graph for CIS*2750 from The University of Guelph
+          Prerequisite graph for {props.randomCourseCode} from The University of Guelph
         </p>
         <CourseGraph nodes={props.nodes} edges={props.edges} />
       </div>
@@ -88,11 +98,11 @@ const Page = (props: PageProps) => {
 
 export const getServerSideProps = async () => {
   const course = await getRandomCourse();
-  const { nodes, edges } = createPrerequisiteGraph(await getPrerequisites("284"));
+  const { nodes, edges } = createPrerequisiteGraph(course);
 
   return {
     props: {
-      randomCourseCode: course,
+      randomCourseCode: course.code,
       nodes,
       edges,
     },

@@ -2,7 +2,7 @@ import Course from "@dogs-barking/common/types/Course";
 import { Handle, Node, Position } from "react-flow-renderer";
 import getNodeColour from "@utils/getNodeColour";
 
-const CourseNode = (props: Node<Course>) => {
+const AndBlockNode = (props: Node<Course>) => {
   const { data, id } = props;
 
   return (
@@ -12,10 +12,10 @@ const CourseNode = (props: Node<Course>) => {
       <Handle type="target" position={Position.Top} />
       <Handle type="source" position={Position.Bottom} />
       <div className="flex items-center gap-4 justify-between">
-        <p>{data.code}</p>
+        <p>AndBlock</p>
       </div>
     </div>
   );
 };
 
-export default CourseNode;
+export default AndBlockNode;
