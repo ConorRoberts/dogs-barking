@@ -74,10 +74,6 @@ jobs:
     needs: [deploy]
     if: always() && (needs.deploy.result == 'failure')
     steps:
-      - name: Needs context
-        env:
-          NEEDS_CONTEXT: ${{ toJSON(needs) }}
-
       - name: Send discord message
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
