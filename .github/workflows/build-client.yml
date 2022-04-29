@@ -67,3 +67,20 @@ jobs:
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
+
+
+  report-error-to-discord:
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: always() && (needs.deploy.result == 'failure')
+    steps:
+      - name: Needs context
+        env:
+          NEEDS_CONTEXT: ${{ toJSON(needs) }}
+
+      - name: Send discord message
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 'Deployment to ECS has failed.'
