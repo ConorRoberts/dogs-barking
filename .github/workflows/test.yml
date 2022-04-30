@@ -44,17 +44,25 @@ jobs:
     needs: [test-frontend, style-check]
     if: always() && (needs.style-check.result == 'failure' || needs.test-frontend.result == 'failure')
     steps:
-      - name: Send discord message
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          DISCORD_USERNAME: "GitHub"
-          DISCORD_AVATAR: "https://cdn-icons-png.flaticon.com/512/25/25231.png"
-          DISCORD_EMBEDS: |
-            [{
-              "title": "Workflow Status",
-              "description": "Tests have failed.",
-              "color": 11337728
-            }]
-          args: "@Status - ${{env.GITHUB_SERVER_URL}}/${{env.GITHUB_REPOSITORY}}/${{env.GITHUB_RUN_ID}}"
-            
-        uses: Ilshidur/action-discord@master
+    - name: Send Discord message
+      uses: fjogeleit/http-request-action@v1
+      with:
+        uses: fjogeleit/http-request-action@v1
+        url: "https://ansible.io/api/v2/job_templates/84/launch/"
+        method: "POST"
+        contentType: "application/json"
+        data: |
+          {
+            "content": "<@&969598441980325888>",
+            "allowed_mentions": { "roles": ["969598441980325888"] },
+            "username": "GitHub",
+            "avatar_url": "https://cdn-icons-png.flaticon.com/512/25/25231.png",
+            "embeds": [
+                {
+                    "title": "Workflow Status",
+                    "description": "Tests have failed.",
+                    "color": 16740464,
+                    "url": "${{env.GITHUB_SERVER_URL}}/${{env.GITHUB_REPOSITORY}}/runs/${{env.GITHUB_RUN_ID}}"
+                }
+            ]
+          }
