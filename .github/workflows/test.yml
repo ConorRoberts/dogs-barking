@@ -57,7 +57,7 @@ jobs:
         contentType: "application/json"
         data: |
           ${{
-            format('{{ {
+            format('{{ \{
               "content": "<@&969598441980325888>",
               "allowed_mentions": { "roles": ["969598441980325888"] },
               "username": "GitHub",
@@ -70,5 +70,5 @@ jobs:
                       "url": {0}
                   }
               ]
-            } }}', env.WORKFLOW_RUN_URL )
+            \} }}', env.WORKFLOW_RUN_URL )
           }}
