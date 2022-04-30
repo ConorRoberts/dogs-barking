@@ -1,5 +1,5 @@
 name: Tests
-on: [push,pull_request]
+on: [push, pull_request]
 jobs:
   style-check:
     runs-on: ubuntu-latest
@@ -26,7 +26,7 @@ jobs:
 
       - name: Install modules
         run: npm i
-        
+
       - name: Cypress run
         uses: cypress-io/github-action@v2
         env:
@@ -38,12 +38,19 @@ jobs:
 
   report-error-to-discord:
     runs-on: ubuntu-latest
-    needs: [test-frontend,style-check]
+    needs: [test-frontend, style-check]
     if: always() && (needs.style-check.result == 'failure' || needs.test-frontend.result == 'failure')
     steps:
       - name: Send discord message
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: "GitHub"
+          DISCORD_AVATAR: "https://cdn-icons-png.flaticon.com/512/25/25231.png"
+          DISCORD_EMBEDS: |
+            {{toJson({
+              "embeds": [{
+                "title": "Workflow Status",
+                "description": "Tests have failed. @Status",
+              }]
+            })}}
         uses: Ilshidur/action-discord@master
-        with:
-          args: 'Tests have failed.'
