@@ -59,16 +59,16 @@ jobs:
           ${{
             format('{{
               "content": "<@&969598441980325888>",
-              "allowed_mentions": { "roles": ["969598441980325888"] },
+              "allowed_mentions": {{ "roles": ["969598441980325888"] }},
               "username": "GitHub",
               "avatar_url": "https://cdn-icons-png.flaticon.com/512/25/25231.png",
               "embeds": [
-                  {
+                  {{
                       "title": "Workflow Status",
                       "description": "Tests have failed.",
                       "color": 16740464,
                       "url": {0}
-                  }
+                  }}
               ]
-            }}', env.WORKFLOW_RUN_URL )
+            }}', 'https://www.google.ca/' )
           }}
