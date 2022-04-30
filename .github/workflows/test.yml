@@ -52,7 +52,9 @@ jobs:
           DISCORD_EMBEDS: |
             [{
               "title": "Workflow Status",
-              "description": "Tests have failed. @Status"
+              "description": "Tests have failed.",
+              "color": 11337728
             }]
+          args: "@Status - ${{env.GITHUB_SERVER_URL}}/${{env.GITHUB_REPOSITORY}}/${{env.GITHUB_RUN_ID}}"
             
         uses: Ilshidur/action-discord@master
