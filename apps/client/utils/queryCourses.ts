@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 
-import CourseQuery from "@dogs-barking/common/types/CourseQuery";
+import CourseQuery from "@typedefs/CourseQuery";
 import getNeo4jDriver from "./getNeo4jDriver";
 
 const generateQueryStr = (query: CourseQuery) => {
@@ -50,7 +50,7 @@ const queryCourses = async (query: CourseQuery) => {
 
       with collect(course) as courses, count (course) as total
       unwind courses as course
-      return course, id(course) as nodeId, total
+      return properties(course) as course, total
       ${
         query.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir)
           ? `ORDER BY course.${query.sortKey} ${query.sortDir}`
@@ -64,7 +64,8 @@ const queryCourses = async (query: CourseQuery) => {
   );
   await db.close();
   await driver.close();
-  return data.records.map((e) => ({ ...e.get("course").properties, nodeId: e.get("nodeId").low, total: e.get("total").low }));
+  
+  return data.records.map((e) => ({ ...e.get("course"), total: e.get("total").low }));
 };
 
 export default queryCourses;

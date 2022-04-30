@@ -15,7 +15,7 @@ describe("Course search autocomplete provides valid suggestions", () => {
     cy.get("h1").should("contain", "Dogs Barking Inc.");
   });
   it("graph node matching ID of CIS2750 should contain text 'CIS2750'", () => {
-    cy.get("[data-id='284'] p").should("contain", "CIS2750");
+    cy.get("[data-id='6d2562fc-65d7-48de-b726-72b3c51f5efd'] p").should("contain", "CIS2750");
   });
 });
 

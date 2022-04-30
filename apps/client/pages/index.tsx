@@ -33,9 +33,7 @@ const Page = (props: PageProps) => {
         </div>
         <h1 className="flex-1 text-center">Dogs Barking Inc.</h1>
       </div>
-      <div className="relative mx-auto max-w-xl w-full">
-        <h3 className="text-xl font-normal text-center mb-2">Find your favourite courses</h3>
-
+      <div className="relative mx-auto max-w-xl w-full flex flex-col gap-2">
         <div className="grid gap-2 grid-cols-2 relative z-0">
           <Button onClick={() => setSearchType("course")} variant={searchType === "course" ? "default" : "outline"}>
             Course
@@ -45,7 +43,7 @@ const Page = (props: PageProps) => {
           </Button>
         </div>
         <div
-          className={`flex gap-4 items-center shadow-md dark:bg-gray-800 bg-white px-4 overflow-hidden rounded-t-md ${
+          className={`flex gap-4 items-center shadow-center-md dark:bg-gray-800 bg-white px-4 overflow-hidden rounded-t-md ${
             showResults && results.length > 0 ? "rounded-b-none" : "rounded-b-md"
           }`}>
           <Input
@@ -97,7 +95,7 @@ const Page = (props: PageProps) => {
 };
 
 export const getServerSideProps = async () => {
-  const course = await getRandomCourse();
+  const course = await getCourse("6d2562fc-65d7-48de-b726-72b3c51f5efd");
   const { nodes, edges } = createPrerequisiteGraph(course);
 
   return {

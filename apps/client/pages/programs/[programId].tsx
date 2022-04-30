@@ -4,7 +4,7 @@ import School from "@dogs-barking/common/types/School";
 import getProgram from "@utils/getProgram";
 import getProgramSchool from "@utils/getProgramSchool";
 import { NextPageContext } from "next";
-import React, { useState } from "react";
+import React from "react";
 import { Edge, Node } from "react-flow-renderer";
 
 interface programGraph {
@@ -24,7 +24,6 @@ const Page = ({ program, school, major, minor, area }: PageProps) => {
     <div>
       <h2 className="text-center text-slate-800">{program.name ?? program.id}</h2>
       <p className="text-center text-slate-800">{school.name}</p>
-      <div></div>
     </div>
   );
 };
