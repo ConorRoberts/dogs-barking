@@ -6,18 +6,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - uses: pnpm/action-setup@v2.1.0
-      #   with:
-      #     version: 6.0.2
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 6.0.2
 
-      # - name: Install modules
-      #   run: pnpm i
+      - name: Install modules
+        run: pnpm i
 
-      # - name: Run ESlint
-      #   run: pnpm lint
+      - name: Run ESlint
+        run: pnpm lint
 
-      # - name: Run Prettier
-      #   run: pnpm format
+      - name: Run Prettier
+        run: pnpm format
 
       - name: Try to fail
         run: exit 1
@@ -26,20 +26,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # - name: Install modules
-      #   run: npm i
+      - name: Install modules
+        run: npm i
 
       - name: Try to fail
         run: exit 1
 
-      # - name: Cypress run
-      #   uses: cypress-io/github-action@v2
-      #   env:
-      #     PORT: 3000
-      #   with:
-      #     build: npm run build --prefix ./apps/client
-      #     start: npm run start --prefix ./apps/client
-      #     project: ./apps/client
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        env:
+          PORT: 3000
+        with:
+          build: npm run build --prefix ./apps/client
+          start: npm run start --prefix ./apps/client
+          project: ./apps/client
 
   report-error-to-discord:
     runs-on: ubuntu-latest
@@ -60,10 +60,10 @@ jobs:
               "avatar_url": "https://cdn-icons-png.flaticon.com/512/25/25231.png",
               "embeds": [
                   {
-                      "title": "Workflow Status",
-                      "description": "Tests have failed.",
+                      "title": "Status - ${{ github.workflow }}",
+                      "description": "Failed. See more at the link above.",
                       "color": 16740464,
-                      "url": "${{ github.server_url }}/${{ github.repository }}/runs/${{ github.run_id }}"
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                   }
               ]
             }
