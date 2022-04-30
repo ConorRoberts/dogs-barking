@@ -49,7 +49,7 @@ jobs:
     - name: Send Discord message
       uses: fjogeleit/http-request-action@v1
       env:
-        WORKFLOW_RUN_URL: ${{format("{0}/{1}/runs/{2}", ${{env.GITHUB_SERVER_URL}}, ${{env.GITHUB_REPOSITORY}}, ${{env.GITHUB_RUN_ID}})}}
+        WORKFLOW_RUN_URL: ${{ format("{0}/{1}/runs/{2}", env.GITHUB_SERVER_URL, env.GITHUB_REPOSITORY, env.GITHUB_RUN_ID) }}
       with:
         url: "${{ secrets.DISCORD_WEBHOOK }}"
         method: "POST"
