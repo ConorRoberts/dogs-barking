@@ -1,4 +1,4 @@
-import Course from "@dogs-barking/common/types/Course";
+import Course from "@typedefs/Course";
 import useSearch from "@hooks/useSearch";
 import { PlannerSemesterData } from "@typedefs/DegreePlan";
 import { useState } from "react";

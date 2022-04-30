@@ -1,4 +1,4 @@
-import Course from "@dogs-barking/common/types/Course";
+import Course from "@typedefs/Course";
 import { Handle, Node, Position } from "react-flow-renderer";
 import getNodeColour from "@utils/getNodeColour";
 

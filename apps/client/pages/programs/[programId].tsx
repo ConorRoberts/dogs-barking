@@ -1,6 +1,6 @@
-import Course from "@dogs-barking/common/types/Course";
-import Program from "@dogs-barking/common/types/Program";
-import School from "@dogs-barking/common/types/School";
+import Course from "@typedefs/Course";
+import Program from "@typedefs/Program";
+import School from "@typedefs/School";
 import getProgram from "@utils/getProgram";
 import getProgramSchool from "@utils/getProgramSchool";
 import { NextPageContext } from "next";

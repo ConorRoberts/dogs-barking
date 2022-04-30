@@ -2,7 +2,7 @@ import handler from "../../../pages/api/course";
 import httpMocks from "node-mocks-http";
 import { NextApiRequest, NextApiResponse } from "next";
 import { UOFG_COURSE, UOFT_COURSE } from "@config/regex";
-import Course from "@dogs-barking/common/types/Course";
+import Course from "@typedefs/Course";
 
 test("Fetch all UofG courses", async () => {
   const req = httpMocks.createRequest<NextApiRequest>({ query: { school: "UOFG" } });

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import Course from "@dogs-barking/common/types/Course";
+import Course from "@typedefs/Course";
 import queryCourses from "@utils/queryCourses";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Course[]>) => {

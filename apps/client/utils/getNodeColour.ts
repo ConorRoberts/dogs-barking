@@ -1,4 +1,4 @@
-import Course from "@dogs-barking/common/types/Course";
+import Course from "@typedefs/Course";
 
 /**
  * Grabs a unique colour for a node based on the course code

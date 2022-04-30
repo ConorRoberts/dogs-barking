@@ -1,4 +1,4 @@
-import CourseQuery from "@dogs-barking/common/types/CourseQuery";
+import CourseQuery from "@typedefs/CourseQuery";
 import courseSchema from "@schema/courseSchema";
 import queryCourses from "@utils/queryCourses";
 

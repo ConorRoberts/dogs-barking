@@ -1,6 +1,6 @@
 import getProgramCourses from "@utils/getProgramCourses";
 import { UOFG_COURSE, UOFT_COURSE } from "@config/regex";
-import Course from "@dogs-barking/common/types/Course";
+import Course from "@typedefs/Course";
 
 test("Get a program's course based on node id 1x UofG", async () => {
   const nodeId = "7117";

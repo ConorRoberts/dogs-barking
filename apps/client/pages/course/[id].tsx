@@ -1,4 +1,4 @@
-import Course from "@dogs-barking/common/types/Course";
+import Course from "@typedefs/Course";
 import getCourse from "@utils/getCourse";
 import { NextPageContext } from "next";
 import CourseGraph from "@components/CourseGraph";

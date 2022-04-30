@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 
-import ProgramQuery from "@dogs-barking/common/types/ProgramQuery";
+import ProgramQuery from "@typedefs/ProgramQuery";
 import getNeo4jDriver from "./getNeo4jDriver";
 
 const generateQueryStr = (query: ProgramQuery) => {

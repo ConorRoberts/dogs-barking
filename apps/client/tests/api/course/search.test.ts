@@ -1,4 +1,4 @@
-import Course from "@dogs-barking/common/types/Course";
+import Course from "@typedefs/Course";
 import handler from "@pages/api/search/course";
 import { NextApiRequest, NextApiResponse } from "next";
 import { UOFG_COURSE, UOFT_COURSE } from "@config/regex";
