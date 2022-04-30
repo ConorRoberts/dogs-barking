@@ -31,6 +31,9 @@ jobs:
         uses: cypress-io/github-action@v2
         env:
           PORT: 3000
+          CYPRESS_NEO4J_HOST: ${{ secrets.NEO4J_HOST }}
+          CYPRESS_NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+          CYPRESS_NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
         with:
           build: npm run build --prefix ./apps/client
           start: npm run start --prefix ./apps/client
