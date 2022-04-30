@@ -47,10 +47,9 @@ jobs:
           DISCORD_USERNAME: "GitHub"
           DISCORD_AVATAR: "https://cdn-icons-png.flaticon.com/512/25/25231.png"
           DISCORD_EMBEDS: |
-            {{toJson({
-              "embeds": [{
-                "title": "Workflow Status",
-                "description": "Tests have failed. @Status",
-              }]
-            })}}
+            [{
+              "title": "Workflow Status",
+              "description": "Tests have failed. @Status",
+            }]
+            
         uses: Ilshidur/action-discord@master
