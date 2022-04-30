@@ -69,14 +69,52 @@ jobs:
           wait-for-service-stability: true
 
 
-  report-error-to-discord:
+  send-status-to-discord:
     runs-on: ubuntu-latest
     needs: [deploy]
-    if: always() && (needs.deploy.result == 'failure')
     steps:
-      - name: Send discord message
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@master
+      - name: Send failure message to Discord
+        if: needs.deploy.result == 'failure'
+        uses: fjogeleit/http-request-action@v1
         with:
-          args: 'Deployment to ECS has failed.'
+          url: "${{ secrets.DISCORD_WEBHOOK }}"
+          method: "POST"
+          contentType: "application/json"
+          data: |
+            {
+              "content": "<@&969598441980325888>",
+              "allowed_mentions": { "roles": ["969598441980325888"] },
+              "username": "GitHub",
+              "avatar_url": "https://cdn-icons-png.flaticon.com/512/25/25231.png",
+              "embeds": [
+                  {
+                      "title": "Status - ${{ github.workflow }}",
+                      "description": "Failed. See more at the link above.",
+                      "color": 16740464,
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+              ]
+            }
+      - name: Send success message to Discord
+        if: needs.deploy.result == 'success'
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "${{ secrets.DISCORD_WEBHOOK }}"
+          method: "POST"
+          contentType: "application/json"
+          data: |
+            {
+              "content": "<@&969598441980325888>",
+              "allowed_mentions": { "roles": ["969598441980325888"] },
+              "username": "GitHub",
+              "avatar_url": "https://cdn-icons-png.flaticon.com/512/25/25231.png",
+              "embeds": [
+                  {
+                      "title": "Status - ${{ github.workflow }}",
+                      "description": "Success. See more at the link above.",
+                      "color": 7405424,
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+              ]
+            }
+
