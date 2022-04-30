@@ -70,5 +70,5 @@ jobs:
                       "url": {0}
                   }
               ]
-            } }}', ${{ env.WORKFLOW_RUN_URL }})
+            } }}', env.WORKFLOW_RUN_URL )
           }}
