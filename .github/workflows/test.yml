@@ -27,6 +27,9 @@ jobs:
       - name: Install modules
         run: npm i
 
+      - name: Try to fail
+        run: exit 1
+
       # - name: Cypress run
       #   uses: cypress-io/github-action@v2
       #   env:
