@@ -63,7 +63,7 @@ jobs:
                       "title": "Workflow Status",
                       "description": "Tests have failed.",
                       "color": 16740464,
-                      "url": "${{github.GITHUB_SERVER_URL}}/${{github.GITHUB_REPOSITORY}}/runs/${{github.GITHUB_RUN_ID}}"
+                      "url": "${{ github.server_url }}/${{ github.repository }}/runs/${{ github.run_id }}"
                   }
               ]
             }
