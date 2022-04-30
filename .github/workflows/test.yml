@@ -47,7 +47,7 @@ jobs:
     - name: Send Discord message
       uses: fjogeleit/http-request-action@v1
       with:
-        url: "https://ansible.io/api/v2/job_templates/84/launch/"
+        url: "${{ secrets.DISCORD_WEBHOOK }}"
         method: "POST"
         contentType: "application/json"
         data: |
