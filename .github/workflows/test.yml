@@ -27,14 +27,14 @@ jobs:
       - name: Install modules
         run: npm i
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        env:
-          PORT: 3000
-        with:
-          build: npm run build --prefix ./apps/client
-          start: npm run start --prefix ./apps/client
-          project: ./apps/client
+      # - name: Cypress run
+      #   uses: cypress-io/github-action@v2
+      #   env:
+      #     PORT: 3000
+      #   with:
+      #     build: npm run build --prefix ./apps/client
+      #     start: npm run start --prefix ./apps/client
+      #     project: ./apps/client
 
   report-error-to-discord:
     runs-on: ubuntu-latest
@@ -49,7 +49,7 @@ jobs:
           DISCORD_EMBEDS: |
             [{
               "title": "Workflow Status",
-              "description": "Tests have failed. @Status",
+              "description": "Tests have failed. @Status"
             }]
             
         uses: Ilshidur/action-discord@master
