@@ -48,7 +48,7 @@ const createPrerequisiteGraph = (course: Course) => {
 
     return formatNodes(nodes.filter((e) => e.type !== "program"));
   } catch (error) {
-    console.error(error);
+    console.error(`[createPrerequisiteGraph (course: ${course.id})]: ${error}`);
     return { nodes: [], edges: [] };
   }
 };
