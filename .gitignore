@@ -6,5 +6,4 @@ node_modules
 **/node_modules
 **/build
 pnpm-lock.yaml
-**/.env.local
-**/.env
+**/.env*
