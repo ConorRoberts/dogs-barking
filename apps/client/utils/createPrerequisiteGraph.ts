@@ -1,3 +1,4 @@
+import Course from "@typedefs/Course";
 import { Edge, Node } from "react-flow-renderer";
 import formatNodes from "./formatNodes";
 
@@ -6,12 +7,12 @@ import formatNodes from "./formatNodes";
  * @param nodeId
  * @returns
  */
-const createPrerequisiteGraph = (course) => {
+const createPrerequisiteGraph = (course: Course) => {
   const nodes: (Node | Edge)[] = [
     {
       id: course.id,
       position: { x: 0, y: 0 },
-      type: course.type,
+      type: "Course",
       data: course,
     },
   ];

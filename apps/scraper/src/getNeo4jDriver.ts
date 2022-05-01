@@ -2,7 +2,7 @@ import neo4j from "neo4j-driver";
 
 const getNeo4jDriver = () => {
   return neo4j.driver(
-    `neo4j://${process.env.NEO4J_HOST}:7474`,
+    `neo4j://${process.env.NEO4J_HOST}`,
     neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
   );
 };

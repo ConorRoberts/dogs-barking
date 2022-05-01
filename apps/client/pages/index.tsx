@@ -9,7 +9,6 @@ import { Random } from "@components/Icons";
 import CourseGraph from "@components/CourseGraph";
 import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import { Edge, Node } from "react-flow-renderer";
-import getCourse from "@utils/getCourse";
 
 interface PageProps {
   randomCourse: string;
@@ -99,7 +98,7 @@ const Page = (props: PageProps) => {
 
 export const getServerSideProps = async () => {
   // Get data for CIS2750 from UOFG
-  const course = await getCourse("6d2562fc-65d7-48de-b726-72b3c51f5efd");
+  const course = await getRandomCourse();
   const { nodes, edges } = createPrerequisiteGraph(course);
 
   const randomCourse = await getRandomCourse();
