@@ -56,7 +56,7 @@ jobs:
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
           environment-variables: |
-            NEO4j_USERNAME=${{ secrets.NEO4J_USERNAME }}
+            NEO4J_USERNAME=${{ secrets.NEO4J_USERNAME }}
             NEO4J_PASSWORD=${{ secrets.NEO4J_PASSWORD }}
             NEO4J_HOST=${{secrets.NEO4J_HOST}}
 
