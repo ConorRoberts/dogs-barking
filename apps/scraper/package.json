@@ -3,25 +3,22 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "scrape": "ts-node -r tsconfig-paths/register ./src/index.ts",
-    "save": "ts-node -r tsconfig-paths/register ./src/save.ts"
+    "save": "ts-node ./src/save.ts",
+    "scrape": "ts-node ./src/scrape.ts",
+    "stinky": "ts-node ./src/save2.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@dogs-barking/common": "^1.0.0",
+    "@playwright/test": "^1.20.2",
     "chalk": "4.1.2",
-    "cypress": "^9.5.3",
+    "dotenv": "^16.0.0",
     "neo4j-driver": "^4.4.3",
-    "tsconfig-paths": "^3.12.0",
+    "ts-node": "^10.7.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.20.2",
-    "@types/node": "^17.0.16",
-    "@types/uuid": "^8.3.4",
-    "ts-node": "latest",
     "typescript": "^4.5.5"
   }
 }

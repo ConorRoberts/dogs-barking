@@ -1,20 +1,20 @@
 /* eslint-disable indent */
 
-import CourseQuery from "@dogs-barking/common/types/CourseQuery";
+import CourseQuery from "@typedefs/CourseQuery";
 import getNeo4jDriver from "./getNeo4jDriver";
 
 const generateQueryStr = (query: CourseQuery) => {
-  let str = "WHERE"
-  {query.degree?.length > 0 ? str += " program.degree = $degree AND" : ""}
-  {query.school?.length > 0 ? str += " school.abbrev = $school AND" : ""}
-  {query.scope === "undergrad" ? str += " course.number < 5000 AND" : ""}
-  {query.scope === "grad" ? str += " course.number > 5000 AND" : ""}
-  {query.courseId?.length > 0 ? str += " course.id STARTS WITH $courseId AND" : ""}
-  {query.department?.length > 0 ? str += " course.department = $department AND" : ""}
-  {!isNaN(query.weight) ? str += " course.weight = $weight AND" : ""}
-  {!isNaN(query.number) ? str += " course.number = $number AND" : ""}
-  {query.name?.length > 0 ? str += " course.name STARTS WITH $name AND" : ""}
-  {query.description?.length > 0 ? str += ' course.description =~ ".*${query.description}.*"' : ""}
+  let str = "WHERE";
+  {query.degree?.length > 0 ? str += " program.degree = $degree AND" : "";}
+  {query.school?.length > 0 ? str += " school.abbrev = $school AND" : "";}
+  {query.scope === "undergrad" ? str += " course.number < 5000 AND" : "";}
+  {query.scope === "grad" ? str += " course.number > 5000 AND" : "";}
+  {query.courseId?.length > 0 ? str += " course.id STARTS WITH $courseId AND" : "";}
+  {query.department?.length > 0 ? str += " course.department = $department AND" : "";}
+  {!isNaN(query.weight) ? str += " course.weight = $weight AND" : "";}
+  {!isNaN(query.number) ? str += " course.number = $number AND" : "";}
+  {query.name?.length > 0 ? str += " course.name STARTS WITH $name AND" : "";}
+  {query.description?.length > 0 ? str += " course.description =~ \".*${query.description}.*\"" : "";}
   
   // Remove trailing 'WHERE' or 'AND' if any
   const index = str.lastIndexOf(" ");
@@ -23,7 +23,7 @@ const generateQueryStr = (query: CourseQuery) => {
     str = str.substring(0, index);
   }
   return str;
-}
+};
 
 /**
  * Excecutes a complex query to get all courses based on search criteria
@@ -50,7 +50,7 @@ const queryCourses = async (query: CourseQuery) => {
 
       with collect(course) as courses, count (course) as total
       unwind courses as course
-      return course, id(course) as nodeId, total
+      return properties(course) as course, total
       ${
         query.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir)
           ? `ORDER BY course.${query.sortKey} ${query.sortDir}`
@@ -64,7 +64,8 @@ const queryCourses = async (query: CourseQuery) => {
   );
   await db.close();
   await driver.close();
-  return data.records.map((e) => ({ ...e.get("course").properties, nodeId: e.get("nodeId").low, total: e.get("total").low }));
+  
+  return data.records.map((e) => ({ ...e.get("course"), total: e.get("total").low }));
 };
 
 export default queryCourses;

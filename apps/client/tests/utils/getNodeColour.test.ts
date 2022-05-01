@@ -1,4 +1,4 @@
-import Course from "@dogs-barking/common/types/Course";
+import Course from "@typedefs/Course";
 import getNodeColour from "@utils/getNodeColour";
 
 test("8000 level course", () => {

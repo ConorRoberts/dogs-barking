@@ -15,7 +15,7 @@ const styles = {
   },
   outline: {
     style:
-      "rounded-full py-1 px-6 hover:border-blue-500 dark:hover:border-blue-500 transition border border-gray-300 dark:border-gray-700",
+      "rounded-full py-1 px-6 hover:border-gray-400 hover:text-gray-400 dark:hover:border-blue-500 text-gray-500 transition border border-gray-500 dark:border-gray-700",
     error: "border border-red-500 flex items-center gap-2 justify-center",
     disabled: "filter brightness-50",
   },

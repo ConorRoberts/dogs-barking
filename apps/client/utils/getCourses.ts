@@ -1,4 +1,4 @@
-import Course from "@dogs-barking/common/types/Course";
+import Course from "@typedefs/Course";
 import getNeo4jDriver from "./getNeo4jDriver";
 
 export interface GetCoursesQuery {

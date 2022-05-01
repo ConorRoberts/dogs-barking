@@ -6,7 +6,7 @@ import Link from "next/link";
 import axios from "axios";
 import PageIndex from "@components/PageIndex";
 import { LoadingIcon } from "@components/Icons";
-import { CatalogState, setPageState } from "@redux/catalog";
+import { CatalogState } from "@redux/catalog";
 import { RootState } from "@redux/store";
 import { useSelector } from "react-redux";
 
@@ -69,7 +69,7 @@ const Page = ({ counts }: PageProps) => {
       <div className="flex gap-4">
         <div className="flex-1">
           <div className="flex justify-center my-2">
-            <PageIndex totalEntries={total}/>
+            <PageIndex totalEntries={total} />
           </div>
           <div>
             {loading && <LoadingIcon size={45} className="animate-spin text-gray-500" />}
@@ -86,9 +86,11 @@ const Page = ({ counts }: PageProps) => {
                       key={e.id}>
                       {
                         <li>
-                          <Link href={`/${type === "courses" ? "course" : "programs"}/${e.nodeId}`} passHref>
+                          <Link href={`/${type === "courses" ? "course" : "program"}/${e.id}`} passHref>
                             <div>
-                              <p className="text-sm font-medium text-slate-900 dark:text-white">{e.id}</p>
+                              <p className="text-sm font-medium text-slate-900 dark:text-white">
+                                {type === "courses" ? e.code : e.short}
+                              </p>
                               <p className="text-sm text-slate-600 dark:text-slate-400 truncate">
                                 {e.name} {type === "courses" && `- [${e?.weight?.toFixed(2)}]`}
                               </p>

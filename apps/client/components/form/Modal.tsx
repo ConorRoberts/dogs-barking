@@ -26,7 +26,7 @@ const Modal = ({ children, onClose, size = "max" }: ModalProps) => {
       onMouseDown={(e) => ref?.current && !ref?.current.contains(e?.target) && onClose()}
       onTouchEnd={(e) => ref?.current && !ref?.current.contains(e?.target) && onClose()}>
       <div
-        className={`bg-white dark:bg-gray-900 w-screen max-w-${size} rounded-xl p-4 sm:p-6 absolute top-2 mx-auto`}
+        className={`bg-white dark:bg-gray-900 bg-opacity-90 backdrop-filter backdrop-blur-sm w-screen max-w-${size} rounded-xl p-4 sm:p-6 absolute top-2 mx-auto`}
         ref={ref}>
         <Close className="ml-auto w-6 h-6 transition cursor-pointer primary-hover mb-2" onClick={() => onClose()} />
         {children}

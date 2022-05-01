@@ -1,4 +1,4 @@
-import Program from "@dogs-barking/common/types/Program";
+import Program from "@typedefs/Program";
 import getNeo4jDriver from "./getNeo4jDriver";
 
 /**

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Auth } from "aws-amplify";
-import UserAttributes from "@typedefs/CognitoUser";
+import User from "@typedefs/User";
+import axios from "axios";
 
 /**
  * @description Signs the user in
@@ -9,7 +10,14 @@ export const signIn = createAsyncThunk("auth/signIn", async () => {
   try {
     const res = await Auth.currentAuthenticatedUser();
 
-    return res.attributes as UserAttributes;
+    try {
+      const { data } = await axios.get(`/api/user/${res.attributes.sub}`);
+
+      return { ...res.attributes, ...data };
+    } catch (error) {
+      const { data } = await axios.post(`/api/user/${res.attributes.sub}`);
+      return { ...res.attributes, ...data };
+    }
   } catch (error) {
     return null;
   }
@@ -28,7 +36,7 @@ export const signOut = createAsyncThunk("auth/signOut", async () => {
 });
 
 export interface AuthState {
-  user: UserAttributes | null;
+  user: User | null;
   loading: boolean;
 }
 

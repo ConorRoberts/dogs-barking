@@ -1,13 +1,13 @@
 /* eslint-disable indent */
 
-import ProgramQuery from "@dogs-barking/common/types/ProgramQuery";
+import ProgramQuery from "@typedefs/ProgramQuery";
 import getNeo4jDriver from "./getNeo4jDriver";
 
 const generateQueryStr = (query: ProgramQuery) => {
   let str = "WHERE";
-  {query.school?.length > 0 ? str += " school.abbrev = $school AND" : ""};
-  {query.programId?.length > 0 ? str += " program.id STARTS WITH $programId AND" : ""};
-  {query.name?.length > 0 ? str += ` program.name STARTS WITH $name` : ""};
+  {query.school?.length > 0 ? str += " school.abbrev = $school AND" : "";}
+  {query.programId?.length > 0 ? str += " program.id STARTS WITH $programId AND" : "";}
+  {query.name?.length > 0 ? str += ` program.name STARTS WITH $name` : "";}
 
 
   // Remove trailing 'WHERE' or 'AND' if any
@@ -17,7 +17,7 @@ const generateQueryStr = (query: ProgramQuery) => {
     str = str.substring(0, index);
   }
   return str;
-}
+};
 /**
  * Excecutes a complex query to get all courses based on search criteria
  * @param query

@@ -2,9 +2,7 @@ import getNeo4jDriver from "@utils/getNeo4jDriver";
 
 interface CourseSearchResult {
   id: string;
-  nodeId: number;
   name: string;
-  weight: number;
   description: string;
 }
 /**
@@ -17,28 +15,29 @@ const searchCourses = async (query: string): Promise<CourseSearchResult[]> => {
     const driver = getNeo4jDriver();
     const session = driver.session();
 
-    const data = await session.run(
+    const { records } = await session.run(
       `
-        CALL db.index.fulltext.queryNodes("coursesIndex", 'id:${query}* OR name:"${query}"') 
+        CALL db.index.fulltext.queryNodes("courseSearch", $query) 
         YIELD node, score
-        RETURN node, score
+        RETURN properties(node) as course, score
         order by score DESC 
-        limit(${15})
-      `
+        limit(15)
+      `,
+      {
+        query: `code:${query}* OR name:"${query}"`,
+      }
     );
 
     await session.close();
     await driver.close();
 
-    return data.records.map((e) => ({
-      name: e.get(0).properties.name as string,
-      id: e.get(0).properties.id as string,
-      nodeId: e.get(0).identity.low as number,
-      weight: e.get(0).properties.weight as number,
-      description: e.get(0).properties.description as string,
+    return records.map((e) => ({
+      name: e.get("course").name as string,
+      id: e.get("course").id as string,
+      description: e.get("course").description as string,
+      code: e.get("course").code as string,
     }));
   } catch (error) {
-    console.error(error);
     return [];
   }
 };

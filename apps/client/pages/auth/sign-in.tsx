@@ -10,9 +10,6 @@ import { Auth } from "aws-amplify";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 
-/**
- * @description Sign in page. Contains a basic form for signing in.
- */
 const Page = () => {
   const [signInError, setSignInError] = useState("");
   const router = useRouter();

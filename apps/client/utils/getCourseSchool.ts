@@ -1,4 +1,4 @@
-import School from "@dogs-barking/common/types/School";
+import School from "@typedefs/School";
 import getNeo4jDriver from "./getNeo4jDriver";
 
 /**

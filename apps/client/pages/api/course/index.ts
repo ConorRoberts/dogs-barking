@@ -1,40 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import Course from "@dogs-barking/common/types/Course";
+import Course from "@typedefs/Course";
 import queryCourses from "@utils/queryCourses";
 
-/**
- * @swagger
- * /api/db/course/search:
- *  get:
- *    summary: Get all courses based on specific search criteria
- *    parameters:
- *    - name: query
- *      in: body
- *      required: true
- *      description: search criteria object
- *      schema:
- *        type: object
- *        properties:
- *          query:
- *            $ref: '#/components/schemas/CourseSearch'
- *    tags: [Course]
- *    description: Returns all the courses for search criteria
- *    responses:
- *      200:
- *        description: Successful operation
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                data:
- *                  type: array
- *                  items:
- *                    $ref: '#/components/schemas/Course'
- *
- *      401:
- *        description: Unauthorized
- */
 const handler = async (req: NextApiRequest, res: NextApiResponse<Course[]>) => {
   const { method } = req;
   try {

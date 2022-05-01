@@ -1,14 +1,36 @@
-# CIS3760 - Team 5
+# Dogs Barking
 
-This project serves as a course management utility for University of Guelph Students. It includes a full catalog of all courses and programs, with their respective prerequisite trees available on tap to anyone. It also includes a degree planner feature for students who want to map out their degree programs, semester by semester.
+[![Tests](https://github.com/ConorRoberts/dogs-barking/actions/workflows/test.yml/badge.svg)](https://github.com/ConorRoberts/dogs-barking/actions/workflows/test.yml)
+[![Frontend Build](https://github.com/ConorRoberts/dogs-barking/actions/workflows/build-client.yml/badge.svg)](https://github.com/ConorRoberts/dogs-barking/actions/workflows/build-client.yml)
 
-Our project leverages Next.js, hosted on an ECS cluster, for both its frontend and a API. React flow for graphing and Neo4j for our database storage. Our project uses Jest and Cypress as forms of web scraping and unit testing to ensure a clean production build.
+This project serves as a course management and degree planning utility for University of Guelph Students. The project includes a fully mapped out catalog with prerequisite trees. And a degree planning feature for those who are interested in more long-term planning capabilities.
 
 ## Getting started
 
-1. Install `pnpm` if not already installed
+1. Install `pnpm`: `npm i -g pnpm`
 2. Run `pnpm install` to install all dependencies
+3. Run `pnpm client` to start up a development server for the frontend
 
-```text
-pnpm install
-```
+## Tech Stack
+
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+### Frontend
+
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white) ![cypress](https://img.shields.io/badge/-cypress-%23E5E5E5?style=for-the-badge&logo=cypress&logoColor=058a5e)
+
+### Backend
+
+![Neo4J](https://img.shields.io/badge/Neo4j-008CC1?style=for-the-badge&logo=neo4j&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white) ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
+
+## Found an Issue?
+
+- Check the issues panel to see if the issue has already been encountered
+- Create an issue following one of the templates
+- Wait for the community/dev support
+
+## Have a solution to an issue?
+
+- Fork the repo, make any required changes
+- Submit a Pull request
+- Change the world type beat

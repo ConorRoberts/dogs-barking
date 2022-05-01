@@ -35,8 +35,5 @@
       "prettier -w",
       "eslint --fix"
     ]
-  },
-  "dependencies": {
-    "ts-node-dev": "^1.1.8"
   }
 }

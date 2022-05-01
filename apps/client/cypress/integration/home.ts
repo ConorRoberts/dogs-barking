@@ -14,9 +14,6 @@ describe("Course search autocomplete provides valid suggestions", () => {
   it("title should contain correct text", () => {
     cy.get("h1").should("contain", "Dogs Barking Inc.");
   });
-  it("graph node matching ID of CIS2750 should contain text 'CIS2750'", () => {
-    cy.get("[data-id='284'] p").should("contain", "CIS2750");
-  });
 });
 
 export {};
