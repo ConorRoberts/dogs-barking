@@ -17,12 +17,15 @@ const searchCourses = async (query: string): Promise<CourseSearchResult[]> => {
 
     const { records } = await session.run(
       `
-        CALL db.index.fulltext.queryNodes("courseSearch", 'code:${query}* OR name:"${query}"') 
+        CALL db.index.fulltext.queryNodes("courseSearch", $query) 
         YIELD node, score
         RETURN properties(node) as course, score
         order by score DESC 
-        limit(${15})
-      `
+        limit(15)
+      `,
+      {
+        query: `code:${query}* OR name:"${query}"`,
+      }
     );
 
     await session.close();
@@ -35,7 +38,6 @@ const searchCourses = async (query: string): Promise<CourseSearchResult[]> => {
       code: e.get("course").code as string,
     }));
   } catch (error) {
-    console.error(error);
     return [];
   }
 };
