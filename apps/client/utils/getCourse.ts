@@ -34,7 +34,7 @@ const getCourse = async (id: string): Promise<Course | null> => {
     if (records[0].get("requirements") !== null) {
       records
         .map((e) => e.get("requirements"))
-        .forEach((list: any[]) => {
+        .forEach((list: { data: Course; type: string }[]) => {
           let previous;
           list.forEach((e, index) => {
             const formatted = {
@@ -85,7 +85,8 @@ const getCourse = async (id: string): Promise<Course | null> => {
       requirements: [],
     };
   } catch (error) {
-    throw Error(`[getCourse (id: ${id})]: ${error}`);
+    console.error(`[getCourse (id: ${id})]: ${error}`);
+    return null;
   }
 };
 
