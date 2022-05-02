@@ -670,7 +670,7 @@ const save = async () => {
     session = driver.session();
     await session.run(
       `
-      CREATE FULLTEXT INDEX courseSearch FOR (n:Course) ON EACH [n.name,n.code,n.description]
+      CREATE FULLTEXT INDEX courseSearch FOR (n:Course) ON EACH [n.name,n.code,n.description,n.weight]
       `
     );
     await session.close();

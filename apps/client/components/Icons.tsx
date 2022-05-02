@@ -8,7 +8,7 @@ export {
   AiFillStar as FilledStarIcon,
   AiOutlineLoading as LoadingIcon,
 } from "react-icons/ai";
-export { FaRandom as Random } from "react-icons/fa";
+export { FaRandom as Random, FaGraduationCap as PlannerIcon } from "react-icons/fa";
 export { GiHamburgerMenu as Menu } from "react-icons/gi";
 export {
   MdLogin as Login,

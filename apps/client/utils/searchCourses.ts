@@ -4,7 +4,10 @@ interface CourseSearchResult {
   id: string;
   name: string;
   description: string;
+  code: string;
+  credits: number;
 }
+
 /**
  *
  */
@@ -36,8 +39,10 @@ const searchCourses = async (query: string): Promise<CourseSearchResult[]> => {
       id: e.get("course").id as string,
       description: e.get("course").description as string,
       code: e.get("course").code as string,
+      credits: e.get("course").credits as number,
     }));
   } catch (error) {
+    console.error(error);
     return [];
   }
 };

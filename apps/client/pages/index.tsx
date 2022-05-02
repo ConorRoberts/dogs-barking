@@ -42,7 +42,7 @@ const Page = (props: PageProps) => {
             <Input
               onChange={(e) => setText(e.target.value)}
               value={text}
-              placeholder="Course code"
+              placeholder={searchType === "course" ? "Course code" : "Program code"}
               className={`py-3 text-xl font-light w-full dark:bg-gray-800`}
               onBlur={() => setTimeout(() => setShowResults(false), 100)}
               onFocus={() => setShowResults(true)}

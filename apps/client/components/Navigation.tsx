@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Drawer } from "@components/form";
-import { Home, Menu, Sun, Moon, PersonIcon, Login, Logout, PeopleIcon, DocumentIcon } from "@components/Icons";
+import { Home, Menu, Sun, Moon, PersonIcon, Login, Logout, PeopleIcon, DocumentIcon, PlannerIcon } from "@components/Icons";
 import { useRouter } from "next/router";
 import useDarkMode from "@hooks/useDarkMode";
 import { RootState } from "@redux/store";
@@ -34,6 +34,12 @@ const Navigation = () => {
               <div className="nav-drawer-button">
                 <DocumentIcon className="w-6 h-6" />
                 <p>Docs</p>
+              </div>
+            </Link>
+            <Link href="/planner" passHref>
+              <div className="nav-drawer-button">
+                <PlannerIcon className="w-6 h-6" />
+                <p>Degree Planner</p>
               </div>
             </Link>
             <div className="mt-auto">

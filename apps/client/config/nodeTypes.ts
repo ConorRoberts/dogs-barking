@@ -1,11 +1,11 @@
 import CourseNode from "@components/CourseNode";
-import PrerequisiteBlockNode from "@components/PrerequisiteBlockNode";
+import OrBlockNode from "@components/OrBlockNode";
 import CreditRequirementNode from "@components/CreditRequirementNode";
 import AndBlockNode from "@components/AndBlockNode";
 
 const nodeTypes = {
   Course: CourseNode,
-  OrBlock: PrerequisiteBlockNode,
+  OrBlock: OrBlockNode,
   CreditRequirement: CreditRequirementNode,
   AndBlock: AndBlockNode,
 };

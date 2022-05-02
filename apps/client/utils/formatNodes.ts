@@ -1,11 +1,11 @@
 import { Edge, isNode, Node } from "react-flow-renderer";
 import dagre from "dagre";
 
-const formatNodes = (nodes) => {
+const formatNodes = (nodes: (Node | Edge)[]) => {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-  const nodeWidth = 100;
+  const nodeWidth = 150;
   const nodeHeight = 100;
 
   const direction = "TB";
@@ -13,7 +13,7 @@ const formatNodes = (nodes) => {
 
   const elements = [...nodes];
 
-  elements.forEach((el: Node | Edge) => {
+  elements.forEach((el) => {
     if (isNode(el)) {
       dagreGraph.setNode(el.id, { width: nodeWidth, height: nodeHeight });
     } else {
