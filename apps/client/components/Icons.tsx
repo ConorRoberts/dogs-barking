@@ -35,4 +35,4 @@ export {
 export { FcGoogle as Google } from "react-icons/fc";
 export { GrImage as Image } from "react-icons/gr";
 export { GiCheckboxTree as Graph } from "react-icons/gi";
-export { BsArrowUpCircle as ArrowUp, BsArrowDownCircle as ArrowDown } from "react-icons/bs";
+export { BsArrowUpCircle as ArrowUp, BsArrowDownCircle as ArrowDown, BsTrash as TrashIcon } from "react-icons/bs";

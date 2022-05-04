@@ -7,7 +7,7 @@ type Course = {
   code: string;
   name: string;
   description: string;
-  weight: number;
+  credits: number;
   school?: School;
   requirements: Course[];
 };

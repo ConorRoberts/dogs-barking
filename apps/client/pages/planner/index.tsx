@@ -4,11 +4,13 @@ import { RootState } from "@redux/store";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { ErrorIcon, PlusIcon } from "@components/Icons";
+import { PlusIcon } from "@components/Icons";
 import axios from "axios";
 import PlannerSemester from "@components/PlannerSemester";
 import { PlannerSemesterData } from "@typedefs/DegreePlan";
 import { Select } from "@components/form";
+import { groupBy } from "lodash";
+import PlannerYear from "@components/PlannerYear";
 
 const Page = () => {
   const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
@@ -16,7 +18,7 @@ const Page = () => {
   const [plansLoading, setPlansLoading] = useState(true);
   const [plans, setPlans] = useState<{ id: string; semesters: string[] }[]>([]);
   const [selectedPlan, setSelectedPlan] = useState("none");
-  const [semesters, setSemesters] = useState([]);
+  const [semesters, setSemesters] = useState<string[]>([]);
 
   /**
    * Create a new plan
@@ -62,15 +64,13 @@ const Page = () => {
 
   // Get the user's plan state
   useEffect(() => {
-    (async () => {
-      if (loading) return;
+    if (loading) return;
 
-      if (user) {
-        await fetchPlans();
-      } else {
-        router.push("/error/403");
-      }
-    })();
+    if (user) {
+      fetchPlans();
+    } else {
+      router.push("/error/403");
+    }
   }, [user, router, loading, fetchPlans]);
 
   // Update the state of our semesters list whenever our selected plan changes
@@ -94,18 +94,12 @@ const Page = () => {
           </option>
         ))}
       </Select>
-      {/* {validationErrors.length > 0 && (
-        <div className="relative w-10 h-10">
-          <ErrorIcon className="text-gray-900 w-full h-full rounded-full" />
-          <div className="flex bg-red-500 justify-center items-center h-5 w-5 rounded-full overflow-hidden absolute bottom-0 right-0 text-white">
-            <p>{validationErrors.length}</p>
-          </div>
-        </div>
-      )} */}
 
       <div className="flex flex-col gap-8">
         {selectedPlan !== "none" &&
-          semesters.map((semester, index) => <PlannerSemester key={`semester-${index}`} semesterId={semester} />)}
+         semesters.map((semester, index) => (
+            <PlannerSemester semesterId={semester} key={`semester-${semester}-${index}`} />
+          ))}
         <PlusIcon
           size={30}
           className="rounded-full p-1 border border-gray-400 cursor-pointer text-gray-400 mx-auto"

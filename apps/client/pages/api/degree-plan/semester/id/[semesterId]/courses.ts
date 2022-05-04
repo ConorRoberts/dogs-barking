@@ -20,7 +20,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           MATCH (semester:DegreePlanSemester { id: $semesterId })
 
           UNWIND $courses as course
-          MERGE (semester)-[:CONTAINS]->(c:Course {id: course})
+          MATCH (c:Course {id: course})
+          MERGE (semester)-[:CONTAINS]->(c)
         `,
         { semesterId, courses }
       );
