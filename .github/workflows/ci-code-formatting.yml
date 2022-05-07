@@ -1,5 +1,5 @@
 name: CI/Code Formatting
-on: [push, pull_request]
+on: [pull_request]
 jobs:
   check-code-formatting:
     runs-on: ubuntu-latest
