@@ -9,8 +9,8 @@ on:
       - ".github/workflows/cd-createDegreePlan.yml"
 
 env:
-  AWS_REGION: us-east-1                     
-  FUNCTION_NAME: createDegreePlan    
+  AWS_REGION: us-east-1
+  FUNCTION_NAME: createDegreePlan
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 jobs:
@@ -23,13 +23,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET }}
-          aws-region: ${{ env.AWS_REGION }}
-        
       - name: Install dependencies and zip
         run: |
           cd src/api/${{env.FUNCTION_NAME}}
@@ -39,8 +32,8 @@ jobs:
       - name: Deploy
         uses: appleboy/lambda-action@master
         with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET}}
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET }}
           aws_region: ${{ secrets.AWS_REGION }}
           function_name: ${{env.FUNCTION_NAME}}
           zip_file: src/api/${{env.FUNCTION_NAME}}/build.zip
