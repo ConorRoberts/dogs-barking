@@ -45,7 +45,7 @@ jobs:
           aws lambda wait function-updated --function-name ${{ env.FUNCTION_NAME }}
           aws lambda update-function-configuration \
           --function-name ${{ env.FUNCTION_NAME }} \
-          --timeout 30 \ 
+          --timeout 30 \
           --environment "Variables={ \
               NEO4J_HOST=${{env.FUNCTION_NAME}}, \
               NEO4J_PASSWORD=${{secrets.NEO4J_PASSWORD}}, \
