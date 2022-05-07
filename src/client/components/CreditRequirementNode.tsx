@@ -1,8 +1,8 @@
 import CreditRequirementData from "@typedefs/CreditRequirementData";
-import { Handle, Node, Position } from "react-flow-renderer";
+import { Handle, Position } from "react-flow-renderer";
 
-const CourseNode = (props: Node<CreditRequirementData>) => {
-  const { data } = props;
+const CourseNode = (props) => {
+  const data = props.data as CreditRequirementData;
 
   return (
     <div className={`min-w-max py-3 px-4 text-white rounded-md bg-purple-500`}>

@@ -1,19 +1,20 @@
+import { PlannerSemesterData } from "@typedefs/DegreePlan";
 import PlannerSemester from "./PlannerSemester";
 
 interface Props {
   year: number;
 
   // Semester IDS
-  semesters: string[];
+  semesters: PlannerSemesterData[];
 }
 
-const PlannerYear = ({ year,semesters }: Props) => {
+const PlannerYear = ({ year, semesters }: Props) => {
   return (
     <div>
       <h2>{year}</h2>
       <div className="overflow-x-auto flex gap-4">
-        {semesters.map((id) => (
-          <PlannerSemester key={id} semesterId={id} />
+        {semesters.map((semester) => (
+          <PlannerSemester key={semester.id} data={semester} />
         ))}
       </div>
     </div>

@@ -2,7 +2,7 @@ import Course from "@typedefs/Course";
 import { Handle, Node, Position } from "react-flow-renderer";
 import getNodeColour from "@utils/getNodeColour";
 
-const AndBlockNode = (props: Node<Course>) => {
+const AndBlockNode = (props) => {
   const { data, id } = props;
 
   return (

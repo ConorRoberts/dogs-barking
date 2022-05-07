@@ -30,7 +30,7 @@ const Page = ({ course, nodes, edges, rating }: PageProps) => {
       <div className="flex flex-col gap-4">
         <p>{course.description}</p>
         <p>
-          This course is worth <span className="text-blue-500 dark:text-blue-400">{course.weight}</span> credit(s)
+          This course is worth <span className="text-blue-500 dark:text-blue-400">{course.credits}</span> credit(s)
         </p>
       </div>
 

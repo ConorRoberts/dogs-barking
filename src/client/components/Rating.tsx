@@ -2,7 +2,6 @@ import { AuthState } from "@redux/auth";
 import { RootState } from "@redux/store";
 import axios from "axios";
 import { useState } from "react";
-import { useMutation } from "react-query";
 import { useSelector } from "react-redux";
 import { EmptyStarIcon, FilledStarIcon, Loading } from "./Icons";
 
