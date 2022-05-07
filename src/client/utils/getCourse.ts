@@ -13,7 +13,7 @@ const getCourse = async (id: string): Promise<Course | null> => {
 
     const { records } = await session.run(
       `
-        OPTIONAL MATCH (course:Course {id: $id})
+        MATCH (course:Course {id: $id})
         OPTIONAL MATCH path=(course)-[:REQUIRES*]->(prereq)
 
         MATCH (school:School)-[:OFFERS]->(course)
@@ -86,7 +86,7 @@ const getCourse = async (id: string): Promise<Course | null> => {
     };
   } catch (error) {
     console.error(`[getCourse (id: ${id})]: ${error}`);
-    return null;
+    throw new Error(`Invalid Course ID`);
   }
 };
 
