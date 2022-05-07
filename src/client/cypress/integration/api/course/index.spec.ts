@@ -22,14 +22,6 @@ describe("Test /api/course", () => {
   it("Returns courses taught by a given instructor", () => {
     expect(true).to.be.true;
   });
-
-  it("Returns courses with a given weight", () => {
-    cy.request("GET", "/api/course?weight=0.5").then(({ status, body }) => {
-      const data = JSON.parse(body);
-      expect(status).to.equal(200);
-      expect(data.every((course: Course) => course.credits === 0.5 && courseSchema.validateSync(course))).to.be.true;
-    });
-  });
 });
 
 export {};
