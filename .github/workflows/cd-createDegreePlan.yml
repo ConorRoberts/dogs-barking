@@ -49,3 +49,4 @@ jobs:
               NEO4J_PASSWORD=${{secrets.NEO4J_PASSWORD}}, \
               NEO4J_USERNAME=${{secrets.NEO4J_USERNAME}} \
             }"
+          --timeout 30
