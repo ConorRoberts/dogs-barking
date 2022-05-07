@@ -42,6 +42,7 @@ jobs:
          
       - name: Configure function
         run: |
+          aws lambda wait function-updated --function-name ${{ env.FUNCTION_NAME }}
           aws lambda update-function-configuration \
           --function-name ${{ env.FUNCTION_NAME }} \
           --environment "Variables={ \
