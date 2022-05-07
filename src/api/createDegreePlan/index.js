@@ -9,11 +9,9 @@ exports.handler = async (
 
         const body = JSON.parse(event.body ?? "{}");
 
-        const { data } = body;
-
         return {
-            statusCode: 201,
-            body: JSON.stringify({ data }),
+            statusCode: 200,
+            body: JSON.stringify({ body }),
         };
     } catch (error) {
         console.error(error);
