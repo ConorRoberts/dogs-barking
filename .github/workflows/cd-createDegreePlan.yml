@@ -37,12 +37,12 @@ jobs:
       - name: Deploy
         run: |
           aws lambda update-function-code \
-          --function-name ${{ env.LAMBDA_NAME }} \
+          --function-name ${{ env.FUNCTION_NAME }} \
           --zip-file fileb://src/api/${{env.FUNCTION_NAME}}/build.zip \
           --region ${{ env.AWS_REGION }} \
-          --handler ${{ env.LAMBDA_NAME }}.handler \
-          --environment Variables={{ \
+          --handler ${{ env.FUNCTION_NAME }}.handler \
+          --environment Variables={ \
               NEO4J_HOST=${{env.FUNCTION_NAME}}, \
               NEO4J_PASSWORD=${{secrets.NEO4J_PASSWORD}}, \
               NEO4J_USERNAME=${{secrets.NEO4J_USERNAME}} |
-            }}
+            }
