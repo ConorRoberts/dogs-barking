@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "apps/client/**"
+      - "src/client/**"
       - ".github/workflows/build-client.yml"
 
 env:
