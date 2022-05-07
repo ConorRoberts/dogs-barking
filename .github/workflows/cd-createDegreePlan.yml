@@ -1,17 +1,17 @@
 name: CD/API/create-degree-plan
 
-env:
-  AWS_REGION: us-east-1                     
-  FUNCTION_NAME: createDegreePlan    
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
 on:
   push:
     branches:
       - main
     paths:
-      - "src/api/${{env.FUNCTION_NAME}}/**"
-      - ".github/workflows/${{env.FUNCTION_NAME}}.yml"
+      - "src/api/createDegreePlan/**"
+      - ".github/workflows/cd-createDegreePlan.yml"
+
+env:
+  AWS_REGION: us-east-1                     
+  FUNCTION_NAME: createDegreePlan    
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 jobs:
   deploy:
