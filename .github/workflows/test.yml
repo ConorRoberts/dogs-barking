@@ -19,10 +19,10 @@ jobs:
         with:
           browser: chrome
           headless: true
-          build: npm run build --prefix ./apps/client
-          start: npm run start --prefix ./apps/client
+          build: npm run build --prefix ./src/client
+          start: npm run start --prefix ./src/client
           wait-on: "http://localhost:3000"
-          project: ./apps/client
+          project: ./src/client
 
   send-failure-to-discord:
     runs-on: ubuntu-latest

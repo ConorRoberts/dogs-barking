@@ -7,8 +7,6 @@
   "license": "ISC",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev --scope=web-client --parallel",
     "lint": "turbo run lint --parallel",
     "lint:fix": "eslint ./** --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
@@ -28,7 +26,7 @@
   "packageManager": "pnpm@6.30.0",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.socs.uoguelph.ca/crober35/w22_cis3760_team5.git"
+    "url": "https://github.com/ConorRoberts/dogs-barking.git"
   },
   "lint-staged": {
     "*.{js,ts}": [
