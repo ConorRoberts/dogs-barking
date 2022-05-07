@@ -34,11 +34,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Deploy
+      - name: Deploy function
         run: |
           aws lambda update-function-code \
           --function-name ${{ env.FUNCTION_NAME }} \
           --zip-file fileb://src/api/${{env.FUNCTION_NAME}}/build.zip \
+         
+      - name: Configure function
+        run: |
+          aws lambda update-function-configuration \
+          --function-name ${{ env.FUNCTION_NAME }} \
           --environment "Variables={ \
               NEO4J_HOST=${{env.FUNCTION_NAME}}, \
               NEO4J_PASSWORD=${{secrets.NEO4J_PASSWORD}}, \
