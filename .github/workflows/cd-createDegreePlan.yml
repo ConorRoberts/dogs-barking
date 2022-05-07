@@ -11,7 +11,7 @@ on:
       - main
     paths:
       - "src/api/${{env.FUNCTION_NAME}}/**"
-      - ".github/workflows/api/${{env.FUNCTION_NAME}}.yml"
+      - ".github/workflows/${{env.FUNCTION_NAME}}.yml"
 
 jobs:
   deploy:
