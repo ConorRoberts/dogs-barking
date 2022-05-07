@@ -1,0 +1,126 @@
+name: CD/Frontend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/client/**"
+      - ".github/workflows/build-client.yml"
+
+env:
+  AWS_REGION: us-east-1                  
+  ECR_REPOSITORY: dogs-barking        
+  ECS_SERVICE: frontend             
+  ECS_CLUSTER: dogs-barking-cluster               
+  ECS_TASK_DEFINITION: ./aws/task-definitions/client-fargate.json 
+  CONTAINER_NAME: client        
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        working-directory: ./src/client
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+          environment-variables: |
+            NEO4J_USERNAME=${{ secrets.NEO4J_USERNAME }}
+            NEO4J_PASSWORD=${{ secrets.NEO4J_PASSWORD }}
+            NEO4J_HOST=${{secrets.NEO4J_HOST}}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
+
+
+  send-failure-to-discord:
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: needs.deploy.result == 'failure'
+    steps:
+      - name: Send failure message to Discord
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "${{ secrets.DISCORD_WEBHOOK }}"
+          method: "POST"
+          contentType: "application/json"
+          data: |
+            {
+              "content": "<@&969598441980325888>",
+              "allowed_mentions": { "roles": ["969598441980325888"] },
+              "username": "GitHub",
+              "avatar_url": "https://cdn-icons-png.flaticon.com/512/25/25231.png",
+              "embeds": [
+                  {
+                      "title": "Status - ${{ github.workflow }}",
+                      "description": "Failed. See more at the link above.",
+                      "color": 16740464,
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+              ]
+            }
+
+  send-success-to-discord:
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: needs.deploy.result == 'success'
+    steps:
+      - name: Send success message to Discord
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "${{ secrets.DISCORD_WEBHOOK }}"
+          method: "POST"
+          contentType: "application/json"
+          data: |
+            {
+              "content": "<@&969598441980325888>",
+              "allowed_mentions": { "roles": ["969598441980325888"] },
+              "username": "GitHub",
+              "avatar_url": "https://cdn-icons-png.flaticon.com/512/25/25231.png",
+              "embeds": [
+                  {
+                      "title": "Status - ${{ github.workflow }}",
+                      "description": "Success. See more at the link above.",
+                      "color": 7405424,
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+              ]
+            }
+
+
