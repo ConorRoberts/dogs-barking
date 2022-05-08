@@ -1,5 +1,5 @@
 {
-  "name": "get-course",
+  "name": "create-degree-plan-semester",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,6 +7,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "neo4j-driver": "^4.4.3"
+    "jsonwebtoken": "^8.5.1",
+    "neo4j-driver": "^4.4.3",
+    "uuid": "^8.3.2"
   }
 }

@@ -1,15 +1,15 @@
-name: CD/API/createDegreePlan
+name: CD/API/deleteDegreePlanSemester
 
 on:
   push:
     branches:
       - main
     paths:
-      - "src/api/createDegreePlan/**"
-      - ".github/workflows/cd-createDegreePlan.yml"
+      - "src/api/deleteDegreePlanSemester/**"
+      - ".github/workflows/cd-deleteDegreePlanSemester.yml"
 
 env:
-  FUNCTION_NAME: createDegreePlan
+  FUNCTION_NAME: deleteDegreePlanSemester
 
 jobs:
   deploy:
