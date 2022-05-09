@@ -16,7 +16,7 @@ exports.handler = async (
 
     if (semesterId === undefined || typeof semesterId !== "string") throw new Error("Invalid semester id");
 
-    const token = jwt.decode(headers.authorization.replace("Bearer", ""));
+    const token = jwt.decode(headers.authorization.replace("Bearer ", ""));
 
     const driver = neo4j.driver(
         `neo4j://${process.env.NEO4J_HOST}`,
