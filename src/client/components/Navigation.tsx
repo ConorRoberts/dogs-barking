@@ -37,20 +37,20 @@ const Navigation = () => {
           <div className="flex flex-col h-full">
             <Link href="/contact" passHref>
               <div className="nav-drawer-button">
-                <PeopleIcon className="w-6 h-6" />
+                <PeopleIcon size={15} />
                 <p>Meet the Team</p>
               </div>
             </Link>
             <Link href="/docs" passHref>
               <div className="nav-drawer-button">
-                <DocumentIcon className="w-6 h-6" />
+                <DocumentIcon size={15} />
                 <p>Docs</p>
               </div>
             </Link>
             {user && (
               <Link href="/planner" passHref>
                 <div className="nav-drawer-button">
-                  <PlannerIcon className="w-6 h-6" />
+                  <PlannerIcon size={15} />
                   <p>Degree Planner</p>
                 </div>
               </Link>
@@ -59,19 +59,19 @@ const Navigation = () => {
               {user && (
                 <Link href="/auth/sign-out" passHref>
                   <div className="nav-drawer-button">
-                    <Logout className="w-6 h-6" />
+                    <Logout size={15} />
                     <p>Sign Out</p>
                   </div>
                 </Link>
               )}
               {darkMode ? (
                 <div className="nav-drawer-button" onClick={() => setDarkMode(!darkMode)}>
-                  <Sun className="w-6 h-6" />
+                  <Sun size={15} />
                   <p>Light Mode</p>
                 </div>
               ) : (
                 <div className="nav-drawer-button" onClick={() => setDarkMode(!darkMode)}>
-                  <Moon className="w-6 h-6" />
+                  <Moon size={15} />
                   <p>Dark Mode</p>
                 </div>
               )}
@@ -85,31 +85,33 @@ const Navigation = () => {
         <div className="fixed bottom-0 left-0 right-0 dark:border-t shadow-center-md dark:border-gray-600 flex justify-evenly items-center dark:bg-gray-900 bg-white z-30 pb-4">
           <Link href="/" passHref>
             <div className="small-screen-nav-button">
-              <Home className="small-screen-nav-button-icon" />
+              <Home size={16} />
             </div>
           </Link>
           {user ? (
             <Link href="/profile" passHref>
               <div className="small-screen-nav-button">
-                <PersonIcon className="small-screen-nav-button-icon" />
+                <PersonIcon size={16} />
               </div>
             </Link>
           ) : (
             <Link href="/auth/sign-in" passHref>
               <div className="small-screen-nav-button">
-                <Login className="small-screen-nav-button-icon" />
+                <Login size={16} />
               </div>
             </Link>
           )}
-          <div className="small-screen-nav-button">
-            <Menu className="small-screen-nav-button-icon" onClick={() => setMenuOpen(true)} />
+          <div className="small-screen-nav-button" onClick={() => setMenuOpen(true)}>
+            <Menu size={16} />
           </div>
         </div>
       </div>
 
       {/* Top Navigation */}
       <div className="hidden md:flex z-30 justify-start px-6 gap-6 items-center fixed top-0 left-0 right-0 py-6 bg-gray-100 bg-opacity-90 backdrop-filter backdrop-blur-sm dark:bg-gray-900 dark:bg-opacity-90 rounded-xl">
-        <Menu className="w-6 h-6 cursor-pointer primary-hover" onClick={() => setMenuOpen(true)} />
+        <div className="cursor-pointer primary-hover" onClick={() => setMenuOpen(true)}>
+          <Menu size={15} />
+        </div>
         <Link href="/" passHref>
           <div className="big-screen-nav-button">
             <p>Home</p>
