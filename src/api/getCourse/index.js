@@ -9,10 +9,10 @@ exports.handler = async (
 ) => {
     console.log(event);
 
-    const { id } = event.pathParameters;
+    const { courseId } = event.pathParameters;
     // const headers = event.headers;
 
-    if (id === undefined || typeof id !== "string") throw new Error("Invalid id");
+    if (courseId === undefined || typeof courseId !== "string") throw new Error("Invalid courseId");
 
     const driver = neo4j.driver(
         `neo4j://${process.env.NEO4J_HOST}`,
@@ -23,7 +23,7 @@ exports.handler = async (
 
     const { records } = await session.run(
         `
-        MATCH (course:Course {id: $id})
+        MATCH (course:Course {id: $courseId})
         OPTIONAL MATCH path=(course)-[:REQUIRES*]->(prereq)
 
         MATCH (school:School)-[:OFFERS]->(course)
@@ -38,7 +38,7 @@ exports.handler = async (
             avg(rating.usefulness) as usefulness,
             count(rating) as ratingCount
             `,
-        { id }
+        { courseId }
     );
 
     await session.close();
