@@ -73,17 +73,16 @@ exports.handler = async (
                     previous = formatted;
                 });
             });
-
-        const fillTree = (id) => {
-            const node = requirements[id];
-
-            return {
-                ...node,
-                requirements: node.requirements.map((e) => fillTree(e)).filter((e) => e !== undefined && e !== null),
-            };
-        };
-
     }
+
+    const fillTree = (id) => {
+        const node = requirements[id];
+
+        return {
+            ...node,
+            requirements: node.requirements.map((e) => fillTree(e)).filter((e) => e !== undefined && e !== null),
+        };
+    };
 
     return {
         ...records[0].get("course"),

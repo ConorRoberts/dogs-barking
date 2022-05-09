@@ -1,4 +1,4 @@
-name: CD/API/create-degree-plan
+name: CD/API/getCourse
 
 on:
   push:
