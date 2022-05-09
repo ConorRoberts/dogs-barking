@@ -9,8 +9,8 @@ exports.handler = async (
 ) => {
     console.log(event);
 
-    const { id } = event.queryStringParameters;
-    const headers = event.headers;
+    const { id } = event.pathParameters;
+    // const headers = event.headers;
 
     if (id === undefined || typeof id !== "string") throw new Error("Invalid id");
 
@@ -27,11 +27,16 @@ exports.handler = async (
         OPTIONAL MATCH path=(course)-[:REQUIRES*]->(prereq)
 
         MATCH (school:School)-[:OFFERS]->(course)
+        OPTIONAL MATCH (course)-[:HAS_RATING]->(rating:Rating)
 
         return 
             properties(course) as course,
             properties(school) as school,
-            [n in nodes(path) | {data: properties(n), type: labels(n)[0]}] as requirements
+            [n in nodes(path) | {data: properties(n), type: labels(n)[0]}] as requirements,
+            avg(rating.difficulty) as difficulty,
+            avg(rating.timeSpent) as timeSpent,
+            avg(rating.usefulness) as usefulness,
+            count(rating) as ratingCount
             `,
         { id }
     );
@@ -88,5 +93,9 @@ exports.handler = async (
             .map((e) => fillTree(e.get("requirements")[1].data.id))
             .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
             .filter((e) => e !== undefined && e !== null),
+        difficulty: records[0].get("difficulty") ?? 0,
+        usefulness: records[0].get("usefulness") ?? 0,
+        timeSpent: records[0].get("timeSpent") ?? 0,
+        ratingCount: records[0].get("ratingCount")?.low ?? 0,
     };
 };

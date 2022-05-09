@@ -1,15 +1,15 @@
-name: CD/API/addCourseToDegreePlanSemester
+name: CD/API/executeCourseQuery
 
 on:
   push:
     branches:
       - main
     paths:
-      - "src/api/addCourseToDegreePlanSemester/**"
-      - ".github/workflows/cd-addCourseToDegreePlanSemester.yml"
+      - "src/api/executeCourseQuery/**"
+      - ".github/workflows/cd-executeCourseQuery.yml"
 
 env:
-  FUNCTION_NAME: addCourseToDegreePlanSemester
+  FUNCTION_NAME: executeCourseQuery
 
 jobs:
   deploy:
