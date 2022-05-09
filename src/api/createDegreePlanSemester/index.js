@@ -16,7 +16,7 @@ exports.handler = async (
 
     if (planId === undefined || typeof planId !== "string") throw new Error("Invalid id");
 
-    const { sub } = jwt.decode(headers.Authorization.replace("Bearer", ""));
+    const { sub } = jwt.decode(headers.authorization.replace("Bearer", ""));
 
     const driver = neo4j.driver(
         `neo4j://${process.env.NEO4J_HOST}`,
