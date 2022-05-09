@@ -16,7 +16,7 @@ exports.handler = async (
     // const pathParams = event.pathParameters;
     const headers = event.headers;
 
-    const token = jwt.decode(headers.authorization.replace("Bearer", ""));
+    const token = jwt.decode(headers.authorization.replace("Bearer ", ""));
     console.log(token);
 
     const driver = neo4j.driver(
