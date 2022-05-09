@@ -40,8 +40,5 @@ exports.handler = async (
 
     console.log(records[0].get("plan"));
 
-    return {
-        body: records[0].get("plan"),
-        statusCode: 201
-    };
+    return records[0].get("plan");
 };
