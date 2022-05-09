@@ -18,6 +18,8 @@ exports.handler = async (
 
     const { sub } = jwt.decode(headers.authorization.replace("Bearer ", ""));
 
+    console.log(sub);
+
     const driver = neo4j.driver(
         `neo4j://${process.env.NEO4J_HOST}`,
         neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
@@ -35,6 +37,8 @@ exports.handler = async (
     );
     await session.close();
     await driver.close();
+
+    console.log(records[0].get("plan"));
 
     return {
         body: records[0].get("plan"),
