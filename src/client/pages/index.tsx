@@ -26,20 +26,6 @@ const Page = (props: PageProps) => {
   const { results } = useSearch(text, { type: searchType });
   const [showResults, setShowResults] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        await axios.post("https://35k8ueva7i.execute-api.us-east-1.amazonaws.com/development/degree-plan/new", {
-          Headers: {
-            Authorization: "Bearer " + (await Auth.currentSession()).getIdToken().getJwtToken(),
-          },
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, []);
-
   return (
     <div className="p-2 mx-auto max-w-4xl w-full flex flex-col gap-16">
       <MetaData title="Home" />

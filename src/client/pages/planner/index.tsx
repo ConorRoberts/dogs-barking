@@ -55,7 +55,7 @@ const Page = () => {
     setPlansLoading(true);
     try {
       const { data } = await axios.get(`/api/degree-plan/get-user-plans`, {
-        headers: { Authorization: `Bearer ${await getToken()}` },
+        headers: { Authorization: `Bearer ${user?.token}` },
       });
       setSelectedPlanId(data[0].id);
       setPlans(data);

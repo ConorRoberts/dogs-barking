@@ -33,7 +33,7 @@ const Rating = ({ courseId, ratingType, initialRating }: RatingProps) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${await getToken()}`,
+            Authorization: `Bearer ${user?.token}`,
           },
         }
       );

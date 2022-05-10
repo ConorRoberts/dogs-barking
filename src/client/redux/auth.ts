@@ -10,14 +10,15 @@ import getToken from "@utils/getToken";
 export const signIn = createAsyncThunk("auth/signIn", async () => {
   try {
     const res = await Auth.currentAuthenticatedUser();
+    const token = res.signInUserSession.accessToken.jwtToken;
 
     try {
-      const { data } = await axios.get(`/api/user/`, { headers: { Authorization: `Bearer ${getToken()}` } });
+      const { data } = await axios.get(`/api/user/`, { headers: { Authorization: `Bearer ${token}` } });
 
-      return { ...res.attributes, ...data };
+      return { ...res.attributes, ...data, token };
     } catch (error) {
-      const { data } = await axios.post(`/api/user/`, {}, { headers: { Authorization: `Bearer ${await getToken()}` } });
-      return { ...res.attributes, ...data };
+      const { data } = await axios.post(`/api/user/`, {}, { headers: { Authorization: `Bearer ${token}` } });
+      return { ...res.attributes, ...data, token };
     }
   } catch (error) {
     return null;
