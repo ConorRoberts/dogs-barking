@@ -1,6 +1,6 @@
 **/dist
 **/.next
-package-lock.json
+**/package-lock.json
 **/.turbo
 node_modules
 **/node_modules

@@ -1,0 +1,53 @@
+name: CD/API/executeCourseQuery
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/api/executeCourseQuery/**"
+      - ".github/workflows/cd-executeCourseQuery.yml"
+
+env:
+  FUNCTION_NAME: executeCourseQuery
+
+jobs:
+  deploy:
+    name: Deploy Lambda
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies and zip
+        run: |
+          cd src/api/${{env.FUNCTION_NAME}}
+          npm install
+          zip -r build.zip .
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy function
+        run: |
+          aws lambda update-function-code \
+          --function-name ${{ env.FUNCTION_NAME }} \
+          --zip-file fileb://src/api/${{env.FUNCTION_NAME}}/build.zip \
+         
+      - name: Configure function
+        run: |
+          aws lambda wait function-updated --function-name ${{ env.FUNCTION_NAME }}
+          aws lambda update-function-configuration \
+          --function-name ${{ env.FUNCTION_NAME }} \
+          --timeout 30 \
+          --environment "Variables={ \
+              NEO4J_HOST=${{secrets.NEO4J_HOST}}, \
+              NEO4J_PASSWORD=${{secrets.NEO4J_PASSWORD}}, \
+              NEO4J_USERNAME=${{secrets.NEO4J_USERNAME}} \
+            }"

@@ -69,12 +69,11 @@ jobs:
           wait-for-service-stability: true
 
 
-  send-failure-to-discord:
+  send-status-to-discord:
     runs-on: ubuntu-latest
     needs: [deploy]
-    if: needs.deploy.result == 'failure'
     steps:
-      - name: Send failure message to Discord
+      - name: Send status message to Discord
         uses: fjogeleit/http-request-action@v1
         with:
           url: "${{ secrets.DISCORD_WEBHOOK }}"
@@ -85,42 +84,13 @@ jobs:
               "content": "<@&969598441980325888>",
               "allowed_mentions": { "roles": ["969598441980325888"] },
               "username": "GitHub",
-              "avatar_url": "https://cdn-icons-png.flaticon.com/512/25/25231.png",
+              "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
               "embeds": [
                   {
                       "title": "Status - ${{ github.workflow }}",
-                      "description": "Failed. See more at the link above.",
-                      "color": 16740464,
+                      "description": "${{ github.workflow }}. See more at the link above.",
+                      "color": ${{ needs.deploy.result == 'success' && 7405424 || 16740464 }}
                       "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                   }
               ]
             }
-
-  send-success-to-discord:
-    runs-on: ubuntu-latest
-    needs: [deploy]
-    if: needs.deploy.result == 'success'
-    steps:
-      - name: Send success message to Discord
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: "${{ secrets.DISCORD_WEBHOOK }}"
-          method: "POST"
-          contentType: "application/json"
-          data: |
-            {
-              "content": "<@&969598441980325888>",
-              "allowed_mentions": { "roles": ["969598441980325888"] },
-              "username": "GitHub",
-              "avatar_url": "https://cdn-icons-png.flaticon.com/512/25/25231.png",
-              "embeds": [
-                  {
-                      "title": "Status - ${{ github.workflow }}",
-                      "description": "Success. See more at the link above.",
-                      "color": 7405424,
-                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                  }
-              ]
-            }
-
-

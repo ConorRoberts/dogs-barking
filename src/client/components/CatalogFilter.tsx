@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { PlusIcon } from "./Icons";
 import { CatalogState, setCatalogType, setPageState, setFilters, resetFilters, setScope } from "@redux/catalog";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@redux/store";
 import { Button, Input, Select } from "./form";
 
 const validFilters = {
@@ -21,11 +20,11 @@ const validFilters = {
     { label: "Name", key: "name" },
     { label: "Program Code", key: "id" },
     { label: "School", key: "school" },
-  ]
+  ],
 };
 
 const CatalogFilter = ({ handleSubmit }) => {
-  const { pageState, type, filters, scope } = useSelector<RootState, CatalogState>((state) => state.catalog);
+  const { pageState, type, filters, scope } = useSelector<CatalogState, CatalogState>((state) => state);
   const [filterKey, setFilterKey] = useState("number");
   const [filterValue, setFilterValue] = useState("");
   const dispatch = useDispatch();
@@ -34,9 +33,9 @@ const CatalogFilter = ({ handleSubmit }) => {
     dispatch(resetFilters());
   }, [dispatch]);
 
-  const toggleType = (type:string) => {
+  const toggleType = (type: string) => {
     clearFilters();
-    dispatch(setPageState({...pageState, pageNum: 0}));
+    dispatch(setPageState({ ...pageState, pageNum: 0 }));
     dispatch(setCatalogType(type));
   };
 
@@ -47,14 +46,10 @@ const CatalogFilter = ({ handleSubmit }) => {
   return (
     <form className="flex flex-col gap-8">
       <div className="grid grid-cols-2 gap-4">
-        <Button
-          variant={type === "courses" ? "default" : "outline"}
-          onClick={() => toggleType("courses")}>
+        <Button variant={type === "courses" ? "default" : "outline"} onClick={() => toggleType("courses")}>
           Courses
         </Button>
-        <Button
-          variant={type === "programs" ? "default" : "outline"}
-          onClick={() => toggleType("programs")}>
+        <Button variant={type === "programs" ? "default" : "outline"} onClick={() => toggleType("programs")}>
           Programs
         </Button>
       </div>

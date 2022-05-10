@@ -1,0 +1,12 @@
+{
+  "name": "get-course",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "neo4j-driver": "^4.4.3"
+  }
+}

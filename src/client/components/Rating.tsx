@@ -1,5 +1,6 @@
 import { AuthState } from "@redux/auth";
 import { RootState } from "@redux/store";
+import getToken from "@utils/getToken";
 import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -18,17 +19,24 @@ const Rating = ({ courseId, ratingType, initialRating }: RatingProps) => {
   const [updateLoading, setUpdateLoading] = useState(false);
 
   // Update rating on backend
-  const submitRating = async ({ rating }: { rating: number }) => {
+  const submitRating = async ({ ratingValue }: { ratingValue: number }) => {
     setUpdateLoading(true);
     if (!user) return;
     setMouseIndex(-1);
     try {
-      const { data } = await axios.post("/api/rating", {
-        course: courseId,
-        user: user.id,
-        rating,
-        ratingType,
-      });
+      const { data } = await axios.post(
+        `/api/course/${courseId}/rating`,
+        {
+          courseId,
+          ratingValue,
+          ratingType,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
 
       setRating(data[ratingType]);
     } catch (error) {
@@ -49,7 +57,7 @@ const Rating = ({ courseId, ratingType, initialRating }: RatingProps) => {
                 } cursor-pointer`}
                 onMouseEnter={() => setMouseIndex(index)}
                 onMouseLeave={() => setMouseIndex(-1)}
-                onClick={() => submitRating({ rating: index + 1 })}
+                onClick={() => submitRating({ ratingValue: index + 1 })}
                 key={`rating-star-${index}-${courseId}`}
               />
             ) : (
@@ -59,7 +67,7 @@ const Rating = ({ courseId, ratingType, initialRating }: RatingProps) => {
                 className={` transform transition ${
                   mouseIndex >= index && user ? "scale-125 text-yellow-500" : "dark:text-white"
                 } cursor-pointer`}
-                onClick={() => submitRating({ rating: index + 1 })}
+                onClick={() => submitRating({ ratingValue: index + 1 })}
                 key={`rating-star-${index}-${courseId}`}
               />
             )

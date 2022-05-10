@@ -44,9 +44,9 @@ const Page = ({ schools }: PageProps) => {
           }}
           onSubmit={async (values) => {
             let status: UpdateStatus = "success";
-            
+
             try {
-              await axios.post(`/api/user/${user.id}`, values);
+              await axios.post(`/api/user`, values, { headers: { Authorization: `Bearer ${user?.token}` } });
             } catch (error) {
               status = "failure";
             }
@@ -83,7 +83,9 @@ const Page = ({ schools }: PageProps) => {
                     .find((e) => e.name === values.school)
                     ?.programs.filter((e) => e.hasMajor)
                     .map((e, index) => (
-                      <option key={`major-option-${index}`}>{e.name} ({e.short})</option>
+                      <option key={`major-option-${index}`}>
+                        {e.name} ({e.short})
+                      </option>
                     ))}
                 </Select>
               </div>
@@ -98,7 +100,9 @@ const Page = ({ schools }: PageProps) => {
                     .find((e) => e.name === values.school)
                     ?.programs.filter((e) => e.hasMinor)
                     .map((e, index) => (
-                      <option key={`minor-option-${index}`}>{e.name} ({e.short})</option>
+                      <option key={`minor-option-${index}`}>
+                        {e.name} ({e.short})
+                      </option>
                     ))}
                 </Select>
               </div>

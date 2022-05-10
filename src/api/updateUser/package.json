@@ -1,0 +1,14 @@
+{
+  "name": "update-user",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "neo4j-driver": "^4.4.5"
+  }
+}
+

@@ -1,6 +1,5 @@
 import { CatalogState, setPageState } from "@redux/catalog";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@redux/store";
 
 const getPageIndexArray = (start: number, end: number) => {
   const length = end - start + 1;
@@ -12,7 +11,7 @@ interface PageIndexProps {
 }
 
 const PageIndex = (counts: PageIndexProps) => {
-  const { pageState, type } = useSelector<RootState, CatalogState>((state) => state.catalog);
+  const { pageState, type } = useSelector<CatalogState, CatalogState>((state) => state);
   const totalEntries = counts.totalEntries;
   const totalPages = Math.floor(totalEntries / pageState.pageSize);
   

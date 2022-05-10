@@ -3,8 +3,9 @@ import Head from "next/head";
 import { APP_NAME } from "@config/config";
 
 export interface MetaDataProps {
-    title: string;
-    children?: ReactNode;
+  title: string;
+  children?: ReactNode;
+  description?: string;
 }
 
 /**
@@ -16,6 +17,8 @@ const MetaData = ({ title, ...props }: MetaDataProps) => {
   return (
     <Head>
       <title>{`${title} - ${APP_NAME}`}</title>
+      <meta property="og:title" content={`${title} - ${APP_NAME}`} />
+      <meta property="og:description" content={props.description} />
       {props?.children && props.children}
     </Head>
   );

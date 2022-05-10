@@ -10,6 +10,7 @@ import PlannerSemester from "@components/PlannerSemester";
 import DegreePlanData from "@typedefs/DegreePlan";
 import { Button, Select } from "@components/form";
 import { groupBy } from "lodash";
+import getToken from "@utils/getToken";
 
 const Page = () => {
   const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
@@ -38,10 +39,14 @@ const Page = () => {
    */
   const addSemester = async () => {
     try {
-      const { data } = await axios.post(`/api/degree-plan/id/${selectedPlanId}/create-semester`, {
-        userId: user.id,
-      });
-      // setSemesters([...semesters, data.id]);
+      const { data } = await axios.post(
+        `/api/degree-plan/${selectedPlanId}/create-semester`,
+        {
+          userId: user.id,
+        },
+        { headers: { Authorization: "Bearer " + user?.token } }
+      );
+      fetchPlanData();
     } catch (error) {
       console.error(error);
     }
@@ -53,7 +58,9 @@ const Page = () => {
   const fetchPlans = useCallback(async () => {
     setPlansLoading(true);
     try {
-      const { data } = await axios.get(`/api/degree-plan/user-plans/${user.id}`);
+      const { data } = await axios.get(`/api/degree-plan/get-user-plans`, {
+        headers: { Authorization: `Bearer ${user?.token}` },
+      });
       setSelectedPlanId(data[0].id);
       setPlans(data);
     } catch (error) {
@@ -73,20 +80,22 @@ const Page = () => {
     }
   }, [user, router, loading, fetchPlans]);
 
+  const fetchPlanData = useCallback(async () => {
+    try {
+      const { data } = await axios.get(`/api/degree-plan/${selectedPlanId}`, {
+        headers: { Authorization: `Bearer ${user?.token}` },
+      });
+      setSelectedPlanData(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [user, selectedPlanId]);
+
   // Update the state of our semesters list whenever our selected plan changes
   useEffect(() => {
     if (selectedPlanId === "none") return;
-    (async () => {
-      try {
-        const { data } = await axios.get(`/api/degree-plan/id/${selectedPlanId}`);
-        setSelectedPlanData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, [selectedPlanId]);
-
-  console.log(selectedPlanData);
+    fetchPlanData();
+  }, [fetchPlanData, selectedPlanId]);
 
   if (!user || plansLoading) return <LoadingScreen />;
 
@@ -110,7 +119,7 @@ const Page = () => {
 
       <div className="flex flex-col gap-8">
         {selectedPlanId !== "none" &&
-          selectedPlanData?.semesters.map((semester, index) => (
+          selectedPlanData?.semesters?.map((semester, index) => (
             <PlannerSemester data={semester} key={`semester-${semester}-${index}`} />
           ))}
         <PlusIcon

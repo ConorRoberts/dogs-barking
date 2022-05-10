@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Auth } from "aws-amplify";
 import User from "@typedefs/User";
 import axios from "axios";
+import getToken from "@utils/getToken";
 
 /**
  * @description Signs the user in
@@ -9,14 +10,15 @@ import axios from "axios";
 export const signIn = createAsyncThunk("auth/signIn", async () => {
   try {
     const res = await Auth.currentAuthenticatedUser();
+    const token = res.signInUserSession.accessToken.jwtToken;
 
     try {
-      const { data } = await axios.get(`/api/user/${res.attributes.sub}`);
+      const { data } = await axios.get(`/api/user/`, { headers: { Authorization: `Bearer ${token}` } });
 
-      return { ...res.attributes, ...data };
+      return { ...res.attributes, ...data, token };
     } catch (error) {
-      const { data } = await axios.post(`/api/user/${res.attributes.sub}`);
-      return { ...res.attributes, ...data };
+      const { data } = await axios.post(`/api/user/`, {}, { headers: { Authorization: `Bearer ${token}` } });
+      return { ...res.attributes, ...data, token };
     }
   } catch (error) {
     return null;

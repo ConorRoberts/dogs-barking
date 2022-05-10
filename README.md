@@ -1,7 +1,7 @@
 # Dogs Barking
 
-[![Tests](https://github.com/ConorRoberts/dogs-barking/actions/workflows/test.yml/badge.svg)](https://github.com/ConorRoberts/dogs-barking/actions/workflows/test.yml)
-[![Frontend Build](https://github.com/ConorRoberts/dogs-barking/actions/workflows/build-client.yml/badge.svg)](https://github.com/ConorRoberts/dogs-barking/actions/workflows/build-client.yml)
+[![CI/Frontend](https://github.com/ConorRoberts/dogs-barking/actions/workflows/ci-frontend-tests.yml/badge.svg)](https://github.com/ConorRoberts/dogs-barking/actions/workflows/ci-frontend-tests.yml)
+[![CD/Frontend](https://github.com/ConorRoberts/dogs-barking/actions/workflows/cd-frontend.yml/badge.svg)](https://github.com/ConorRoberts/dogs-barking/actions/workflows/cd-frontend.yml)
 
 This project serves as a course management and degree planning utility for University of Guelph Students. The project includes a fully mapped out catalog with prerequisite trees. And a degree planning feature for those who are interested in more long-term planning capabilities.
 

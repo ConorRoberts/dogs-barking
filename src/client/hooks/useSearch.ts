@@ -12,8 +12,6 @@ interface Config {
 
 /**
  * Calls the API to get the course search results on update of the query params
- * @param params
- * @returns
  */
 const useSearch = (query: string, config?: Config) => {
   const [results, setResults] = useState([]);
@@ -22,11 +20,12 @@ const useSearch = (query: string, config?: Config) => {
   const { type = "course" } = config ?? {};
 
   useEffect(() => {
-    setLoading(true);
     const timer = setTimeout(async () => {
+      setLoading(true);
       // Fetch data from search endpoint
       if (query.length === 0) {
         setResults([]);
+        setLoading(false);
         return;
       }
 
@@ -37,9 +36,9 @@ const useSearch = (query: string, config?: Config) => {
       });
 
       setResults(data);
+      setLoading(false);
     }, 50);
 
-    setLoading(false);
     return () => {
       clearTimeout(timer);
     };
