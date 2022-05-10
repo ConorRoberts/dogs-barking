@@ -1,7 +1,7 @@
 import MetaData from "@components/MetaData";
 import getRandomCourse from "@utils/getRandomCourse";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Input } from "@components/form";
 import Link from "next/link";
 import useSearch from "@hooks/useSearch";
@@ -9,6 +9,8 @@ import { Random } from "@components/Icons";
 import CourseGraph from "@components/CourseGraph";
 import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import { Edge, Node } from "react-flow-renderer";
+import { Auth } from "aws-amplify";
+import axios from "axios";
 
 interface PageProps {
   randomCourse: string;
@@ -23,6 +25,20 @@ const Page = (props: PageProps) => {
   const [searchType, setSearchType] = useState<"course" | "program">("course");
   const { results } = useSearch(text, { type: searchType });
   const [showResults, setShowResults] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await axios.post("https://35k8ueva7i.execute-api.us-east-1.amazonaws.com/development/degree-plan/new", {
+          Headers: {
+            Authorization: "Bearer " + (await Auth.currentSession()).getIdToken().getJwtToken(),
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
 
   return (
     <div className="p-2 mx-auto max-w-4xl w-full flex flex-col gap-16">
@@ -49,8 +65,8 @@ const Page = (props: PageProps) => {
               variant="blank"
             />
             <Link passHref href={`/course/${props.randomCourse}`}>
-              <div>
-                <Random className="w-5 h-5 hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer transition" />
+              <div className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer transition">
+                <Random size={20} />
               </div>
             </Link>
           </div>

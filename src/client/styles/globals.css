@@ -58,13 +58,6 @@
 
 
 }
-/* .react-flow__handle {
-  @apply w-3 h-3 !important;
-}
-
-.react-flow__handle-left {
-  @apply translate-x-0 -translate-y-1/2 !important;
-} */
 
 @layer utilities {
   .shadow-center-sm {
