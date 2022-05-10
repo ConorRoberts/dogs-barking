@@ -6,6 +6,7 @@ import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import Rating from "@components/Rating";
 import Link from "next/link";
 import MetaData from "@components/MetaData";
+import { API_URL } from "@config/config";
 
 interface PageProps {
   course: Course;
@@ -16,10 +17,7 @@ interface PageProps {
 const Page = ({ course, nodes, edges }: PageProps) => {
   return (
     <div className="mx-auto max-w-4xl w-full flex flex-col gap-8 p-2">
-      <MetaData title={course.code}>
-        <meta property="og:title" content={course.code} />
-        <meta property="og:description" content={`${course.name} - ${course.description}`} />
-      </MetaData>
+      <MetaData description={course.description} title={`${course.name} (${course.code})`} />
       <div>
         <h2 className="text-center mb-1">
           {course.name} ({course.code})
@@ -64,7 +62,7 @@ const Page = ({ course, nodes, edges }: PageProps) => {
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const id = context.query.id as string;
-  const data = await fetch(`https://api.dogs-barking.ca/course/${id}`, { method: "GET" });
+  const data = await fetch(`${API_URL}/${id}`, { method: "GET" });
   const course = await data.json();
   const { nodes, edges } = createPrerequisiteGraph(course);
 

@@ -81,15 +81,15 @@ const Page = () => {
     if (selectedPlanId === "none") return;
     (async () => {
       try {
-        const { data } = await axios.get(`/api/degree-plan/id/${selectedPlanId}`);
+        const { data } = await axios.get(`/api/degree-plan/${selectedPlanId}`, {
+          headers: { Authorization: `Bearer ${user?.token}` },
+        });
         setSelectedPlanData(data);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [selectedPlanId]);
-
-  console.log(selectedPlanData);
+  }, [selectedPlanId, user]);
 
   if (!user || plansLoading) return <LoadingScreen />;
 
@@ -113,7 +113,7 @@ const Page = () => {
 
       <div className="flex flex-col gap-8">
         {selectedPlanId !== "none" &&
-          selectedPlanData?.semesters.map((semester, index) => (
+          selectedPlanData?.semesters?.map((semester, index) => (
             <PlannerSemester data={semester} key={`semester-${semester}-${index}`} />
           ))}
         <PlusIcon

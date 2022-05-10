@@ -1,16 +1,11 @@
 import MetaData from "@components/MetaData";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Input } from "@components/form";
 import Link from "next/link";
 import useSearch from "@hooks/useSearch";
-import { Random } from "@components/Icons";
-import CourseGraph from "@components/CourseGraph";
-import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
+import { LoadingIcon } from "@components/Icons";
 import { Edge, Node } from "react-flow-renderer";
-import { Auth } from "aws-amplify";
-import axios from "axios";
-import { API_URL } from "@config/config";
 import Course from "@typedefs/Course";
 
 interface PageProps {
@@ -23,7 +18,7 @@ interface PageProps {
 const Page = (props: PageProps) => {
   const [text, setText] = useState("");
   const [searchType, setSearchType] = useState<"course" | "program">("course");
-  const { results } = useSearch(text, { type: searchType });
+  const { results, loading } = useSearch(text, { type: searchType });
   const [showResults, setShowResults] = useState(false);
 
   return (
@@ -55,6 +50,11 @@ const Page = (props: PageProps) => {
                 <Random size={20} />
               </div>
             </Link> */}
+            {loading && (
+              <div className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer transition">
+                <LoadingIcon size={20} className="animate-spin" />
+              </div>
+            )}
           </div>
           {showResults && (
             <div className="absolute rounded-b-xl top-full left-0 right-0 z-20 shadow-md bg-white overflow-hidden divide-y divide-gray-100">

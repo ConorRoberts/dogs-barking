@@ -1,0 +1,13 @@
+{
+  "name": "get-degree-plan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "neo4j-driver": "^4.4.5"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -38,10 +38,9 @@ export const getServerSideProps = async (context: NextPageContext) => {
     { id: +id }
   );
 
-  console.log(data.records[0].get("res"));
-
   await session.close();
   await driver.close();
+  
   return {
     props: {
       school: await getSchool(id),
