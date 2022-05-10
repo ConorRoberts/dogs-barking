@@ -1,13 +1,12 @@
 import Course from "@typedefs/Course";
-import getCourse from "@utils/getCourse";
 import { NextPageContext } from "next";
 import CourseGraph from "@components/CourseGraph";
 import { Node, Edge } from "react-flow-renderer";
 import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import Rating from "@components/Rating";
-import getRating from "@utils/getRating";
 import Link from "next/link";
 import RatingData from "@typedefs/RatingData";
+import MetaData from "@components/MetaData";
 
 interface PageProps {
   course: Course;
@@ -19,6 +18,10 @@ interface PageProps {
 const Page = ({ course, nodes, edges, rating }: PageProps) => {
   return (
     <div className="mx-auto max-w-4xl w-full flex flex-col gap-8 p-2">
+      <MetaData title={course.code}>
+        <meta property="og:title" content={course.code} />
+        <meta property="og:description" content={`${course.name} - ${course.description}`} />
+      </MetaData>
       <div>
         <h2 className="text-center mb-1">
           {course.name} ({course.code})
@@ -34,7 +37,7 @@ const Page = ({ course, nodes, edges, rating }: PageProps) => {
         </p>
       </div>
 
-      <div className="flex flex-row items-center gap-4 justify-center flex-wrap w-full">
+      {/* <div className="flex flex-row items-center gap-4 justify-center flex-wrap w-full">
         <div className="flex flex-col items-center gap-2 flex-1">
           <h3 className="text-center">Difficulty</h3>
           <Rating courseId={course.id} ratingType="difficulty" initialRating={rating.difficulty} />
@@ -47,12 +50,12 @@ const Page = ({ course, nodes, edges, rating }: PageProps) => {
           <h3 className="text-center">Time Spent</h3>
           <Rating courseId={course.id} ratingType="timeSpent" initialRating={rating.timeSpent} />
         </div>
-      </div>
-      {rating.ratingCount !== undefined && (
+      </div> */}
+      {/* {rating.ratingCount !== undefined && (
         <p className="text-gray-500 text-center">
           This course has been rated {rating.ratingCount} time{rating.ratingCount > 1 && "s"}
         </p>
-      )}
+      )} */}
       <div>
         <h3 className="text-center mb-1">Prerequisites</h3>
         <CourseGraph nodes={nodes} edges={edges} />
@@ -63,16 +66,14 @@ const Page = ({ course, nodes, edges, rating }: PageProps) => {
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const id = context.query.id as string;
-  const course = await getCourse(id);
+  const course = await (await fetch(`https://api.dogs-barking.ca/course/${id}`, { method: "GET" })).json();
   const { nodes, edges } = createPrerequisiteGraph(course);
-  const rating = await getRating(id);
 
   return {
     props: {
       course,
       nodes,
       edges,
-      rating,
     },
   };
 };

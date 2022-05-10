@@ -10,6 +10,7 @@ import PlannerSemester from "@components/PlannerSemester";
 import DegreePlanData from "@typedefs/DegreePlan";
 import { Button, Select } from "@components/form";
 import { groupBy } from "lodash";
+import getToken from "@utils/getToken";
 
 const Page = () => {
   const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
@@ -53,14 +54,16 @@ const Page = () => {
   const fetchPlans = useCallback(async () => {
     setPlansLoading(true);
     try {
-      const { data } = await axios.get(`/api/degree-plan/user-plans/${user.id}`);
+      const { data } = await axios.get(`/api/degree-plan/get-user-plans`, {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      });
       setSelectedPlanId(data[0].id);
       setPlans(data);
     } catch (error) {
       setPlans([]);
     }
     setPlansLoading(false);
-  }, [user]);
+  }, []);
 
   // Get the user's plan state
   useEffect(() => {

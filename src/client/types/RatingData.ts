@@ -2,7 +2,7 @@ interface RatingData {
   difficulty: number;
   timeSpent: number;
   usefulness: number;
-  ratingCount: number;
+  count: number;
 }
 
 export default RatingData;

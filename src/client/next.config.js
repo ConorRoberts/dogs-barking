@@ -1,3 +1,4 @@
+/* eslint-disable require-await */
 const withPWA = require("next-pwa");
 const runtimeCaching = require("next-pwa/cache");
 
@@ -12,4 +13,11 @@ module.exports = withPWA({
   images: {
     domains: ["i.imgur.com"],
   },
+  rewrites: async () =>
+    [
+      {
+        source: "/api/:path*",
+        destination: `https://api.dogs-barking.ca/:path*`
+      }
+    ]
 });
