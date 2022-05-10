@@ -37,20 +37,20 @@ const Navigation = () => {
           <div className="flex flex-col h-full">
             <Link href="/contact" passHref>
               <div className="nav-drawer-button">
-                <PeopleIcon size={15} />
+                <PeopleIcon size={20} />
                 <p>Meet the Team</p>
               </div>
             </Link>
             <Link href="/docs" passHref>
               <div className="nav-drawer-button">
-                <DocumentIcon size={15} />
+                <DocumentIcon size={20} />
                 <p>Docs</p>
               </div>
             </Link>
             {user && (
               <Link href="/planner" passHref>
                 <div className="nav-drawer-button">
-                  <PlannerIcon size={15} />
+                  <PlannerIcon size={20} />
                   <p>Degree Planner</p>
                 </div>
               </Link>
@@ -59,19 +59,19 @@ const Navigation = () => {
               {user && (
                 <Link href="/auth/sign-out" passHref>
                   <div className="nav-drawer-button">
-                    <Logout size={15} />
+                    <Logout size={20} />
                     <p>Sign Out</p>
                   </div>
                 </Link>
               )}
               {darkMode ? (
                 <div className="nav-drawer-button" onClick={() => setDarkMode(!darkMode)}>
-                  <Sun size={15} />
+                  <Sun size={20} />
                   <p>Light Mode</p>
                 </div>
               ) : (
                 <div className="nav-drawer-button" onClick={() => setDarkMode(!darkMode)}>
-                  <Moon size={15} />
+                  <Moon size={20} />
                   <p>Dark Mode</p>
                 </div>
               )}
@@ -110,7 +110,7 @@ const Navigation = () => {
       {/* Top Navigation */}
       <div className="hidden md:flex z-30 justify-start px-6 gap-6 items-center fixed top-0 left-0 right-0 py-6 bg-gray-100 bg-opacity-90 backdrop-filter backdrop-blur-sm dark:bg-gray-900 dark:bg-opacity-90 rounded-xl">
         <div className="cursor-pointer primary-hover" onClick={() => setMenuOpen(true)}>
-          <Menu size={15} />
+          <Menu size={20} />
         </div>
         <Link href="/" passHref>
           <div className="big-screen-nav-button">

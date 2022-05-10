@@ -8,7 +8,8 @@ import PageIndex from "@components/PageIndex";
 import { LoadingIcon } from "@components/Icons";
 import { CatalogState } from "@redux/catalog";
 import { RootState } from "@redux/store";
-import { useSelector } from "react-redux";
+import { Provider, useSelector } from "react-redux";
+import catalogStore from "@redux/catalog";
 
 interface PageProps {
   counts: {
@@ -18,7 +19,7 @@ interface PageProps {
 }
 
 const Page = ({ counts }: PageProps) => {
-  const { filters, pageState, type, scope } = useSelector<RootState, CatalogState>((state) => state.catalog);
+  const { filters, pageState, type, scope } = useSelector<CatalogState, CatalogState>((state) => state);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
@@ -124,4 +125,12 @@ export const getServerSideProps = async () => {
   };
 };
 
-export default Page;
+const WrappedPage = (props: PageProps) => {
+  return (
+    <Provider store={catalogStore}>
+      <Page {...props} />
+    </Provider>
+  );
+};
+
+export default WrappedPage;

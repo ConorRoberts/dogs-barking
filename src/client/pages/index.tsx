@@ -1,5 +1,4 @@
 import MetaData from "@components/MetaData";
-import getRandomCourse from "@utils/getRandomCourse";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button, Input } from "@components/form";
@@ -11,10 +10,11 @@ import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import { Edge, Node } from "react-flow-renderer";
 import { Auth } from "aws-amplify";
 import axios from "axios";
+import { API_URL } from "@config/config";
+import Course from "@typedefs/Course";
 
 interface PageProps {
-  randomCourse: string;
-  course: string;
+  course: Course;
   school: string;
   edges: Edge[];
   nodes: Node[];
@@ -64,11 +64,11 @@ const Page = (props: PageProps) => {
               onFocus={() => setShowResults(true)}
               variant="blank"
             />
-            <Link passHref href={`/course/${props.randomCourse}`}>
+            {/* <Link passHref href={`/course/${props.course.id}`}>
               <div className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer transition">
                 <Random size={20} />
               </div>
-            </Link>
+            </Link> */}
           </div>
           {showResults && (
             <div className="absolute rounded-b-xl top-full left-0 right-0 z-20 shadow-md bg-white overflow-hidden divide-y divide-gray-100">
@@ -101,33 +101,33 @@ const Page = (props: PageProps) => {
           website. Users can view stylized graphs that are intertwined by their relationship to other courses.
         </p>
       </div>
-      <div className="text-center">
+      {/* <div className="text-center">
         <h3>Visualize Course Requirements</h3>
         <p className="dark:text-gray-400 text-gray-500 mb-4">
           Prerequisite graph for {props.course} from {props.school}
         </p>
         <CourseGraph nodes={props.nodes} edges={props.edges} />
-      </div>
+      </div> */}
     </div>
   );
 };
 
-export const getServerSideProps = async () => {
-  // Get data for CIS2750 from UOFG
-  const course = await getRandomCourse();
-  const { nodes, edges } = createPrerequisiteGraph(course);
+// export const getServerSideProps = async () => {
+// Get data for CIS2750 from UOFG
+// const data = await fetch(API_URL + "/course?code=CIS2750",{method:"GET"});
+// const course = await data.json();
+// console.log(course);
+// const { nodes, edges } = createPrerequisiteGraph(course);
 
-  const randomCourse = await getRandomCourse();
-
-  return {
-    props: {
-      randomCourse: randomCourse.id,
-      course: course.code,
-      school: course.school.name,
-      nodes,
-      edges,
-    },
-  };
-};
+// return {
+//   props: {
+// randomCourse: course.id,
+// course: course.code,
+// school: course.school.name,
+// nodes,
+// edges,
+//     },
+//   };
+// };
 
 export default Page;

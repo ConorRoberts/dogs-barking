@@ -7,26 +7,30 @@ const { v4 } = require("uuid");
 * @description Updates the rating for a course
 */
 exports.handler = async (
-    event
+  event
 ) => {
-    console.log(event);
+  console.log(event);
 
-    const { courseId, ratingType, ratingValue } = JSON.parse(event.body ?? "{}");
-    // const query = event.queryStringParameters;
-    // const pathParams = event.pathParameters;
-    const headers = event.headers;
+  const { courseId, ratingType, ratingValue } = JSON.parse(event.body ?? "{}");
+  // const query = event.queryStringParameters;
+  // const pathParams = event.pathParameters;
+  const headers = event.headers;
 
-    const { sub } = jwt.decode(headers.authorization.replace("Bearer ", ""));
+  const { sub } = jwt.decode(headers.authorization.replace("Bearer ", ""));
 
-    const driver = neo4j.driver(
-        `neo4j://${process.env.NEO4J_HOST}`,
-        neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
-    );
+  const driver = neo4j.driver(
+    `neo4j://${process.env.NEO4J_HOST}`,
+    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+  );
 
-    const session = driver.session();
+  const ratingTypes = ["difficulty", "timeSpent", "usefulness"];
 
-    const { records } = await session.run(
-        `
+  if (!ratingTypes.includes(ratingType)) throw new Error("Invalid rating type");
+
+  const session = driver.session();
+
+  const { records } = await session.run(
+    `
     CALL {
       MATCH (user:User {id: $userId}),(course:Course {id: $courseId})
       
@@ -34,7 +38,7 @@ exports.handler = async (
       ON CREATE
         SET rating.id = $id
       
-      SET $ratingType = $rating
+      SET rating.${ratingType} = $rating
       SET rating.updatedAt = timestamp()
     }
     
@@ -46,16 +50,16 @@ exports.handler = async (
       avg(allRatings.usefulness) as usefulness,
       count(allRatings) as ratingCount
     `,
-        { userId: sub, courseId, rating: Number(ratingValue), id: v4(), ratingType: `rating.${ratingType}` }
-    );
+    { userId: sub, courseId, rating: Number(ratingValue), id: v4(), ratingType }
+  );
 
-    await session.close();
-    await driver.close();
+  await session.close();
+  await driver.close();
 
-    return {
-        difficulty: records[0]?.get("difficulty") ?? 0,
-        timeSpent: records[0]?.get("timeSpent") ?? 0,
-        usefulness: records[0]?.get("usefulness") ?? 0,
-        ratingCount: records[0]?.get("ratingCount").low ?? 0,
-    };
+  return {
+    difficulty: records[0]?.get("difficulty") ?? 0,
+    timeSpent: records[0]?.get("timeSpent") ?? 0,
+    usefulness: records[0]?.get("usefulness") ?? 0,
+    ratingCount: records[0]?.get("ratingCount").low ?? 0,
+  };
 };
