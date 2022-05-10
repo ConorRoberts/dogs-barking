@@ -39,10 +39,14 @@ const Page = () => {
    */
   const addSemester = async () => {
     try {
-      const { data } = await axios.post(`/api/degree-plan/id/${selectedPlanId}/create-semester`, {
-        userId: user.id,
-      });
-      // setSemesters([...semesters, data.id]);
+      const { data } = await axios.post(
+        `/api/degree-plan/${selectedPlanId}/create-semester`,
+        {
+          userId: user.id,
+        },
+        { headers: { Authorization: "Bearer " + user?.token } }
+      );
+      fetchPlanData();
     } catch (error) {
       console.error(error);
     }
@@ -63,7 +67,7 @@ const Page = () => {
       setPlans([]);
     }
     setPlansLoading(false);
-  }, []);
+  }, [user]);
 
   // Get the user's plan state
   useEffect(() => {
@@ -76,20 +80,22 @@ const Page = () => {
     }
   }, [user, router, loading, fetchPlans]);
 
+  const fetchPlanData = useCallback(async () => {
+    try {
+      const { data } = await axios.get(`/api/degree-plan/${selectedPlanId}`, {
+        headers: { Authorization: `Bearer ${user?.token}` },
+      });
+      setSelectedPlanData(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [user, selectedPlanId]);
+
   // Update the state of our semesters list whenever our selected plan changes
   useEffect(() => {
     if (selectedPlanId === "none") return;
-    (async () => {
-      try {
-        const { data } = await axios.get(`/api/degree-plan/${selectedPlanId}`, {
-          headers: { Authorization: `Bearer ${user?.token}` },
-        });
-        setSelectedPlanData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, [selectedPlanId, user]);
+    fetchPlanData();
+  }, [fetchPlanData, selectedPlanId]);
 
   if (!user || plansLoading) return <LoadingScreen />;
 

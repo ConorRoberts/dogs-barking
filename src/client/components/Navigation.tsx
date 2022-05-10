@@ -85,24 +85,24 @@ const Navigation = () => {
         <div className="fixed bottom-0 left-0 right-0 dark:border-t shadow-center-md dark:border-gray-600 flex justify-evenly items-center dark:bg-gray-900 bg-white z-30 pb-4">
           <Link href="/" passHref>
             <div className="small-screen-nav-button">
-              <Home size={16} />
+              <Home size={25} />
             </div>
           </Link>
           {user ? (
             <Link href="/profile" passHref>
               <div className="small-screen-nav-button">
-                <PersonIcon size={16} />
+                <PersonIcon size={25} />
               </div>
             </Link>
           ) : (
             <Link href="/auth/sign-in" passHref>
               <div className="small-screen-nav-button">
-                <Login size={16} />
+                <Login size={25} />
               </div>
             </Link>
           )}
           <div className="small-screen-nav-button" onClick={() => setMenuOpen(true)}>
-            <Menu size={16} />
+            <Menu size={25} />
           </div>
         </div>
       </div>
