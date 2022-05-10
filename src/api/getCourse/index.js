@@ -92,9 +92,11 @@ exports.handler = async (
             .map((e) => fillTree(e.get("requirements")[1].data.id))
             .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
             .filter((e) => e !== undefined && e !== null),
-        difficulty: records[0].get("difficulty") ?? 0,
-        usefulness: records[0].get("usefulness") ?? 0,
-        timeSpent: records[0].get("timeSpent") ?? 0,
-        ratingCount: records[0].get("ratingCount")?.low ?? 0,
+        rating: {
+            difficulty: records[0].get("difficulty") ?? 0,
+            usefulness: records[0].get("usefulness") ?? 0,
+            timeSpent: records[0].get("timeSpent") ?? 0,
+            count: records[0].get("ratingCount")?.low ?? 0,
+        }
     };
 };
