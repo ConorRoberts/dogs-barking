@@ -27,7 +27,7 @@ jobs:
   send-failure-to-discord:
     runs-on: ubuntu-latest
     needs: [test-frontend]
-    if: needs.test-frontend.result == 'failure'
+    if: ${{needs.test-frontend.result == 'failure'}}
     steps:
       - name: Send failure message to Discord
         uses: fjogeleit/http-request-action@v1
@@ -54,7 +54,7 @@ jobs:
   send-success-to-discord:
     runs-on: ubuntu-latest
     needs: [test-frontend]
-    if: needs.test-frontend.result == 'success'
+    if: ${{needs.test-frontend.result == 'success'}}
     steps:
       - name: Send success message to Discord
         uses: fjogeleit/http-request-action@v1
