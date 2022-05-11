@@ -20,8 +20,7 @@ interface PageProps {
 const Page = ({ program, school, major, minor, area }: PageProps) => {
   return (
     <div>
-      <h2 className="text-center text-slate-800">{program.name ?? program.id}</h2>
-      <p className="text-center text-slate-800">{school.name}</p>
+      <h1>Program page</h1>
     </div>
   );
 };

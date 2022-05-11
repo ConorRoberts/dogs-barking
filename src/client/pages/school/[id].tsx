@@ -7,9 +7,10 @@ const Page = ({ school }) => {
   return (
     <div className="mx-auto max-w-3xl">
       <div className="text-center flex flex-col gap-1">
-        <h1>{school.name}</h1>
-        <h5 className="text-gray-600">{school.city}</h5>
-        <p className="text-gray-500">{school.abbrev}</p>
+        {/* <h1>{school.name}</h1> */}
+        <h1>School page</h1>
+        {/* <h5 className="text-gray-600">{school.city}</h5>
+        <p className="text-gray-500">{school.abbrev}</p> */}
       </div>
       <div>
         <p>Easiest Courses</p>
