@@ -5,24 +5,24 @@ const neo4j = require("neo4j-driver");
 * @description Gets the course with the given id
 */
 exports.handler = async (
-    event
+  event
 ) => {
-    console.log(event);
+  console.log(event);
 
-    const { courseId } = event.pathParameters;
-    // const headers = event.headers;
+  const { courseId } = event.pathParameters;
+  // const headers = event.headers;
 
-    if (courseId === undefined || typeof courseId !== "string") throw new Error("Invalid courseId");
+  if (courseId === undefined || typeof courseId !== "string") throw new Error("Invalid courseId");
 
-    const driver = neo4j.driver(
-        `neo4j://${process.env.NEO4J_HOST}`,
-        neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
-    );
+  const driver = neo4j.driver(
+    `neo4j://${process.env.NEO4J_HOST}`,
+    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+  );
 
-    const session = driver.session();
+  const session = driver.session();
 
-    const { records } = await session.run(
-        `
+  const { records } = await session.run(
+    `
         MATCH (course:Course {id: $courseId})
         OPTIONAL MATCH path=(course)-[:REQUIRES*]->(prereq)
 

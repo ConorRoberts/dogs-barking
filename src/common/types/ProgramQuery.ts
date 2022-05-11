@@ -26,5 +26,5 @@ interface ProgramQuery {
   
   }
   
-  export default ProgramQuery;
+export default ProgramQuery;
   

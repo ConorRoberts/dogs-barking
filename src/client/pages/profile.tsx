@@ -4,7 +4,6 @@ import LoadingScreen from "@components/LoadingScreen";
 import { AuthState } from "@redux/auth";
 import { RootState } from "@redux/store";
 import School from "@typedefs/School";
-import getSchools from "@utils/getSchools";
 import axios from "axios";
 import { ErrorMessage, Form, Formik } from "formik";
 import { AnimatePresence } from "framer-motion";
@@ -12,6 +11,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { API_URL } from "@config/config";
 
 interface PageProps {
   schools: School[];
@@ -133,7 +133,9 @@ const Page = ({ schools }: PageProps) => {
 };
 
 export const getServerSideProps = async () => {
-  const schools = await getSchools();
+  const data = await fetch(API_URL + "/school");
+  const schools = await data.json();
+
   return {
     props: {
       schools,

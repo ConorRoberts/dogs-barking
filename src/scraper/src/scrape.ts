@@ -119,7 +119,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
 
           log(chalk.blueBright(`${code} (${courseIndex++})`));
 
-          let courseObj = {
+          const courseObj = {
             id: Math.random(),
             description,
             code,
@@ -181,7 +181,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
                 const sectionCode = (await textElement.textContent()).trim().split("*")[2];
                 log(chalk.gray(`Section code: ${sectionCode}`));
 
-                let section = {
+                const section = {
                   id: Math.random(),
                   code: sectionCode,
                   term: sectionTerms[groupIndex],
@@ -195,7 +195,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
 
                 const sectionId = await textElement.getAttribute("id");
 
-                let meetings = [];
+                const meetings = [];
 
                 // Iterate over section rows
                 const tableRows = await sectionElement.$$("table tbody tr");
@@ -235,7 +235,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
                     await (await row.$(`#${sectionId}-meeting-days-${rowIndex}`))?.textContent()
                   )?.trim();
 
-                  let meeting: Meeting = {
+                  const meeting: Meeting = {
                     days: daysTextContent?.length === 0 ? [] : daysTextContent?.split("/") ?? [],
                     startTime: (
                       await (await row.$(`#${sectionId}-meeting-times-start-${rowIndex}`))?.textContent()
@@ -248,7 +248,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
 
                   let itemIndex = 0;
                   for (const e of await row.$$("td.esg-table-body__td.search-sectionlocations div span")) {
-                    let text = (await e?.textContent())?.trim();
+                    const text = (await e?.textContent())?.trim();
                     if (text?.length === 0) continue;
                     if (itemIndex === 2) meeting.location = text;
                     else if (itemIndex === 3) meeting.room = text;

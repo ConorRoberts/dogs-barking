@@ -34,7 +34,7 @@ function cleanUp(s: string) {
 
 // Find a phrase and create an associated variable
 function processPhrase(type: string, phrase: string, inString: string, reqList: any) {
-  let req: Requisite = {
+  const req: Requisite = {
     type: type,
   };
 
@@ -44,7 +44,7 @@ function processPhrase(type: string, phrase: string, inString: string, reqList: 
       req.degree = inString.split("registration in ")[1];
     } else if (phrase == "Registration in") {
       // Grabs everything after the phrase
-      let words = inString.split(" ");
+      const words = inString.split(" ");
       words.shift();
       words.shift();
       req.degree = words.join(" ");
@@ -66,7 +66,7 @@ function parseRequisites(s: string) {
   let reqList = [];
   let reqBuilder = "";
   let endDelim = ",";
-  let word = s;
+  const word = s;
 
   // Split requirements into an array
   // loop through the string and break it up according to the delimeters: ",", "(", "["
@@ -100,13 +100,13 @@ function parseRequisites(s: string) {
   // Convert from string requisites to objects
   reqList = [];
   for (let i = 0; i < out.length; i++) {
-    let subReq = out[i];
+    const subReq = out[i];
 
-    let req: Requisite = {
+    const req: Requisite = {
       type: "Course",
     };
 
-    let splitReq = subReq.split(" ");
+    const splitReq = subReq.split(" ");
 
     // Search for separators:
     // of, and, or, in
@@ -189,7 +189,7 @@ export default function reqToList(inString: string) {
     let words = inString.split(" ");
 
     // Remove: "Completion of", "Minimum of", "Take"
-    let prefix = words[0] + " " + words[1];
+    const prefix = words[0] + " " + words[1];
     if (prefix == "Minimum of" || prefix == "Completion of") {
       words.shift();
       words.shift();
@@ -202,7 +202,7 @@ export default function reqToList(inString: string) {
     // Parse and store:
     // "n credits", "n of", "including", "and", "or"
     if (words[1].replace(",", "") == "credits" && words[0][0] != "(" && words[0][0] != "[") {
-      let req: Requisite = {
+      const req: Requisite = {
         type: "Credits",
         num: parseFloat(words[0]),
       };
@@ -220,7 +220,7 @@ export default function reqToList(inString: string) {
       notParsedYet = false;
       reqList.push(req);
     } else if (words[1] == "of" && words[0][0] != "(" && words[0][0] != "[") {
-      let req: Requisite = {
+      const req: Requisite = {
         type: "of",
         num: parseFloat(words[0]),
       };

@@ -89,7 +89,7 @@ jobs:
                   {
                       "title": "Status - ${{ github.workflow }}",
                       "description": "${{ github.workflow }}. See more at the link above.",
-                      "color": ${{ needs.deploy.result == 'success' && 7405424 || 16740464 }}
+                      "color": ${{ needs.deploy.result == 'success' && 7405424 || 16740464 }},
                       "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                   }
               ]
