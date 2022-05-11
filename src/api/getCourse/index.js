@@ -78,6 +78,8 @@ exports.handler = async (
   const fillTree = (id) => {
     const node = requirements[id];
 
+    if (!node) return null;
+
     return {
       ...node,
       requirements: node?.requirements?.map((e) => fillTree(e)).filter((e) => e !== undefined && e !== null) ?? [],
