@@ -1,8 +1,6 @@
 import Course from "@typedefs/Course";
 import Program from "@typedefs/Program";
 import School from "@typedefs/School";
-import getProgram from "@utils/getProgram";
-import getProgramSchool from "@utils/getProgramSchool";
 import { NextPageContext } from "next";
 import React from "react";
 import { Edge, Node } from "react-flow-renderer";
@@ -28,17 +26,15 @@ const Page = ({ program, school, major, minor, area }: PageProps) => {
   );
 };
 
-export const getServerSideProps = async (context: NextPageContext) => {
-  const programId = context.query.programId as string;
-  const school = await getProgramSchool(programId);
-  const program = await getProgram(programId);
+// export const getServerSideProps = async (context: NextPageContext) => {
+//   const programId = context.query.programId as string;
 
-  return {
-    props: {
-      program,
-      school,
-    },
-  };
-};
+//   return {
+//     props: {
+//       program: null,
+//       school: null,
+//     },
+//   };
+// };
 
 export default Page;

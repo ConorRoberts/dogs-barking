@@ -1,7 +1,6 @@
 import MetaData from "@components/MetaData";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import CatalogFilter from "@components/CatalogFilter";
-import getNodeCounts from "@utils/getNodeCounts";
 import Link from "next/link";
 import axios from "axios";
 import PageIndex from "@components/PageIndex";
@@ -117,11 +116,9 @@ const Page = ({ counts }: PageProps) => {
   );
 };
 
-export const getServerSideProps = async () => {
-  const counts = await getNodeCounts();
-
+export const getServerSideProps = () => {
   return {
-    props: { counts },
+    props: { counts: 0 },
   };
 };
 

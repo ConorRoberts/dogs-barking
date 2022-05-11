@@ -1,5 +1,3 @@
-import getNeo4jDriver from "@utils/getNeo4jDriver";
-import getSchool from "@utils/getSchool";
 import { NextPageContext } from "next";
 
 /**
@@ -20,32 +18,32 @@ const Page = ({ school }) => {
   );
 };
 
-export const getServerSideProps = async (context: NextPageContext) => {
-  const id = context.query.id as string;
-  const driver = getNeo4jDriver();
-  const session = driver.session();
+// export const getServerSideProps = async (context: NextPageContext) => {
+//   const id = context.query.id as string;
+//   const driver = getNeo4jDriver();
+//   const session = driver.session();
 
-  const data = await session.run(
-    `
-    MATCH (school:School)-[:OFFERS]->(course:Course)-[:HAS_RATING]->(rating:Rating)
-    WHERE id(school) = $id
-    WITH course,avg(rating.difficulty) as rating, count(rating) as ratingCount
-    WITH collect({course:course, rating:rating, ratingCount:ratingCount }) as courses, min(rating) as minRating
-    UNWIND [c in courses where c.rating = minRating] as res
+//   const data = await session.run(
+//     `
+//     MATCH (school:School)-[:OFFERS]->(course:Course)-[:HAS_RATING]->(rating:Rating)
+//     WHERE id(school) = $id
+//     WITH course,avg(rating.difficulty) as rating, count(rating) as ratingCount
+//     WITH collect({course:course, rating:rating, ratingCount:ratingCount }) as courses, min(rating) as minRating
+//     UNWIND [c in courses where c.rating = minRating] as res
     
-    return res
-  `,
-    { id: +id }
-  );
+//     return res
+//   `,
+//     { id: +id }
+//   );
 
-  await session.close();
-  await driver.close();
+//   await session.close();
+//   await driver.close();
   
-  return {
-    props: {
-      school: await getSchool(id),
-    },
-  };
-};
+//   return {
+//     props: {
+//       school: await getSchool(id),
+//     },
+//   };
+// };
 
 export default Page;

@@ -2,40 +2,18 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@components/*": [
-        "components/*"
-      ],
-      "@utils/*": [
-        "utils/*"
-      ],
-      "@config/*": [
-        "config/*"
-      ],
-      "@typedefs/*": [
-        "types/*"
-      ],
-      "@hooks/*": [
-        "hooks/*"
-      ],
-      "@data/*": [
-        "data/*"
-      ],
-      "@redux/*": [
-        "redux/*"
-      ],
-      "@schema/*": [
-        "schema/*"
-      ],
-      "@pages/*": [
-        "pages/*"
-      ]
+      "@components/*": ["components/*"],
+      "@utils/*": ["utils/*"],
+      "@config/*": ["config/*"],
+      "@typedefs/*": ["types/*"],
+      "@hooks/*": ["hooks/*"],
+      "@data/*": ["data/*"],
+      "@redux/*": ["redux/*"],
+      "@schema/*": ["schema/*"],
+      "@pages/*": ["pages/*"]
     },
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -48,17 +26,9 @@
     "jsx": "preserve",
     "incremental": true,
     "downlevelIteration": true,
-    "types": [
-      "cypress"
-    ],
+    "types": ["cypress"],
     "isolatedModules": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-    , "../../old api/getNodeCounts.ts", "../../old api/createDegreePlanSemester.ts"  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
