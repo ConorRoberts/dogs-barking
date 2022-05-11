@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Auth } from "aws-amplify";
 import User from "@typedefs/User";
 import axios from "axios";
-import getToken from "@utils/getToken";
 
 /**
  * @description Signs the user in

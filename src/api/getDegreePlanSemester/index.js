@@ -3,16 +3,16 @@
 * @description description
 */
 exports.handler = async (
-    event
+  event
 ) => {
-    console.log(event);
+  console.log(event);
 
-    const body = JSON.parse(event.body ?? "{}");
-    const query = event.queryStringParameters;
-    const pathParams = event.pathParameters;
-    const headers = event.headers;
+  const body = JSON.parse(event.body ?? "{}");
+  const query = event.queryStringParameters;
+  const pathParams = event.pathParameters;
+  const headers = event.headers;
 
-    return {
-        data: "Hello World",
-    };
+  return {
+    data: "Hello World",
+  };
 };

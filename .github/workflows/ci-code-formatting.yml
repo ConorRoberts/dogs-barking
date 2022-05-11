@@ -6,15 +6,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: pnpm/action-setup@v2.1.0
-        with:
-          version: 6.0.2
-
       - name: Install modules
-        run: pnpm i
+        run: npm i
 
       - name: Run ESlint
-        run: pnpm lint
+        run: npm run lint
 
       - name: Run Prettier
-        run: pnpm format
+        run: npm run format

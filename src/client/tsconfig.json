@@ -57,7 +57,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+    , "../../old api/getNodeCounts.ts", "../../old api/createDegreePlanSemester.ts"  ],
   "exclude": [
     "node_modules"
   ]
