@@ -45,4 +45,4 @@ const PlannerCourseSearchResult = ({
   );
 };
 
-export default PlannerCourseSearchResult
+export default PlannerCourseSearchResult;

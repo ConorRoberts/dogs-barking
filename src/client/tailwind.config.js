@@ -18,7 +18,7 @@ module.exports = {
     },
   },
   plugins: [
-    require('ps-scrollbar-tailwind')
+    require("ps-scrollbar-tailwind")
   ],
 };
 

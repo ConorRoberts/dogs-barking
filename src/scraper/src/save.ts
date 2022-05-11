@@ -295,7 +295,7 @@ const save = async () => {
     const andStatements = requisiteText.match(andRegex) ?? [];
 
     // ("[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520");
-    let andCount = 0;
+    const andCount = 0;
     for (const statement of andStatements) {
       log(chalk.gray("And statement: " + statement));
       requisiteText = requisiteText.replace(statement, "and" + andCount);

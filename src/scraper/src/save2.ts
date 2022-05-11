@@ -279,7 +279,7 @@ const save = async () => {
   // Polling requisite data and creating relationships between nodes
   for (const course of data.courses) {
     // Handle requisites
-    let requisiteText = course.requisites.replace("- Must be completed prior to taking this course.", "").trim();
+    const requisiteText = course.requisites.replace("- Must be completed prior to taking this course.", "").trim();
 
     log(chalk.gray(requisiteText));
 
