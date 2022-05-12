@@ -27,7 +27,9 @@ exports.handler = async (
     `
         MATCH (user:User {id: $userId})-[:HAS]->(plan: DegreePlan)
 
-        RETURN properties(plan) as plan,[(plan)-[:CONTAINS]->(semester:DegreePlanSemester) | {
+        RETURN 
+        properties(plan) as plan,
+        [(plan)-[:CONTAINS]->(semester:DegreePlanSemester) | {
           semester: properties(semester),
           courses: [(semester)-[:CONTAINS]->(course:Course) | properties(course)]
         }] as semesters
@@ -38,8 +40,8 @@ exports.handler = async (
   await session.close();
   await driver.close();
 
-  return {
-    ...records[0].get("plan"),
-    semesters: records[0].get("semesters").map((e) => ({ ...e.semester, courses: e.courses })),
-  };
-};
+  return records.map(e => ({
+    ...e.get("plan"),
+    semesters: records[0].get("semesters").map((s) => ({ ...s.semester, courses: e.courses }))
+  }));
+}
