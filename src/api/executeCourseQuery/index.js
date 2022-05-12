@@ -48,7 +48,7 @@ exports.handler = async (
 
       with collect(course) as courses, count (course) as total
       unwind courses as course
-      return properties(course) as course, total.low as total
+      return properties(course) as course, total
       ${(query?.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir))
       ? `ORDER BY $sortKey $sortDir`
       : ""
@@ -62,5 +62,5 @@ exports.handler = async (
   await db.close();
   await driver.close();
 
-  return records.map((e) => ({ ...e.get("course"), total: e.get("total") }));
+  return records.map((e) => ({ ...e.get("course"), total: e.get("total").low }));
 };
