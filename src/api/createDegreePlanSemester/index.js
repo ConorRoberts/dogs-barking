@@ -36,5 +36,5 @@ exports.handler = async (
     { planId, semesterId: v4(), year: new Date().getFullYear(), semester: "winter", userId: sub }
   );
 
-  return records[0].get("semester");
+  return { ...records[0].get("semester"), courses: [] };
 };
