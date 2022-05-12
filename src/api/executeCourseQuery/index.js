@@ -20,55 +20,47 @@ exports.handler = async (
   );
 
   const session = driver.session();
+  const filters = [];
 
-  let str = "WHERE";
+  if (query?.degree?.length > 0) filters.push("program.degree = $degree");
+  if (query?.school?.length > 0) filters.push("school.short = $school");
+  if (query?.scope === "undergrad") filters.push("course.number < 5000");
+  if (query?.scope === "grad") filters.push("course.number > 5000");
+  if (query?.code?.length > 0) filters.push("course.code STARTS WITH $code");
+  if (query?.department?.length > 0) filters.push("course.department = $department");
+  if (!isNaN(query?.weight)) filters.push("course.credits = $weight");
+  if (!isNaN(query?.number)) filters.push("course.number = $number");
+  if (query?.name?.length > 0) filters.push("course.name STARTS WITH $name");
+  if (query?.description?.length > 0) filters.push("course.description =~ \".*${query.description}.*\"");
 
-  if (query.degree?.length > 0) str += " program.degree = $degree AND";
-  if (query.school?.length > 0) str += " school.short = $school AND";
-  if (query.scope === "undergrad") str += " course.number < 5000 AND";
-  if (query.scope === "grad") str += " course.number > 5000 AND";
-  if (query.code?.length > 0) str += " course.code STARTS WITH $code AND";
-  if (query.department?.length > 0) str += " course.department = $department AND";
-  if (!isNaN(query.weight)) str += " course.credits = $weight AND";
-  if (!isNaN(query.number)) str += " course.number = $number AND";
-  if (query.name?.length > 0) str += " course.name STARTS WITH $name AND";
-  if (query.description?.length > 0) str += " course.description =~ \".*${query.description}.*\"";
-
-  // Remove trailing 'WHERE' or 'AND' if any
-  const index = str.lastIndexOf(" ");
-  const lastWord = str.substring(index + 1, str.length);
-
-  if (lastWord === "WHERE" || lastWord === "AND")
-    str = str.substring(0, index);
-
-  const data = await session.run(
+  const { records } = await session.run(
     `
       MATCH (school:School)
       -[:OFFERS]->
       ${query.degree?.length > 0 ? "(program: Program)-[:MAJOR_REQUIRES]->" : ""}
       (course: Course)
-      ${query.prerequisites?.length > 0
-    ? `-[:HAS_PREREQUISITE]->(pc: Course) WHERE pc.id IN $prerequisites`
-    : ""
-}
+      ${query?.prerequisites?.length > 0
+      ? `-[:HAS_PREREQUISITE]->(pc: Course) WHERE pc.id IN $prerequisites`
+      : ""
+    }
 
-      ${str}
+      ${filters.join(" AND ")}
 
       with collect(course) as courses, count (course) as total
       unwind courses as course
       return properties(course) as course, total.low as total
-      ${query.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir)
-    ? `ORDER BY $sortKey $sortDir`
-    : ""
-}
+      ${(query?.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir))
+      ? `ORDER BY $sortKey $sortDir`
+      : ""
+    }
 
-      SKIP($skip)
-      LIMIT($limit)
+      SKIP $skip
+      LIMIT $limit
     `,
-    { ...query, sortKey: `course.${query.sortKey}`, limit: Number(query.pageSize), skip: Number(query.pageNum) * Number(query.pageSize) }
+    { ...query, sortKey: `course.${query?.sortKey}`, limit: Number(query?.pageSize), skip: Number(query?.pageNum) * Number(query?.pageSize) }
   );
   await db.close();
   await driver.close();
 
-  return data.records.map((e) => ({ ...e.get("course"), total: e.get("total") }));
+  return records.map((e) => ({ ...e.get("course"), total: e.get("total") }));
 };
