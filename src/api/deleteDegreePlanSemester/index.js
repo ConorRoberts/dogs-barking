@@ -10,13 +10,12 @@ exports.handler = async (
 ) => {
   console.log(event);
 
-  const body = JSON.parse(event.body ?? "{}");
-  const { semesterId } = event.queryStringParameters;
+  const { semesterId } = event.pathParameters;
   const headers = event.headers;
 
   if (semesterId === undefined || typeof semesterId !== "string") throw new Error("Invalid semester id");
 
-  const token = jwt.decode(headers.authorization.replace("Bearer ", ""));
+  const { sub } = jwt.decode(headers.authorization.replace("Bearer ", ""));
 
   const driver = neo4j.driver(
     `neo4j://${process.env.NEO4J_HOST}`,
@@ -29,7 +28,7 @@ exports.handler = async (
           MATCH (user:User {id: $userId})-[:HAS]->(dp:DegreePlan)-[:CONTAINS]->(semester: DegreePlanSemester {id: $semesterId})
           DETACH DELETE semester
       `,
-    { semesterId, userId: token.sub }
+    { semesterId, userId: sub }
   );
   await session.close();
   await driver.close();
