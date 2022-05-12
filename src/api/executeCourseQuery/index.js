@@ -37,7 +37,7 @@ exports.handler = async (
     `
       MATCH (school:School)
       -[:OFFERS]->
-      ${query.degree?.length > 0 ? "(program: Program)-[:MAJOR_REQUIRES]->" : ""}
+      ${query?.degree?.length > 0 ? "(program: Program)-[:MAJOR_REQUIRES]->" : ""}
       (course: Course)
       ${query?.prerequisites?.length > 0
       ? `-[:HAS_PREREQUISITE]->(pc: Course) WHERE pc.id IN $prerequisites`
