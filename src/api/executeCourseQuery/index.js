@@ -59,7 +59,7 @@ exports.handler = async (
       SKIP $skip
       LIMIT $limit
     `,
-    { ...query, sortKey: `course.${sortKey}`, limit: Number(pageSize), skip: Number(pageNum) * Number(pageSize), sortDir, limit, skip }
+    { ...query, sortKey: `course.${sortKey}`, limit: parseInt(pageSize), skip: parseInt(pageNum) * parseInt(pageSize), sortDir, limit, skip }
   );
   await db.close();
   await driver.close();
