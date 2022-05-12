@@ -56,8 +56,8 @@ exports.handler = async (
       : ""
     }
 
-      SKIP $skip
-      LIMIT $limit
+      SKIP ($skip)
+      LIMIT ($limit)
     `,
     { ...query, sortKey: `course.${sortKey}`, limit: parseInt(pageSize), skip: parseInt(pageNum) * parseInt(pageSize), sortDir, limit, skip }
   );
