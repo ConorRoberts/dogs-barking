@@ -24,18 +24,19 @@ exports.handler = async (
     `neo4j://${process.env.NEO4J_HOST}`,
     neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
   );
-  
+
   const planId = v4();
   const session = driver.session();
   const { records } = await session.run(
     `
         MERGE (user:User {id: $userId})-[:HAS]->(plan:DegreePlan {
-            id: $planId
+            id: $planId,
+            name: $name
         })
 
         RETURN properties(plan) as plan
         `,
-    { userId: sub, planId, planName: `New Plan ${planId.slice(0, 4)}` }
+    { userId: sub, planId, name: `New Plan ${planId.slice(0, 4)}` }
   );
   await session.close();
   await driver.close();
