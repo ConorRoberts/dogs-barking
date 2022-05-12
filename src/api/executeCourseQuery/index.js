@@ -22,6 +22,8 @@ exports.handler = async (
   const session = driver.session();
   const filters = [];
 
+  const { pageNum = 0, pageSize = 50, sortKey = "name", sortDir = "desc", limit = 50, skip = 0 } = query;
+
   if (query?.degree?.length > 0) filters.push("program.degree = $degree");
   if (query?.school?.length > 0) filters.push("school.short = $school");
   if (query?.scope === "undergrad") filters.push("course.number < 5000");
