@@ -10,9 +10,9 @@ interface Props {
 
 const PlannerYear = ({ year, semesters }: Props) => {
   return (
-    <div>
+    <div className="">
       <h2>{year}</h2>
-      <div className="overflow-x-auto flex gap-4">
+      <div className="overflow-x-scroll flex gap-4">
         {semesters.map((semester) => (
           <PlannerSemester key={semester.id} data={semester} />
         ))}

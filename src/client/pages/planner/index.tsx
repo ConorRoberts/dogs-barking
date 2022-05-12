@@ -10,13 +10,13 @@ import PlannerSemester from "@components/PlannerSemester";
 import DegreePlanData from "@typedefs/DegreePlan";
 import { Button, Select } from "@components/form";
 import { groupBy } from "lodash";
-import getToken from "@utils/getToken";
+import PlannerYear from "@components/PlannerYear";
 
 const Page = () => {
   const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
   const router = useRouter();
   const [plansLoading, setPlansLoading] = useState(true);
-  const [plans, setPlans] = useState<{ id: string; semesters: string[] }[]>([]);
+  const [plans, setPlans] = useState<DegreePlanData[]>([]);
   const [selectedPlanId, setSelectedPlanId] = useState("none");
   const [selectedPlanData, setSelectedPlanData] = useState<DegreePlanData>(null);
 
@@ -25,9 +25,13 @@ const Page = () => {
    */
   const createPlan = async () => {
     try {
-      await axios.post(`/api/degree-plan/new`, {
-        userId: user.id,
-      });
+      await axios.post(
+        `/api/degree-plan/new`,
+        {
+          userId: user.id,
+        },
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
       await fetchPlans();
     } catch (error) {
       console.error(error);
@@ -39,7 +43,8 @@ const Page = () => {
    */
   const addSemester = async () => {
     try {
-      const { data } = await axios.post(
+      // TODO - Append this new semester data to the selected plan
+      await axios.post(
         `/api/degree-plan/${selectedPlanId}/create-semester`,
         {
           userId: user.id,
@@ -69,17 +74,6 @@ const Page = () => {
     setPlansLoading(false);
   }, [user]);
 
-  // Get the user's plan state
-  useEffect(() => {
-    if (loading) return;
-
-    if (user) {
-      fetchPlans();
-    } else {
-      router.push("/error/403");
-    }
-  }, [user, router, loading, fetchPlans]);
-
   const fetchPlanData = useCallback(async () => {
     try {
       const { data } = await axios.get(`/api/degree-plan/${selectedPlanId}`, {
@@ -90,6 +84,17 @@ const Page = () => {
       console.error(error);
     }
   }, [user, selectedPlanId]);
+
+  // Get the user's plan state
+  useEffect(() => {
+    if (loading) return;
+
+    if (user) {
+      fetchPlans();
+    } else {
+      router.push("/error/403");
+    }
+  }, [user, router, loading, fetchPlans]);
 
   // Update the state of our semesters list whenever our selected plan changes
   useEffect(() => {
@@ -112,15 +117,15 @@ const Page = () => {
         <option value="none">Select a plan</option>
         {plans.map((plan) => (
           <option key={plan.id} value={plan.id}>
-            {plan.id}
+            {plan.name ?? "My Plan"} {plan.id}
           </option>
         ))}
       </Select>
 
       <div className="flex flex-col gap-8">
         {selectedPlanId !== "none" &&
-          selectedPlanData?.semesters?.map((semester, index) => (
-            <PlannerSemester data={semester} key={`semester-${semester}-${index}`} />
+          Object.entries(groupBy(selectedPlanData?.semesters, "year"))?.map(([year, semesters], index) => (
+            <PlannerYear key={`year-${year}-${index}`} year={Number(year)} semesters={semesters} />
           ))}
         <PlusIcon
           size={30}

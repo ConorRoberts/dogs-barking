@@ -26,16 +26,11 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
     }
   };
 
-  // Fetch the semester data on mount
-  // useEffect(() => {
-  //   fetchSemesterData();
-  // }, [fetchSemesterData]);
-
   // If we have no data, we should let the user know it's loading
   if (!semesterData) return <LoadingIcon className="animate-spin mx-auto" />;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 bg-white rounded-xl shadow-center-sm p-2 w-64 h-64 flex-none">
       <PlannerSemesterDeletePrompt
         onClose={() => setShowDeletePrompt(false)}
         semester={id}
@@ -52,11 +47,11 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
         <h3 className="capitalize">
           {semesterData.semester} &apos;{semesterData.year % 2000}
         </h3>
-        <TrashIcon
+        {/* <TrashIcon
           size={20}
           className="text-gray-500 hover:text-gray-600 transition cursor-pointer"
           onClick={() => setShowDeletePrompt(true)}
-        />
+        /> */}
       </div>
       <div className="flex flex-col gap-px">
         {semesterData.courses.map((e, index) => (
@@ -64,10 +59,10 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
         ))}
       </div>
       <div className="flex justify-center">
-        <Button variant="outline" onClick={() => setShowCourseSelect(true)}>
+        {/* <Button variant="outline" onClick={() => setShowCourseSelect(true)}>
           <PlusIcon size={20} />
           <p>Add Course</p>
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
