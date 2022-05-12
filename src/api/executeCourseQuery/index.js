@@ -19,11 +19,10 @@ exports.handler = async (
     neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
   );
 
-  const session = driver.session();
   const filters = [];
-
+  
   const { pageNum = 0, pageSize = 50, sortKey = "name", sortDir = "desc", limit = 50, skip = 0 } = query ?? {};
-
+  
   if (query?.degree?.length > 0) filters.push("program.degree = $degree");
   if (query?.school?.length > 0) filters.push("school.short = $school");
   if (query?.scope === "undergrad") filters.push("course.number < 5000");
@@ -34,7 +33,8 @@ exports.handler = async (
   if (!isNaN(query?.number)) filters.push("course.number = $number");
   if (query?.name?.length > 0) filters.push("course.name STARTS WITH $name");
   if (query?.description?.length > 0) filters.push("course.description =~ \".*${query.description}.*\"");
-
+  
+  const session = driver.session();
   const { records } = await session.run(
     `
       MATCH (school:School)
@@ -61,7 +61,7 @@ exports.handler = async (
     `,
     { ...query, sortKey: `course.${sortKey}`, limit: parseInt(pageSize), skip: parseInt(pageNum) * parseInt(pageSize), sortDir, limit, skip }
   );
-  await db.close();
+  await session.close();
   await driver.close();
 
   return records.map((e) => ({ ...e.get("course"), total: e.get("total").low }));
