@@ -7,6 +7,10 @@ import Rating from "@components/Rating";
 import Link from "next/link";
 import MetaData from "@components/MetaData";
 import { API_URL } from "@config/config";
+import courseSchema from "@schema/courseSchema";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import LoadingScreen from "@components/LoadingScreen";
 
 interface PageProps {
   course: Course;
@@ -15,6 +19,14 @@ interface PageProps {
 }
 
 const Page = ({ course, nodes, edges }: PageProps) => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!course) router.push("/error/404");
+  }, [router, course]);
+
+  if (!course) return <LoadingScreen />;
+
   return (
     <div className="mx-auto max-w-4xl w-full flex flex-col gap-8 p-2">
       <MetaData description={course.description} title={`${course.name} (${course.code})`} />
@@ -62,8 +74,20 @@ const Page = ({ course, nodes, edges }: PageProps) => {
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const id = context.query.id as string;
-  const data = await fetch(`${API_URL}/${id}`, { method: "GET" });
-  const course = await data.json();
+  const data = await fetch(`${API_URL}/course/${id}`, { method: "GET" });
+  const course: Course = await data.json();
+
+  // We couldn't find course or course isn't a valid course
+  if (!courseSchema.isValidSync(course)) {
+    return {
+      props: {
+        course: null,
+        nodes: [],
+        edges: [],
+      },
+    };
+  }
+
   const { nodes, edges } = createPrerequisiteGraph(course);
 
   return {
