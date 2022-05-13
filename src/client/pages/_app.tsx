@@ -12,9 +12,11 @@ import LoadingScreen from "@components/LoadingScreen";
 Amplify.configure(config);
 
 const App = ({ Component, pageProps }) => {
-  const { loading } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { loading, user } = useSelector<RootState, AuthState>((state) => state.auth);
 
   const dispatch = useDispatch();
+
+  const pendingAuth = loading && !user;
 
   useEffect(() => {
     dispatch(signIn());
@@ -46,8 +48,8 @@ const App = ({ Component, pageProps }) => {
       <div
         className="bg-gray-100 dark:bg-gray-900 text-black dark:text-white min-h-screen md:pt-24 pb-24 md:pb-0 relative flex flex-col"
         id="app">
-        {!loading && <Navigation />}
-        {loading ? <LoadingScreen /> : <Component {...pageProps} />}
+        {!pendingAuth && <Navigation />}
+        {pendingAuth ? <LoadingScreen /> : <Component {...pageProps} />}
       </div>
     </>
   );
