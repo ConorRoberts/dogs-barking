@@ -95,7 +95,7 @@ exports.handler = async (
     school: records[0].get("school"),
     type: "Course",
     requirements: records
-      .map((e) => fillTree(e.get("requirements").length > 1 ? e.get("requirements")[1]?.data?.id : null))
+      .map((e) => fillTree(e.get("requirements")?.length > 1 ? e.get("requirements")[1]?.data?.id : null))
       .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
       .filter((e) => e !== undefined && e !== null),
     rating: {
