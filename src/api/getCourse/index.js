@@ -89,7 +89,7 @@ exports.handler = async (
       requirements: node?.requirements?.map((e) => fillTree(e)).filter((e) => e !== undefined && e !== null) ?? [],
     };
   };
-  console.log(records[0].get("requirements").map(e => fillTree(e.data.id)).filter((e) => e !== undefined && e !== null));
+  console.log(records.map(e=>e.get("requirements")));
 
   return {
     ...records[0].get("course"),
