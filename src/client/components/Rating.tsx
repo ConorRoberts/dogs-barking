@@ -1,6 +1,5 @@
 import { AuthState } from "@redux/auth";
 import { RootState } from "@redux/store";
-import getToken from "@utils/getToken";
 import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
