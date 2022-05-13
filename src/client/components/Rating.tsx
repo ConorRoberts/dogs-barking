@@ -20,8 +20,9 @@ const Rating = ({ courseId, ratingType, initialRating }: RatingProps) => {
 
   // Update rating on backend
   const submitRating = async ({ ratingValue }: { ratingValue: number }) => {
-    setUpdateLoading(true);
     if (!user) return;
+    
+    setUpdateLoading(true);
     setMouseIndex(-1);
     try {
       const { data } = await axios.post(
