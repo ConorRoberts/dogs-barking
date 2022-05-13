@@ -23,7 +23,7 @@ exports.handler = async (
   const session = driver.session();
   const result = await session.run(
     `
-        MATCH (user:User {id: $userId})-[]->(semester:DegreePlanSemester { id: $semesterId })
+        MATCH (user:User {id: $userId})-[:HAS]->(:DegreePlan)-[:CONTAINS]->(semester:DegreePlanSemester { id: $semesterId })
 
         UNWIND $courses as course
         MATCH (c:Course {id: course})
