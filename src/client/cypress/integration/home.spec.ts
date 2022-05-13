@@ -16,16 +16,14 @@ describe("Course search autocomplete provides valid suggestions", () => {
   });
 
   describe("Test /course/{id} - CIS2750", () => {
+
     before(() => {
       cy.get("#home-course-search-input").type("CIS2750");
-
       cy.get("#home-course-search-results > *").first().click();
     });
-    //  Fetch some random course id before tests
 
-    // TODO
     it("Title should be course name", () => {
-      expect(true).to.be.true;
+      cy.get("h2").should("contain", "CIS2750");
     });
   });
 });
