@@ -12,7 +12,7 @@ exports.handler = async (
 
   const { courses } = JSON.parse(event.body ?? "{}");
   const { semesterId } = event.pathParameters;
-  const {authorization} = event.headers;
+  const { authorization } = event.headers;
 
   const { sub } = jwt.decode(authorization.replace("Bearer ", ""));
 
@@ -21,23 +21,27 @@ exports.handler = async (
     neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
   );
   const session = driver.session();
-  const result = await session.run(
-    `
-        MATCH (user:User {id: $userId})-[:HAS]->(:DegreePlan)-[:CONTAINS]->(semester:DegreePlanSemester { id: $semesterId })
+  try {
+    const result = await session.run(
+      `
+          MATCH (user:User {id: $userId})-[:HAS]->(:DegreePlan)-[:CONTAINS]->(semester:DegreePlanSemester { id: $semesterId })
+  
+          UNWIND $courses as course
+          MATCH (c:Course {id: course})
+  
+          MERGE (semester)-[:CONTAINS]->(c)
+        `,
+      { semesterId, courses, userId: sub }
+    );
+    console.log(result);
+    await session.close();
+    await driver.close();
 
-        UNWIND $courses as course
-        MATCH (c:Course {id: course})
-
-        MERGE (semester)-[:CONTAINS]->(c)
-      `,
-    { semesterId, courses, userId: sub }
-  );
-  console.log(result);
-  await session.close();
-  await driver.close();
-
-  return {
-    statusCode: 201,
-    body: {}
-  };
+    return {
+      statusCode: 201,
+      body: {}
+    };
+  } catch (error) {
+    console.error(error);
+  }
 };
