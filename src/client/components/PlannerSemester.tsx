@@ -1,46 +1,84 @@
 import { PlannerSemesterData } from "@typedefs/DegreePlan";
-import { useState } from "react";
-import { Button } from "./form";
-import { LoadingIcon, PlusIcon, TrashIcon } from "./Icons";
+import { FormEvent, useState } from "react";
+import { CloseIcon, LoadingIcon, PencilIcon, PlusIcon, SaveIcon } from "./Icons";
 import axios from "axios";
 import PlannerSemesterCourse from "./PlannerSemesterCourse";
 import PlannerSemesterCourseSearch from "./PlannerSemesterCourseSearch";
 import PlannerSemesterDeletePrompt from "./PlannerSemesterDeletePrompt";
+import { Button, Input, Select } from "./form";
+import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
+import { RootState } from "@redux/store";
+import { AuthState } from "@redux/auth";
 
 interface PlannerSemesterProps {
   data: PlannerSemesterData;
+  deleteSemester: (semesterId: string) => void;
 }
-const PlannerSemester = ({ data }: PlannerSemesterProps) => {
+const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
   const { id } = data;
 
-  const [semesterData, setSemesterData] = useState<PlannerSemesterData | null>(data);
+  const [semesterData, setSemesterData] = useState<PlannerSemesterData>(data);
+  const [editState, setEditState] = useState(data);
+  const [editing, setEditing] = useState(false);
   const [showCourseSelect, setShowCourseSelect] = useState(false);
   const [showDeletePrompt, setShowDeletePrompt] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
 
   const fetchSemesterData = async () => {
+    setLoading(true);
     try {
-      const { data } = await axios.get(`/api/degree-plan/semester/id/${id}`);
+      const { data } = await axios.get(`/api/degree-plan/semester/${id}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
       setSemesterData(data);
     } catch (error) {
       console.error(error);
     }
+    setLoading(false);
   };
 
-  // Fetch the semester data on mount
-  // useEffect(() => {
-  //   fetchSemesterData();
-  // }, [fetchSemesterData]);
+  const handleSemesterUpdate = async () => {
+    setEditLoading(true);
+
+    try {
+      const { semester, year } = editState;
+      const { data } = await axios.post(
+        `/api/degree-plan/semester/${id}`,
+        {
+          data: {
+            semester,
+            year,
+          },
+        },
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
+
+      setEditing(false);
+      setSemesterData(data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    setEditLoading(false);
+  };
 
   // If we have no data, we should let the user know it's loading
   if (!semesterData) return <LoadingIcon className="animate-spin mx-auto" />;
 
   return (
-    <div className="flex flex-col gap-4">
+    <motion.div
+      className="flex flex-col gap-4 bg-white dark:bg-gray-800 rounded-xl shadow-center-sm p-2 w-64 min-h-[256px] flex-none m-2"
+      initial={{ translateX: "200%" }}
+      animate={{ translateX: "0%" }}
+      transition={{ duration: 0.4 }}>
       <PlannerSemesterDeletePrompt
         onClose={() => setShowDeletePrompt(false)}
         semester={id}
         open={showDeletePrompt}
-        onSubmit={() => fetchSemesterData()}
+        onSubmit={() => deleteSemester(id)}
       />
       <PlannerSemesterCourseSearch
         open={showCourseSelect}
@@ -49,27 +87,58 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
         semester={id}
       />
       <div className="flex justify-between gap-4 items-center">
-        <h3 className="capitalize">
-          {semesterData.semester} &apos;{semesterData.year % 2000}
-        </h3>
-        <TrashIcon
-          size={20}
-          className="text-gray-500 hover:text-gray-600 transition cursor-pointer"
-          onClick={() => setShowDeletePrompt(true)}
-        />
+        {!editing && (
+          <h3 className="capitalize">
+            {semesterData.semester} &apos;{semesterData.year % 2000}
+          </h3>
+        )}
+        {editing && (
+          <div className="flex-1 grid grid-cols-5 gap-2">
+            <div className="col-span-3">
+              <Select
+                value={editState.semester}
+                onChange={(e) => setEditState({ ...editState, semester: e.target.value })}>
+                <option value="winter">Winter</option>
+                <option value="summer">Summer</option>
+                <option value="fall">Fall</option>
+              </Select>
+            </div>
+            <div className="col-span-2">
+              <Input
+                value={editState.year}
+                onChange={(e) => setEditState({ ...editState, year: parseInt(e.target.value) })}
+                type="number"
+              />
+            </div>
+          </div>
+        )}
+        {loading && <LoadingIcon size={18} className="text-gray-500 hover:text-gray-600 animate-spin" />}
+        {editing ? (
+          <SaveIcon
+            size={18}
+            className="text-gray-500 hover:text-gray-600 transition cursor-pointer"
+            onClick={handleSemesterUpdate}
+          />
+        ) : (
+          <PencilIcon
+            size={18}
+            className="text-gray-500 hover:text-gray-600 transition cursor-pointer"
+            onClick={() => setEditing(true)}
+          />
+        )}
       </div>
       <div className="flex flex-col gap-px">
         {semesterData.courses.map((e, index) => (
           <PlannerSemesterCourse key={`${id}-${e.id}-${index}`} course={e} semester={id} />
         ))}
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-auto">
         <Button variant="outline" onClick={() => setShowCourseSelect(true)}>
           <PlusIcon size={20} />
           <p>Add Course</p>
         </Button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

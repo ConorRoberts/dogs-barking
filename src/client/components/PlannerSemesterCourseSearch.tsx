@@ -1,7 +1,10 @@
 import useSearch from "@hooks/useSearch";
+import { AuthState } from "@redux/auth";
+import { RootState } from "@redux/store";
 import Course from "@typedefs/Course";
 import axios from "axios";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Button, Input, Modal } from "./form";
 import PlannerCourseSearchResult from "./PlannerCourseSearchResult";
 
@@ -16,14 +19,21 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
   const [searchText, setSearchText] = useState("");
   const { results } = useSearch(searchText);
   const [coursesToAdd, setCoursesToAdd] = useState([]);
+  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
 
   const credits = coursesToAdd.reduce((acc, c) => acc + c.credits, 0);
 
   const handleSubmit = async () => {
     try {
-      await axios.post(`/api/degree-plan/semester/id/${semester}/courses`, {
-        courses: coursesToAdd.map((e) => e.id),
-      });
+      await axios.post(
+        `/api/degree-plan/semester/${semester}/courses`,
+        {
+          courses: coursesToAdd.map((e) => e.id),
+        },
+        {
+          headers: { Authorization: `Bearer ${user.token}` },
+        }
+      );
       setCoursesToAdd([]);
 
       onSubmit();
@@ -43,7 +53,9 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
       setCoursesToAdd([...new Set([...coursesToAdd, course])]);
     }
   };
+
   if (!open) return null;
+
   return (
     <Modal onClose={() => onClose()}>
       <div className="relative mx-auto max-w-md w-full flex flex-col gap-4">
@@ -60,7 +72,7 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
           <h4>Selected ({credits})</h4>
           <div className="flex flex-col gap-2">
             {coursesToAdd.map((e) => (
-              <p key={`course-to-add-${e.code}`} className="bg-white rounded-md py-1 border border-gray-200 px-4">
+              <p key={`course-to-add-${e.code}`} className="bg-white dark:bg-gray-800 rounded-md py-1 border border-gray-200 px-4 dark:border-gray-600">
                 {e.code}
               </p>
             ))}

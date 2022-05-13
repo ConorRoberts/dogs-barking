@@ -17,7 +17,7 @@ interface PageProps {
   };
 }
 
-const Page = ({ counts }: PageProps) => {
+const Page = () => {
   const { filters, pageState, type, scope } = useSelector<CatalogState, CatalogState>((state) => state);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -29,36 +29,25 @@ const Page = ({ counts }: PageProps) => {
       setLoading(true);
 
       try {
-        if (type === "courses") {
-          const res = await axios.get("/api/course", { params: { ...filters, ...pageState, scope } });
-          // Set total number of nodes returned instead of all nodes in the database
-          if (res.data.length > 0) {
-            setTotal(res.data[0].total);
-          } else {
-            setTotal(0);
-          }
-          setData(res.data);
-        } else if (type === "programs") {
-          const res = await axios.get("/api/program", { params: { ...filters, ...pageState } });
-          // Set total number of nodes returned instead of all nodes in the database
-          if (res.data.length > 0) {
-            setTotal(res.data[0].total);
-          } else {
-            setTotal(0);
-          }
-          setData(res.data);
+        const res = await axios.get("/api/course", { params: { ...filters, ...pageState, scope } });
+        // Set total number of nodes returned instead of all nodes in the database
+        if (res.data.length > 0) {
+          setTotal(res.data[0].total);
+        } else {
+          setTotal(0);
         }
+        setData(res.data);
       } catch (error) {
         setData([]);
       }
       setLoading(false);
     },
-    [filters, pageState, scope, type]
+    [filters, pageState, scope]
   );
 
   useEffect(() => {
     handleSubmit();
-  }, [pageState.pageNum, type, handleSubmit]);
+  }, [type, handleSubmit]);
 
   return (
     <div className="flex flex-col gap-4 mx-auto max-w-6xl w-full">
@@ -68,9 +57,9 @@ const Page = ({ counts }: PageProps) => {
       </div>
       <div className="flex gap-4">
         <div className="flex-1">
-          <div className="flex justify-center my-2">
+          {/* <div className="flex justify-center my-2">
             <PageIndex totalEntries={total} />
-          </div>
+          </div> */}
           <div>
             {loading && <LoadingIcon size={45} className="animate-spin text-gray-500" />}
             {!loading && (
@@ -110,7 +99,7 @@ const Page = ({ counts }: PageProps) => {
             )}
           </div>
         </div>
-        <CatalogFilter handleSubmit={handleSubmit} />
+        {/* <CatalogFilter handleSubmit={handleSubmit} /> */}
       </div>
     </div>
   );
@@ -118,11 +107,11 @@ const Page = ({ counts }: PageProps) => {
 
 export const getServerSideProps = () => {
   return {
-    props: { counts: 0 },
+    props: { counts: { courses: 0, programs: 0 } },
   };
 };
 
-const WrappedPage = (props: PageProps) => {
+const WrappedPage = (props) => {
   return (
     <Provider store={catalogStore}>
       <Page {...props} />

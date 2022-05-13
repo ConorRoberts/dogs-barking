@@ -2,7 +2,8 @@ import Course from "./Course";
 
 interface DegreePlanData {
   id: string;
-  semesters: PlannerSemesterData[];
+  name: string;
+  semesters?: PlannerSemesterData[];
 }
 
 export interface PlannerSemesterData {

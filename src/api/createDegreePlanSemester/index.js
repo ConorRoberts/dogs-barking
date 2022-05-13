@@ -12,11 +12,12 @@ exports.handler = async (
   console.log(event);
 
   const { planId } = event.pathParameters;
-  const headers = event.headers;
+  const { authorization } = event.headers;
+  const { data } = JSON.parse(event.body ?? "{}");
 
   if (planId === undefined || typeof planId !== "string") throw new Error("Invalid id");
 
-  const { sub } = jwt.decode(headers.authorization.replace("Bearer ", ""));
+  const { sub } = jwt.decode(authorization.replace("Bearer ", ""));
 
   const driver = neo4j.driver(
     `neo4j://${process.env.NEO4J_HOST}`,
@@ -29,12 +30,23 @@ exports.handler = async (
     `
           MATCH (user: User {id: $userId})-[]->(dp:DegreePlan {id: $planId})
 
-          CREATE (dp)-[:CONTAINS]->(s:DegreePlanSemester {id: $semesterId, year: $year, semester: $semester})
+          CREATE (dp)-[:CONTAINS]->(s:DegreePlanSemester $data)
 
           RETURN properties(s) as semester
       `,
-    { planId, semesterId: v4(), year: new Date().getFullYear(), semester: "winter", userId: sub }
+    {
+      planId,
+      userId: sub,
+      data: {
+        year: data?.year ?? new Date().getFullYear(),
+        semester: data?.semester ?? "winter",
+        id: v4()
+      }
+    }
   );
 
-  return records[0].get("semester");
+  return {
+    ...records[0].get("semester"),
+    courses: []
+  };
 };

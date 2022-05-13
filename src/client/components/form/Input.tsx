@@ -15,7 +15,7 @@ const Input = forwardRef(({ error, field, ...props }: InputProps, ref: Forwarded
   ${props.className} focus:ring-0 focus:outline-none appearance-none
   ${
     variant !== "blank" &&
-    `text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 rounded-md w-full border py-2 px-2 
+    `text-gray-800 dark:text-gray-100 bg-white dark:bg-gray-900 rounded-md w-full border h-10 px-2 
   ${error ? "border-red-500" : "border-gray-300 focus:border-indigo-300 border-gray-300 dark:border-gray-700"}`
   }
   ${props?.disabled && "filter brightness-50"}`;

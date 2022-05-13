@@ -1,7 +1,7 @@
 const neo4j = require("neo4j-driver");
 
 /**
-* @method method
+* @method GET
 * @description Gets the course with the given id
 */
 exports.handler = async (
@@ -41,13 +41,15 @@ exports.handler = async (
     { courseId }
   );
 
+  console.log(records[0].get("course"));
+
   await session.close();
   await driver.close();
 
   // This is to store the requirement tree. Object format is fastest for retrieval and duplicate prevention.
   const requirements = {};
 
-  if (records[0].get("requirements") !== null) {
+  if (records[0]?.get("requirements") !== null) {
     records
       .map((e) => e.get("requirements"))
       .forEach((list) => {
@@ -75,12 +77,16 @@ exports.handler = async (
       });
   }
 
+  console.log(requirements);
+
   const fillTree = (id) => {
     const node = requirements[id];
 
+    if (!node) return null;
+
     return {
       ...node,
-      requirements: node.requirements.map((e) => fillTree(e)).filter((e) => e !== undefined && e !== null),
+      requirements: node?.requirements?.map((e) => fillTree(e)).filter((e) => e !== undefined && e !== null) ?? [],
     };
   };
 
@@ -89,7 +95,7 @@ exports.handler = async (
     school: records[0].get("school"),
     type: "Course",
     requirements: records
-      .map((e) => fillTree(e.get("requirements")[1].data.id))
+      .map((e) => fillTree(e.get("requirements")?.length > 1 ? e.get("requirements")[1]?.data?.id : null))
       .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
       .filter((e) => e !== undefined && e !== null),
     rating: {

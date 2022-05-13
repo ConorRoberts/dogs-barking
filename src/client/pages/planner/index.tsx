@@ -6,37 +6,43 @@ import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { PlusIcon } from "@components/Icons";
 import axios from "axios";
-import PlannerSemester from "@components/PlannerSemester";
 import DegreePlanData from "@typedefs/DegreePlan";
 import { Button, Select } from "@components/form";
 import { groupBy } from "lodash";
-import getToken from "@utils/getToken";
+import PlannerYear from "@components/PlannerYear";
 
 const Page = () => {
   const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
   const router = useRouter();
   const [plansLoading, setPlansLoading] = useState(true);
-  const [plans, setPlans] = useState<{ id: string; semesters: string[] }[]>([]);
+  const [plans, setPlans] = useState<DegreePlanData[]>([]);
   const [selectedPlanId, setSelectedPlanId] = useState("none");
   const [selectedPlanData, setSelectedPlanData] = useState<DegreePlanData>(null);
+  const [groupedSemesters, setGroupedSemesters] = useState([]);
 
-  /**
-   * Create a new plan
-   */
+  const deleteSemester = (semesterId: string) => {
+    setSelectedPlanData({
+      ...selectedPlanData,
+      semesters: selectedPlanData.semesters.filter((semester) => semester.id != semesterId),
+    });
+  };
+
   const createPlan = async () => {
     try {
-      await axios.post(`/api/degree-plan/new`, {
-        userId: user.id,
-      });
+      await axios.post(
+        `/api/degree-plan/new`,
+        {
+          userId: user.id,
+        },
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
       await fetchPlans();
     } catch (error) {
       console.error(error);
     }
   };
 
-  /**
-   * Add a semester to the selected plan
-   */
+  // Add a semester to the selected plan
   const addSemester = async () => {
     try {
       const { data } = await axios.post(
@@ -46,7 +52,9 @@ const Page = () => {
         },
         { headers: { Authorization: "Bearer " + user?.token } }
       );
-      fetchPlanData();
+
+      // Update our local state without refetching
+      setSelectedPlanData({ ...selectedPlanData, semesters: [...selectedPlanData.semesters, data] });
     } catch (error) {
       console.error(error);
     }
@@ -69,17 +77,6 @@ const Page = () => {
     setPlansLoading(false);
   }, [user]);
 
-  // Get the user's plan state
-  useEffect(() => {
-    if (loading) return;
-
-    if (user) {
-      fetchPlans();
-    } else {
-      router.push("/error/403");
-    }
-  }, [user, router, loading, fetchPlans]);
-
   const fetchPlanData = useCallback(async () => {
     try {
       const { data } = await axios.get(`/api/degree-plan/${selectedPlanId}`, {
@@ -91,11 +88,28 @@ const Page = () => {
     }
   }, [user, selectedPlanId]);
 
+  // Get the user's plan state
+  useEffect(() => {
+    if (loading) return;
+
+    if (user) {
+      fetchPlans();
+    } else {
+      router.push("/error/403");
+    }
+  }, [user, router, loading, fetchPlans]);
+
   // Update the state of our semesters list whenever our selected plan changes
   useEffect(() => {
     if (selectedPlanId === "none") return;
     fetchPlanData();
   }, [fetchPlanData, selectedPlanId]);
+
+  useEffect(() => {
+    if (selectedPlanData) {
+      setGroupedSemesters(Object.entries(groupBy(selectedPlanData?.semesters, "year")));
+    }
+  }, [selectedPlanData]);
 
   if (!user || plansLoading) return <LoadingScreen />;
 
@@ -108,19 +122,24 @@ const Page = () => {
         <PlusIcon />
         <p>New Plan</p>
       </Button>
-      <Select value={selectedPlanId} onChange={(e) => setSelectedPlanId(e.target.value)}>
+      {/* <Select value={selectedPlanId} onChange={(e) => setSelectedPlanId(e.target.value)}>
         <option value="none">Select a plan</option>
         {plans.map((plan) => (
           <option key={plan.id} value={plan.id}>
-            {plan.id}
+            {plan.name ?? "My Plan"} {plan.id}
           </option>
         ))}
-      </Select>
+      </Select> */}
 
       <div className="flex flex-col gap-8">
         {selectedPlanId !== "none" &&
-          selectedPlanData?.semesters?.map((semester, index) => (
-            <PlannerSemester data={semester} key={`semester-${semester}-${index}`} />
+          groupedSemesters?.map(([year, semesters], index) => (
+            <PlannerYear
+              key={`year-${year}-${index}`}
+              year={Number(year)}
+              semesters={semesters}
+              deleteSemester={deleteSemester}
+            />
           ))}
         <PlusIcon
           size={30}
