@@ -1,17 +1,36 @@
 import MetaData from "@components/MetaData";
 import Navigation from "@components/Navigation";
-import GlobalStateManager from "@components/GlobalStateManager";
 import "../styles/globals.css";
 import config from "@config/amplify";
 import { Amplify } from "aws-amplify";
-import { Provider } from "react-redux";
-import store from "@redux/store";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import store, { RootState } from "@redux/store";
+import { useEffect } from "react";
+import { AuthState, signIn } from "@redux/auth";
+import LoadingScreen from "@components/LoadingScreen";
 
 Amplify.configure(config);
 
 const App = ({ Component, pageProps }) => {
+  const { loading } = useSelector<RootState, AuthState>((state) => state.auth);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(signIn());
+
+    // Refresh login every 5m
+    const timer = setInterval(() => {
+      dispatch(signIn());
+    }, 5 * 60 * 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [dispatch]);
+
   return (
-    <Provider store={store}>
+    <>
       <MetaData title="Home">
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -27,12 +46,19 @@ const App = ({ Component, pageProps }) => {
       <div
         className="bg-gray-100 dark:bg-gray-900 text-black dark:text-white min-h-screen md:pt-24 pb-24 md:pb-0 relative flex flex-col"
         id="app">
-        <GlobalStateManager />
-        <Navigation />
-        <Component {...pageProps} />
+        {!loading && <Navigation />}
+        {loading ? <LoadingScreen /> : <Component {...pageProps} />}
       </div>
+    </>
+  );
+};
+
+const WrappedApp = (props) => {
+  return (
+    <Provider store={store}>
+      <App {...props} />
     </Provider>
   );
 };
 
-export default App;
+export default WrappedApp;
