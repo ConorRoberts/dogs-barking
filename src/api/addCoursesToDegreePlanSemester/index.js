@@ -21,27 +21,25 @@ exports.handler = async (
     neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
   );
   const session = driver.session();
-  try {
-    const result = await session.run(
-      `
+
+  const { records } = await session.run(
+    `
           MATCH (user:User {id: $userId})-[:HAS]->(:DegreePlan)-[:CONTAINS]->(semester:DegreePlanSemester { id: $semesterId })
   
           UNWIND $courses as course
           MATCH (c:Course {id: course})
   
           MERGE (semester)-[:CONTAINS]->(c)
-        `,
-      { semesterId, courses, userId: sub }
-    );
-    console.log(result);
-    await session.close();
-    await driver.close();
 
-    return {
-      statusCode: 201,
-      body: {}
-    };
-  } catch (error) {
-    console.error(error);
-  }
+          return properties(c) as course
+        `,
+    { semesterId, courses, userId: sub }
+  );
+
+  console.log(result);
+  
+  await session.close();
+  await driver.close();
+
+  return records[0].get("course");
 };
