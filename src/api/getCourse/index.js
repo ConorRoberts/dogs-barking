@@ -41,6 +41,9 @@ exports.handler = async (
     { courseId }
   );
 
+  console.log(records);
+  console.log(records[0].get("course"));
+
   await session.close();
   await driver.close();
 
