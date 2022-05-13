@@ -44,36 +44,42 @@ const save = async () => {
   // Clear database
   await session.run(`
     MATCH (e)
-    WHERE (e:OrBlock or e:Course or e:CreditRequirement or e:RegistrationRequirement or e:School or e:Program or e:Section or e:Instructor or e:Lecture)
+    WHERE (e:OrBlock or e:Course or e:CreditRequirement or e:RegistrationRequirement or e:Program or e:Section or e:Instructor or e:Lecture)
     DETACH DELETE e
   `);
 
   await session.close();
-  session = driver.session();
+  // session = driver.session();
 
   // Add School
-  await session.run(
-    `
-    CREATE (s:School {
-        name: "The University of Guelph",
-        short: "UOFG",
-        url: "https://www.uoguelph.ca/",
-        type: "University",
-        address:"50 Stone Rd E",
-        city: "Guelph",
-        province: "Ontario",
-        postalCode: "N1G4V4",
-        country: "Canada",
-        phone: "519-824-4120",
-        id: $id
-    })
-  `,
-    { id: v4() }
-  );
+  // await session.run(
+  //   `
+  //   MERGE (s:School {
+  //       short: "UOFG"
+  //   })
+
+  //   set s = $data
+  // `,
+  //   {
+  //     data: {
+  //       id: v4(),
+  //       name: "The University of Guelph",
+  //       short: "UOFG",
+  //       url: "https://www.uoguelph.ca/",
+  //       type: "University",
+  //       address: "50 Stone Rd E",
+  //       city: "Guelph",
+  //       province: "Ontario",
+  //       postalCode: "N1G4V4",
+  //       country: "Canada",
+  //       phone: "519-824-4120",
+  //     },
+  //   }
+  // );
 
   // log(chalk.blue("Added school"));
 
-  await session.close();
+  // await session.close();
 
   // Add courses
   for (const course of data.courses) {
@@ -83,17 +89,18 @@ const save = async () => {
         `
         MATCH (school: School {short: "UOFG"})
 
-        CREATE (c:Course {
+        MERGE (course: Course {
             code: $code,
             name: $name,
             description: $description,
             credits: $credits,
             department: $department,
-            number: $number,
-            id: $id
+            number: $number
         }) 
 
-        CREATE (school)-[:OFFERS]->(c)
+        ON CREATE SET course.id = $id
+
+        MERGE (school)-[:OFFERS]->(course)
         `,
         { description: "", ...course, id: v4() }
       );
@@ -179,27 +186,15 @@ const save = async () => {
           await session.run(
             `
             MATCH 
-            (course:Course {code :$courseCode})
+            (course:Course {code: $courseCode})
             -[:HAS]->
             (section:Section {code: $sectionCode})
 
-            CREATE (lab:Lab {
-                startTime: $endTime,
-                endTime: $endTime,
-                location: $location,
-                room: $room,
-                monday: $monday,
-                tuesday: $tuesday,
-                wednesday: $wednesday,
-                thursday: $thursday,
-                friday: $friday,
-                saturday: $saturday,
-                sunday: $sunday
-            })
+            CREATE (lab:Lab $lab)
 
             CREATE (section)-[:HAS]->(lab)
         `,
-            { ...lab, courseCode: course.code, sectionCode: section.code }
+            { lab, courseCode: course.code, sectionCode: section.code }
           );
           await session.close();
         } catch (error) {
@@ -218,23 +213,11 @@ const save = async () => {
             -[:HAS]->
             (section:Section {code: $sectionCode})
 
-            CREATE (seminar:Seminar {
-                startTime: $endTime,
-                endTime: $endTime,
-                location: $location,
-                room: $room,
-                monday: $monday,
-                tuesday: $tuesday,
-                wednesday: $wednesday,
-                thursday: $thursday,
-                friday: $friday,
-                saturday: $saturday,
-                sunday: $sunday
-            })
+            CREATE (seminar:Seminar $seminar)
 
             CREATE (section)-[:HAS]->(seminar)
         `,
-            { ...seminar, courseCode: course.code, sectionCode: section.code }
+            { seminar, courseCode: course.code, sectionCode: section.code }
           );
           await session.close();
         } catch (error) {
@@ -253,23 +236,11 @@ const save = async () => {
             -[:HAS]->
             (section:Section {code: $sectionCode})
 
-            CREATE (tutorial:Tutorial {
-                startTime: $endTime,
-                endTime: $endTime,
-                location: $location,
-                room: $room,
-                monday: $monday,
-                tuesday: $tuesday,
-                wednesday: $wednesday,
-                thursday: $thursday,
-                friday: $friday,
-                saturday: $saturday,
-                sunday: $sunday
-            })
+            CREATE (tutorial:Tutorial $tutorial)
 
             CREATE (section)-[:HAS]->(tutorial)
         `,
-            { ...tutorial, courseCode: course.code, sectionCode: section.code }
+            { tutorial, courseCode: course.code, sectionCode: section.code }
           );
           await session.close();
         } catch (error) {
@@ -513,12 +484,14 @@ const save = async () => {
         `
           MATCH (school: School {short: $school})
 
-          CREATE (school)-[:OFFERS]->(program: Program {
+          CREATE (program: Program {
             short: $short,
             name: $name,
             degree: $degree,
             id: $programId
           })
+
+          CREATE (school)-[:OFFERS]->(program)
         `,
         { name: program.title, short: key, degree: program.degree, school, programId }
       );
@@ -536,12 +509,13 @@ const save = async () => {
             await session.run(
               `
                 MATCH (program:Program {id: $programId})
-                CREATE (program)-[:MAJOR_REQUIRES]->(block:OrBlock {
+                CREATE (block:OrBlock {
                   id: $blockId,
                   note: $note,
                   target: 1,
                   type: "course"
                 })
+                CREATE (program)-[:MAJOR_REQUIRES]->(block)
                 `,
               { programId, blockId, note: section }
             );
