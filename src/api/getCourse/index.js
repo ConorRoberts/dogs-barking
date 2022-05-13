@@ -89,14 +89,14 @@ exports.handler = async (
       requirements: node?.requirements?.map((e) => fillTree(e)).filter((e) => e !== undefined && e !== null) ?? [],
     };
   };
-  console.log(records.map(e=>e.get("requirements")?.at(1)?.data?.id));
+  console.log(records.map(e=>e.get("requirements")[1]?.data?.id));
 
   return {
     ...records[0].get("course"),
     school: records[0].get("school"),
     type: "Course",
     requirements: records
-      .map((e) => fillTree(e.get("requirements")?.at(1)?.data?.id))
+      .map((e) => fillTree(e.get("requirements")[1]?.data?.id))
       .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
       .filter((e) => e !== undefined && e !== null),
     rating: {
