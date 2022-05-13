@@ -28,12 +28,12 @@ exports.handler = async (
     `
       MATCH (user:User {id: $userId})-[:HAS]->(dp:DegreePlan)-[:CONTAINS]->(semester: DegreePlanSemester {id: $semesterId})
       
-      return properties(semester) as semester
+      return properties(semester) as semester, [(semester)-[:CONTAINS]->(course:Course) | properties(course)] as courses
       `,
     { userId: sub, semesterId });
 
   await session.close();
   await driver.close();
 
-  return records[0].get("semester");
+  return { ...records[0].get("semester"), courses: records[0].get("courses") };
 };
