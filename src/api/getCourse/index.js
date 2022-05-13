@@ -41,7 +41,6 @@ exports.handler = async (
     { courseId }
   );
 
-  console.log(records);
   console.log(records[0].get("course"));
 
   await session.close();
@@ -77,6 +76,8 @@ exports.handler = async (
         });
       });
   }
+
+  console.log(requirements);
 
   const fillTree = (id) => {
     const node = requirements[id];
