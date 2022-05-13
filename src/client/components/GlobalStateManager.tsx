@@ -11,7 +11,7 @@ const GlobalStateManager = () => {
   useEffect(() => {
     dispatch(signIn());
 
-    // Refresh login every 5m
+    // Refresh login every 1m
     const timer = setInterval(() => {
       dispatch(signIn());
     }, 5 * 60 * 1000);

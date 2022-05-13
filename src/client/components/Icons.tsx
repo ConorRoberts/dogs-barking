@@ -25,9 +25,12 @@ export {
   MdArrowDropDown as DropdownIcon,
   MdRadioButtonUnchecked as RadioButtonEmptyIcon,
   MdRadioButtonChecked as RadioButtonFilledIcon,
+  MdOutlineTableRows as LayoutIcon,
+  MdEdit as PencilIcon,
+  MdOutlineSave as SaveIcon
 } from "react-icons/md";
 export {
-  IoCloseOutline as Close,
+  IoCloseOutline as CloseIcon,
   IoDocumentTextOutline as Document,
   IoGameControllerOutline as Games,
   IoDocumentTextOutline as DocumentIcon,

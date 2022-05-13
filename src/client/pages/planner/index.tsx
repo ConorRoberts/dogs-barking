@@ -6,7 +6,6 @@ import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { PlusIcon } from "@components/Icons";
 import axios from "axios";
-import PlannerSemester from "@components/PlannerSemester";
 import DegreePlanData from "@typedefs/DegreePlan";
 import { Button, Select } from "@components/form";
 import { groupBy } from "lodash";
@@ -19,10 +18,15 @@ const Page = () => {
   const [plans, setPlans] = useState<DegreePlanData[]>([]);
   const [selectedPlanId, setSelectedPlanId] = useState("none");
   const [selectedPlanData, setSelectedPlanData] = useState<DegreePlanData>(null);
+  const [groupedSemesters, setGroupedSemesters] = useState([]);
 
-  /**
-   * Create a new plan
-   */
+  const deleteSemester = (semesterId: string) => {
+    setSelectedPlanData({
+      ...selectedPlanData,
+      semesters: selectedPlanData.semesters.filter((semester) => semester.id != semesterId),
+    });
+  };
+
   const createPlan = async () => {
     try {
       await axios.post(
@@ -38,20 +42,19 @@ const Page = () => {
     }
   };
 
-  /**
-   * Add a semester to the selected plan
-   */
+  // Add a semester to the selected plan
   const addSemester = async () => {
     try {
-      // TODO - Append this new semester data to the selected plan
-      await axios.post(
+      const { data } = await axios.post(
         `/api/degree-plan/${selectedPlanId}/create-semester`,
         {
           userId: user.id,
         },
         { headers: { Authorization: "Bearer " + user?.token } }
       );
-      fetchPlanData();
+
+      // Update our local state without refetching
+      setSelectedPlanData({ ...selectedPlanData, semesters: [...selectedPlanData.semesters, data] });
     } catch (error) {
       console.error(error);
     }
@@ -102,6 +105,12 @@ const Page = () => {
     fetchPlanData();
   }, [fetchPlanData, selectedPlanId]);
 
+  useEffect(() => {
+    if (selectedPlanData) {
+      setGroupedSemesters(Object.entries(groupBy(selectedPlanData?.semesters, "year")));
+    }
+  }, [selectedPlanData]);
+
   if (!user || plansLoading) return <LoadingScreen />;
 
   return (
@@ -113,19 +122,24 @@ const Page = () => {
         <PlusIcon />
         <p>New Plan</p>
       </Button>
-      <Select value={selectedPlanId} onChange={(e) => setSelectedPlanId(e.target.value)}>
+      {/* <Select value={selectedPlanId} onChange={(e) => setSelectedPlanId(e.target.value)}>
         <option value="none">Select a plan</option>
         {plans.map((plan) => (
           <option key={plan.id} value={plan.id}>
             {plan.name ?? "My Plan"} {plan.id}
           </option>
         ))}
-      </Select>
+      </Select> */}
 
       <div className="flex flex-col gap-8">
         {selectedPlanId !== "none" &&
-          Object.entries(groupBy(selectedPlanData?.semesters, "year"))?.map(([year, semesters], index) => (
-            <PlannerYear key={`year-${year}-${index}`} year={Number(year)} semesters={semesters} />
+          groupedSemesters?.map(([year, semesters], index) => (
+            <PlannerYear
+              key={`year-${year}-${index}`}
+              year={Number(year)}
+              semesters={semesters}
+              deleteSemester={deleteSemester}
+            />
           ))}
         <PlusIcon
           size={30}

@@ -1,5 +1,8 @@
+import { AuthState } from "@redux/auth";
+import { RootState } from "@redux/store";
 import axios from "axios";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Button, Modal } from "./form";
 import { LoadingIcon } from "./Icons";
 
@@ -11,11 +14,14 @@ interface Props {
 }
 
 const PlannerSemesterDeletePrompt = ({ open, onClose, semester, onSubmit }: Props) => {
+  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const deleteSemester = async () => {
     setDeleteLoading(true);
     try {
-      await axios.delete(`/api/degree-plan/semester/id/${semester}`);
+      await axios.delete(`/api/degree-plan/semester/${semester}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
 
       onSubmit();
       setTimeout(() => {
@@ -33,7 +39,7 @@ const PlannerSemesterDeletePrompt = ({ open, onClose, semester, onSubmit }: Prop
     <Modal onClose={onClose}>
       <div className="flex flex-col gap-4">
         <h3 className="capitalize">Are you sure you want to delete this semester?</h3>
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-4">
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>

@@ -35,21 +35,9 @@ const Navigation = () => {
       {menuOpen && (
         <Drawer onClose={() => setMenuOpen(false)}>
           <div className="flex flex-col h-full">
-            <Link href="/contact" passHref>
-              <div className="nav-drawer-button">
-                <PeopleIcon size={20} />
-                <p>Meet the Team</p>
-              </div>
-            </Link>
-            <Link href="/docs" passHref>
-              <div className="nav-drawer-button">
-                <DocumentIcon size={20} />
-                <p>Docs</p>
-              </div>
-            </Link>
             {user && (
               <Link href="/planner" passHref>
-                <div className="nav-drawer-button">
+                <div className="nav-drawer-button md:hidden">
                   <PlannerIcon size={20} />
                   <p>Degree Planner</p>
                 </div>
@@ -122,9 +110,6 @@ const Navigation = () => {
             <div className="big-screen-nav-button">Degree Planner</div>
           </Link>
         )}
-        <Link href="/catalog" passHref>
-          <div className="big-screen-nav-button">Catalog</div>
-        </Link>
 
         {user ? (
           <Link href="/profile" passHref>

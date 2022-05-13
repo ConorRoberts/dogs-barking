@@ -18,12 +18,12 @@ const PlannerCourseSearchResult = ({
     <div>
       <div className={`py-0.5 transition-all duration-75 text-lg flex gap-2 sm:gap-16`}>
         <div
-          className="p-1 rounded-md border border-gray-300 flex items-center justify-center bg-white"
+          className="p-1 rounded-md border border-gray-300 dark:bg-gray-800 flex items-center justify-center bg-white dark:border-gray-600"
           onClick={() => selectCourse(course)}>
           {selected ? <RadioButtonFilledIcon size={15} /> : <RadioButtonEmptyIcon size={15} />}
         </div>
         <div
-          className="flex flex-col gap-1 bg-white flex-1 border border-gray-300 px-4 rounded-md py-1"
+          className="flex flex-col gap-1 bg-white dark:bg-gray-800 flex-1 border border-gray-300 dark:border-gray-600 px-4 rounded-md py-1"
           onClick={() => setOpen(!open)}>
           <p className="truncate">{course.name}</p>
           <p className="text-sm">{course.code}</p>

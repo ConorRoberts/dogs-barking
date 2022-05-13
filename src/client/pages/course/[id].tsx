@@ -76,6 +76,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const id = context.query.id as string;
   const data = await fetch(`${API_URL}/course/${id}`, { method: "GET" });
   const course: Course = await data.json();
+  console.log(course);
 
   // We couldn't find course or course isn't a valid course
   if (!courseSchema.isValidSync(course)) {
