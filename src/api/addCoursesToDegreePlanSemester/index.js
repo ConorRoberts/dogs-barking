@@ -36,8 +36,8 @@ exports.handler = async (
     { semesterId, courses, userId: sub }
   );
 
-  console.log(result);
-  
+  console.log(records);
+
   await session.close();
   await driver.close();
 
