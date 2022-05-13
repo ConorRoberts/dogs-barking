@@ -13,10 +13,7 @@ exports.handler = async (
 
   const { planId } = event.pathParameters;
   const { authorization } = event.headers;
-  const { data: {
-    year = new Date().getFullYear(),
-    semester = "winter"
-  } } = JSON.parse(event.body ?? "{}");
+  const { data } = JSON.parse(event.body ?? "{}");
 
   if (planId === undefined || typeof planId !== "string") throw new Error("Invalid id");
 
@@ -41,10 +38,15 @@ exports.handler = async (
       planId,
       userId: sub,
       data: {
-        year, semester, id: v4()
+        year: data?.year ?? new Date().getFullYear(),
+        semester: data?.semester ?? "winter",
+        id: v4()
       }
     }
   );
 
-  return { ...records[0].get("semester"), courses: [] };
+  return {
+    ...records[0].get("semester"),
+    courses: []
+  };
 };
