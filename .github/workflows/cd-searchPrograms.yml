@@ -3,7 +3,7 @@ name: CD/API/searchPrograms
 on:
   push:
     branches:
-      - main
+      - dev
     paths:
       - "src/api/searchPrograms/**"
       - ".github/workflows/cd-searchPrograms.yml"
@@ -15,7 +15,7 @@ jobs:
   deploy:
     name: Deploy Lambda
     runs-on: ubuntu-latest
-    environment: production
+    environment: development
 
     steps:
       - name: Checkout

@@ -3,7 +3,7 @@ name: CD/API/updateCourseRating
 on:
   push:
     branches:
-      - main
+      - dev
     paths:
       - "src/api/updateCourseRating/**"
       - ".github/workflows/cd-updateCourseRating.yml"
@@ -15,7 +15,7 @@ jobs:
   deploy:
     name: Deploy Lambda
     runs-on: ubuntu-latest
-    environment: production
+    environment: development
 
     steps:
       - name: Checkout

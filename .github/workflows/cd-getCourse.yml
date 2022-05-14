@@ -3,7 +3,7 @@ name: CD/API/getCourse
 on:
   push:
     branches:
-      - main
+      - dev
     paths:
       - "src/api/getCourse/**"
       - ".github/workflows/cd-getCourse.yml"
@@ -15,7 +15,7 @@ jobs:
   deploy:
     name: Deploy Lambda
     runs-on: ubuntu-latest
-    environment: production
+    environment: development
 
     steps:
       - name: Checkout

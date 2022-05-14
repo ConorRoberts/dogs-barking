@@ -3,7 +3,7 @@ name: CD/API/createDegreePlan
 on:
   push:
     branches:
-      - main
+      - dev
     paths:
       - "src/api/createDegreePlan/**"
       - ".github/workflows/cd-createDegreePlan.yml"
@@ -15,7 +15,7 @@ jobs:
   deploy:
     name: Deploy Lambda
     runs-on: ubuntu-latest
-    environment: production
+    environment: development
 
     steps:
       - name: Checkout

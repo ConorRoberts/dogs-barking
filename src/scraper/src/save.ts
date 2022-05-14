@@ -505,6 +505,7 @@ const save = async () => {
           const blockCourses = courseBlock.split("/").map((e) => e.trim());
 
           if (blockCourses.length > 1) {
+            // Block contains multiple courses. Create OrBlock accordingly
             session = driver.session();
             await session.run(
               `
@@ -534,13 +535,14 @@ const save = async () => {
               await session.close();
             }
           } else {
+            // The block only contains a single course
             const [course] = blockCourses;
             session = driver.session();
             await session.run(
               `
                 MATCH (program:Program {id: $programId})
                 MATCH (course:Course {code: $code})
-                CREATE (program)-[:REQUIRES]->(course)
+                CREATE (program)-[:MAJOR_REQUIRES]->(course)
               `,
               { code: course.replace("*", ""), programId }
             );
