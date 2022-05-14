@@ -10,7 +10,9 @@ jobs:
         name: Install pnpm
         with:
           version: 7
-          run_install: true
+
+      - name: Install modules
+        run: pnpm i
 
       - name: Run ESlint
         run: pnpm lint:fix
