@@ -1,6 +1,6 @@
 describe("Test /api/school", () => {
   const schoolId = "";
-  
+
   // TODO
   it("List of all schools should only contain school type", () => {
     expect(true).to.be.true;

@@ -47,16 +47,28 @@ const Page = ({ course, nodes, edges }: PageProps) => {
 
       <div className="flex flex-row items-center gap-4 justify-center flex-wrap w-full">
         <div className="flex flex-col items-center gap-2 flex-1">
-          <h3 className="text-center">Difficulty</h3>
-          <Rating courseId={course.id} ratingType="difficulty" initialRating={course.rating.difficulty} />
+          <Rating
+            courseId={course.id}
+            ratingType="difficulty"
+            name="Difficulty"
+            initialRating={course.rating.difficulty}
+          />
         </div>
         <div className="flex flex-col items-center gap-2 flex-1">
-          <h3 className="text-center">Usefulness</h3>
-          <Rating courseId={course.id} ratingType="usefulness" initialRating={course.rating.usefulness} />
+          <Rating
+            courseId={course.id}
+            ratingType="usefulness"
+            name="Usefulness"
+            initialRating={course.rating.usefulness}
+          />
         </div>
         <div className="flex flex-col items-center gap-2 flex-1">
-          <h3 className="text-center">Time Spent</h3>
-          <Rating courseId={course.id} ratingType="timeSpent" initialRating={course.rating.timeSpent} />
+          <Rating
+            courseId={course.id}
+            ratingType="timeSpent"
+            name="Time Spent"
+            initialRating={course.rating.timeSpent}
+          />
         </div>
       </div>
       {course.rating.count !== undefined && (
@@ -76,7 +88,6 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const id = context.query.id as string;
   const data = await fetch(`${API_URL}/course/${id}`, { method: "GET" });
   const course: Course = await data.json();
-  console.log(course);
 
   // We couldn't find course or course isn't a valid course
   if (!courseSchema.isValidSync(course)) {

@@ -11,7 +11,14 @@ const SearchField = (props) => {
 
   return (
     <div className={className}>
-      <Input className="dark:text-black" id={title} type={type} onChange={(e) => setState(e.target.value)} value={value} placeholder={title}/>
+      <Input
+        className="dark:text-black"
+        id={title}
+        type={type}
+        onChange={(e) => setState(e.target.value)}
+        value={value}
+        placeholder={title}
+      />
     </div>
   );
 };

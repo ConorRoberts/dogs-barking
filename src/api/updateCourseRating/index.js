@@ -3,12 +3,10 @@ const jwt = require("jsonwebtoken");
 const { v4 } = require("uuid");
 
 /**
-* @method POST
-* @description Updates the rating for a course
-*/
-exports.handler = async (
-  event
-) => {
+ * @method POST
+ * @description Updates the rating for a course
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   const { courseId, ratingType, ratingValue } = JSON.parse(event.body ?? "{}");

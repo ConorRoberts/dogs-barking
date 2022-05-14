@@ -283,7 +283,7 @@ const save = async () => {
 
     log(chalk.gray(requisiteText));
 
-    const parsedRequisites: any = reqToList(requisiteText);
+    const parsedRequisites = reqToList(requisiteText);
     output.push({ ...parsedRequisites, course: course.code });
 
     for (const { type, ...req } of parsedRequisites) {

@@ -1,7 +1,7 @@
 import Course from "@typedefs/Course";
 import { useState } from "react";
 import { RadioButtonEmptyIcon, RadioButtonFilledIcon } from "./Icons";
-import {motion,AnimatePresence} from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const PlannerCourseSearchResult = ({
   course,

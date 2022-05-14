@@ -1,12 +1,10 @@
 const neo4j = require("neo4j-driver");
 
 /**
-* @method GET
-* @description Performs an indexed search on all courses
-*/
-exports.handler = async (
-  event
-) => {
+ * @method GET
+ * @description Performs an indexed search on all courses
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   try {

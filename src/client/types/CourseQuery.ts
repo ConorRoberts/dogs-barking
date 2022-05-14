@@ -1,5 +1,4 @@
 interface CourseQuery {
-
   // ID of course (ex. "CIS1500")
   courseId?: string;
 
@@ -29,13 +28,13 @@ interface CourseQuery {
 
   // Sort order for sorting based on sortKey
   sortDir?: "asc" | "desc";
-  
+
   // Field to perform sorting on (ex. "description", "number", etc.)
   sortKey?: string;
 
   // Check if course name includes this term
   name?: string;
-  
+
   // Float (ex. 0.75)
   weight?: number;
 

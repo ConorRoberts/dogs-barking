@@ -44,6 +44,7 @@ const Page = (props: PageProps) => {
               onBlur={() => setTimeout(() => setShowResults(false), 100)}
               onFocus={() => setShowResults(true)}
               variant="blank"
+              id="home-course-search-input"
             />
             {/* <Link passHref href={`/course/${props.course.id}`}>
               <div className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer transition">
@@ -57,7 +58,9 @@ const Page = (props: PageProps) => {
             )}
           </div>
           {showResults && (
-            <div className="absolute rounded-b-xl top-full left-0 right-0 z-20 shadow-md bg-white overflow-hidden divide-y divide-gray-100">
+            <div
+              className="absolute rounded-b-xl top-full left-0 right-0 z-20 shadow-md bg-white overflow-hidden divide-y divide-gray-100"
+              id="home-course-search-results">
               {results.slice(0, 10).map((e) => (
                 <Link href={`/${searchType}/${e.id}`} key={e.id} passHref>
                   <div className="bg-white dark:bg-gray-800 px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm hover:text-gray-500 dark:hover:text-gray-300 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16">

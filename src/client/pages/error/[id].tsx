@@ -4,16 +4,16 @@ import { NextApiRequest } from "next";
 
 const errors = {
   404: {
-    title: "Resource not found"
+    title: "Resource not found",
   },
   403: {
     title: "Unauthorized access",
-    description: "You do not have permission to view this page"
+    description: "You do not have permission to view this page",
   },
   "": {
     title: "",
-    description: ""
-  }
+    description: "",
+  },
 };
 
 const Error = ({ id = "" }) => {
@@ -30,7 +30,7 @@ const Error = ({ id = "" }) => {
 };
 
 export const getServerSideProps = (req: NextApiRequest) => {
-  const { id, } = req.query;
+  const { id } = req.query;
 
   return { props: { id } };
 };

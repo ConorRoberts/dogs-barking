@@ -2,12 +2,10 @@ const jwt = require("jsonwebtoken");
 const neo4j = require("neo4j-driver");
 
 /**
-* @method GET
-* @description Get a semester with a specific id
-*/
-exports.handler = async (
-  event
-) => {
+ * @method GET
+ * @description Get a semester with a specific id
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   // const body = JSON.parse(event.body ?? "{}");
@@ -30,7 +28,8 @@ exports.handler = async (
       
       return properties(semester) as semester, [(semester)-[:CONTAINS]->(course:Course) | properties(course)] as courses
       `,
-    { userId: sub, semesterId });
+    { userId: sub, semesterId }
+  );
 
   await session.close();
   await driver.close();

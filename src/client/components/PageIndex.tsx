@@ -14,15 +14,15 @@ const PageIndex = (counts: PageIndexProps) => {
   const { pageState, type } = useSelector<CatalogState, CatalogState>((state) => state);
   const totalEntries = counts.totalEntries;
   const totalPages = Math.floor(totalEntries / pageState.pageSize);
-  
+
   const pageIndex = {
     start: pageState.pageNum,
-    end: (pageState.pageNum + 4 >  totalPages) ? totalPages : pageState.pageNum + 4,
+    end: pageState.pageNum + 4 > totalPages ? totalPages : pageState.pageNum + 4,
   };
   const pageArray = getPageIndexArray(pageIndex.start, pageIndex.end);
-  
+
   const dispatch = useDispatch();
-  
+
   const incrementPage = (mode: string) => {
     if (mode === "<" && !(pageState.pageNum - 1 < 0)) {
       dispatch(setPageState({ ...pageState, pageNum: pageState.pageNum - 1 }));
@@ -45,7 +45,7 @@ const PageIndex = (counts: PageIndexProps) => {
       dispatch(setPageState({ ...pageState, pageNum: totalPages }));
     }
   };
-  
+
   const changePage = (num: number) => {
     dispatch(
       setPageState({
@@ -54,10 +54,10 @@ const PageIndex = (counts: PageIndexProps) => {
       })
     );
   };
-    
+
   const pageNums = {
-    start: (pageState.pageNum * pageState.pageSize) + 1,
-    end: (pageState.pageNum + 1) * pageState.pageSize
+    start: pageState.pageNum * pageState.pageSize + 1,
+    end: (pageState.pageNum + 1) * pageState.pageSize,
   };
   return (
     <div className="flex flex-row text-center justify-between">
@@ -95,12 +95,13 @@ const PageIndex = (counts: PageIndexProps) => {
             {">>"}
           </button>
         </div>
-        {totalEntries > 0 ?
+        {totalEntries > 0 ? (
           <p>
-            {pageNums.start} - {(pageNums.end > totalEntries) ? totalEntries : pageNums.end} of {totalEntries}
+            {pageNums.start} - {pageNums.end > totalEntries ? totalEntries : pageNums.end} of {totalEntries}
           </p>
-          : 
-          <p>0 of 0</p>}
+        ) : (
+          <p>0 of 0</p>
+        )}
       </nav>
     </div>
   );

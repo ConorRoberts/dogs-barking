@@ -1,15 +1,16 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "node": true
   },
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "next"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "prefer-arrow"],
+  "plugins": ["@typescript-eslint", "prefer-arrow", "tailwindcss"],
   "rules": {
     "indent": ["warn", 2, { "SwitchCase": 1 }],
     "linebreak-style": ["warn", "windows"],
@@ -33,6 +34,5 @@
         "classPropertiesAllowed": false
       }
     ]
-  },
-  "ignorePatterns": ["**.md"]
+  }
 }

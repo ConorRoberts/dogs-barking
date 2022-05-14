@@ -1,28 +1,26 @@
 const neo4j = require("neo4j-driver");
 
 /**
-* @method GET
-* @description Gets all schools from our DB
-*/
-exports.handler = async (
-    event
-) => {
-    console.log(event);
+ * @method GET
+ * @description Gets all schools from our DB
+ */
+exports.handler = async (event) => {
+  console.log(event);
 
-    // const body = JSON.parse(event.body ?? "{}");
-    // const query = event.queryStringParameters;
-    // const pathParams = event.pathParameters;
-    // const headers = event.headers;
+  // const body = JSON.parse(event.body ?? "{}");
+  // const query = event.queryStringParameters;
+  // const pathParams = event.pathParameters;
+  // const headers = event.headers;
 
-    const driver = neo4j.driver(
-        `neo4j://${process.env.NEO4J_HOST}`,
-        neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
-    );
+  const driver = neo4j.driver(
+    `neo4j://${process.env.NEO4J_HOST}`,
+    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+  );
 
-    const session = driver.session();
+  const session = driver.session();
 
-    const data = await session.run(
-        `
+  const data = await session.run(
+    `
     MATCH (school:School)
     RETURN
       properties(school) as school,
@@ -35,15 +33,15 @@ exports.handler = async (
         }
       ] as programs
     `
-    );
+  );
 
-    await session.close();
+  await session.close();
 
-    return data.records.map((record) => ({
-        programs: record
-            .get("programs")
-            .map(({ program, ...e }) => ({ ...program, ...e }))
-            .sort((a, b) => a.name.localeCompare(b.name)),
-        ...record.get("school"),
-    }));
+  return data.records.map((record) => ({
+    programs: record
+      .get("programs")
+      .map(({ program, ...e }) => ({ ...program, ...e }))
+      .sort((a, b) => a.name.localeCompare(b.name)),
+    ...record.get("school"),
+  }));
 };
