@@ -10,6 +10,7 @@ jobs:
         name: Install pnpm
         with:
           version: 7
+          run_install: true
 
       - name: Cypress & build
         uses: cypress-io/github-action@v2
