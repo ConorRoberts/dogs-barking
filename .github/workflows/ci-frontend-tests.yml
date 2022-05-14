@@ -6,10 +6,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        with:
+          version: 7
+
       - name: Install modules
         run: |
           cd ./src/client
-          npm i
+          pnpm i
 
       - name: Cypress & build
         uses: cypress-io/github-action@v2
@@ -21,8 +26,8 @@ jobs:
         with:
           browser: chrome
           headless: true
-          build: npm run build --prefix ./src/client
-          start: npm run start --prefix ./src/client
+          build: pnpm build --prefix ./src/client
+          start: pnpm start --prefix ./src/client
           wait-on: "http://localhost:3000"
           project: ./src/client
 

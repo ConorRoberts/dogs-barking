@@ -1,12 +1,10 @@
 const neo4j = require("neo4j-driver");
 
 /**
-* @method GET
-* @description Gets all schools from our DB
-*/
-exports.handler = async (
-  event
-) => {
+ * @method GET
+ * @description Gets all schools from our DB
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   // const body = JSON.parse(event.body ?? "{}");

@@ -1,6 +1,6 @@
 import { Auth } from "aws-amplify";
 
-const getToken = async() => {
+const getToken = async () => {
   return (await Auth.currentSession()).getIdToken().getJwtToken();
 };
 

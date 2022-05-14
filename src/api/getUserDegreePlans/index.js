@@ -2,12 +2,10 @@ const neo4j = require("neo4j-driver");
 const jwt = require("jsonwebtoken");
 
 /**
-* @method method GET
-* @description Get degree plans associated with a user
-*/
-exports.handler = async (
-  event
-) => {
+ * @method method GET
+ * @description Get degree plans associated with a user
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   // const body = JSON.parse(event.body ?? "{}");

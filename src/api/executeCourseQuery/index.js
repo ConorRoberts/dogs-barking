@@ -1,12 +1,10 @@
 const neo4j = require("neo4j-driver");
 
 /**
-* @method GET
-* @description Executes a complex course query against the full course list
-*/
-exports.handler = async (
-  event
-) => {
+ * @method GET
+ * @description Executes a complex course query against the full course list
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   // const body = JSON.parse(event.body ?? "{}");
@@ -20,9 +18,9 @@ exports.handler = async (
   );
 
   const filters = [];
-  
+
   const { pageNum = 0, pageSize = 50, sortKey = "name", sortDir = "desc", limit = 50, skip = 0 } = query ?? {};
-  
+
   if (query?.degree?.length > 0) filters.push("program.degree = $degree");
   if (query?.school?.length > 0) filters.push("school.short = $school");
   if (query?.scope === "undergrad") filters.push("course.number < 5000");
@@ -33,7 +31,7 @@ exports.handler = async (
   if (!isNaN(query?.number)) filters.push("course.number = $number");
   if (query?.name?.length > 0) filters.push("course.name STARTS WITH $name");
   if (query?.description?.length > 0) filters.push("course.description =~ \".*${query.description}.*\"");
-  
+
   const session = driver.session();
   const { records } = await session.run(
     `
@@ -41,25 +39,25 @@ exports.handler = async (
       -[:OFFERS]->
       ${query?.degree?.length > 0 ? "(program: Program)-[:MAJOR_REQUIRES]->" : ""}
       (course: Course)
-      ${query?.prerequisites?.length > 0
-    ? `-[:HAS_PREREQUISITE]->(pc: Course) WHERE pc.id IN $prerequisites`
-    : ""
-}
+      ${query?.prerequisites?.length > 0 ? `-[:HAS_PREREQUISITE]->(pc: Course) WHERE pc.id IN $prerequisites` : ""}
 
       ${filters.join(" AND ")}
 
       with collect(course) as courses, count (course) as total
       unwind courses as course
       return properties(course) as course, total
-      ${(query?.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir))
-    ? `ORDER BY $sortKey $sortDir`
-    : ""
-}
+      ${query?.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir) ? `ORDER BY $sortKey $sortDir` : ""}
 
       SKIP (${skip})
       LIMIT (${limit})
     `,
-    { ...query, sortKey: `course.${sortKey}`, limit: parseInt(pageSize), skip: parseInt(pageNum) * parseInt(pageSize), sortDir }
+    {
+      ...query,
+      sortKey: `course.${sortKey}`,
+      limit: parseInt(pageSize),
+      skip: parseInt(pageNum) * parseInt(pageSize),
+      sortDir,
+    }
   );
   await session.close();
   await driver.close();

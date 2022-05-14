@@ -27,7 +27,7 @@ export {
   MdRadioButtonChecked as RadioButtonFilledIcon,
   MdOutlineTableRows as LayoutIcon,
   MdEdit as PencilIcon,
-  MdOutlineSave as SaveIcon
+  MdOutlineSave as SaveIcon,
 } from "react-icons/md";
 export {
   IoCloseOutline as CloseIcon,

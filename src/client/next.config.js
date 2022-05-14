@@ -13,11 +13,10 @@ module.exports = withPWA({
   images: {
     domains: ["i.imgur.com"],
   },
-  rewrites: async () =>
-    [
-      {
-        source: "/api/:path*",
-        destination: `https://api.dogs-barking.ca/:path*`
-      }
-    ]
+  rewrites: async () => [
+    {
+      source: "/api/:path*",
+      destination: `https://api.dogs-barking.ca/:path*`,
+    },
+  ],
 });

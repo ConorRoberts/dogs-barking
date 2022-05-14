@@ -1,7 +1,7 @@
 interface OrBlockData {
   type: "course" | "credit";
   target: number;
-  id:string;
+  id: string;
 }
 
 export default OrBlockData;

@@ -72,7 +72,9 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
           <h4>Selected ({credits})</h4>
           <div className="flex flex-col gap-2">
             {coursesToAdd.map((e) => (
-              <p key={`course-to-add-${e.code}`} className="bg-white dark:bg-gray-800 rounded-md py-1 border border-gray-200 px-4 dark:border-gray-600">
+              <p
+                key={`course-to-add-${e.code}`}
+                className="bg-white dark:bg-gray-800 rounded-md py-1 border border-gray-200 px-4 dark:border-gray-600">
                 {e.code}
               </p>
             ))}

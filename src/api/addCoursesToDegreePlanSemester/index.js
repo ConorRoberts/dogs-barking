@@ -2,12 +2,10 @@ const jwt = require("jsonwebtoken");
 const neo4j = require("neo4j-driver");
 
 /**
-* @method method POST
-* @description description
-*/
-exports.handler = async (
-  event
-) => {
+ * @method method POST
+ * @description description
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   const { courses } = JSON.parse(event.body ?? "{}");

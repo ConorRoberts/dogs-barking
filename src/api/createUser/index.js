@@ -2,12 +2,10 @@ const neo4j = require("neo4j-driver");
 const jwt = require("jsonwebtoken");
 
 /**
-* @method POST
-* @description Creates metadata for a Cognito user within Neo4j
-*/
-exports.handler = async (
-  event
-) => {
+ * @method POST
+ * @description Creates metadata for a Cognito user within Neo4j
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   // const body = JSON.parse(event.body ?? "{}");

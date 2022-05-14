@@ -31,7 +31,7 @@ const Page = ({ school }) => {
 //     WITH course,avg(rating.difficulty) as rating, count(rating) as ratingCount
 //     WITH collect({course:course, rating:rating, ratingCount:ratingCount }) as courses, min(rating) as minRating
 //     UNWIND [c in courses where c.rating = minRating] as res
-    
+
 //     return res
 //   `,
 //     { id: +id }
@@ -39,7 +39,7 @@ const Page = ({ school }) => {
 
 //   await session.close();
 //   await driver.close();
-  
+
 //   return {
 //     props: {
 //       school: await getSchool(id),

@@ -1,6 +1,6 @@
 /**
  * Toggle dark mode
- * @param state 
+ * @param state
  */
 const toggleDarkMode = (state?: boolean) => {
   const body = document.querySelector("body").classList;

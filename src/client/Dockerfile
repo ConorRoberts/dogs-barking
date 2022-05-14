@@ -4,8 +4,9 @@ WORKDIR /usr/app
 
 COPY . .
 
-RUN npm install
+RUN npm i -g pnpm
+RUN pnpm install
 
-RUN npm run build
+RUN pnpm build
 
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]

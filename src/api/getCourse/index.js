@@ -1,12 +1,10 @@
 const neo4j = require("neo4j-driver");
 
 /**
-* @method GET
-* @description Gets the course with the given id
-*/
-exports.handler = async (
-  event
-) => {
+ * @method GET
+ * @description Gets the course with the given id
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   const { courseId } = event.pathParameters;
@@ -103,6 +101,6 @@ exports.handler = async (
       usefulness: records[0].get("usefulness") ?? 0,
       timeSpent: records[0].get("timeSpent") ?? 0,
       count: records[0].get("ratingCount")?.low ?? 0,
-    }
+    },
   };
 };

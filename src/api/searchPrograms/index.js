@@ -1,12 +1,10 @@
 const neo4j = require("neo4j-driver");
 
 /**
-* @method GET
-* @description Searches programs
-*/
-exports.handler = async (
-  event
-) => {
+ * @method GET
+ * @description Searches programs
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   try {

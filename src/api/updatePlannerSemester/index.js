@@ -2,12 +2,10 @@ const jwt = require("jsonwebtoken");
 const neo4j = require("neo4j-driver");
 
 /**
-* @method POST
-* @description description
-*/
-exports.handler = async (
-  event
-) => {
+ * @method POST
+ * @description description
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   const { data } = JSON.parse(event.body ?? "{}");
@@ -24,14 +22,17 @@ exports.handler = async (
 
   const session = driver.session();
 
-  const { records } = await session.run(`
+  const { records } = await session.run(
+    `
           MATCH (user:User {id: $userId})-[:HAS]->(dp:DegreePlan)-[:CONTAINS]->(semester: DegreePlanSemester {id: $semesterId})
 
           SET semester.name = $data.name
           SET semester.year = $data.year
           
           return properties(semester) as semester, [(semester)-[:CONTAINS]->(course:Course) | properties(course)] as courses
-      `, { data, userId: sub, semesterId });
+      `,
+    { data, userId: sub, semesterId }
+  );
 
   await session.close();
   await driver.close();

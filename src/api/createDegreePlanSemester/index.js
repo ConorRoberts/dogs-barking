@@ -3,12 +3,10 @@ const { v4 } = require("uuid");
 const jwt = require("jsonwebtoken");
 
 /**
-* @method method POST
-* @description Creates a new semester in a degree plan
-*/
-exports.handler = async (
-  event
-) => {
+ * @method method POST
+ * @description Creates a new semester in a degree plan
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   const { planId } = event.pathParameters;
@@ -40,13 +38,13 @@ exports.handler = async (
       data: {
         year: data?.year ?? new Date().getFullYear(),
         semester: data?.semester ?? "winter",
-        id: v4()
-      }
+        id: v4(),
+      },
     }
   );
 
   return {
     ...records[0].get("semester"),
-    courses: []
+    courses: [],
   };
 };

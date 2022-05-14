@@ -1,12 +1,10 @@
 const neo4j = require("neo4j-driver");
 
 /**
-* @method GET
-* @description Executes a complex program query against the full program list
-*/
-exports.handler = async (
-  event
-) => {
+ * @method GET
+ * @description Executes a complex program query against the full program list
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   // const body = JSON.parse(event.body ?? "{}");
@@ -18,7 +16,6 @@ exports.handler = async (
   if (query.school?.length > 0) str += " school.abbrev = $school AND";
   if (query.programId?.length > 0) str += " program.id STARTS WITH $programId AND";
   if (query.name?.length > 0) str += ` program.name STARTS WITH $name`;
-
 
   // Remove trailing 'WHERE' or 'AND' if any
   const index = str.lastIndexOf(" ");
@@ -49,7 +46,12 @@ exports.handler = async (
             SKIP($skip)
             LIMIT($limit)
         `,
-    { ...query, sortKey: `program.${query.sortKey}`, limit: Number(query.pageSize), skip: Number(query.pageNum) * Number(query.pageSize) }
+    {
+      ...query,
+      sortKey: `program.${query.sortKey}`,
+      limit: Number(query.pageSize),
+      skip: Number(query.pageNum) * Number(query.pageSize),
+    }
   );
 
   await session.close();

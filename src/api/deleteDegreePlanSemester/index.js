@@ -2,12 +2,10 @@ const neo4j = require("neo4j-driver");
 const jwt = require("jsonwebtoken");
 
 /**
-* @method method GET
-* @description Deletes a semester from a degree plan
-*/
-exports.handler = async (
-  event
-) => {
+ * @method method GET
+ * @description Deletes a semester from a degree plan
+ */
+exports.handler = async (event) => {
   console.log(event);
 
   const { semesterId } = event.pathParameters;

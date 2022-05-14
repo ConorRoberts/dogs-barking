@@ -2,7 +2,6 @@ import courseSchema from "@schema/courseSchema";
 import Course from "@typedefs/Course";
 
 describe("Test /api/course", () => {
-
   // TODO
   it("Returns courses with a given department code/name", () => {
     expect(true).to.be.true;

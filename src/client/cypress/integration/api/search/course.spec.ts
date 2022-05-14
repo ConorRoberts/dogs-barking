@@ -13,7 +13,12 @@ describe("Test /api/search/course", () => {
     const queryText = "computer";
     cy.request("GET", `/api/search/course?query=${queryText}`).then(({ status, body: data }) => {
       expect(status).to.equal(200);
-      expect(data.every((course: Course) => course.name.toLowerCase().includes(queryText) || course.description.toLowerCase().includes(queryText))).to.be.true;
+      expect(
+        data.every(
+          (course: Course) =>
+            course.name.toLowerCase().includes(queryText) || course.description.toLowerCase().includes(queryText)
+        )
+      ).to.be.true;
     });
   });
 });
