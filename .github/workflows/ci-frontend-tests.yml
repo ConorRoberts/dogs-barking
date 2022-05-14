@@ -1,7 +1,7 @@
 name: CI/Frontend Tests
 on: [pull_request]
 jobs:
-  test-frontend:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -23,7 +23,7 @@ jobs:
           browser: chrome
           headless: true
           install: false
-          command: pnpm --dir cypress/ cypress:ci
+          command: pnpm test:client
           build: pnpm -C ./src/client run build
           start: pnpm -C ./src/client run start
           wait-on: "http://localhost:3000"
@@ -31,8 +31,8 @@ jobs:
 
   send-failure-to-discord:
     runs-on: ubuntu-latest
-    needs: [test-frontend]
-    if: needs.test-frontend.result == 'failure'
+    needs: [test]
+    if: needs.test.result == 'failure'
     steps:
       - name: Send failure message to Discord
         uses: fjogeleit/http-request-action@v1
@@ -58,8 +58,8 @@ jobs:
 
   send-success-to-discord:
     runs-on: ubuntu-latest
-    needs: [test-frontend]
-    if: needs.test-frontend.result == 'success'
+    needs: [test]
+    if: needs.test.result == 'success'
     steps:
       - name: Send success message to Discord
         uses: fjogeleit/http-request-action@v1
