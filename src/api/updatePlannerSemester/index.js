@@ -27,7 +27,7 @@ exports.handler = async (
     const { records } = await session.run(`
           MATCH (user:User {id: $userId})-[:HAS]->(dp:DegreePlan)-[:CONTAINS]->(semester: DegreePlanSemester {id: $semesterId})
 
-          SET semester.name = $data.name
+          SET semester.semester = $data.semester
           SET semester.year = $data.year
           
           return properties(semester) as semester, [(semester)-[:CONTAINS]->(course:Course) | properties(course)] as courses
