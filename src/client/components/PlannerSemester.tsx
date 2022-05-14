@@ -1,5 +1,5 @@
 import { PlannerSemesterData } from "@typedefs/DegreePlan";
-import { FormEvent, useState } from "react";
+import { FormEvent, KeyboardEvent, KeyboardEventHandler, useEffect, useState } from "react";
 import { CloseIcon, LoadingIcon, PencilIcon, PlusIcon, SaveIcon } from "./Icons";
 import axios from "axios";
 import PlannerSemesterCourse from "./PlannerSemesterCourse";
@@ -74,6 +74,26 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
   const toggleEditing = () => {
     dispatch(setCurrentEditingSemester(id));
   };
+
+  const handleDeleteKey = (event: globalThis.KeyboardEvent) => {
+    // If key is delete
+    if (event.key === "Delete") {
+      setShowDeletePrompt(true);
+    }
+  };
+
+  useEffect(() => {
+    // if there is a current editing semester, mount a listener for the delete key
+    if (currentEditingSemester === id) {
+      document.addEventListener("keydown", handleDeleteKey);
+    } else {
+      document.removeEventListener("keydown", handleDeleteKey);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleDeleteKey);
+    };
+  }, [currentEditingSemester]);
 
   // If we have no data, we should let the user know it's loading
   if (!data) return <LoadingIcon className="animate-spin mx-auto" />;

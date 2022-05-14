@@ -34,8 +34,8 @@ const PlannerYear = ({ year, semesters, deleteSemester }: Props) => {
         </div>
       </div>
       <div
-        className={`flex gap-4 ${
-          layout === "row" ? "overflow-x-auto flex-row md:justify-center" : "flex-col items-center"
+        className={`gap-4 ${
+          layout === "row" ? "flex overflow-x-auto md:justify-center md:grid md:grid-cols-3" : "flex flex-col items-center"
         } transition-all`}>
         {semesters.map((semester) => (
           <PlannerSemester key={semester.id} data={semester} deleteSemester={deleteSemester} />
