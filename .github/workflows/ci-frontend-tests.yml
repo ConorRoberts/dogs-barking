@@ -21,6 +21,7 @@ jobs:
         with:
           browser: chrome
           headless: true
+          install: false
           build: pnpm -C ./src/client run build
           start: pnpm -C ./src/client run start
           wait-on: "http://localhost:3000"
