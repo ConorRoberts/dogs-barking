@@ -23,6 +23,7 @@ jobs:
           browser: chrome
           headless: true
           install: false
+          command: pnpm --dir cypress/ cypress:ci
           build: pnpm -C ./src/client run build
           start: pnpm -C ./src/client run start
           wait-on: "http://localhost:3000"
