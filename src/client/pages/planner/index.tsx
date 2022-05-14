@@ -3,28 +3,30 @@ import { AuthState } from "@redux/auth";
 import { RootState } from "@redux/store";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PlusIcon } from "@components/Icons";
 import axios from "axios";
-import DegreePlanData from "@typedefs/DegreePlan";
 import { Button } from "@components/form";
 import { groupBy } from "lodash";
 import PlannerYear from "@components/PlannerYear";
+import { PlannerState, setPlan } from "@redux/planner";
 
 const Page = () => {
   const { user, loading, token } = useSelector<RootState, AuthState>((state) => state.auth);
   const router = useRouter();
   const [plansLoading, setPlansLoading] = useState(true);
-  const [plans, setPlans] = useState<DegreePlanData[]>([]);
   const [selectedPlanId, setSelectedPlanId] = useState("none");
-  const [selectedPlanData, setSelectedPlanData] = useState<DegreePlanData>(null);
   const [groupedSemesters, setGroupedSemesters] = useState([]);
+  const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
+  const dispatch = useDispatch();
 
   const deleteSemester = (semesterId: string) => {
-    setSelectedPlanData({
-      ...selectedPlanData,
-      semesters: selectedPlanData.semesters.filter((semester) => semester.id != semesterId),
-    });
+    dispatch(
+      setPlan({
+        ...plan,
+        semesters: plan.semesters.filter((semester) => semester.id != semesterId),
+      })
+    );
   };
 
   const createPlan = async () => {
@@ -54,7 +56,7 @@ const Page = () => {
       );
 
       // Update our local state without refetching
-      setSelectedPlanData({ ...selectedPlanData, semesters: [...selectedPlanData.semesters, data] });
+      dispatch(setPlan({ ...plan, semesters: [...plan.semesters, data] }));
     } catch (error) {
       console.error(error);
     }
@@ -70,9 +72,10 @@ const Page = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSelectedPlanId(data[0].id);
-      setPlans(data);
+      // setPlans(data);
     } catch (error) {
-      setPlans([]);
+      // setPlans([]);
+      console.error(error);
     }
     setPlansLoading(false);
   }, [user]);
@@ -82,7 +85,7 @@ const Page = () => {
       const { data } = await axios.get(`/api/degree-plan/${selectedPlanId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setSelectedPlanData(data);
+      dispatch(setPlan(data));
     } catch (error) {
       console.error(error);
     }
@@ -106,10 +109,10 @@ const Page = () => {
   }, [fetchPlanData, selectedPlanId]);
 
   useEffect(() => {
-    if (selectedPlanData) {
-      setGroupedSemesters(Object.entries(groupBy(selectedPlanData?.semesters, "year")));
+    if (plan) {
+      setGroupedSemesters(Object.entries(groupBy(plan?.semesters, "year")));
     }
-  }, [selectedPlanData]);
+  }, [plan]);
 
   if (!user || plansLoading) return <LoadingScreen />;
 
@@ -133,14 +136,16 @@ const Page = () => {
 
       <div className="flex flex-col gap-8">
         {selectedPlanId !== "none" &&
-          groupedSemesters?.map(([year, semesters], index) => (
-            <PlannerYear
-              key={`year-${year}-${index}`}
-              year={Number(year)}
-              semesters={semesters}
-              deleteSemester={deleteSemester}
-            />
-          ))}
+          groupedSemesters
+            ?.sort(([a], [b]) => Number(a) - Number(b))
+            .map(([year, semesters], index) => (
+              <PlannerYear
+                key={`year-${year}-${index}`}
+                year={Number(year)}
+                semesters={semesters}
+                deleteSemester={deleteSemester}
+              />
+            ))}
         <PlusIcon
           size={30}
           className="rounded-full p-1 border border-gray-400 cursor-pointer text-gray-400 mx-auto"
