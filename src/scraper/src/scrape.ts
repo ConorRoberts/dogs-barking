@@ -126,11 +126,11 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
             department: (code.match(/[A-Z]+/g) ?? [])[0].replace(/ +/g, " "),
             number: parseInt((code.match(/[0-9]+/g) ?? [])[0]),
             name: title
-              .replace(/([A-Z]+\*[0-9]{4})|(\([0-9\.]+ Credits\))/g, "")
+              .replace(/([A-Z]+\*[0-9]{4})|(\([0-9.]+ Credits\))/g, "")
               .trim()
               .replace(/ +/g, " "),
             credits: parseFloat(
-              ((title.match(/\([0-9\.]+ Credits\)/) ?? [])[0].match(/[0-9\.]+/g) ?? [] ?? "")[0].trim()
+              ((title.match(/\([0-9.]+ Credits\)/) ?? [])[0].match(/[0-9.]+/g) ?? [] ?? "")[0].trim()
             ),
             HAS_SECTION: [],
           };
@@ -331,7 +331,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
         let newCourseElements = [];
         let newFirstCourse = "";
 
-        while (true) {
+        do {
           // Get first course in the list
           newCourseElements = await dptPage.locator("#course-resultul > li").elementHandles();
           newFirstCourse = ((await newCourseElements[0].$eval("div div h3 span", (e) => e.textContent))
@@ -339,8 +339,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
             .match(/[A-Z]{2,4}\*[0-9]{4}/) ?? [])[0].replace(/\*/g, "");
 
           log(chalk.yellow(`Have courses ${firstCourse} and ${newFirstCourse}`));
-          if (newFirstCourse !== firstCourse) break;
-        }
+        } while (newFirstCourse === firstCourse);
 
         courseElements = newCourseElements;
         firstCourse = newFirstCourse;

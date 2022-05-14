@@ -1,0 +1,12 @@
+**/public
+**/node_modules
+**/*.json
+**/*.md
+**/*.txt
+**/*.css
+.github
+Dockerfile
+**/package-lock.json
+**/yarn.lock
+.dockerignore
+.env*

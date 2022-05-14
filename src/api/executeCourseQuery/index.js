@@ -42,9 +42,9 @@ exports.handler = async (
       ${query?.degree?.length > 0 ? "(program: Program)-[:MAJOR_REQUIRES]->" : ""}
       (course: Course)
       ${query?.prerequisites?.length > 0
-      ? `-[:HAS_PREREQUISITE]->(pc: Course) WHERE pc.id IN $prerequisites`
-      : ""
-    }
+    ? `-[:HAS_PREREQUISITE]->(pc: Course) WHERE pc.id IN $prerequisites`
+    : ""
+}
 
       ${filters.join(" AND ")}
 
@@ -52,14 +52,14 @@ exports.handler = async (
       unwind courses as course
       return properties(course) as course, total
       ${(query?.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir))
-      ? `ORDER BY $sortKey $sortDir`
-      : ""
-    }
+    ? `ORDER BY $sortKey $sortDir`
+    : ""
+}
 
       SKIP (${skip})
       LIMIT (${limit})
     `,
-    { ...query, sortKey: `course.${sortKey}`, limit: parseInt(pageSize), skip: parseInt(pageNum) * parseInt(pageSize), sortDir, limit, skip }
+    { ...query, sortKey: `course.${sortKey}`, limit: parseInt(pageSize), skip: parseInt(pageNum) * parseInt(pageSize), sortDir }
   );
   await session.close();
   await driver.close();

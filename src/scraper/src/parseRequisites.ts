@@ -1,5 +1,3 @@
-import { readFileSync, writeFileSync } from "fs";
-
 // Define the requisite type
 interface Requisite {
   type: string;
@@ -9,31 +7,39 @@ interface Requisite {
   list?: any;
 }
 
-// Strips everything except:
-// commas, periods, round brackets, and square brackets
-function stripExtraPunctuation(s: string) {
-  return s.replace(/[^\w\s,.()\[\]]|_/g, "");
-}
+/**
+ * Strips everything except:
+ * commas, periods, round brackets, and square brackets
+ * @param s
+ * @returns
+ */
+const stripExtraPunctuation = (s: string) => {
+  return s.replace(/[^\w\s,.()[\]]|_/g, "");
+};
 
-// Strips brackets and terminating commas
-function stripBrackets(s: string) {
+/**
+ * Strips brackets and terminating commas
+ * @param s
+ * @returns
+ */
+const stripBrackets = (s: string) => {
   s = s.replace(/[^\w\s,.]|_/g, "");
   if (s.slice(0, 2) == ", ") s = s.slice(2, s.length);
   if (s[s.length - 1] == ",") s = s.slice(0, -1);
   return s;
-}
+};
 
 // Handles case where a string ends with a period
-function cleanUp(s: string) {
+const cleanUp = (s: string) => {
   if (s[s.length - 1] == ".") {
     s = s.slice(0, -1);
   }
 
   return s.trim();
-}
+};
 
 // Find a phrase and create an associated variable
-function processPhrase(type: string, phrase: string, inString: string, reqList: any) {
+const processPhrase = (type: string, phrase: string, inString: string, reqList: any) => {
   const req: Requisite = {
     type: type,
   };
@@ -57,10 +63,10 @@ function processPhrase(type: string, phrase: string, inString: string, reqList: 
   inString = cleanUp(inString);
 
   return [inString, reqList];
-}
+};
 
 // Converts a string to a list of requisites
-function parseRequisites(s: string) {
+const parseRequisites = (s: string) => {
   // Declare variables
   let out = [];
   let reqList = [];
@@ -151,10 +157,10 @@ function parseRequisites(s: string) {
   out = reqList;
 
   return out;
-}
+};
 
 // Takes input string and outputs as a list of requirement objects
-export default function reqToList(inString: string) {
+const reqToList = (inString: string) => {
   // Declare variables / objects
   let reqList = [];
 
@@ -238,4 +244,6 @@ export default function reqToList(inString: string) {
   // Split what's left into requisites
   if (notParsedYet) reqList.push(...parseRequisites(inString));
   return reqList;
-}
+};
+
+export default reqToList;

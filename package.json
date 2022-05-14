@@ -7,15 +7,25 @@
   "license": "ISC",
   "private": true,
   "scripts": {
-    "lint": "eslint ./** --fix",
+    "lint": "eslint ./**",
     "lint:fix": "eslint ./** --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md,js}\"",
     "scrape": "npm run dev --prefix ./src/scraper",
     "client": "npm run dev --prefix ./src/client"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.10.1",
+    "@typescript-eslint/parser": "^5.10.1",
+    "eslint": "8.5.0",
+    "eslint-config-next": "12.0.10",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "eslint-plugin-tailwindcss": "^3.5.0",
     "prettier": "^2.5.1"
   },
+  "workspaces": [
+    "src/*"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/ConorRoberts/dogs-barking.git"

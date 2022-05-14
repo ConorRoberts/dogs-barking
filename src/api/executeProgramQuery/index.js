@@ -34,7 +34,7 @@ exports.handler = async (
 
   const session = driver.session();
 
-  const data = await db.run(
+  const { records } = await session.run(
     `
             MATCH (school: School)-[:OFFERS]->(program: Program)
       
@@ -44,8 +44,7 @@ exports.handler = async (
             unwind programs as program
             return properties(program), total.low as total
             
-            ${query.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir)
-    ? `ORDER BY $sortKey $sortDir` : ""}
+            ${query.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir) ? `ORDER BY $sortKey $sortDir` : ""}
               
             SKIP($skip)
             LIMIT($limit)
@@ -56,5 +55,5 @@ exports.handler = async (
   await session.close();
   await driver.close();
 
-  return data.records.map((e) => ({ ...e.get("program"), total: e.get("total") }));
+  return records.map((e) => ({ ...e.get("program"), total: e.get("total") }));
 };
