@@ -30,7 +30,7 @@ exports.handler = async (event) => {
   if (!isNaN(query?.weight)) filters.push("course.credits = $weight");
   if (!isNaN(query?.number)) filters.push("course.number = $number");
   if (query?.name?.length > 0) filters.push("course.name STARTS WITH $name");
-  if (query?.description?.length > 0) filters.push("course.description =~ \".*${query.description}.*\"");
+  if (query?.description?.length > 0) filters.push(`course.description =~ ".*${query.description}.*"`);
 
   const session = driver.session();
   const { records } = await session.run(
