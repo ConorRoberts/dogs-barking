@@ -6,15 +6,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: pnpm/action-setup@v2.0.1
-        name: Install pnpm
-        with:
-          version: 7
-
       - name: Install modules
         run: |
           cd ./src/client
-          pnpm i
+          npm i
 
       - name: Cypress & build
         uses: cypress-io/github-action@v2
