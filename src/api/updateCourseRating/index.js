@@ -31,10 +31,13 @@ exports.handler = async (
 
   const { records } = await session.run(
     `
+    MATCH (user:User {id: $userId}),(course:Course {id: $courseId})
+
     CALL {
-      MATCH (user:User {id: $userId}),(course:Course {id: $courseId})
-      
+      WITH user,course
+
       MERGE (user)-[:RATED]->(rating:Rating)<-[:HAS_RATING]-(course)
+      
       ON CREATE
         SET rating.id = $id
       
@@ -42,7 +45,7 @@ exports.handler = async (
       SET rating.updatedAt = timestamp()
     }
     
-    OPTIONAL MATCH (course)-[:HAS_RATING]->(allRatings:Rating)
+    MATCH (course)-[:HAS_RATING]->(allRatings:Rating)
 
     RETURN
       avg(allRatings.difficulty) as difficulty,
