@@ -9,7 +9,6 @@
     "test": "cypress run"
   },
   "dependencies": {
-    "@dogs-barking/common": "latest",
     "@reduxjs/toolkit": "^1.8.0",
     "aws-amplify": "^4.3.15",
     "axios": "^0.24.0",
