@@ -39,6 +39,7 @@ export const signOut = createAsyncThunk("auth/signOut", async () => {
 export interface AuthState {
   user: User | null;
   loading: boolean;
+  token: string | null;
 }
 
 export const auth = createSlice({
@@ -46,10 +47,14 @@ export const auth = createSlice({
   initialState: {
     loading: true,
     user: null,
+    token: null,
   },
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
+    },
+    setToken: (state, action) => {
+      state.token = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -71,4 +76,5 @@ export const auth = createSlice({
   },
 });
 
+export const { setToken } = auth.actions;
 export default auth.reducer;

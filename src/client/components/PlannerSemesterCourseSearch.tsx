@@ -19,7 +19,7 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
   const [searchText, setSearchText] = useState("");
   const { results } = useSearch(searchText);
   const [coursesToAdd, setCoursesToAdd] = useState([]);
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user, token } = useSelector<RootState, AuthState>((state) => state.auth);
 
   const credits = coursesToAdd.reduce((acc, c) => acc + c.credits, 0);
 
@@ -31,7 +31,7 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
           courses: coursesToAdd.map((e) => e.id),
         },
         {
-          headers: { Authorization: `Bearer ${user.token}` },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       setCoursesToAdd([]);

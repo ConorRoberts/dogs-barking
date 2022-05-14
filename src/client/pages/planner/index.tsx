@@ -7,12 +7,12 @@ import { useSelector } from "react-redux";
 import { PlusIcon } from "@components/Icons";
 import axios from "axios";
 import DegreePlanData from "@typedefs/DegreePlan";
-import { Button, Select } from "@components/form";
+import { Button } from "@components/form";
 import { groupBy } from "lodash";
 import PlannerYear from "@components/PlannerYear";
 
 const Page = () => {
-  const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user, loading, token } = useSelector<RootState, AuthState>((state) => state.auth);
   const router = useRouter();
   const [plansLoading, setPlansLoading] = useState(true);
   const [plans, setPlans] = useState<DegreePlanData[]>([]);
@@ -34,7 +34,7 @@ const Page = () => {
         {
           userId: user.id,
         },
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       await fetchPlans();
     } catch (error) {
@@ -50,7 +50,7 @@ const Page = () => {
         {
           userId: user.id,
         },
-        { headers: { Authorization: "Bearer " + user?.token } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       // Update our local state without refetching
@@ -67,7 +67,7 @@ const Page = () => {
     setPlansLoading(true);
     try {
       const { data } = await axios.get(`/api/degree-plan/get-user-plans`, {
-        headers: { Authorization: `Bearer ${user?.token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       setSelectedPlanId(data[0].id);
       setPlans(data);
@@ -80,7 +80,7 @@ const Page = () => {
   const fetchPlanData = useCallback(async () => {
     try {
       const { data } = await axios.get(`/api/degree-plan/${selectedPlanId}`, {
-        headers: { Authorization: `Bearer ${user?.token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       setSelectedPlanData(data);
     } catch (error) {

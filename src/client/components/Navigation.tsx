@@ -9,8 +9,6 @@ import {
   PersonIcon,
   Login,
   Logout,
-  PeopleIcon,
-  DocumentIcon,
   PlannerIcon,
 } from "@components/Icons";
 import { useRouter } from "next/router";

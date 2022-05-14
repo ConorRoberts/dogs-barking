@@ -15,12 +15,12 @@ interface RatingProps {
 const Rating = ({ courseId, ratingType, initialRating, name }: RatingProps) => {
   const [mouseIndex, setMouseIndex] = useState(-1);
   const [rating, setRating] = useState(initialRating);
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { token, user } = useSelector<RootState, AuthState>((state) => state.auth);
   const [updateLoading, setUpdateLoading] = useState(false);
 
   // Update rating on backend
   const submitRating = async ({ ratingValue }: { ratingValue: number }) => {
-    if (!user) return;
+    if (!token) return;
 
     setUpdateLoading(true);
     setMouseIndex(-1);
@@ -34,7 +34,7 @@ const Rating = ({ courseId, ratingType, initialRating, name }: RatingProps) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${user?.token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );

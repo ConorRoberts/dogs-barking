@@ -25,13 +25,13 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
   const [showDeletePrompt, setShowDeletePrompt] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user,token } = useSelector<RootState, AuthState>((state) => state.auth);
 
   const fetchSemesterData = async () => {
     setLoading(true);
     try {
       const { data } = await axios.get(`/api/degree-plan/semester/${id}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       setSemesterData(data);
     } catch (error) {
@@ -53,7 +53,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
             year,
           },
         },
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setEditing(false);
@@ -127,7 +127,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
           />
         )}
       </div>
-      <div className="flex flex-col gap-px">
+      <div className="flex flex-col divide-y divide-gray-100 dark:divide-gray-700">
         {semesterData.courses.map((e, index) => (
           <PlannerSemesterCourse key={`${id}-${e.id}-${index}`} course={e} semester={id} />
         ))}
