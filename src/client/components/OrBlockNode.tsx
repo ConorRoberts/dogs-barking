@@ -1,15 +1,16 @@
 import OrBlockData from "@typedefs/OrBlockData";
 import React from "react";
-import { Handle, Node, Position } from "react-flow-renderer";
+import { Handle, Position } from "react-flow-renderer";
 
-const OrBlockNode = ({ data }) => {
+const OrBlockNode = (props) => {
+  const { type, target } = props.data as OrBlockData;
+
   return (
-    <div className={`min-w-max py-3 px-6 bg-red-500 text-white rounded-md`}>
+    <div className={`min-w-max py-3 px-6 bg-gray-500 text-white rounded-md`}>
       <Handle type="target" position={Position.Top} />
       <Handle type="source" position={Position.Bottom} />
       <div className="flex flex-col items-center">
-        <p>Or</p>
-        <p>({Number(data.target).toFixed(2)} credits)</p>
+        <p>{`Choose ${type === "credit" ? `${Number(target).toFixed(2)} Credits` : `${Number(target).toFixed(0)}`}`}</p>
       </div>
     </div>
   );
