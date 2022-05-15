@@ -1,4 +1,5 @@
 import CourseGraph from "@components/CourseGraph";
+import RequirementCard from "@components/RequirementCard";
 import RequirementsList from "@components/RequirementsList";
 import { API_URL } from "@config/config";
 import Course from "@typedefs/Course";
@@ -23,7 +24,7 @@ const Page = ({ program, nodes, edges }: PageProps) => {
         </p>
       </div>
 
-      <RequirementsList parent={program} />
+      <RequirementsList requirements={program.requirements} />
 
       <CourseGraph nodes={nodes} edges={edges} />
     </div>

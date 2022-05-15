@@ -17,7 +17,7 @@ const createPrerequisiteGraph = (origin: Course | Program, config?: Config) => {
     {
       id: origin.id,
       position: { x: 0, y: 0 },
-      type: config.type ?? "Course",
+      type: config?.type ?? "Course",
       data: origin,
     },
   ];

@@ -14,6 +14,7 @@ type Course = {
   requirements: Requirement[];
   rating: RatingData;
   label?: string;
+  taken?:boolean;
 };
 
 export default Course;

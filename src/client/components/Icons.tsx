@@ -9,7 +9,7 @@ export {
   AiOutlineLoading as LoadingIcon,
 } from "react-icons/ai";
 export { FaRandom as Random, FaGraduationCap as PlannerIcon } from "react-icons/fa";
-export { GiHamburgerMenu as Menu } from "react-icons/gi";
+export { GiHamburgerMenu as Menu, GiNodular as GraphIcon } from "react-icons/gi";
 export {
   MdLogin as Login,
   MdLogout as Logout,
@@ -28,6 +28,7 @@ export {
   MdOutlineTableRows as LayoutIcon,
   MdEdit as PencilIcon,
   MdOutlineSave as SaveIcon,
+  MdCancel as CancelIcon,
 } from "react-icons/md";
 export {
   IoCloseOutline as CloseIcon,
