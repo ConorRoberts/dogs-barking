@@ -1,5 +1,6 @@
 import School from "@typedefs/School";
 import RatingData from "./RatingData";
+import Requirement from "./Requirement";
 
 type Course = {
   id: string;
@@ -10,8 +11,9 @@ type Course = {
   description: string;
   credits: number;
   school?: School;
-  requirements: Course[];
+  requirements: Requirement[];
   rating: RatingData;
+  label?: string;
 };
 
 export default Course;

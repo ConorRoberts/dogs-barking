@@ -30,7 +30,7 @@ const createPrerequisiteGraph = (origin: Course | Program, config?: Config) => {
           nodes.push({
             id: e.id,
             position: { x: 0, y: 0 },
-            type: e.type,
+            type: e.label,
             data: e,
           });
         }

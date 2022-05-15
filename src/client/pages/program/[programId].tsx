@@ -1,4 +1,5 @@
 import CourseGraph from "@components/CourseGraph";
+import RequirementsList from "@components/RequirementsList";
 import { API_URL } from "@config/config";
 import Course from "@typedefs/Course";
 import Program from "@typedefs/Program";
@@ -21,6 +22,8 @@ const Page = ({ program, nodes, edges }: PageProps) => {
           At<span className="mx-1 bg-white rounded-md dark:bg-gray-700 py-0.5 px-1">{program.school.name}</span>
         </p>
       </div>
+
+      <RequirementsList parent={program} />
 
       <CourseGraph nodes={nodes} edges={edges} />
     </div>
