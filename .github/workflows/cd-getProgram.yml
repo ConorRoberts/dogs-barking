@@ -3,7 +3,7 @@ name: CD/API/getProgram
 on:
   push:
     branches:
-      - main
+      - dev
     paths:
       - "src/api/getProgram/**"
       - ".github/workflows/cd-getProgram.yml"
