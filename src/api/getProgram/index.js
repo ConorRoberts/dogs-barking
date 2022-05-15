@@ -30,7 +30,7 @@ exports.handler = async (event) => {
         return 
             properties(program) as program,
             properties(school) as school,
-            [n in nodes(path) | {data: properties(n), type: labels(n)[0]}] as requirements,
+            [n in nodes(path) | {data: properties(n), type: labels(n)[0]}] as requirements
       `,
     { programId }
   );
