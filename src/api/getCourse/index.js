@@ -30,7 +30,7 @@ exports.handler = async (event) => {
         return 
             properties(course) as course,
             properties(school) as school,
-            [n in nodes(path) | {data: properties(n), type: labels(n)[0]}] as requirements,
+            [n in nodes(path) | {data: properties(n), label: labels(n)[0]}] as requirements,
             avg(rating.difficulty) as difficulty,
             avg(rating.timeSpent) as timeSpent,
             avg(rating.usefulness) as usefulness,
@@ -55,7 +55,7 @@ exports.handler = async (event) => {
         list.forEach((e, index) => {
           const formatted = {
             ...e.data,
-            type: e.type,
+            label: e.label,
             requirements: [],
           };
 
@@ -91,7 +91,7 @@ exports.handler = async (event) => {
   return {
     ...records[0].get("course"),
     school: records[0].get("school"),
-    type: "Course",
+    label: "Course",
     requirements: records
       .map((e) => fillTree(e.get("requirements")?.length > 1 ? e.get("requirements")[1]?.data?.id : null))
       .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
