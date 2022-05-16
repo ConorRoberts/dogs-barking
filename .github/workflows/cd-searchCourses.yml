@@ -3,7 +3,7 @@ name: CD/API/searchCourses
 on:
   push:
     branches:
-      - main
+      - dev
     paths:
       - "src/api/searchCourses/**"
       - ".github/workflows/cd-searchCourses.yml"
@@ -15,7 +15,7 @@ jobs:
   deploy:
     name: Deploy Lambda
     runs-on: ubuntu-latest
-    environment: production
+    environment: development
 
     steps:
       - name: Checkout
@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies and zip
         run: |
           cd src/api/${{env.FUNCTION_NAME}}
-          npm install
+          yarn install
           zip -r build.zip .
 
       - name: Configure AWS credentials

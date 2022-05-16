@@ -6,6 +6,7 @@ node_modules
 **/node_modules
 **/build
 pnpm-lock.yaml
+**/yarn.lock
 **/.env*
 **/cypress/screenshots
 **/cypress/videos

@@ -6,16 +6,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: pnpm/action-setup@v2.0.1
-        name: Install pnpm
-        with:
-          version: 7
-
-      - name: Install modules
-        run: pnpm i
+      - name: Install dependencies
+        run: yarn install
 
       - name: Run ESlint
-        run: pnpm lint:fix
+        run: yarn lint:fix
 
       - name: Run Prettier
-        run: pnpm format
+        run: yarn format

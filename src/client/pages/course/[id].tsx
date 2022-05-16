@@ -11,6 +11,7 @@ import courseSchema from "@schema/courseSchema";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import LoadingScreen from "@components/LoadingScreen";
+import RequirementsList from "@components/RequirementsList";
 
 interface PageProps {
   course: Course;
@@ -76,10 +77,17 @@ const Page = ({ course, nodes, edges }: PageProps) => {
           This course has been rated {course.rating.count} time{course.rating.count > 1 && "s"}
         </p>
       )}
-      <div>
+
+      {course.requirements.length > 0 && (
+        <>
+          <h2 className="text-center">Requirements</h2>
+          <RequirementsList requirements={course.requirements} />
+        </>
+      )}
+      {/* <div>
         <h3 className="text-center mb-1">Prerequisites</h3>
         <CourseGraph nodes={nodes} edges={edges} />
-      </div>
+      </div> */}
     </div>
   );
 };

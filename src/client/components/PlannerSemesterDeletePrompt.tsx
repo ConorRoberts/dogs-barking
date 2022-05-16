@@ -14,13 +14,13 @@ interface Props {
 }
 
 const PlannerSemesterDeletePrompt = ({ open, onClose, semester, onSubmit }: Props) => {
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { token } = useSelector<RootState, AuthState>((state) => state.auth);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const deleteSemester = async () => {
     setDeleteLoading(true);
     try {
       await axios.delete(`/api/degree-plan/semester/${semester}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       onSubmit();

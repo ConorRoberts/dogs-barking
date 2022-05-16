@@ -1,19 +1,24 @@
 import Course from "@typedefs/Course";
+import Program from "@typedefs/Program";
 import { Edge, Node } from "react-flow-renderer";
 import formatNodes from "./formatNodes";
+
+interface Config {
+  type: "Program" | "Course";
+}
 
 /**
  * Generates the graph structure for some prerequisites
  * @param nodeId
  * @returns
  */
-const createPrerequisiteGraph = (course: Course) => {
+const createPrerequisiteGraph = (origin: Course | Program, config?: Config) => {
   const nodes: (Node | Edge)[] = [
     {
-      id: course.id,
+      id: origin.id,
       position: { x: 0, y: 0 },
-      type: "Course",
-      data: course,
+      type: config?.type ?? "Course",
+      data: origin,
     },
   ];
 
@@ -25,7 +30,7 @@ const createPrerequisiteGraph = (course: Course) => {
           nodes.push({
             id: e.id,
             position: { x: 0, y: 0 },
-            type: e.type,
+            type: e.label,
             data: e,
           });
         }
@@ -44,11 +49,11 @@ const createPrerequisiteGraph = (course: Course) => {
       });
     };
 
-    populate(course);
+    populate(origin);
 
-    return formatNodes(nodes.filter((e) => e.type !== "program"));
+    return formatNodes(nodes);
   } catch (error) {
-    console.error(`[createPrerequisiteGraph (course: ${course.id})]: ${error}`);
+    console.error(`[createPrerequisiteGraph (origin: ${origin.id})]: ${error}`);
     return { nodes: [], edges: [] };
   }
 };

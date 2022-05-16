@@ -4,5 +4,6 @@
     "semi": true,
     "bracketSameLine": true,
     "printWidth": 120,
-    "endOfLine": "crlf"
+    "endOfLine": "crlf",
+    "singleQuote": false
 }

@@ -10,3 +10,6 @@ Dockerfile
 **/yarn.lock
 .dockerignore
 .env*
+*-lock.*
+**/cypress/videos
+**/cypress/screenshots

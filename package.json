@@ -10,23 +10,26 @@
     "lint": "eslint ./src/**",
     "lint:fix": "eslint ./src/** --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md,js}\"",
-    "scrape": "pnpm -C ./src/scraper run scrape",
-    "client": "pnpm -C ./src/client run dev",
-    "test:client": "pnpm -C ./src/client run test"
+    "scrape": "yarn workspace scraper scrape",
+    "client": "yarn workspace web-client dev",
+    "test:client": "yarn workspace web-client test"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
     "eslint": "8.5.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-next": "^0.0.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-tailwindcss": "^3.5.0",
     "prettier": "^2.5.1",
     "typescript": "^4.6.4"
   },
+  "workspaces": [
+    "src/*"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/ConorRoberts/dogs-barking.git"
   }
 }
-

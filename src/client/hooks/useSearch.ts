@@ -21,6 +21,8 @@ const useSearch = (query: string, config?: Config) => {
 
   useEffect(() => {
     const timer = setTimeout(async () => {
+      if (loading) return;
+      
       setLoading(true);
       // Fetch data from search endpoint
       if (query.length === 0) {

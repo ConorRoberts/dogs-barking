@@ -6,7 +6,6 @@ interface User {
   school: string;
   major: string;
   minor: string;
-  token: string;
 }
 
 export default User;

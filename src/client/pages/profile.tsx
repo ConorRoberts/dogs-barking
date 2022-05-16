@@ -20,7 +20,7 @@ interface PageProps {
 type UpdateStatus = "" | "success" | "failure";
 
 const Page = ({ schools }: PageProps) => {
-  const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user, loading,token } = useSelector<RootState, AuthState>((state) => state.auth);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>("");
   const router = useRouter();
 
@@ -46,7 +46,7 @@ const Page = ({ schools }: PageProps) => {
             let status: UpdateStatus = "success";
 
             try {
-              await axios.post(`/api/user`, values, { headers: { Authorization: `Bearer ${user?.token}` } });
+              await axios.post(`/api/user`, values, { headers: { Authorization: `Bearer ${token}` } });
             } catch (error) {
               status = "failure";
             }

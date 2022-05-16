@@ -1,5 +1,5 @@
 import { PlannerSemesterData } from "@typedefs/DegreePlan";
-import { FormEvent, useState } from "react";
+import { FormEvent, KeyboardEvent, KeyboardEventHandler, useEffect, useState } from "react";
 import { CloseIcon, LoadingIcon, PencilIcon, PlusIcon, SaveIcon } from "./Icons";
 import axios from "axios";
 import PlannerSemesterCourse from "./PlannerSemesterCourse";
@@ -7,9 +7,10 @@ import PlannerSemesterCourseSearch from "./PlannerSemesterCourseSearch";
 import PlannerSemesterDeletePrompt from "./PlannerSemesterDeletePrompt";
 import { Button, Input, Select } from "./form";
 import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@redux/store";
 import { AuthState } from "@redux/auth";
+import { PlannerState, setCurrentEditingSemester, setPlan } from "@redux/planner";
 
 interface PlannerSemesterProps {
   data: PlannerSemesterData;
@@ -18,29 +19,34 @@ interface PlannerSemesterProps {
 const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
   const { id } = data;
 
-  const [semesterData, setSemesterData] = useState<PlannerSemesterData>(data);
+  // const [semesterData, setSemesterData] = useState<PlannerSemesterData>(data);
   const [editState, setEditState] = useState(data);
-  const [editing, setEditing] = useState(false);
   const [showCourseSelect, setShowCourseSelect] = useState(false);
   const [showDeletePrompt, setShowDeletePrompt] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { token } = useSelector<RootState, AuthState>((state) => state.auth);
+  const dispatch = useDispatch();
+  const { plan, currentEditingSemester } = useSelector<RootState, PlannerState>((state) => state.planner);
+  const editing = currentEditingSemester === id;
 
   const fetchSemesterData = async () => {
     setLoading(true);
     try {
       const { data } = await axios.get(`/api/degree-plan/semester/${id}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
-      setSemesterData(data);
+      // setSemesterData(data);
+
+      dispatch(setPlan({ ...plan, semesters: plan.semesters.map((e) => (e.id === id ? data : e)) }));
     } catch (error) {
       console.error(error);
     }
     setLoading(false);
   };
 
-  const handleSemesterUpdate = async () => {
+  const handleSemesterUpdate = async (e?: FormEvent) => {
+    e?.preventDefault();
     setEditLoading(true);
 
     try {
@@ -53,11 +59,11 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
             year,
           },
         },
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setEditing(false);
-      setSemesterData(data);
+      dispatch(setCurrentEditingSemester(null));
+      dispatch(setPlan({ ...plan, semesters: plan.semesters.map((e) => (e.id === id ? data : e)) }));
     } catch (error) {
       console.error(error);
     }
@@ -65,8 +71,32 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
     setEditLoading(false);
   };
 
+  const toggleEditing = () => {
+    dispatch(setCurrentEditingSemester(id));
+  };
+
+  const handleDeleteKey = (event: globalThis.KeyboardEvent) => {
+    // If key is delete
+    if (event.key === "Delete") {
+      setShowDeletePrompt(true);
+    }
+  };
+
+  useEffect(() => {
+    // if there is a current editing semester, mount a listener for the delete key
+    if (currentEditingSemester === id) {
+      document.addEventListener("keydown", handleDeleteKey);
+    } else {
+      document.removeEventListener("keydown", handleDeleteKey);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleDeleteKey);
+    };
+  }, [currentEditingSemester]);
+
   // If we have no data, we should let the user know it's loading
-  if (!semesterData) return <LoadingIcon className="animate-spin mx-auto" />;
+  if (!data) return <LoadingIcon className="animate-spin mx-auto" />;
 
   return (
     <motion.div
@@ -89,11 +119,11 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
       <div className="flex justify-between gap-4 items-center">
         {!editing && (
           <h3 className="capitalize">
-            {semesterData.semester} &apos;{semesterData.year % 2000}
+            {data.semester} &apos;{data.year % 2000}
           </h3>
         )}
         {editing && (
-          <div className="flex-1 grid grid-cols-5 gap-2">
+          <form className="flex-1 grid grid-cols-5 gap-2" onSubmit={handleSemesterUpdate}>
             <div className="col-span-3">
               <Select
                 value={editState.semester}
@@ -110,7 +140,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
                 type="number"
               />
             </div>
-          </div>
+          </form>
         )}
         {loading && <LoadingIcon size={18} className="text-gray-500 hover:text-gray-600 animate-spin" />}
         {editing ? (
@@ -123,12 +153,12 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
           <PencilIcon
             size={18}
             className="text-gray-500 hover:text-gray-600 transition cursor-pointer"
-            onClick={() => setEditing(true)}
+            onClick={toggleEditing}
           />
         )}
       </div>
-      <div className="flex flex-col gap-px">
-        {semesterData.courses.map((e, index) => (
+      <div className="flex flex-col divide-y divide-gray-100 dark:divide-gray-700">
+        {data.courses.map((e, index) => (
           <PlannerSemesterCourse key={`${id}-${e.id}-${index}`} course={e} semester={id} />
         ))}
       </div>
