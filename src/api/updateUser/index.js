@@ -70,5 +70,10 @@ exports.handler = async (event) => {
   await session.close();
   await driver.close();
 
-  return records[0].get("user");
+  return {
+    ...records[0].get("user"),
+    school: records[0].get("school"),
+    major: records[0].get("major"),
+    minor: records[0].get("minor"),
+  };
 };
