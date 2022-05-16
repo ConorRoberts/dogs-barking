@@ -97,6 +97,16 @@ class Scraper {
         // Validation of data, open pages
     }
 
+    scrape () {
+        //TODO: Define a base scraper function
+        // When the above methods are not suffice
+    }
+}
+
+class CourseScraper extends Scraper {
+    constructor (School:string) {
+        super(School);
+    }
     /** Course Methods */
     scrapeCoursesCalendar () {
         //TODO: Implement scraping of the courses calendar, wrapper
@@ -121,7 +131,12 @@ class Scraper {
     storeCourses () {
         //TODO: Take scraped courses and store into DB
     }
-    
+}
+
+class ProgramScraper extends Scraper {
+    constructor (School:string) {
+        super(School);
+    }
     /** programs methods */
     scrapeProgramsCalendar () {
         //TODO: Implement scraping of programs calendar
@@ -152,10 +167,5 @@ class Scraper {
 
     _storeProgram() {
 
-    }
-
-    scrape () {
-        //TODO: Define a base scraper function
-        // When the above methods are not suffice
     }
 }

@@ -26,7 +26,7 @@ const Fields = {
     REQUIREMENTS: Symbol.for("REQUIREMENTS"),
 };
 
-class Parser {
+export class Parser {
 
     private options;
     private states = Parser_States;
@@ -44,13 +44,52 @@ class Parser {
     parseField () {
         //TODO: field parsing
     }
-    parseCourse () {
-        // TODO: Wrapper for parsing a course
+    parseAttribute () {
+        //TODO: Wrapper for parsing attributes
+    }
+}
+class ProgramParser extends Parser {
+    constructor(options) {
+        super();
     }
     parseProgram () {
         // TODO: Wrapper for parsing a program
     }
-    parseAttribute () {
-        //TODO: Wrapper for parsing attributes
+    parseDegree(regex, options) {
+
+    }
+    parseName(regex, options) {
+    }
+    parseShortForm(regex, options){
+
+    }
+    parseRequirements(regex, options) {
+    }
+    parseSchool(regex, options) {
+    }
+}
+
+class CourseParser extends Parser {
+    constructor(options) {
+        super();
+    }
+    parseCourse () {
+        // TODO: Wrapper for parsing a course
+    }
+    parseDepartment(regex, options) {
+    }
+    parseCourseNumber(regex, options) {
+    }
+    parseCourseCode(regex, options) {
+    }
+    parseCourseName(regex, options) {
+    }
+    parseCourseDescription(regex, options) {
+    }
+    parseCourseCredits(regex, options) {
+    }
+    parseCourseSchool(regex, options) {
+    }
+    parseCourseRequirements(regex, options) {
     }
 }
