@@ -25,25 +25,31 @@ exports.handler = async (event) => {
   const { records } = await session.run(
     `
         MERGE (user:User {id: $sub})
-
+  
+        WITH user
         OPTIONAL MATCH (user)-[attends:ATTENDS]->(school: School)
         DELETE attends
 
+        WITH user
         OPTIONAL MATCH (user)-[studiesMajor:STUDIES_MAJOR]->(program: Program)
         DELETE studiesMajor
 
+        with user
         OPTIONAL MATCH (user)-[studiesMinor:STUDIES_MINOR]->(program: Program)
         DELETE studiesMinor
-
+        
+        with user
         OPTIONAL MATCH (school: School {id: $school})
         CREATE (user)-[:ATTENDS]->(school)
 
+        with user, school
         OPTIONAL MATCH (major: Program {id: $major})
         CREATE (user)-[:STUDIES_MAJOR]->(major)
-
+        
+        with user, school, major
         OPTIONAL MATCH (minor: Program {id: $minor})
         CREATE (user)-[:STUDIES_MINOR]->(minor)
-
+        
         RETURN 
           properties(user) as user,
           properties(major) as major,
