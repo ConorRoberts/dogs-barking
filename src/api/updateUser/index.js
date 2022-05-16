@@ -74,7 +74,7 @@ exports.handler = async (event) => {
           ${minor !== "" ? "properties(minor)" : "NULL"} as minor,
           ${school !== "" ? "properties(school)" : "NULL"} as school
         `,
-    { major, minor, school, sub }
+    { major, minor, school, sub, takenCourses }
   );
 
   await session.close();
