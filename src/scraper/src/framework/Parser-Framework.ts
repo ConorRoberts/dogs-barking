@@ -56,16 +56,29 @@ class ProgramParser extends Parser {
         // TODO: Wrapper for parsing a program
     }
     parseDegree(regex, options) {
-
+        if (!regex) {
+            throw new Error("No regex provided... aborting");
+        }
     }
     parseName(regex, options) {
+        if (!regex) {
+            throw new Error("No regex provided... aborting");
+        }
     }
     parseShortForm(regex, options){
-
+        if (!regex) {
+            throw new Error("No regex provided... aborting");
+        }
     }
     parseRequirements(regex, options) {
+        if (!regex) {
+            throw new Error("No regex provided... aborting");
+        }
     }
     parseSchool(regex, options) {
+        if (!regex) {
+            throw new Error("No regex provided... aborting");
+        }
     }
 }
 
@@ -77,19 +90,43 @@ class CourseParser extends Parser {
         // TODO: Wrapper for parsing a course
     }
     parseDepartment(regex, options) {
+        if (!regex) {
+            throw new Error("No regex provided... aborting");
+        }
     }
     parseCourseNumber(regex, options) {
+        if (!regex) {
+            throw new Error("No regex provided... aborting");
+        }
     }
     parseCourseCode(regex, options) {
+        if (!regex) {
+            throw new Error("No regex provided... aborting");
+        }
     }
     parseCourseName(regex, options) {
+        if (!regex) {
+            throw new Error("No regex provided... aborting");
+        }
     }
     parseCourseDescription(regex, options) {
+        if (!regex) {
+            throw new Error("No regex provided... aborting");
+        }
     }
     parseCourseCredits(regex, options) {
+        if (!regex) {
+            throw new Error("No regex provided... aborting");
+        }
     }
     parseCourseSchool(regex, options) {
+        if (!regex) {
+            throw new Error("No regex provided... aborting");
+        }
     }
     parseCourseRequirements(regex, options) {
+        if (!regex) {
+            throw new Error("No regex provided... aborting");
+        }
     }
 }
