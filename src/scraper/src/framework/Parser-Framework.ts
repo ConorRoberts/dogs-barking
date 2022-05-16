@@ -48,7 +48,7 @@ export class Parser {
         //TODO: Wrapper for parsing attributes
     }
 }
-class ProgramParser extends Parser {
+export class ProgramParser extends Parser {
     constructor(options) {
         super();
     }
@@ -82,7 +82,7 @@ class ProgramParser extends Parser {
     }
 }
 
-class CourseParser extends Parser {
+export class CourseParser extends Parser {
     constructor(options) {
         super();
     }

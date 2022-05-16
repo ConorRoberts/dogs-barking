@@ -103,7 +103,7 @@ class Scraper {
     }
 }
 
-class CourseScraper extends Scraper {
+export class CourseScraper extends Scraper {
     constructor (School:string) {
         super(School);
     }
@@ -133,7 +133,7 @@ class CourseScraper extends Scraper {
     }
 }
 
-class ProgramScraper extends Scraper {
+export class ProgramScraper extends Scraper {
     constructor (School:string) {
         super(School);
     }
