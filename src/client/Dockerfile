@@ -4,9 +4,8 @@ WORKDIR /usr/app
 
 COPY . .
 
-RUN npm i -g pnpm
-RUN pnpm install
+RUN yarn install
 
-RUN pnpm build
+RUN yarn build
 
-CMD ["pnpm", "start"]
+CMD ["yarn", "start"]

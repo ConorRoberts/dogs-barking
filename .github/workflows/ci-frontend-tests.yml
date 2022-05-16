@@ -6,12 +6,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: pnpm/action-setup@v2.0.1
-        name: Install pnpm
-        with:
-          version: 7
-          run_install: true
-
       - name: Cypress & build
         uses: cypress-io/github-action@v2
         env:
@@ -23,9 +17,9 @@ jobs:
           browser: chrome
           headless: true
           install: false
-          command: pnpm test:client
-          build: pnpm -C ./src/client run build
-          start: pnpm -C ./src/client run start
+          command: yarn test:client
+          build: yarn workspace web-client build
+          start: yarn workspace web-client start
           wait-on: "http://localhost:3000"
           project: ./src/client
 

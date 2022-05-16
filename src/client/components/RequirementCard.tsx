@@ -9,7 +9,7 @@ interface Props {
 }
 
 const RequirementCard = ({ requirement }: Props) => {
-  const taken = true;
+  const taken = false;
   return (
     <div className="bg-white shadow-sm dark:bg-gray-800 rounded-xl p-3">
       <div className="flex justify-between gap-4 items-center">

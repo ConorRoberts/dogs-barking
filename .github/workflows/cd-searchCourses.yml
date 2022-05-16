@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies and zip
         run: |
           cd src/api/${{env.FUNCTION_NAME}}
-          npm install
+          yarn install
           zip -r build.zip .
 
       - name: Configure AWS credentials
