@@ -5,6 +5,7 @@
 import writeFileSync from "fs";
 import {devices, chromium, ElementHandle} from "@playwright/test";
 import chalk from "chalk";
+import * as scraperUtils from './Scraper-Utils';
 
 export enum Scraper_States { //TODO: Add end states
     INITIALIZED,
@@ -32,19 +33,6 @@ export type Meeting = {
     id: number;
     room?: string;
 };
-
-const courses = [];
-const labs = [];
-const lectures = [];
-const seminars = [];
-const tutorials = [];
-const exams = [];
-const sections = [];
-const instructors = [];
-
-//TODO: Migrate to winston logging, host online if possible
-const logs = [];
-
 class Scraper {
     private SchoolType;
     private logs;
@@ -98,7 +86,6 @@ class Scraper {
         return this.seminars;
     }
 
-
     /** Accessor methods: Programs */
 
     get _programs() {
@@ -110,12 +97,21 @@ class Scraper {
         // Validation of data, open pages
     }
 
+    /** Course Methods */
     scrapeCoursesCalendar () {
-        //TODO: Implement scraping of the courses calendar
+        //TODO: Implement scraping of the courses calendar, wrapper
     }
 
-    scrapeProgramsCalendar () {
-        //TODO: Implement scraping of programs calendar
+    goToCourseCalendar () {
+        //TODO: navigate to the course calendar from webpage
+    }
+
+    goToCoursePage () {
+        //TODO: navigate to a course page
+    }
+
+    getCourses () {
+        //TODO: scrape courses from each page
     }
 
     parseCourses () {
@@ -124,6 +120,38 @@ class Scraper {
 
     storeCourses () {
         //TODO: Take scraped courses and store into DB
+    }
+    
+    /** programs methods */
+    scrapeProgramsCalendar () {
+        //TODO: Implement scraping of programs calendar
+    }
+
+    goToProgramCalendar () {
+
+    }
+
+    goToProgramPage () {
+    
+    }
+
+    getMajors () {
+
+    }
+
+    getMinors () {
+
+    }
+
+    getAOA() {
+    }
+
+    _parseProgram() {
+
+    }
+
+    _storeProgram() {
+
     }
 
     scrape () {

@@ -28,14 +28,16 @@ const Fields = {
 
 class Parser {
 
-    private options_default;
+    private options;
     private states = Parser_States;
     private fields = Object.values(Fields);
 
     constructor() {
         //TODO: setup instance vars, etc
     }
-
+    set _options (options) {
+        this.options = options;
+    }
     setupParser () {
         //TODO: Parser setup
     }
