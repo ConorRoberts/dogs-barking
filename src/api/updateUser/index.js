@@ -47,7 +47,7 @@ exports.handler = async (event) => {
         RETURN 
           properties(user) as user,
           properties(major) as major,
-          properties(minor) as minor
+          properties(minor) as minor,
           properties(school) as school
         `,
     { major, minor, school, sub }
