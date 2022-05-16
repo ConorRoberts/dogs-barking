@@ -35,7 +35,8 @@ exports.handler = async (event) => {
           properties(user) as user,
           properties(minor) as minor,
           properties(major) as major,
-          properties(school) as school
+          properties(school) as school,
+          [(user)-[:HAS_TAKEN]->(course:Course) | properties(course)] as takenCourses
     `,
     { id: sub }
   );
@@ -48,5 +49,6 @@ exports.handler = async (event) => {
     school: records[0].get("school"),
     major: records[0].get("major"),
     minor: records[0].get("minor"),
+    takenCourses: records[0].get("takenCourses") ?? [],
   };
 };

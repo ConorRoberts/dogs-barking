@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 exports.handler = async (event) => {
   console.log(event);
 
-  const { major = "", minor = "", school = "" } = JSON.parse(event.body ?? "{}");
+  const { major = "", minor = "", school = "", takenCourses = [] } = JSON.parse(event.body ?? "{}");
   // const query = event.queryStringParameters;
   // const pathParams = event.pathParameters;
   const headers = event.headers;
@@ -37,10 +37,19 @@ exports.handler = async (event) => {
         with user
         OPTIONAL MATCH (user)-[studiesMinor:STUDIES_MINOR]->(program: Program)
         DELETE studiesMinor
-        
+
         with user
+        unwind $takenCourses as takenCourse
+        MATCH (course:Course {id: takenCourse})
+        CREATE (user)-[:HAS_TAKEN]->(course)
+        
+        ${
+          school !== ""
+            ? `with user
         OPTIONAL MATCH (school: School {id: $school})
-        CREATE (user)-[:ATTENDS]->(school)
+        CREATE (user)-[:ATTENDS]->(school)`
+            : ""
+        }
 
         ${
           major !== ""
@@ -60,9 +69,10 @@ exports.handler = async (event) => {
         
         RETURN 
           properties(user) as user,
-          ${minor !== "" ? "properties(major)" : "NULL"} as major,
+          [(user)-[:HAS_TAKEN]->(course:Course) | properties(course)] as takenCourses,
+          ${major !== "" ? "properties(major)" : "NULL"} as major,
           ${minor !== "" ? "properties(minor)" : "NULL"} as minor,
-          ${minor !== "" ? "properties(school)" : "NULL"} as school
+          ${school !== "" ? "properties(school)" : "NULL"} as school
         `,
     { major, minor, school, sub }
   );
@@ -75,5 +85,6 @@ exports.handler = async (event) => {
     school: records[0].get("school"),
     major: records[0].get("major"),
     minor: records[0].get("minor"),
+    takenCourses: records[0].get("takenCourses"),
   };
 };
