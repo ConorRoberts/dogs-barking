@@ -42,19 +42,27 @@ exports.handler = async (event) => {
         OPTIONAL MATCH (school: School {id: $school})
         CREATE (user)-[:ATTENDS]->(school)
 
-        with user, school
+        ${
+          major !== ""
+            ? `with user, school
         OPTIONAL MATCH (major: Program {id: $major})
-        CREATE (user)-[:STUDIES_MAJOR]->(major)
+        CREATE (user)-[:STUDIES_MAJOR]->(major)`
+            : ""
+        }
         
-        with user, school, major
+        ${
+          minor !== ""
+            ? `with user, school, major
         OPTIONAL MATCH (minor: Program {id: $minor})
-        CREATE (user)-[:STUDIES_MINOR]->(minor)
+        CREATE (user)-[:STUDIES_MINOR]->(minor)`
+            : ""
+        }
         
         RETURN 
           properties(user) as user,
-          properties(major) as major,
-          properties(minor) as minor,
-          properties(school) as school
+          ${minor !== "" ? "properties(major)" : "NULL"} as major,
+          ${minor !== "" ? "properties(minor)" : "NULL"} as minor,
+          ${minor !== "" ? "properties(school)" : "NULL"} as school
         `,
     { major, minor, school, sub }
   );
