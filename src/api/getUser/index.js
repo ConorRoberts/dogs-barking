@@ -25,8 +25,17 @@ exports.handler = async (event) => {
   const { records } = await session.run(
     `
         MATCH (user:User {id: $id})
+
+        OPTIONAL MATCH 
+        (user)-[:ATTENDS]->(school: School),
+        (user)-[:STUDIES_MAJOR]->(major: Program)
+        (user)-[:STUDIES_MINOR]->(minor: Program)
+
         RETURN 
-          properties(user) as user
+          properties(user) as user,
+          properties(minor) as minor,
+          properties(major) as major
+          properties(school) as school,
     `,
     { id: sub }
   );
@@ -34,5 +43,10 @@ exports.handler = async (event) => {
   await session.close();
   await driver.close();
 
-  return records[0].get("user");
+  return {
+    ...records[0].get("user"),
+    school: records[0].get("school"),
+    major: records[0].get("major"),
+    minor: records[0].get("minor"),
+  };
 };
