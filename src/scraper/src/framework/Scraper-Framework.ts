@@ -45,59 +45,89 @@ const instructors = [];
 //TODO: Migrate to winston logging, host online if possible
 const logs = [];
 
-module.exports = {
-    Scraper_States,
-    initialize: async () => {
-        //TODO: Setup scraper/browser
-    },
-    scrapeCourseCalendar: async () => { // primary driver for getting courses data
-        //TODO: Outline function calls
-        if (this.goToCourseCalendar) {
-            //TODO: call goToCourseCalendar
-        } else {
-            console.log("goToCourseCalendar not defined... skipping");
-        }
-        if (this.getCourses) {
-            //TODO call getCourses
-        } else {
-            console.log("GetCourses not defined... skipping");
-        }
-        if (this.parseCourses) {
-            //TODO: parser call
-        } else {
-            console.log("No parsing method found...");
-        }
-    },
-    scrapeProgramsCalendar: async () => { // primary driver for scraping programs data
-        //TODO: Outline function calls
-        if (this.goToPrograms) {
-            //TODO: goToPrograms integration
-        } else {
-            console.log("goToPrograms Not defined... skipping");
-        }
-        if (this.getPrograms) {
-            //TODO: getPrograms call
-        } else {
-            console.log("getPrograms Not defined... skipping");
-        }
-        if (this.getProgram) {
-            //TODO: getProgram call
-            console.log("getProgram not defined skipping...");
-        }
-        if (this.parseProgram) {
-            //TODO: parser call
-        } else {
-            console.log("No parsing method found...");
-        }
-    },
-    _parseCourses: async () => {
+class Scraper {
+    private SchoolType;
+    private logs;
+    private programs;
+    private courses;
+    private labs;
+    private lectures;
+    private seminars;
+    private tutorials;
+    private exams;
+    private sections;
+    private instructors;
+
+    constructor (School:string) { // instanciate the program
+        this.initializeMembers();
+        this.initialize();
+        this.SchoolType = School;
+    }
+
+    private initializeMembers() { // setup all member variables
+        this.logs = [];
+        this.courses = [];
+        this.labs = [];
+        this.lectures = [];
+        this.seminars = [];
+        this.tutorials = [];
+        this.exams = [];
+        this.sections = [];
+        this.instructors = [];
+    }
+
+    get _logs() {
+        return this.logs;
+    }
+
+    /**Accessor Methods (Courses)*/
+
+    get _courses() {
+        return this.courses;
+    }
+
+    get _labs() {
+        return this.labs;
+    }
+
+    get _lectures() {
+        return this.lectures;
+    }
+
+    get _seminars() {
+        return this.seminars;
+    }
+
+
+    /** Accessor methods: Programs */
+
+    get _programs() {
+        return this.programs;
+    }
+
+    initialize () {
+        //TODO: initial setup of the scraper
+        // Validation of data, open pages
+    }
+
+    scrapeCoursesCalendar () {
+        //TODO: Implement scraping of the courses calendar
+    }
+
+    scrapeProgramsCalendar () {
+        //TODO: Implement scraping of programs calendar
+    }
+
+    parseCourses () {
         //TODO: call parser and store courses in DB
-    },
-    _storeCourses: async () => {
+    }
+
+    storeCourses () {
         //TODO: Take scraped courses and store into DB
-    },
-    scrape: async () => {
+    }
+
+    scrape () {
         //TODO: Define a base scraper function
         // When the above methods are not suffice
-    },
-};
+    }
+}

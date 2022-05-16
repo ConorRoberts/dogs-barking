@@ -26,33 +26,29 @@ const Fields = {
     REQUIREMENTS: Symbol.for("REQUIREMENTS"),
 };
 
-module.exports = {
-    Parser_States,
-    Fields,
-    Options_Default: {},
-    Required_Fields: Object.values(Fields),
-    ParseField: async (options = {}) => {
-        // TODO: Lay Down Basic Logic for parsing fields
-    },
-    DEFAULT_PARSING: {
-        [Fields.DEPT]: async (element, options = {}) => {
-        },
-        [Fields.COURSE_NUM]: async (element, options = {}) => {},
-        [Fields.COURSE_CODE]: async (element, options = {}) => {},
-        [Fields.COURSE_NAME]: async (element, options = {}) => {},
-        [Fields.COURSE_DESC]: async (element, options = {}) => {},
-        [Fields.COURSE_WEIGHT]: async (element, options = {}) => {},
-        [Fields.SCHOOL]: async (element, options = {}) => {},
-        [Fields.REQUIREMENTS]: async (element, options = {}) => {},        
-    },
-    setupParser: async () => {
-        //TODO: setup a basis for parsing data 
-    },
-    parseAttribute: async () => {
-        //TODO: Define logic for parsing a single attribute
-    },
-    parseCourse: async () => {
-        //TODO: define logic for generic parsing
-        // Only to be used when the above is not suffice
-    },
+class Parser {
+
+    private options_default;
+    private states = Parser_States;
+    private fields = Object.values(Fields);
+
+    constructor() {
+        //TODO: setup instance vars, etc
+    }
+
+    setupParser () {
+        //TODO: Parser setup
+    }
+    parseField () {
+        //TODO: field parsing
+    }
+    parseCourse () {
+        // TODO: Wrapper for parsing a course
+    }
+    parseProgram () {
+        // TODO: Wrapper for parsing a program
+    }
+    parseAttribute () {
+        //TODO: Wrapper for parsing attributes
+    }
 }
