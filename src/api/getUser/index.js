@@ -27,15 +27,15 @@ exports.handler = async (event) => {
         MATCH (user:User {id: $id})
 
         OPTIONAL MATCH 
-        (user)-[:ATTENDS]->(school: School),
-        (user)-[:STUDIES_MAJOR]->(major: Program)
-        (user)-[:STUDIES_MINOR]->(minor: Program)
+          (user)-[:ATTENDS]->(school: School),
+          (user)-[:STUDIES_MAJOR]->(major: Program),
+          (user)-[:STUDIES_MINOR]->(minor: Program)
 
         RETURN 
           properties(user) as user,
           properties(minor) as minor,
-          properties(major) as major
-          properties(school) as school,
+          properties(major) as major,
+          properties(school) as school
     `,
     { id: sub }
   );
