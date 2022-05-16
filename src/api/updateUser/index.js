@@ -26,11 +26,29 @@ exports.handler = async (event) => {
     `
         MERGE (user:User {id: $sub})
 
-        SET user.major = $major
-        SET user.minor = $minor
-        SET user.school = $school
+        OPTIONAL MATCH (user)-[attends:ATTENDS]->(school: School)
+        DELETE attends
 
-        RETURN properties(user) as user
+        OPTIONAL MATCH (user)-[studiesMajor:STUDIES_MAJOR]->(program: Program)
+        DELETE studiesMajor
+
+        OPTIONAL MATCH (user)-[studiesMinor:STUDIES_MINOR]->(program: Program)
+        DELETE studiesMinor
+
+        OPTIONAL MATCH (school: School {id: $school})
+        CREATE (user)-[:ATTENDS]->(school)
+
+        OPTIONAL MATCH (major: Program {id: $major})
+        CREATE (user)-[:STUDIES_MAJOR]->(major)
+
+        OPTIONAL MATCH (minor: Program {id: $minor})
+        CREATE (user)-[:STUDIES_MINOR]->(minor)
+
+        RETURN 
+          properties(user) as user,
+          properties(major) as major,
+          properties(minor) as minor
+          properties(school) as school
         `,
     { major, minor, school, sub }
   );
