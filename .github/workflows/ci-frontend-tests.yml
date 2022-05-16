@@ -6,6 +6,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install dependencies
+        run: yarn install
+
       - name: Cypress & build
         uses: cypress-io/github-action@v2
         env:
