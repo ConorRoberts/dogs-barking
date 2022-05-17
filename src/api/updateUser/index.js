@@ -150,8 +150,8 @@ exports.handler = async (event) => {
   console.log(records);
 
   return {
-    ...user,
     ...records[0].get("user"),
+    ...user,
     takenCourses: records[0].get("takenCourses"),
   };
 };
