@@ -18,7 +18,7 @@ exports.handler = async (event) => {
     neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
   );
 
-  let user = {
+  const user = {
     major: null,
     minor: null,
     school: null,
@@ -125,7 +125,7 @@ exports.handler = async (event) => {
 
         RETURN 
           properties(user) as user,
-          [(user)-[:HAS_TAKEN]->(course:Course) | properties(course)] as takenCourses,
+          [(user)-[:HAS_TAKEN]->(course:Course) | properties(course)] as takenCourses
         `,
     { userId: sub, takenCourses }
   );
@@ -133,20 +133,11 @@ exports.handler = async (event) => {
   await session.close();
   await driver.close();
 
-  // Update our user object
-  user = {
-    ...records[0].get("user"),
-    takenCourses: records[0].get("takenCourses"),
-    ...user,
-  };
-
   console.log(records);
 
   return {
+    ...user,
     ...records[0].get("user"),
-    school: records[0].get("school"),
-    major: records[0].get("major"),
-    minor: records[0].get("minor"),
     takenCourses: records[0].get("takenCourses"),
   };
 };
