@@ -64,9 +64,8 @@ exports.handler = async (event) => {
         MERGE (user:User {id: $userId})
 
         WITH user
-        OPTIONAL MATCH 
-        (user)-[studiesMinor:STUDIES_MINOR]->(program: Program),
-        (minor: Program {id: $minor})
+        OPTIONAL MATCH (user)-[studiesMinor:STUDIES_MINOR]->(program: Program)
+        MATCH (minor: Program {id: $minor})
 
         DELETE studiesMinor
         CREATE (user)-[:STUDIES_MINOR]->(minor)
@@ -94,9 +93,8 @@ exports.handler = async (event) => {
         MERGE (user:User {id: $userId})
 
         WITH user
-        OPTIONAL MATCH 
-        (user)-[attends:ATTENDS]->(school: School),
-        (school: School {id: $school})
+        OPTIONAL MATCH (user)-[attends:ATTENDS]->(school: School)
+        MATCH (school: School {id: $school})
 
         DELETE attends
         CREATE (user)-[:ATTENDS]->(school)
@@ -121,16 +119,17 @@ exports.handler = async (event) => {
       MERGE (user:User {id: $userId})
 
       WITH user
-      MATCH (user)-[r:HAS_TAKEN]->(course:Course)
+      MATCH (user)-[r:HAS_TAKEN]->(:Course)
       DELETE r
     
+      WITH user
       UNWIND $takenCourses as takenCourse
       MATCH (course:Course {id: takenCourse})
       CREATE (user)-[:HAS_TAKEN]->(course)
 
       RETURN 
         properties(user) as user,
-        [(user)-[:HAS_TAKEN]->(course:Course) | properties(course)] as takenCourses
+        [(user)-[:HAS_TAKEN]->(c:Course) | properties(c)] as takenCourses
         `,
     { userId: sub, takenCourses }
   );
