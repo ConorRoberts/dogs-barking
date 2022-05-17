@@ -9,8 +9,6 @@ exports.handler = async (event) => {
   console.log(event);
 
   const { major = "", minor = "", school = "", takenCourses = [] } = JSON.parse(event.body ?? "{}");
-  // const query = event.queryStringParameters;
-  // const pathParams = event.pathParameters;
   const headers = event.headers;
 
   const { sub } = jwt.decode(headers.authorization.replace("Bearer ", ""));
@@ -20,53 +18,111 @@ exports.handler = async (event) => {
     neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
   );
 
+  let user = {};
+
+  // Handle major
+  if (major !== "") {
+    const session = driver.session();
+
+    const { records } = await session.run(
+      `
+        MATCH (user:User {id: $userId})
+
+        OPTIONAL MATCH 
+        (user)-[studiesMajor:STUDIES_MAJOR]->(program: Program),
+        (major: Program {id: $major})
+
+        DELETE studiesMajor
+        CREATE (user)-[:STUDIES_MAJOR]->(major)
+
+        RETURN properties(major) as major
+      `,
+      { userId: sub, major }
+    );
+
+    await session.close();
+
+    user.major = records[0].get("major");
+  }
+
+  // Handle minor
+  if (minor !== "") {
+    const session = driver.session();
+
+    const { records } = await session.run(
+      `
+        MATCH (user:User {id: $userId})
+
+        OPTIONAL MATCH 
+        (user)-[studiesMinor:STUDIES_MINOR]->(program: Program),
+        (minor: Program {id: $minor})
+
+        DELETE studiesMinor
+        CREATE (user)-[:STUDIES_MINOR]->(minor)
+
+        RETURN properties(minor) as minor
+      `,
+      { userId: sub, minor }
+    );
+
+    await session.close();
+
+    user.minor = records[0].get("minor");
+  }
+
+  // Handle school
+  if (school !== "") {
+    const session = driver.session();
+
+    const { records } = await session.run(
+      `
+        MATCH (user:User {id: $userId})
+
+        OPTIONAL MATCH 
+        (user)-[attends:ATTENDS]->(school: School),
+        (school: School {id: $school})
+
+        DELETE attends
+        CREATE (user)-[:ATTENDS]->(school)
+
+        RETURN properties(school) as school
+      `,
+      { userId: sub, school }
+    );
+
+    await session.close();
+
+    user.school = records[0].get("school");
+  }
+
   const session = driver.session();
 
   const { records } = await session.run(
     `
-        MERGE (user:User {id: $sub})
-  
-        WITH user
-        OPTIONAL MATCH (user)-[attends:ATTENDS]->(school: School)
-        DELETE attends
-
-        WITH user
-        OPTIONAL MATCH (user)-[studiesMajor:STUDIES_MAJOR]->(program: Program)
-        DELETE studiesMajor
-
-        with user
-        OPTIONAL MATCH (user)-[studiesMinor:STUDIES_MINOR]->(program: Program)
-        DELETE studiesMinor
-
-        with user
-        unwind $takenCourses as takenCourse
+        UNWIND $takenCourses as takenCourse
         MATCH (course:Course {id: takenCourse})
-        CREATE (user)-[:HAS_TAKEN]->(course)
-        
-        with user
-        OPTIONAL MATCH (school: School {id: $school})
-        CREATE (user)-[:ATTENDS]->(school)
 
-        with user, school
-        OPTIONAL MATCH (major: Program {id: $major})
-        CREATE (user)-[:STUDIES_MAJOR]->(major)
+        MERGE (user:User {id: $userId})
         
-        with user, school, major
-        OPTIONAL MATCH (minor: Program {id: $minor})
-        CREATE (user)-[:STUDIES_MINOR]->(minor)
-        
+        CREATE (user)-[:HAS_TAKEN]->(course)
+
         RETURN 
           properties(user) as user,
           [(user)-[:HAS_TAKEN]->(course:Course) | properties(course)] as takenCourses,
-          properties(major) as major,
-          properties(minor) : "NULL"} as minor,
-          properties(school) as school
         `,
-    { major, minor, school, sub, takenCourses }
+    { userId: sub, takenCourses }
   );
 
   await session.close();
   await driver.close();
+
+
+  // Update our user object
+  user = {
+    ...records[0].get("user"),
+    takenCourses: records[0].get("takenCourses"),
+    ...user,
+  };
 
   console.log(records);
 
