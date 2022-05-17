@@ -116,16 +116,19 @@ exports.handler = async (event) => {
 
   const { records } = await session.run(
     `
-        UNWIND $takenCourses as takenCourse
-        MATCH (course:Course {id: takenCourse})
+      MERGE (user:User {id: $userId})
 
-        MERGE (user:User {id: $userId})
+      MATCH (user)-[r:HAS_TAKEN]->(course:Course)
+      DELETE r
+    
+      UNWIND $takenCourses as takenCourse
+      MATCH (course:Course {id: takenCourse})
+      CREATE (user)-[:HAS_TAKEN]->(course)
         
-        CREATE (user)-[:HAS_TAKEN]->(course)
 
-        RETURN 
-          properties(user) as user,
-          [(user)-[:HAS_TAKEN]->(course:Course) | properties(course)] as takenCourses
+      RETURN 
+        properties(user) as user,
+        [(user)-[:HAS_TAKEN]->(course:Course) | properties(course)] as takenCourses
         `,
     { userId: sub, takenCourses }
   );
