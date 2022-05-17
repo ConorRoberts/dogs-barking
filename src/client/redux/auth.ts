@@ -50,9 +50,6 @@ export const auth = createSlice({
     token: null,
   },
   reducers: {
-    setUser: (state, action) => {
-      state.user = action.payload;
-    },
     setToken: (state, action) => {
       state.token = action.payload;
     },
