@@ -80,6 +80,8 @@ exports.handler = async (event) => {
   await session.close();
   await driver.close();
 
+  console.log(records);
+
   return {
     ...records[0].get("user"),
     school: records[0].get("school"),
