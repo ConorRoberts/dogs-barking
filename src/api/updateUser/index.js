@@ -25,14 +25,23 @@ exports.handler = async (event) => {
     takenCourses: [],
   };
 
+  let session = driver.session();
+  await session.run(
+    `
+    MERGE (user:User {id: $id})
+    `,
+    { userId: sub }
+  );
+  await session.close();
+
   // Handle major
   if (major !== "") {
     try {
-      const session = driver.session();
+      session = driver.session();
 
       const { records } = await session.run(
         `
-        MERGE (user:User {id: $userId})
+        MATCH (user:User {id: $userId})
         
         WITH user
         OPTIONAL MATCH (user)-[studiesMajor:STUDIES_MAJOR]->(program: Program)
@@ -57,11 +66,11 @@ exports.handler = async (event) => {
   // Handle minor
   if (minor !== "") {
     try {
-      const session = driver.session();
+      session = driver.session();
 
       const { records } = await session.run(
         `
-        MERGE (user:User {id: $userId})
+        MATCH (user:User {id: $userId})
 
         WITH user
         OPTIONAL MATCH (user)-[studiesMinor:STUDIES_MINOR]->(program: Program)
@@ -86,11 +95,11 @@ exports.handler = async (event) => {
   // Handle school
   if (school !== "") {
     try {
-      const session = driver.session();
+      session = driver.session();
 
       const { records } = await session.run(
         `
-        MERGE (user:User {id: $userId})
+        MATCH (user:User {id: $userId})
 
         CALL{
           WITH user
@@ -118,7 +127,7 @@ exports.handler = async (event) => {
     }
   }
 
-  const session = driver.session();
+  session = driver.session();
 
   const { records } = await session.run(
     `
