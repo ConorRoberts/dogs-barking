@@ -16,6 +16,7 @@ interface School {
       hasMinor?: boolean;
       short: string;
       name: string;
+      id: string;
     }
   ];
 }

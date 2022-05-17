@@ -510,6 +510,9 @@ const save = async () => {
             await session.run(
               `
                 MATCH (program:Program {id: $programId})
+
+                SET program: Major
+
                 CREATE (block:OrBlock {
                   id: $blockId,
                   note: $note,
@@ -586,6 +589,9 @@ const save = async () => {
             await session.run(
               `
                 MATCH (program:Program {id: $programId})
+
+                SET program: Minor
+
                 CREATE (program)-[:MINOR_REQUIRES]->(block:OrBlock {
                   id: $blockId,
                   note: $note,

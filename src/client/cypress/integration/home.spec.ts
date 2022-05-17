@@ -17,6 +17,9 @@ describe("Course search autocomplete provides valid suggestions", () => {
 
   it("Test /course/{id} - CIS2750", () => {
     cy.get("#home-course-search-input").type("CIS2750");
+
+    // TODO - Wait for the spinner to go away
+
     cy.get("#home-course-search-results > *").first().click();
     cy.get("h2").should("contain", "CIS2750");
   });
