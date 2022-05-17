@@ -32,11 +32,11 @@ exports.handler = async (event) => {
 
       const { records } = await session.run(
         `
-        MATCH (user:User {id: $userId})
+        MERGE (user:User {id: $userId})
         
-        OPTIONAL MATCH 
-        (user)-[studiesMajor:STUDIES_MAJOR]->(program: Program),
-        (major: Program {id: $major})
+        WITH user
+        OPTIONAL MATCH (user)-[studiesMajor:STUDIES_MAJOR]->(program: Program)
+        MATCH (major: Program {id: $major})
         
         DELETE studiesMajor
         CREATE (user)-[:STUDIES_MAJOR]->(major)
@@ -61,8 +61,9 @@ exports.handler = async (event) => {
 
       const { records } = await session.run(
         `
-        MATCH (user:User {id: $userId})
+        MERGE (user:User {id: $userId})
 
+        WITH user
         OPTIONAL MATCH 
         (user)-[studiesMinor:STUDIES_MINOR]->(program: Program),
         (minor: Program {id: $minor})
@@ -90,8 +91,9 @@ exports.handler = async (event) => {
 
       const { records } = await session.run(
         `
-        MATCH (user:User {id: $userId})
+        MERGE (user:User {id: $userId})
 
+        WITH user
         OPTIONAL MATCH 
         (user)-[attends:ATTENDS]->(school: School),
         (school: School {id: $school})
@@ -118,13 +120,13 @@ exports.handler = async (event) => {
     `
       MERGE (user:User {id: $userId})
 
+      WITH user
       MATCH (user)-[r:HAS_TAKEN]->(course:Course)
       DELETE r
     
       UNWIND $takenCourses as takenCourse
       MATCH (course:Course {id: takenCourse})
       CREATE (user)-[:HAS_TAKEN]->(course)
-        
 
       RETURN 
         properties(user) as user,
