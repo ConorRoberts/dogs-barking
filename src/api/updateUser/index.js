@@ -92,12 +92,18 @@ exports.handler = async (event) => {
         `
         MERGE (user:User {id: $userId})
 
-        WITH user
-        OPTIONAL MATCH (user)-[attends:ATTENDS]->(school: School)
-        MATCH (school: School {id: $school})
+        CALL{
+          WITH user
+          OPTIONAL MATCH (user)-[attends:ATTENDS]->(:School)
+          DELETE attends
+        }
 
-        DELETE attends
-        CREATE (user)-[:ATTENDS]->(school)
+        CALL{
+          WITH user
+          MATCH (school: School {id: $school})
+          CREATE (user)-[:ATTENDS]->(school)
+          RETURN school
+        }
 
         RETURN properties(school) as school
       `,
