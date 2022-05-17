@@ -43,36 +43,24 @@ exports.handler = async (event) => {
         MATCH (course:Course {id: takenCourse})
         CREATE (user)-[:HAS_TAKEN]->(course)
         
-        ${
-          school !== ""
-            ? `with user
+        with user
         OPTIONAL MATCH (school: School {id: $school})
-        CREATE (user)-[:ATTENDS]->(school)`
-            : ""
-        }
+        CREATE (user)-[:ATTENDS]->(school)
 
-        ${
-          major !== ""
-            ? `with user, school
+        with user, school
         OPTIONAL MATCH (major: Program {id: $major})
-        CREATE (user)-[:STUDIES_MAJOR]->(major)`
-            : ""
-        }
+        CREATE (user)-[:STUDIES_MAJOR]->(major)
         
-        ${
-          minor !== ""
-            ? `with user, school, major
+        with user, school, major
         OPTIONAL MATCH (minor: Program {id: $minor})
-        CREATE (user)-[:STUDIES_MINOR]->(minor)`
-            : ""
-        }
+        CREATE (user)-[:STUDIES_MINOR]->(minor)
         
         RETURN 
           properties(user) as user,
           [(user)-[:HAS_TAKEN]->(course:Course) | properties(course)] as takenCourses,
-          ${major !== "" ? "properties(major)" : "NULL"} as major,
-          ${minor !== "" ? "properties(minor)" : "NULL"} as minor,
-          ${school !== "" ? "properties(school)" : "NULL"} as school
+          properties(major) as major,
+          properties(minor) : "NULL"} as minor,
+          properties(school) as school
         `,
     { major, minor, school, sub, takenCourses }
   );
