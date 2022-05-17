@@ -28,7 +28,7 @@ exports.handler = async (event) => {
   let session = driver.session();
   await session.run(
     `
-    MERGE (user:User {id: $id})
+    MERGE (user:User {id: $userId})
     `,
     { userId: sub }
   );
