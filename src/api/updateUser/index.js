@@ -127,6 +127,7 @@ exports.handler = async (event) => {
       MATCH (course:Course {id: takenCourse})
       CREATE (user)-[:HAS_TAKEN]->(course)
 
+      WITH user
       RETURN 
         properties(user) as user,
         [(user)-[:HAS_TAKEN]->(c:Course) | properties(c)] as takenCourses
