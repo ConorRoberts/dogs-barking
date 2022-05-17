@@ -18,39 +18,49 @@ exports.handler = async (event) => {
     neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
   );
 
-  let user = {};
+  let user = {
+    major: null,
+    minor: null,
+    school: null,
+    takenCourses: [],
+  };
 
   // Handle major
   if (major !== "") {
-    const session = driver.session();
+    try {
+      const session = driver.session();
 
-    const { records } = await session.run(
-      `
+      const { records } = await session.run(
+        `
         MATCH (user:User {id: $userId})
-
+        
         OPTIONAL MATCH 
         (user)-[studiesMajor:STUDIES_MAJOR]->(program: Program),
         (major: Program {id: $major})
-
+        
         DELETE studiesMajor
         CREATE (user)-[:STUDIES_MAJOR]->(major)
-
+        
         RETURN properties(major) as major
-      `,
-      { userId: sub, major }
-    );
+        `,
+        { userId: sub, major }
+      );
 
-    await session.close();
+      await session.close();
 
-    user.major = records[0].get("major");
+      user.major = records[0].get("major");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   // Handle minor
   if (minor !== "") {
-    const session = driver.session();
+    try {
+      const session = driver.session();
 
-    const { records } = await session.run(
-      `
+      const { records } = await session.run(
+        `
         MATCH (user:User {id: $userId})
 
         OPTIONAL MATCH 
@@ -62,20 +72,24 @@ exports.handler = async (event) => {
 
         RETURN properties(minor) as minor
       `,
-      { userId: sub, minor }
-    );
+        { userId: sub, minor }
+      );
 
-    await session.close();
+      await session.close();
 
-    user.minor = records[0].get("minor");
+      user.minor = records[0].get("minor");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   // Handle school
   if (school !== "") {
-    const session = driver.session();
+    try {
+      const session = driver.session();
 
-    const { records } = await session.run(
-      `
+      const { records } = await session.run(
+        `
         MATCH (user:User {id: $userId})
 
         OPTIONAL MATCH 
@@ -87,12 +101,15 @@ exports.handler = async (event) => {
 
         RETURN properties(school) as school
       `,
-      { userId: sub, school }
-    );
+        { userId: sub, school }
+      );
 
-    await session.close();
+      await session.close();
 
-    user.school = records[0].get("school");
+      user.school = records[0].get("school");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const session = driver.session();
@@ -115,7 +132,6 @@ exports.handler = async (event) => {
 
   await session.close();
   await driver.close();
-
 
   // Update our user object
   user = {
