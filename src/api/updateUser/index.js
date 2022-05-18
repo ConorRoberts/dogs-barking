@@ -142,7 +142,7 @@ exports.handler = async (event) => {
           (course:Course {id: takenCourse}),
           (user:User {id: $userId})
 
-        CREATE (user)-[:HAS_TAKEN]->(course)
+        MERGE (user)-[:HAS_TAKEN]->(course)
       }
 
       CALL{
