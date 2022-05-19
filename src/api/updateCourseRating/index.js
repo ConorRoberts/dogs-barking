@@ -41,7 +41,7 @@ exports.handler = async (event) => {
       SET rating.updatedAt = timestamp()
     }
     
-    MATCH (course: Course {id: $courseId})-[:HAS_RATING]->(allRatings:Rating)
+    MATCH (course: Course {id: $courseId})-[:HAS_RATING]->(allRatings:Rating)<-[:RATED]-(user:User)
 
     RETURN
       avg(allRatings.difficulty) as difficulty,
