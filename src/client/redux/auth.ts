@@ -9,7 +9,7 @@ import axios from "axios";
 export const signIn = createAsyncThunk("auth/signIn", async () => {
   try {
     const res = await Auth.currentAuthenticatedUser();
-    const token = res.signInUserSession.accessToken.jwtToken;
+    const token = (await Auth.currentSession()).getIdToken().getJwtToken();
 
     try {
       const { data } = await axios.get(`/api/user/`, { headers: { Authorization: `Bearer ${token}` } });
@@ -19,6 +19,15 @@ export const signIn = createAsyncThunk("auth/signIn", async () => {
       const { data } = await axios.post(`/api/user/`, {}, { headers: { Authorization: `Bearer ${token}` } });
       return { ...res.attributes, ...data, token };
     }
+  } catch (error) {
+    return null;
+  }
+});
+
+export const refreshToken = createAsyncThunk("auth/refreshToken", async () => {
+  try {
+    const token = (await Auth.currentSession()).getIdToken().getJwtToken();
+    return token;
   } catch (error) {
     return null;
   }
@@ -50,6 +59,9 @@ export const auth = createSlice({
     token: null,
   },
   reducers: {
+    setUser: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+    },
     setToken: (state, action) => {
       state.token = action.payload;
     },
@@ -73,5 +85,5 @@ export const auth = createSlice({
   },
 });
 
-export const { setToken } = auth.actions;
+export const { setToken, setUser } = auth.actions;
 export default auth.reducer;

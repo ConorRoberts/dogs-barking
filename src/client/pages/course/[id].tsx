@@ -1,6 +1,5 @@
 import Course from "@typedefs/Course";
 import { NextPageContext } from "next";
-import CourseGraph from "@components/CourseGraph";
 import { Node, Edge } from "react-flow-renderer";
 import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import Rating from "@components/Rating";
@@ -9,7 +8,7 @@ import MetaData from "@components/MetaData";
 import { API_URL } from "@config/config";
 import courseSchema from "@schema/courseSchema";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LoadingScreen from "@components/LoadingScreen";
 import RequirementsList from "@components/RequirementsList";
 
@@ -19,8 +18,9 @@ interface PageProps {
   edges: Edge[];
 }
 
-const Page = ({ course, nodes, edges }: PageProps) => {
+const Page = ({ course }: PageProps) => {
   const router = useRouter();
+  const [ratingCount, setRatingCount] = useState(course.rating.count);
 
   useEffect(() => {
     if (!course) router.push("/error/404");
@@ -53,6 +53,7 @@ const Page = ({ course, nodes, edges }: PageProps) => {
             ratingType="difficulty"
             name="Difficulty"
             initialRating={course.rating.difficulty}
+            setRatingCount={setRatingCount}
           />
         </div>
         <div className="flex flex-col items-center gap-2 flex-1">
@@ -61,6 +62,7 @@ const Page = ({ course, nodes, edges }: PageProps) => {
             ratingType="usefulness"
             name="Usefulness"
             initialRating={course.rating.usefulness}
+            setRatingCount={setRatingCount}
           />
         </div>
         <div className="flex flex-col items-center gap-2 flex-1">
@@ -69,12 +71,14 @@ const Page = ({ course, nodes, edges }: PageProps) => {
             ratingType="timeSpent"
             name="Time Spent"
             initialRating={course.rating.timeSpent}
+            setRatingCount={setRatingCount}
           />
         </div>
       </div>
       {course.rating.count !== undefined && (
         <p className="text-gray-500 text-center">
-          This course has been rated {course.rating.count} time{course.rating.count > 1 && "s"}
+          This course has been rated {ratingCount} time
+          {(ratingCount > 1 || ratingCount === 0) && "s"}
         </p>
       )}
 

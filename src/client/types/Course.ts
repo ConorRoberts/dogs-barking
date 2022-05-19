@@ -13,8 +13,8 @@ type Course = {
   school?: School;
   requirements: Requirement[];
   rating: RatingData;
-  label?: string;
-  taken?:boolean;
+  label?: "Course";
+  taken?: boolean;
 };
 
 export default Course;

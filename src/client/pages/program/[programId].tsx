@@ -1,5 +1,4 @@
 import CourseGraph from "@components/CourseGraph";
-import RequirementCard from "@components/RequirementCard";
 import RequirementsList from "@components/RequirementsList";
 import { API_URL } from "@config/config";
 import Course from "@typedefs/Course";
@@ -15,6 +14,7 @@ interface PageProps {
 }
 
 const Page = ({ program, nodes, edges }: PageProps) => {
+  console.log(program);
   return (
     <div className="mx-auto max-w-5xl w-full">
       <div className="text-center grid gap-2">

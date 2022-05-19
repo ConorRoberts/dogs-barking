@@ -1,4 +1,4 @@
-import { setToken, signIn } from "@redux/auth";
+import { setUser, signIn } from "@redux/auth";
 import getToken from "@utils/getToken";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -12,14 +12,10 @@ const GlobalStateManager = () => {
   useEffect(() => {
     dispatch(signIn());
 
-    (async () => {
-      dispatch(setToken(await getToken()));
-    })();
-
-    // Refresh token every 5m
+    // Refresh token every 1m
     const timer = setInterval(async () => {
-      dispatch(setToken(await getToken()));
-    }, 5 * 60 * 1000);
+      dispatch(setUser({ token: await getToken() }));
+    }, 1 * 60 * 1000);
 
     return () => {
       clearInterval(timer);

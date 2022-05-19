@@ -29,6 +29,7 @@ export {
   MdEdit as PencilIcon,
   MdOutlineSave as SaveIcon,
   MdCancel as CancelIcon,
+  MdLink as LinkIcon
 } from "react-icons/md";
 export {
   IoCloseOutline as CloseIcon,

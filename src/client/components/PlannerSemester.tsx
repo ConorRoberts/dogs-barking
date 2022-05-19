@@ -25,7 +25,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
   const [showDeletePrompt, setShowDeletePrompt] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { token } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   const dispatch = useDispatch();
   const { plan, currentEditingSemester } = useSelector<RootState, PlannerState>((state) => state.planner);
   const editing = currentEditingSemester === id;
@@ -34,7 +34,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
     setLoading(true);
     try {
       const { data } = await axios.get(`/api/degree-plan/semester/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${user.token}` },
       });
       // setSemesterData(data);
 
@@ -59,7 +59,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
             year,
           },
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
       dispatch(setCurrentEditingSemester(null));
@@ -93,7 +93,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
     return () => {
       document.removeEventListener("keydown", handleDeleteKey);
     };
-  }, [currentEditingSemester]);
+  }, [currentEditingSemester,id]);
 
   // If we have no data, we should let the user know it's loading
   if (!data) return <LoadingIcon className="animate-spin mx-auto" />;

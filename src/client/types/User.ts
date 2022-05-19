@@ -11,6 +11,7 @@ interface User {
   major: Program | null;
   minor: Program | null;
   takenCourses: Course[];
+  token: string | null;
 }
 
 export default User;

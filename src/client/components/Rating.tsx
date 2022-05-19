@@ -1,5 +1,6 @@
 import { AuthState } from "@redux/auth";
 import { RootState } from "@redux/store";
+import RatingData from "@typedefs/RatingData";
 import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -10,22 +11,23 @@ interface RatingProps {
   ratingType: "difficulty" | "usefulness" | "timeSpent";
   initialRating: number;
   name: string;
+  setRatingCount?: (count: number) => void;
 }
 
-const Rating = ({ courseId, ratingType, initialRating, name }: RatingProps) => {
+const Rating = ({ courseId, ratingType, initialRating, name, setRatingCount }: RatingProps) => {
   const [mouseIndex, setMouseIndex] = useState(-1);
   const [rating, setRating] = useState(initialRating);
-  const { token, user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   const [updateLoading, setUpdateLoading] = useState(false);
 
   // Update rating on backend
   const submitRating = async ({ ratingValue }: { ratingValue: number }) => {
-    if (!token) return;
+    if (!user.token) return;
 
     setUpdateLoading(true);
     setMouseIndex(-1);
     try {
-      const { data } = await axios.post(
+      const { data } = await axios.post<RatingData>(
         `/api/course/${courseId}/rating`,
         {
           courseId,
@@ -34,12 +36,14 @@ const Rating = ({ courseId, ratingType, initialRating, name }: RatingProps) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${user.token}`,
           },
         }
       );
 
       setRating(data[ratingType]);
+
+      if (setRatingCount) setRatingCount(data.count);
     } catch (error) {
       console.error(error);
     }
