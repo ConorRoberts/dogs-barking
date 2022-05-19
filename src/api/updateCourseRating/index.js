@@ -61,6 +61,6 @@ exports.handler = async (event) => {
     difficulty: records[0]?.get("difficulty") ?? 0,
     timeSpent: records[0]?.get("timeSpent") ?? 0,
     usefulness: records[0]?.get("usefulness") ?? 0,
-    ratingCount: records[0]?.get("ratingCount").low ?? 0,
+    count: records[0]?.get("ratingCount").low ?? 0,
   };
 };
