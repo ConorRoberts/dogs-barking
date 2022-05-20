@@ -20,8 +20,10 @@ describe("Course search autocomplete provides valid suggestions", () => {
 
     // TODO - Wait for the spinner to go away
 
-    cy.get("#home-course-search-results > *").first().click();
-    cy.get("h2").should("contain", "CIS2750");
+    cy.get("#home-course-search-loading").should("not.exist");
+
+    cy.get("#home-course-search-result-CIS2750").first().click();
+    cy.get("h2").should("contain.text", "CIS2750");
   });
 });
 

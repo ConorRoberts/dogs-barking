@@ -21,7 +21,7 @@ const Page = ({ school }: Props) => {
           allowFullScreen
           className="rounded-md overflow-hidden w-full h-[400px]"
           referrerPolicy="no-referrer-when-downgrade"
-          src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBQQ5sMj47HV1HL-lSRNNag13dfgRqryQs
+          src={`https://www.google.com/maps/embed/v1/place?key=${process.env.GOOGLE_MAPS_API_KEY}
     &q=${school.address}+${school.name}+${school.country}`}
         />
       </div>
