@@ -10,6 +10,7 @@
     "test": "cypress run"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.10.3",
     "@reduxjs/toolkit": "^1.8.0",
     "aws-amplify": "^4.3.15",
     "axios": "^0.24.0",

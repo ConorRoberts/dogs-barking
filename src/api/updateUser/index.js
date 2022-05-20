@@ -8,9 +8,7 @@ const jwt = require("jsonwebtoken");
 exports.handler = async (event) => {
   console.log(event);
 
-  const { major = "", minor = "", school = "" } = JSON.parse(event.body ?? "{}");
-  // const query = event.queryStringParameters;
-  // const pathParams = event.pathParameters;
+  const { major = "", minor = "", school = "", takenCourses = [] } = JSON.parse(event.body ?? "{}");
   const headers = event.headers;
 
   const { sub } = jwt.decode(headers.authorization.replace("Bearer ", ""));
@@ -20,23 +18,155 @@ exports.handler = async (event) => {
     neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
   );
 
-  const session = driver.session();
+  const user = {
+    major: null,
+    minor: null,
+    school: null,
+    takenCourses: [],
+  };
+
+  let session = driver.session();
+  await session.run(
+    `
+    MERGE (user:User {id: $userId})
+    `,
+    { userId: sub }
+  );
+  await session.close();
+
+  // Handle major
+  if (major !== "") {
+    try {
+      session = driver.session();
+
+      const { records } = await session.run(
+        `
+        MATCH (user:User {id: $userId})
+        
+        WITH user
+        OPTIONAL MATCH (user)-[studiesMajor:STUDIES_MAJOR]->(program: Program)
+        MATCH (major: Program {id: $major})
+        
+        DELETE studiesMajor
+        CREATE (user)-[:STUDIES_MAJOR]->(major)
+        
+        RETURN properties(major) as major
+        `,
+        { userId: sub, major }
+      );
+
+      await session.close();
+
+      user.major = records[0].get("major");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // Handle minor
+  if (minor !== "") {
+    try {
+      session = driver.session();
+
+      const { records } = await session.run(
+        `
+        MATCH (user:User {id: $userId})
+
+        WITH user
+        OPTIONAL MATCH (user)-[studiesMinor:STUDIES_MINOR]->(program: Program)
+        MATCH (minor: Program {id: $minor})
+
+        DELETE studiesMinor
+        CREATE (user)-[:STUDIES_MINOR]->(minor)
+
+        RETURN properties(minor) as minor
+      `,
+        { userId: sub, minor }
+      );
+
+      await session.close();
+
+      user.minor = records[0].get("minor");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // Handle school
+  if (school !== "") {
+    try {
+      session = driver.session();
+
+      const { records } = await session.run(
+        `
+        MATCH (user:User {id: $userId})
+
+        CALL{
+          WITH user
+          OPTIONAL MATCH (user)-[attends:ATTENDS]->(:School)
+          DELETE attends
+        }
+
+        CALL{
+          WITH user
+          MATCH (school: School {id: $school})
+          CREATE (user)-[:ATTENDS]->(school)
+          RETURN school
+        }
+
+        RETURN properties(school) as school
+      `,
+        { userId: sub, school }
+      );
+
+      await session.close();
+
+      user.school = records[0].get("school");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  session = driver.session();
 
   const { records } = await session.run(
     `
-        MERGE (user:User {id: $sub})
+      CALL{
+        MATCH (user: User {id: $userId})-[r:HAS_TAKEN]->(:Course)
+        DELETE r
+      }
+    
+      CALL{
+        UNWIND $takenCourses as takenCourse
+        MATCH 
+          (course:Course {id: takenCourse}),
+          (user:User {id: $userId})
 
-        SET user.major = $major
-        SET user.minor = $minor
-        SET user.school = $school
+        MERGE (user)-[:HAS_TAKEN]->(course)
+      }
 
-        RETURN properties(user) as user
+      CALL{
+        MATCH (user:User {id: $userId})
+        RETURN user
+      }
+
+      WITH user
+      
+      RETURN 
+        properties(user) as user,
+        [(user)-[:HAS_TAKEN]->(c:Course) | properties(c)] as takenCourses
         `,
-    { major, minor, school, sub }
+    { userId: sub, takenCourses }
   );
 
   await session.close();
   await driver.close();
 
-  return records[0].get("user");
+  console.log(records);
+
+  return {
+    ...records[0].get("user"),
+    ...user,
+    takenCourses: records[0].get("takenCourses"),
+  };
 };

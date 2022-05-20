@@ -5,17 +5,17 @@ import { Button, Input } from "@components/form";
 import Link from "next/link";
 import useSearch from "@hooks/useSearch";
 import { LoadingIcon } from "@components/Icons";
-import { Edge, Node } from "react-flow-renderer";
-import Course from "@typedefs/Course";
+// import { Edge, Node } from "react-flow-renderer";
+// import Course from "@typedefs/Course";
 
-interface PageProps {
-  course: Course;
-  school: string;
-  edges: Edge[];
-  nodes: Node[];
-}
+// interface PageProps {
+//   course: Course;
+//   school: string;
+//   edges: Edge[];
+//   nodes: Node[];
+// }
 
-const Page = (props: PageProps) => {
+const Page = () => {
   const [text, setText] = useState("");
   const [searchType, setSearchType] = useState<"course" | "program">("course");
   const { results, loading } = useSearch(text, { type: searchType });
@@ -45,6 +45,7 @@ const Page = (props: PageProps) => {
               onFocus={() => setShowResults(true)}
               variant="blank"
               id="home-course-search-input"
+              autoComplete="off"
             />
             {/* <Link passHref href={`/course/${props.course.id}`}>
               <div className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer transition">
@@ -52,7 +53,9 @@ const Page = (props: PageProps) => {
               </div>
             </Link> */}
             {loading && (
-              <div className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer transition">
+              <div
+                className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer transition"
+                id="home-course-search-loading">
                 <LoadingIcon size={20} className="animate-spin" />
               </div>
             )}
@@ -63,7 +66,9 @@ const Page = (props: PageProps) => {
               id="home-course-search-results">
               {results.slice(0, 10).map((e) => (
                 <Link href={`/${searchType}/${e.id}`} key={e.id} passHref>
-                  <div className="bg-white dark:bg-gray-800 px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm hover:text-gray-500 dark:hover:text-gray-300 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16">
+                  <div
+                    className="bg-white dark:bg-gray-800 px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm hover:text-gray-500 dark:hover:text-gray-300 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16"
+                    id={`home-course-search-result-${searchType === "course" ? e.code : e.short}`}>
                     <p>{searchType === "course" ? e.code : e.short}</p>
                     <p className="truncate">{e.name}</p>
                   </div>

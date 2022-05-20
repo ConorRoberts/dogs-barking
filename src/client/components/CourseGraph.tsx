@@ -1,4 +1,3 @@
-import MetaData from "@components/MetaData";
 import ReactFlow, {
   Node,
   ReactFlowProvider,

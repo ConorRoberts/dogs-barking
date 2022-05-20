@@ -13,7 +13,7 @@ import { PlannerState, setPlan } from "@redux/planner";
 import PlannerSidebar from "@components/PlannerSidebar";
 
 const Page = () => {
-  const { user, loading, token } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
   const router = useRouter();
   const [plansLoading, setPlansLoading] = useState(true);
   const [selectedPlanId, setSelectedPlanId] = useState("none");
@@ -37,7 +37,7 @@ const Page = () => {
         {
           userId: user.id,
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${user.token}` } }
       );
       await fetchPlans();
     } catch (error) {
@@ -53,7 +53,7 @@ const Page = () => {
         {
           userId: user.id,
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
       // Update our local state without refetching
@@ -67,10 +67,10 @@ const Page = () => {
    * Get the user's plans
    */
   const fetchPlans = useCallback(async () => {
-    setPlansLoading(true);
+    if (!user) return;
     try {
       const { data } = await axios.get(`/api/degree-plan/get-user-plans`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${user.token}` },
       });
       setSelectedPlanId(data[0].id);
       // setPlans(data);
@@ -78,19 +78,18 @@ const Page = () => {
       // setPlans([]);
       console.error(error);
     }
-    setPlansLoading(false);
   }, [user]);
 
   const fetchPlanData = useCallback(async () => {
     try {
       const { data } = await axios.get(`/api/degree-plan/${selectedPlanId}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${user.token}` },
       });
       dispatch(setPlan(data));
     } catch (error) {
       console.error(error);
     }
-  }, [user, selectedPlanId]);
+  }, [user, selectedPlanId, dispatch]);
 
   // Get the user's plan state
   useEffect(() => {
@@ -115,10 +114,10 @@ const Page = () => {
     }
   }, [plan]);
 
-  if (!user || plansLoading) return <LoadingScreen />;
+  if (!user) return <LoadingScreen />;
 
   return (
-    <div className="grid flex-1 grid-cols-4">
+    <div className="grid flex-1 md:grid-cols-4">
       <div className="p-2 flex flex-col gap-8 mx-auto max-w-4xl w-full overflow-y-auto col-span-3">
         <div>
           <h1 className="text-center">Degree Planner</h1>

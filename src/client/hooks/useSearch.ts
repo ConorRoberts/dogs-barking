@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 
 export interface UseCourseSearchParams {
   courseId: string;
@@ -19,10 +19,8 @@ const useSearch = (query: string, config?: Config) => {
 
   const { type = "course" } = config ?? {};
 
-  useEffect(() => {
+  useMemo(() => {
     const timer = setTimeout(async () => {
-      if (loading) return;
-      
       setLoading(true);
       // Fetch data from search endpoint
       if (query.length === 0) {

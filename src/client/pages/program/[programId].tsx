@@ -1,11 +1,14 @@
 import CourseGraph from "@components/CourseGraph";
-import RequirementCard from "@components/RequirementCard";
+import { Button } from "@components/form";
+import { GraphIcon } from "@components/Icons";
 import RequirementsList from "@components/RequirementsList";
 import { API_URL } from "@config/config";
 import Course from "@typedefs/Course";
 import Program from "@typedefs/Program";
 import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
 import { NextPageContext } from "next";
+import Link from "next/link";
+import { useState } from "react";
 import { Edge, Node } from "react-flow-renderer";
 
 interface PageProps {
@@ -15,18 +18,29 @@ interface PageProps {
 }
 
 const Page = ({ program, nodes, edges }: PageProps) => {
+  const [viewType, setViewType] = useState<"default" | "graph">("default");
   return (
-    <div className="mx-auto max-w-5xl w-full">
+    <div className="mx-auto max-w-5xl w-full flex flex-col gap-16">
       <div className="text-center grid gap-2">
         <h1>{program.name}</h1>
-        <p>
-          At<span className="mx-1 bg-white rounded-md dark:bg-gray-700 py-0.5 px-1">{program.school.name}</span>
-        </p>
+        <Link href={`/school/${program.school.id}`} passHref>
+          <a className="primary-hover">
+            At<span className="mx-1 bg-white rounded-md dark:bg-gray-700 py-0.5 px-1">{program.school.name}</span>
+          </a>
+        </Link>
       </div>
 
-      <RequirementsList requirements={program.requirements} />
-
-      <CourseGraph nodes={nodes} edges={edges} />
+      <div>
+        <div className="flex gap-2 items-center">
+          <h2 className="mb-2 text-center">Requirements</h2>
+          <Button variant="outline" onClick={() => setViewType(viewType === "default" ? "graph" : "default")}>
+            <GraphIcon size={25} />
+            <p className="sm:block hidden">View Graph</p>
+          </Button>
+        </div>
+        {viewType === "default" && <RequirementsList requirements={program.requirements} />}
+        {viewType === "graph" && <CourseGraph nodes={nodes} edges={edges} />}
+      </div>
     </div>
   );
 };

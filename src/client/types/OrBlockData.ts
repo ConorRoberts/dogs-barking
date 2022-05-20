@@ -5,7 +5,7 @@ interface OrBlockData {
   target: number;
   id: string;
   requirements?: Requirement[];
-  label?:string;
+  label?: "OrBlock";
 }
 
 export default OrBlockData;

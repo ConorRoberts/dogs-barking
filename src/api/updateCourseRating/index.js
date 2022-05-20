@@ -29,10 +29,8 @@ exports.handler = async (event) => {
 
   const { records } = await session.run(
     `
-    MATCH (user:User {id: $userId}),(course:Course {id: $courseId})
-
     CALL {
-      WITH user,course
+      MATCH (user:User {id: $userId}),(course:Course {id: $courseId})
 
       MERGE (user)-[:RATED]->(rating:Rating)<-[:HAS_RATING]-(course)
       
@@ -43,7 +41,7 @@ exports.handler = async (event) => {
       SET rating.updatedAt = timestamp()
     }
     
-    MATCH (course)-[:HAS_RATING]->(allRatings:Rating)
+    MATCH (course: Course {id: $courseId})-[:HAS_RATING]->(allRatings:Rating)<-[:RATED]-(user:User)
 
     RETURN
       avg(allRatings.difficulty) as difficulty,
@@ -61,6 +59,6 @@ exports.handler = async (event) => {
     difficulty: records[0]?.get("difficulty") ?? 0,
     timeSpent: records[0]?.get("timeSpent") ?? 0,
     usefulness: records[0]?.get("usefulness") ?? 0,
-    ratingCount: records[0]?.get("ratingCount").low ?? 0,
+    count: records[0]?.get("ratingCount").low ?? 0,
   };
 };

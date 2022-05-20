@@ -59,6 +59,7 @@ jobs:
             NEO4J_USERNAME=${{ secrets.NEO4J_USERNAME }}
             NEO4J_PASSWORD=${{ secrets.NEO4J_PASSWORD }}
             NEO4J_HOST=${{secrets.NEO4J_HOST}}
+            GOOGLE_MAPS_API_KEY=${{secrets.GOOGLE_MAPS_API_KEY}}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1

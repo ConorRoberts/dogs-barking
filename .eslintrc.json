@@ -20,7 +20,7 @@
     "require-await": "error",
     "require-jsdoc": "error",
     "prefer-arrow-callback": "error",
-    "no-nested-ternary": "error",
+    "no-nested-ternary": "warn",
     "arrow-parens": "warn",
     "no-unused-vars": "off",
     "no-empty": "error",

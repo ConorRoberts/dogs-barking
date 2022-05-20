@@ -1,21 +1,22 @@
 interface School {
+  country: string;
+  address: string;
+  province: string;
+  phone: string;
+  city: string;
+  postalCode: string;
   name: string;
   short: string;
-  url: string;
-  type: string;
-  address: string;
-  city: string;
-  province: string;
-  postalCode: string;
-  country: string;
-  phone: string;
   id: string;
+  type: string;
+  url: string;
   programs?: [
     {
       hasMajor?: boolean;
       hasMinor?: boolean;
       short: string;
       name: string;
+      id: string;
     }
   ];
 }

@@ -16,6 +16,7 @@ jobs:
           NEO4J_HOST: ${{ secrets.NEO4J_HOST }}
           NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
           NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
+          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
         with:
           browser: chrome
           headless: true
@@ -26,12 +27,11 @@ jobs:
           wait-on: "http://localhost:3000"
           project: ./src/client
 
-  send-failure-to-discord:
+  send-status-to-discord:
     runs-on: ubuntu-latest
     needs: [test]
-    if: needs.test.result == 'failure'
     steps:
-      - name: Send failure message to Discord
+      - name: Send status message to Discord
         uses: fjogeleit/http-request-action@v1
         with:
           url: "${{ secrets.DISCORD_WEBHOOK }}"
@@ -46,35 +46,8 @@ jobs:
               "embeds": [
                   {
                       "title": "Status - ${{ github.workflow }}",
-                      "description": "Failed. See more at the link above.",
-                      "color": 16740464,
-                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                  }
-              ]
-            }
-
-  send-success-to-discord:
-    runs-on: ubuntu-latest
-    needs: [test]
-    if: needs.test.result == 'success'
-    steps:
-      - name: Send success message to Discord
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: "${{ secrets.DISCORD_WEBHOOK }}"
-          method: "POST"
-          contentType: "application/json"
-          data: |
-            {
-              "content": "<@&969598441980325888>",
-              "allowed_mentions": { "roles": ["969598441980325888"] },
-              "username": "GitHub",
-              "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-              "embeds": [
-                  {
-                      "title": "Status - ${{ github.workflow }}",
-                      "description": "Success. See more at the link above.",
-                      "color": 7405424,
+                      "description": "${{needs.test.result}}. See more at the link above.",
+                      "color": ${{ needs.test.result == 'success' && 7405424 || 16740464 }},
                       "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                   }
               ]
