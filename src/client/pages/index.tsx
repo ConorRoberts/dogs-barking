@@ -45,6 +45,7 @@ const Page = (props: PageProps) => {
               onFocus={() => setShowResults(true)}
               variant="blank"
               id="home-course-search-input"
+              autoComplete="off"
             />
             {/* <Link passHref href={`/course/${props.course.id}`}>
               <div className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer transition">

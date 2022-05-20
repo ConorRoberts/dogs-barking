@@ -4,7 +4,8 @@ import RatingData from "@typedefs/RatingData";
 import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { EmptyStarIcon, FilledStarIcon, Loading } from "./Icons";
+import { Loading, RadioButtonEmptyIcon, RadioButtonFilledIcon } from "./Icons";
+import { motion } from "framer-motion";
 
 interface RatingProps {
   courseId: string;
@@ -12,9 +13,21 @@ interface RatingProps {
   initialRating: number;
   name: string;
   setRatingCount?: (count: number) => void;
+  tooltip: string;
+  labelLow?: string;
+  labelHigh?: string;
 }
 
-const Rating = ({ courseId, ratingType, initialRating, name, setRatingCount }: RatingProps) => {
+const Rating = ({
+  courseId,
+  ratingType,
+  initialRating,
+  name,
+  setRatingCount,
+  tooltip,
+  labelLow,
+  labelHigh,
+}: RatingProps) => {
   const [mouseIndex, setMouseIndex] = useState(-1);
   const [rating, setRating] = useState(initialRating);
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
@@ -53,36 +66,34 @@ const Rating = ({ courseId, ratingType, initialRating, name, setRatingCount }: R
   return (
     <div className="flex flex-col items-center gap-2 min-w-max">
       <h3 className="text-center">{name}</h3>
-      <div>
-        {!updateLoading && (
-          <div className="flex gap-1 text-2xl">
-            {[...new Array(5)].map((_, index) =>
-              index + 1 <= rating ? (
-                <FilledStarIcon
-                  className={`transform transition ${
-                    mouseIndex >= index && user ? "scale-125 text-yellow-500" : "dark:text-white"
-                  } cursor-pointer`}
-                  onMouseEnter={() => setMouseIndex(index)}
-                  onMouseLeave={() => setMouseIndex(-1)}
-                  onClick={() => submitRating({ ratingValue: index + 1 })}
-                  key={`rating-star-${index}-${courseId}`}
-                />
-              ) : (
-                <EmptyStarIcon
-                  onMouseEnter={() => setMouseIndex(index)}
-                  onMouseLeave={() => setMouseIndex(-1)}
-                  className={` transform transition ${
-                    mouseIndex >= index && user ? "scale-125 text-yellow-500" : "dark:text-white"
-                  } cursor-pointer`}
-                  onClick={() => submitRating({ ratingValue: index + 1 })}
-                  key={`rating-star-${index}-${courseId}`}
-                />
-              )
-            )}
-          </div>
-        )}
-        {updateLoading && <Loading className="animate-spin w-5 h-5 text-gray-700 dark:text-gray-400 mx-auto mt-2" />}
-      </div>
+      {!updateLoading && (
+        <div className="flex gap-1 items-center justify-center">
+          {labelLow && <p className="text-sm dark:text-gray-300">{labelLow}</p>}
+          {[...new Array(5)].map((_, index) => (
+            <motion.div
+              key={`rating-star-${index}-${courseId}`}
+              animate={{
+                scale: mouseIndex >= index && user ? 1.2 : 1,
+              }}
+              transition={{ duration: 0.1, damping: 10, stiffness: 150, type: "spring" }}
+              className={`cursor-pointer ${
+                mouseIndex >= index && user ? "dark:text-gray-300 text-gray-700" : "dark:text-white"
+              }`}
+              onMouseEnter={() => setMouseIndex(index)}
+              onMouseLeave={() => setMouseIndex(-1)}
+              onClick={() => submitRating({ ratingValue: index + 1 })}>
+              {index + 1 <= rating ? <RadioButtonFilledIcon size={25} /> : <RadioButtonEmptyIcon size={25} />}
+            </motion.div>
+          ))}
+          {labelHigh && <p className="text-sm dark:text-gray-300">{labelHigh}</p>}
+        </div>
+      )}
+      {updateLoading && (
+        <motion.div>
+          <Loading className="animate-spin text-gray-800 dark:text-gray-400 mx-auto" size={25} />
+        </motion.div>
+      )}
+      <p className="dark:text-gray-400 text-gray-600 text-center text-xs">{tooltip}</p>
     </div>
   );
 };

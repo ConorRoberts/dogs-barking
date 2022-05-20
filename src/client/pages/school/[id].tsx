@@ -1,17 +1,29 @@
 import { API_URL } from "@config/config";
-import School from "@typedefs/School copy";
+import School from "@typedefs/School";
 import { NextPageContext } from "next";
 
-const Page = ({ school }) => {
+interface Props {
+  school: School;
+}
+
+const Page = ({ school }: Props) => {
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="mx-auto max-w-6xl w-full p-1">
       <div className="text-center flex flex-col gap-1">
         <h1>{school.name}</h1>
-        {/* <h5 className="text-gray-600">{school.city}</h5>
-        <p className="text-gray-500">{school.abbrev}</p> */}
+        <a href={school.url} className="text-gray-500">
+          Website
+        </a>
       </div>
-      <div>
-        <p>Easiest Courses</p>
+      <div className="grid md:grid-cols-2 gap-8">
+        <iframe
+          loading="lazy"
+          allowFullScreen
+          className="rounded-md overflow-hidden w-full h-[400px]"
+          referrerPolicy="no-referrer-when-downgrade"
+          src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBQQ5sMj47HV1HL-lSRNNag13dfgRqryQs
+    &q=${school.address}+${school.name}+${school.country}`}
+        />
       </div>
     </div>
   );

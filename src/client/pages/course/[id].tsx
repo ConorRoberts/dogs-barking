@@ -22,6 +22,8 @@ const Page = ({ course }: PageProps) => {
   const router = useRouter();
   const [ratingCount, setRatingCount] = useState(course.rating.count);
 
+  console.log(course);
+
   useEffect(() => {
     if (!course) router.push("/error/404");
   }, [router, course]);
@@ -29,7 +31,7 @@ const Page = ({ course }: PageProps) => {
   if (!course) return <LoadingScreen />;
 
   return (
-    <div className="mx-auto max-w-4xl w-full flex flex-col gap-8 p-2">
+    <div className="mx-auto max-w-4xl w-full flex flex-col gap-8 p-4">
       <MetaData description={course.description} title={`${course.name} (${course.code})`} />
       <div>
         <h2 className="text-center mb-1">
@@ -54,6 +56,7 @@ const Page = ({ course }: PageProps) => {
             name="Difficulty"
             initialRating={course.rating.difficulty}
             setRatingCount={setRatingCount}
+            tooltip="How difficult was this course?"
           />
         </div>
         <div className="flex flex-col items-center gap-2 flex-1">
@@ -63,6 +66,7 @@ const Page = ({ course }: PageProps) => {
             name="Usefulness"
             initialRating={course.rating.usefulness}
             setRatingCount={setRatingCount}
+            tooltip="How useful was this course to you?"
           />
         </div>
         <div className="flex flex-col items-center gap-2 flex-1">
@@ -72,6 +76,9 @@ const Page = ({ course }: PageProps) => {
             name="Time Spent"
             initialRating={course.rating.timeSpent}
             setRatingCount={setRatingCount}
+            tooltip="Hours spent per week"
+            labelLow="<1h"
+            labelHigh=">24h"
           />
         </div>
       </div>
@@ -82,10 +89,10 @@ const Page = ({ course }: PageProps) => {
         </p>
       )}
 
-      {course.requirements.length > 0 && (
+      {course.requirements.filter((e) => e.label !== "AndBlock").length > 0 && (
         <>
           <h2 className="text-center">Requirements</h2>
-          <RequirementsList requirements={course.requirements} />
+          <RequirementsList requirements={course.requirements.filter((e) => e.label !== "AndBlock")} />
         </>
       )}
       {/* <div>

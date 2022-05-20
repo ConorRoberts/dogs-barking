@@ -185,8 +185,8 @@ const Page = ({ schools }: PageProps) => {
                     initial={{ translateX: "-100%", opacity: 0 }}
                     animate={{ translateX: "0%", opacity: 1 }}
                     exit={{ translateX: "-100%", opacity: 0 }}
-                    className={`text-white ${updateStatus === "success" && "bg-green-400"} ${
-                      updateStatus === "failure" && "bg-red-400"
+                    className={`text-white ${updateStatus === "success" && "bg-emerald-700"} ${
+                      updateStatus === "failure" && "bg-rose-700"
                     } border border-green-100 dark:border-green-800 rounded-md p-2 flex items-center gap-2`}>
                     {updateStatus === "success" && <CheckIcon size={25} />}
                     {updateStatus === "failure" && <ErrorIcon size={25} />}

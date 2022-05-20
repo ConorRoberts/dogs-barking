@@ -79,7 +79,7 @@ const RequirementCard = ({ requirement }: Props) => {
       </div>
       <div
         className={`${
-          taken ? "bg-emerald-500" : "bg-rose-500"
+          taken ? "bg-emerald-700" : "bg-rose-700"
         } px-0.5 text-sm flex gap-2 justify-center text-white items-center mt-auto`}>
         {taken ? (
           <>
