@@ -7,10 +7,7 @@ const neo4j = require("neo4j-driver");
 exports.handler = async (event) => {
   console.log(event);
 
-  // const body = JSON.parse(event.body ?? "{}");
   const query = event.queryStringParameters;
-  // const pathParams = event.pathParameters;
-  // const headers = event.headers;
 
   const driver = neo4j.driver(
     `neo4j://${process.env.NEO4J_HOST}`,
@@ -62,5 +59,8 @@ exports.handler = async (event) => {
   await session.close();
   await driver.close();
 
-  return records.map((e) => ({ ...e.get("course"), total: e.get("total").low }));
+  return {
+    total: records[0].get("total"),
+    courses: records.map((e) => ({ ...e.get("course") })),
+  };
 };
