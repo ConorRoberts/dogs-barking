@@ -622,7 +622,7 @@ const save = async () => {
               `
                 MATCH (program:Program {id: $programId})
                 MATCH (course:Course {code: $code})
-                CREATE (program)-[:REQUIRES]->(course)
+                CREATE (program)-[:MINOR_REQUIRES]->(course)
               `,
               { code: course.replace("*", ""), programId }
             );

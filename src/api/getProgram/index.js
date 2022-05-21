@@ -22,7 +22,7 @@ exports.handler = async (event) => {
   const { records } = await session.run(
     `
         MATCH(program:Program {id: $programId})
-        OPTIONAL MATCH path=(program)-[:REQUIRES*]->(prereq)
+        OPTIONAL MATCH path=(program)-[:REQUIRES|MAJOR_REQUIRES*]->(prereq)
 
         MATCH (school:School)-[:OFFERS]->(program)
         OPTIONAL MATCH (program)-[:HAS_RATING]->(rating:Rating)
