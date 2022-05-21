@@ -111,7 +111,7 @@ const Navigation = () => {
 
         {user ? (
           <Link href="/profile" passHref>
-            <div className="big-screen-nav-button ml-auto">{user.name.split(" ").at(0)}</div>
+            <div className="big-screen-nav-button ml-auto">{user?.name.split(" ").at(0)}</div>
           </Link>
         ) : (
           <Link href="/auth/sign-in" passHref>
