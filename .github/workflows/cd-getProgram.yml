@@ -15,7 +15,7 @@ jobs:
   deploy:
     name: Deploy Lambda
     runs-on: ubuntu-latest
-    environment: production
+    environment: development
 
     steps:
       - name: Checkout
