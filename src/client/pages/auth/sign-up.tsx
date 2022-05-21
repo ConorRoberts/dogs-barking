@@ -2,13 +2,17 @@ import { Auth } from "aws-amplify";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, CustomErrorMessage, Input } from "@components/form";
-import { LoadingIcon } from "@components/Icons";
+import { Loading, LoadingIcon } from "@components/Icons";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import SignUpProps from "@typedefs/SignUpProps";
 import { useRouter } from "next/router";
 import { signIn } from "@redux/auth";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { AuthState } from "@redux/auth";
+import { RootState } from "@redux/store";
+import getToken from "@utils/getToken";
 
 export enum AuthStage {
   SignUp,
@@ -23,6 +27,7 @@ export enum AuthStage {
 const Page = () => {
   const [authStage, setAuthStage] = useState<AuthStage>(AuthStage.SignUp);
   const [submitError, setSubmitError] = useState("");
+  const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -48,12 +53,16 @@ const Page = () => {
         await Auth.confirmSignUp(email, confirmCode);
         const user = await Auth.signIn(email, password);
 
-        await axios.post("/api/auth/sign-up", {
-          email: email,
-          birthdate: birthdate,
-          name: name,
-          sub: user.attributes.sub,
-        });
+        await axios.post(
+          "/api/user",
+          {
+            email: email,
+            birthdate: birthdate,
+            name: name,
+            sub: user.attributes.sub,
+          },
+          { headers: { Authorization: `Bearer ${await getToken()}` } }
+        );
 
         dispatch(signIn());
         setAuthStage(AuthStage.SignedIn);
@@ -79,6 +88,12 @@ const Page = () => {
   useEffect(() => {
     setSubmitError("");
   }, [authStage]);
+
+  useEffect(() => {
+    if (user) router.push("/");
+  }, [user, router]);
+
+  if (loading) return <Loading />;
 
   return (
     <div className="flex-1 flex justify-center items-center">
@@ -146,8 +161,8 @@ const Page = () => {
               {authStage === AuthStage.ConfirmSignUp && (
                 <>
                   <h2 className="text-center font-normal">Confirm Sign Up</h2>
-                  <p className="text-gray-500">You should receive a confirmation code in your email shortly</p>
-                  <div className="flex flex-col gap-8 mt-12">
+                  <p className="text-gray-500 text-center">You should receive a confirmation code in your email shortly</p>
+                  <div className="flex flex-col gap-8">
                     <Field placeholder="123456" name="confirmCode" component={Input} />
 
                     <div className="flex justify-center">
