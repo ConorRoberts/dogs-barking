@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import { API_URL } from "@config/config";
 import Course from "@typedefs/Course";
 import useSearch from "@hooks/useSearch";
+import Toast from "@components/form/Toast";
 
 interface PageProps {
   schools: School[];
@@ -24,6 +25,7 @@ type UpdateStatus = "" | "success" | "failure";
 const Page = ({ schools }: PageProps) => {
   const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>("");
+  const [updateMessage, setUpdateMessage] = useState("");
   const router = useRouter();
   const [courseQuery, setCourseQuery] = useState<string>("");
   const { results } = useSearch(courseQuery, { type: "course" });
@@ -75,6 +77,13 @@ const Page = ({ schools }: PageProps) => {
             }
 
             setUpdateStatus(status);
+
+            if (status === "success") {
+              setUpdateMessage("Profile updated successfully");
+            } else {
+              setUpdateMessage("Error updating profile");
+            }
+
             setTimeout(() => {
               setUpdateStatus("");
             }, 2500);
@@ -179,22 +188,7 @@ const Page = ({ schools }: PageProps) => {
                     ))}
                 </div>
               </div>
-              <AnimatePresence>
-                {updateStatus !== "" && (
-                  <motion.div
-                    initial={{ translateX: "-100%", opacity: 0 }}
-                    animate={{ translateX: "0%", opacity: 1 }}
-                    exit={{ translateX: "-100%", opacity: 0 }}
-                    className={`text-white ${updateStatus === "success" && "bg-emerald-700"} ${
-                      updateStatus === "failure" && "bg-rose-700"
-                    } border border-green-100 dark:border-green-800 rounded-md p-2 flex items-center gap-2`}>
-                    {updateStatus === "success" && <CheckIcon size={25} />}
-                    {updateStatus === "failure" && <ErrorIcon size={25} />}
-                    {updateStatus === "success" && <p>Profile updated successfully</p>}
-                    {updateStatus === "failure" && <p>Error updating profile</p>}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <Toast open={updateStatus !== ""} type={updateStatus as "success" | "failure"} text={updateMessage} />
               <div className="mx-auto">
                 <Button type="submit">Save {isSubmitting && <LoadingIcon className="animate-spin" size={25} />}</Button>
               </div>
