@@ -4,11 +4,21 @@ import Portal from "./Portal";
 
 interface Props {
   open: boolean;
-  type?: "success" | "failure";
+  type?: "success" | "failure" | "default";
   text: string;
 }
 
-const Toast = ({ open, type, text }: Props) => {
+const toastColours = {
+  success: "bg-emerald-700",
+  failure: "bg-rose-700",
+  default: "bg-gray-100 dark:bg-gray-700",
+};
+
+/**
+ * Notification that slides in from the side of the screen and lasts a short amount of time.
+ * Great for giving the user feedback.
+ */
+const Toast = ({ open, type = "default", text }: Props) => {
   return (
     <Portal>
       <AnimatePresence>
@@ -17,9 +27,7 @@ const Toast = ({ open, type, text }: Props) => {
             initial={{ translateX: "150%", opacity: 0 }}
             animate={{ translateX: "0%", opacity: 1 }}
             exit={{ translateX: "150%", opacity: 0 }}
-            className={`text-white ${type === "success" && "bg-emerald-700"} ${
-              type === "failure" && "bg-rose-700"
-            } border border-green-100 dark:border-green-800 rounded-md p-2 flex items-center gap-2 fixed bottom-20 md:bottom-2 right-2`}>
+            className={`text-white ${toastColours[type]} rounded-md p-2 flex items-center gap-2 fixed bottom-20 md:bottom-2 right-2`}>
             {type === "success" && <CheckIcon size={25} />}
             {type === "failure" && <ErrorIcon size={25} />}
             <p>{text}</p>
