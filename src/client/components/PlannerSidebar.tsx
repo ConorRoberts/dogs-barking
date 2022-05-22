@@ -10,18 +10,31 @@ import PlannerSidebarRequirement from "./PlannerSidebarRequirement";
 
 const PlannerSidebar = () => {
   const [majorRequirements, setMajorRequirements] = useState<Requirement[]>([]);
-  const [loading, setLoading] = useState({ major: true });
+  const [minorRequirements, setMinorRequirements] = useState<Requirement[]>([]);
+  const [loading, setLoading] = useState({ major: false, minor: false });
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   useEffect(() => {
     if (!user) return;
     (async () => {
       if (user?.major) {
+        setLoading((state) => ({ ...state, major: true }));
         try {
           const { data } = await axios.get<Program>(`/api/program/${user.major.id}`);
           setMajorRequirements(data.requirements);
         } catch (error) {
           console.error(error);
         }
+        setLoading((state) => ({ ...state, major: false }));
+      }
+      if (user?.minor) {
+        setLoading((state) => ({ ...state, minor: true }));
+        try {
+          const { data } = await axios.get<Program>(`/api/program/${user.minor.id}`);
+          setMinorRequirements(data.requirements);
+        } catch (error) {
+          console.error(error);
+        }
+        setLoading((state) => ({ ...state, minor: false }));
       }
     })();
   }, [user]);
@@ -35,7 +48,14 @@ const PlannerSidebar = () => {
           {majorRequirements.map((e) => (
             <PlannerSidebarRequirement key={`planner progress sidebar ${e.id}`} requirement={e} />
           ))}
-          {/* {loading.major && <LoadingIcon className="animate-spin text-center" size={15} />} */}
+          {loading.major && <LoadingIcon className="animate-spin mx-auto" size={25} />}
+        </div>
+        <div>
+          {minorRequirements.length > 0 && <h3 className="text text-center">Major: {user.major.name}</h3>}
+          {minorRequirements.map((e) => (
+            <PlannerSidebarRequirement key={`planner progress sidebar ${e.id}`} requirement={e} />
+          ))}
+          {loading.minor && <LoadingIcon className="animate-spin mx-auto" size={25} />}
         </div>
       </div>
     </div>

@@ -50,6 +50,12 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
 
     try {
       const { semester, year } = editState;
+
+      dispatch(setCurrentEditingSemester(null));
+      dispatch(
+        setPlan({ ...plan, semesters: plan.semesters.map((e) => (e.id === id ? { ...e, semester, year } : e)) })
+      );
+
       const { data } = await axios.post(
         `/api/degree-plan/semester/${id}`,
         {
@@ -61,7 +67,6 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
-      dispatch(setCurrentEditingSemester(null));
       dispatch(setPlan({ ...plan, semesters: plan.semesters.map((e) => (e.id === id ? data : e)) }));
     } catch (error) {
       console.error(error);
@@ -81,8 +86,24 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
     }
   };
 
-  const removeCourse = (id: string) => {
-    console.log(id);
+  const removeCourse = async (courseId: string) => {
+    try {
+      // Remove the course from the semester in our redux store
+      dispatch(
+        setPlan({
+          ...plan,
+          semesters: plan.semesters.map((e) =>
+            e.id === id ? { ...e, courses: e.courses.filter((c) => c.id !== courseId) } : e
+          ),
+        })
+      );
+      await axios.delete(`/api/degree-plan/semester/${id}/courses/${courseId}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      await fetchSemesterData();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -145,7 +166,9 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
             </div>
           </form>
         )}
-        {loading && <LoadingIcon size={18} className="text-gray-500 hover:text-gray-600 animate-spin" />}
+        {(loading || editLoading) && (
+          <LoadingIcon size={18} className="text-gray-500 hover:text-gray-600 animate-spin" />
+        )}
         {editing ? (
           <SaveIcon
             size={18}
