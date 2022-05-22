@@ -5,7 +5,6 @@ interface Props {
 }
 
 const CourseSection = ({ section }: Props) => {
-  console.log(section);
   return (
     <div>
       <p>{section.term}</p>

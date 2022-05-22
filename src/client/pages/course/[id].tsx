@@ -50,8 +50,9 @@ const Page = ({ course }: PageProps) => {
       <MetaData description={course.description} title={`${course.name} (${course.code})`} />
       <div>
         <h1 className="text-center mb-1">
-          {course.name} ({course.code})
+          {course.name}
         </h1>
+        <h2 className="subheading text-center">({course.code})</h2>
         <Link passHref href={`/school/${course.school.id}`}>
           <p className="text-center text-gray-400">{course.school.name}</p>
         </Link>

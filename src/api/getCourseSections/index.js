@@ -20,26 +20,29 @@ exports.handler = async (event) => {
     MATCH (course: Course {id: $courseId})-[:HAS]->(section: Section)
 
     MATCH (section)-[:INSTRUCTED_BY]->(instructor: Instructor)
-    OPTIONAL MATCH (section)-[:HAS]->(lab: Lab)
-    OPTIONAL MATCH (section)-[:HAS]->(lecture: Lecture)
-    OPTIONAL MATCH (section)-[:HAS]->(seminar: Seminar)
-    OPTIONAL MATCH (section)-[:HAS]->(tutorial: Tutorial)
-    OPTIONAL MATCH (section)-[:HAS]->(exam: Exam)
 
     return 
       properties(section) as section, 
       properties(instructor) as instructor,
-      properties(lecture) as lecture,
-      properties(lab) as lab,
-      properties(seminar) as seminar,
-      properties(tutorial) as tutorial,
-      properties(exam) as exam
-  `,
+      [(section)-[:HAS]->(lab: Lab) | properties(lab)] as labs,
+      [(section)-[:HAS]->(lecture: Lecture) | properties(lecture)] as lectures,
+      [(section)-[:HAS]->(seminar: Seminar) | properties(seminar)] as seminars,
+      [(section)-[:HAS]->(tutorial: Tutorial) | properties(tutorial)] as tutorials,
+      [(section)-[:HAS]->(exam: Exam) | properties(exam)] as exams
+      `,
     { courseId }
   );
 
   await session.close();
   await driver.close();
 
-  return records.map((e) => e.get("section"));
+  return records.map((e) => ({
+    ...e.get("section"),
+    instructor: e.get("instructor"),
+    lectures: e.get("lectures"),
+    labs: e.get("labs"),
+    seminars: e.get("seminars"),
+    exams: e.get("exams"),
+    tutorial: e.get("tutorial"),
+  }));
 };
