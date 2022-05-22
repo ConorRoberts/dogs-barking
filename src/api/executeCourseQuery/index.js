@@ -34,13 +34,13 @@ exports.handler = async (event) => {
     `
       MATCH (course: Course)
 
-      RETURN course
+      RETURN course,count(course) as total
     `,
     {
       ...query,
       sortKey: `course.${sortKey}`,
       limit: parseInt(pageSize),
-      skip: parseInt(pageNum) * parseInt(pageSize),
+      skip: parseInt(pageNum * pageSize),
       sortDir,
     }
   );
