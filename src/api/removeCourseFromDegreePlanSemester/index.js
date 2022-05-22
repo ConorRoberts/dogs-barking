@@ -25,9 +25,9 @@ exports.handler = async (event) => {
   await session.run(
     `
     MATCH 
-      (user: User {id: $userId})-[:HAS]->
-      (plan:DegreePlan)-[:CONTAINS]->
-      (semester:DegreePlanSemester {id: $semesterId})-[r:CONTAINS]->(course:Course {id: $courseId})
+      (:User {id: $userId})-[:HAS]->
+      (:DegreePlan)-[:CONTAINS]->
+      (:DegreePlanSemester {id: $semesterId})-[r:CONTAINS]->(:Course {id: $courseId})
 
       DELETE r
   `,
