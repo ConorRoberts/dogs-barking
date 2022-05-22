@@ -27,7 +27,7 @@ exports.handler = async (event) => {
     MATCH 
       (user: User {id: $userId})-[:HAS]->
       (plan:DegreePlan)-[:CONTAINS]->
-      (semester:Semester {id: $semesterId})-[r:CONTAINS]->(course:Course {id: $courseId})
+      (semester:DegreePlanSemester {id: $semesterId})-[r:CONTAINS]->(course:Course {id: $courseId})
 
       DELETE r
   `,
