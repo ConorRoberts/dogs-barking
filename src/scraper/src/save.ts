@@ -118,6 +118,7 @@ const save = async () => {
       const section = data.sections.find((e) => e.id === sectionId);
       const instructor = data.instructors.find((e) => e.id === section.INSTRUCTED_BY);
       if (!instructor || !section) continue;
+      const [semester, year] = section.term.split(" ").map((e: string) => e.trim().toLowerCase());
 
       // Add section, instructors
       session = driver.session();
@@ -145,6 +146,8 @@ const save = async () => {
         {
           section: {
             ...section,
+            semester,
+            year: parseInt(year),
             id: v4(),
           },
           courseCode: course.code,
@@ -619,6 +622,8 @@ const save = async () => {
         }
         for (const block of program.major.options) {
           session = driver.session();
+          const [level] = block.text.match(/[0-9]+ level/g) ?? [];
+          const type = block.text.includes("credits") ? "credit" : "course";
 
           await session.run(
             `
@@ -628,7 +633,8 @@ const save = async () => {
               note: $note,
               target: $target,
               department: $department,
-              level: $level
+              level: $level,
+              type: $type
             })
             
           `,
@@ -638,7 +644,8 @@ const save = async () => {
               note: block.text,
               target: block.targetWeight,
               department: block.dpt,
-              level: block.level,
+              level: parseInt(level) ?? -1,
+              type,
             }
           );
           await session.close();

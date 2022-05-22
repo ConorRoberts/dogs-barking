@@ -1,27 +1,28 @@
-import Course from "@typedefs/Course";
-import Requirement from "@typedefs/Requirement";
-import OrBlockData from "@typedefs/OrBlockData";
-import { CancelIcon, CheckIcon, LinkIcon } from "./Icons";
-import Link from "next/link";
+import { PlannerState } from "@redux/planner";
 import { RootState } from "@redux/store";
-import { AuthState } from "@redux/auth";
-import { useSelector } from "react-redux";
+import Course from "@typedefs/Course";
 import CreditRequirementData from "@typedefs/CreditRequirementData";
+import OrBlockData from "@typedefs/OrBlockData";
+import Requirement from "@typedefs/Requirement";
 import isRequirementMet from "@utils/isRequirementMet";
+import Link from "next/link";
+import { useSelector } from "react-redux";
+import { CancelIcon, CheckIcon, LinkIcon } from "./Icons";
 
 interface Props {
   requirement: Requirement;
 }
 
-const RequirementCard = ({ requirement }: Props) => {
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+const PlannerSidebarRequirement = ({ requirement }: Props) => {
+  const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const { label, id } = requirement;
 
-  const taken = isRequirementMet(requirement, user?.takenCourses);
+  const plannedCourses = plan?.semesters?.map((e) => e.courses).flat();
+  const taken = isRequirementMet(requirement, plannedCourses);
 
   return (
-    <div className="bg-white shadow-sm dark:bg-gray-800 rounded-xl overflow-hidden flex flex-col">
-      <div className="p-3">
+    <div className="rounded-xl overflow-hidden flex justify-between py-1">
+      <div>
         <div className="flex justify-between gap-4 items-center">
           {label === "Course" && (
             <Link href={`/course/${id}`} passHref>
@@ -41,7 +42,7 @@ const RequirementCard = ({ requirement }: Props) => {
           )}
         </div>
         {label === "OrBlock" && (
-          <div className="grid grid-cols-2 gap-1 items-centerD">
+          <div className="grid grid-cols-2 gap-1 items-center">
             {(requirement as OrBlockData).requirements.map((e: Course) => (
               <Link href={`/course/${e.id}`} key={`${id}-requirementcard-${e.id}`} passHref>
                 <div className="flex gap-1 items-center primary-hover">
@@ -55,22 +56,12 @@ const RequirementCard = ({ requirement }: Props) => {
       </div>
       <div
         className={`${
-          taken ? "bg-emerald-700" : "bg-rose-700"
-        } px-0.5 text-sm flex gap-2 justify-center text-white items-center mt-auto`}>
-        {taken ? (
-          <>
-            <p>Complete</p>
-            <CheckIcon size={15} />
-          </>
-        ) : (
-          <>
-            <p>Incomplete</p>
-            <CancelIcon size={15} />
-          </>
-        )}
+          taken ? "text-emerald-500" : "text-rose-500"
+        } w-6 h-6 text-sm flex gap-2 justify-center text-white items-center bg-white dark:bg-gray-800 dark:bg-grrounded-full text-center rounded-full`}>
+        {taken ? <CheckIcon size={15} /> : <CancelIcon size={15} />}
       </div>
     </div>
   );
 };
 
-export default RequirementCard;
+export default PlannerSidebarRequirement;

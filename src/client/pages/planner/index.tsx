@@ -6,7 +6,6 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PlusIcon } from "@components/Icons";
 import axios from "axios";
-import { Button } from "@components/form";
 import { groupBy } from "lodash";
 import PlannerYear from "@components/PlannerYear";
 import { PlannerState, setPlan } from "@redux/planner";
@@ -15,7 +14,6 @@ import PlannerSidebar from "@components/PlannerSidebar";
 const Page = () => {
   const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
   const router = useRouter();
-  const [plansLoading, setPlansLoading] = useState(true);
   const [selectedPlanId, setSelectedPlanId] = useState("none");
   const [groupedSemesters, setGroupedSemesters] = useState([]);
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
@@ -28,21 +26,6 @@ const Page = () => {
         semesters: plan.semesters.filter((semester) => semester.id != semesterId),
       })
     );
-  };
-
-  const createPlan = async () => {
-    try {
-      await axios.post(
-        `/api/degree-plan/new`,
-        {
-          userId: user.id,
-        },
-        { headers: { Authorization: `Bearer ${user.token}` } }
-      );
-      await fetchPlans();
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   // Add a semester to the selected plan
@@ -72,10 +55,25 @@ const Page = () => {
       const { data } = await axios.get(`/api/degree-plan/get-user-plans`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
+
+      // No plans? Create plan.
+      if (data.length === 0) {
+        try {
+          await axios.post(
+            `/api/degree-plan/new`,
+            {
+              userId: user.id,
+            },
+            { headers: { Authorization: `Bearer ${user.token}` } }
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      // Use the first, and ideally only, plan
       setSelectedPlanId(data[0].id);
-      // setPlans(data);
     } catch (error) {
-      // setPlans([]);
       console.error(error);
     }
   }, [user]);
@@ -121,12 +119,6 @@ const Page = () => {
       <div className="p-2 flex flex-col gap-8 mx-auto max-w-4xl w-full overflow-y-auto col-span-3">
         <div>
           <h1 className="text-center">Degree Planner</h1>
-        </div>
-        <div className="flex justify-center">
-          <Button onClick={createPlan}>
-            <PlusIcon />
-            <p>New Plan</p>
-          </Button>
         </div>
         {/* <Select value={selectedPlanId} onChange={(e) => setSelectedPlanId(e.target.value)}>
         <option value="none">Select a plan</option>

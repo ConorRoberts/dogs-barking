@@ -34,9 +34,9 @@ const Page = ({ course }: PageProps) => {
     <div className="mx-auto max-w-4xl w-full flex flex-col gap-8 p-4">
       <MetaData description={course.description} title={`${course.name} (${course.code})`} />
       <div>
-        <h2 className="text-center mb-1">
+        <h1 className="text-center mb-1">
           {course.name} ({course.code})
-        </h2>
+        </h1>
         <Link passHref href={`/school/${course.school.id}`}>
           <p className="text-center text-gray-400">{course.school.name}</p>
         </Link>

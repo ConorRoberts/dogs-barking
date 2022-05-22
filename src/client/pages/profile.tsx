@@ -15,6 +15,7 @@ import { API_URL } from "@config/config";
 import Course from "@typedefs/Course";
 import useSearch from "@hooks/useSearch";
 import Toast from "@components/form/Toast";
+import User from "@typedefs/User";
 
 interface PageProps {
   schools: School[];
@@ -65,12 +66,20 @@ const Page = ({ schools }: PageProps) => {
             let status: UpdateStatus = "success";
 
             try {
-              const { data } = await axios.post(
+              const { data } = await axios.post<User>(
                 `/api/user`,
                 { ...values, takenCourses: [...user.takenCourses, ...newTakenCourses].map((e) => e.id) },
                 { headers: { Authorization: `Bearer ${user.token}` } }
               );
-              dispatch(setUser({ ...user, takenCourses: data.takenCourses }));
+              dispatch(
+                setUser({
+                  ...user,
+                  takenCourses: data.takenCourses,
+                  major: data.major,
+                  minor: data.minor,
+                  school: data.school,
+                })
+              );
             } catch (error) {
               dispatch(refreshToken());
               status = "failure";
