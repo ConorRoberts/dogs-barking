@@ -19,7 +19,21 @@ exports.handler = async (event) => {
     `
     MATCH (course: Course {id: $courseId})-[:HAS]->(section: Section)
 
-    return properties(section) as section
+    MATCH (section)-[:INSTRUCTED_BY]->(instructor: Instructor)
+    OPTIONAL MATCH (section)-[:HAS]->(lab: Lab)
+    OPTIONAL MATCH (section)-[:HAS]->(lecture: Lecture)
+    OPTIONAL MATCH (section)-[:HAS]->(seminar: Seminar)
+    OPTIONAL MATCH (section)-[:HAS]->(tutorial: Tutorial)
+    OPTIONAL MATCH (section)-[:HAS]->(exam: Exam)
+
+    return 
+      properties(section) as section, 
+      properties(instructor) as instructor,
+      properties(lecture) as lecture,
+      properties(lab) as lab,
+      properties(seminar) as seminar,
+      properties(tutorial) as tutorial,
+      properties(exam) as exam
   `,
     { courseId }
   );

@@ -11,6 +11,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import LoadingScreen from "@components/LoadingScreen";
 import RequirementsList from "@components/RequirementsList";
+import axios from "axios";
+import CourseSection from "@components/CourseSection";
 
 interface PageProps {
   course: Course;
@@ -21,12 +23,25 @@ interface PageProps {
 const Page = ({ course }: PageProps) => {
   const router = useRouter();
   const [ratingCount, setRatingCount] = useState(course.rating.count);
-
-  console.log(course);
+  const [sections, setSections] = useState([]);
+  const [sectionsLoading, setSectionsLoading] = useState(false);
 
   useEffect(() => {
     if (!course) router.push("/error/404");
   }, [router, course]);
+
+  useEffect(() => {
+    (async () => {
+      setSectionsLoading(true);
+      try {
+        const { data } = await axios.get(`/api/course/${course.id}/section`);
+        setSections(data);
+      } catch (error) {
+        console.error(error);
+      }
+      setSectionsLoading(false);
+    })();
+  }, [course.id]);
 
   if (!course) return <LoadingScreen />;
 
@@ -95,10 +110,12 @@ const Page = ({ course }: PageProps) => {
           <RequirementsList requirements={course.requirements.filter((e) => e.label !== "AndBlock")} />
         </>
       )}
-      {/* <div>
-        <h3 className="text-center mb-1">Prerequisites</h3>
-        <CourseGraph nodes={nodes} edges={edges} />
-      </div> */}
+      <div>
+        <h2 className="text-center mb-1">Sections</h2>
+        {sections.map((section, index) => (
+          <CourseSection section={section} key={`${course.id} section ${index}`} />
+        ))}
+      </div>
     </div>
   );
 };
