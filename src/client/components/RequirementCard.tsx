@@ -25,10 +25,10 @@ const RequirementCard = ({ requirement }: Props) => {
         <div className="flex justify-between gap-4 items-center">
           {label === "Course" && (
             <Link href={`/course/${id}`} passHref>
-              <div className="flex gap-1 items-center primary-hover">
+              <a className="flex gap-1 items-center primary-hover">
                 <LinkIcon size={18} />
                 <p className="font-medium">{(requirement as Course).code}</p>
-              </div>
+              </a>
             </Link>
           )}
           {label === "OrBlock" && (
@@ -44,10 +44,10 @@ const RequirementCard = ({ requirement }: Props) => {
           <div className="grid grid-cols-2 gap-1 items-centerD">
             {(requirement as OrBlockData).requirements.map((e: Course) => (
               <Link href={`/course/${e.id}`} key={`${id}-requirementcard-${e.id}`} passHref>
-                <div className="flex gap-1 items-center primary-hover">
+                <a className="flex gap-1 items-center primary-hover">
                   <LinkIcon size={18} />
                   <p className="p-1">{e.code}</p>
-                </div>
+                </a>
               </Link>
             ))}
           </div>

@@ -29,7 +29,7 @@ export {
   MdEdit as PencilIcon,
   MdOutlineSave as SaveIcon,
   MdCancel as CancelIcon,
-  MdLink as LinkIcon
+  MdLink as LinkIcon,
 } from "react-icons/md";
 export {
   IoCloseOutline as CloseIcon,
@@ -38,6 +38,6 @@ export {
   IoDocumentTextOutline as DocumentIcon,
 } from "react-icons/io5";
 export { FcGoogle as Google } from "react-icons/fc";
-export { GrImage as Image } from "react-icons/gr";
+export { GrImage as Image, GrCatalog as CatalogIcon } from "react-icons/gr";
 export { GiCheckboxTree as Graph } from "react-icons/gi";
 export { BsArrowUpCircle as ArrowUp, BsArrowDownCircle as ArrowDown, BsTrash as TrashIcon } from "react-icons/bs";

@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Drawer } from "@components/form";
-import {
-  Home,
-  Menu,
-  Sun,
-  Moon,
-  PersonIcon,
-  Login,
-  Logout,
-  PlannerIcon,
-} from "@components/Icons";
+import { Home, Menu, Sun, Moon, PersonIcon, Login, Logout, PlannerIcon, CatalogIcon } from "@components/Icons";
 import { useRouter } from "next/router";
 import useDarkMode from "@hooks/useDarkMode";
 import { RootState } from "@redux/store";
@@ -41,13 +32,19 @@ const Navigation = () => {
                 </div>
               </Link>
             )}
+            <Link href="/catalog" passHref>
+              <div className="nav-drawer-button md:hidden">
+                <CatalogIcon size={20} />
+                <p>Catalog</p>
+              </div>
+            </Link>
             <div className="mt-auto">
               {user && (
                 <Link href="/auth/sign-out" passHref>
-                  <div className="nav-drawer-button">
+                  <a className="nav-drawer-button">
                     <Logout size={20} />
                     <p>Sign Out</p>
-                  </div>
+                  </a>
                 </Link>
               )}
               {darkMode ? (
@@ -70,21 +67,21 @@ const Navigation = () => {
       <div className="md:hidden">
         <div className="fixed bottom-0 left-0 right-0 dark:border-t shadow-center-md dark:border-gray-600 flex justify-evenly items-center dark:bg-gray-900 bg-white z-30 pb-4">
           <Link href="/" passHref>
-            <div className="small-screen-nav-button">
+            <a className="small-screen-nav-button">
               <Home size={25} />
-            </div>
+            </a>
           </Link>
           {user ? (
             <Link href="/profile" passHref>
-              <div className="small-screen-nav-button">
+              <a className="small-screen-nav-button">
                 <PersonIcon size={25} />
-              </div>
+              </a>
             </Link>
           ) : (
             <Link href="/auth/sign-in" passHref>
-              <div className="small-screen-nav-button">
+              <a className="small-screen-nav-button">
                 <Login size={25} />
-              </div>
+              </a>
             </Link>
           )}
           <div className="small-screen-nav-button" onClick={() => setMenuOpen(true)}>
@@ -99,23 +96,24 @@ const Navigation = () => {
           <Menu size={20} />
         </div>
         <Link href="/" passHref>
-          <div className="big-screen-nav-button">
-            <p>Home</p>
-          </div>
+          <a className="big-screen-nav-button">Home</a>
         </Link>
         {user && (
           <Link href="/planner" passHref>
-            <div className="big-screen-nav-button">Degree Planner</div>
+            <a className="big-screen-nav-button">Degree Planner</a>
           </Link>
         )}
+        <Link href="/catalog" passHref>
+          <a className="big-screen-nav-button">Catalog</a>
+        </Link>
 
         {user ? (
           <Link href="/profile" passHref>
-            <div className="big-screen-nav-button ml-auto">{user?.name.split(" ").at(0)}</div>
+            <a className="big-screen-nav-button ml-auto">{user?.name.split(" ").at(0)}</a>
           </Link>
         ) : (
           <Link href="/auth/sign-in" passHref>
-            <div className="big-screen-nav-button ml-auto">Sign In</div>
+            <a className="big-screen-nav-button ml-auto">Sign In</a>
           </Link>
         )}
       </div>

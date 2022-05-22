@@ -34,7 +34,10 @@ exports.handler = async (event) => {
     `
       MATCH (course: Course)
 
-      RETURN properties(course) as course,count(course) as total
+      RETURN 
+        properties(course) as course,
+        count(course) as total,
+        [(school)-[:OFFERS]-(course) | school.name][0] as school
 
       LIMIT 50
     `,
