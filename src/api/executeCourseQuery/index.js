@@ -34,7 +34,7 @@ exports.handler = async (event) => {
     `
       MATCH (course: Course)
 
-      RETURN course,count(course) as total
+      RETURN properties(course) as course,count(course) as total
     `,
     {
       ...query,
