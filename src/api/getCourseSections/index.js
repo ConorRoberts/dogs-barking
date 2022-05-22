@@ -43,6 +43,6 @@ exports.handler = async (event) => {
     labs: e.get("labs"),
     seminars: e.get("seminars"),
     exams: e.get("exams"),
-    tutorial: e.get("tutorial"),
+    tutorial: e.get("tutorials"),
   }));
 };
