@@ -35,8 +35,6 @@ exports.handler = async (event) => {
       MATCH (course: Course)
 
       RETURN course
-      SKIP $skip
-      LIMIT $limit
     `,
     {
       ...query,
