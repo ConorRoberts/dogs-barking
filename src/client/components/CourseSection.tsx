@@ -6,8 +6,9 @@ interface Props {
 
 const CourseSection = ({ section }: Props) => {
   return (
-    <div>
+    <div className="bg-gray-800">
       <p>{section.term}</p>
+      <p>Instructor {section.instructor.name}</p>
     </div>
   );
 };

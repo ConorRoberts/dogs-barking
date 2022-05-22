@@ -42,7 +42,7 @@ const Page = () => {
         <h1>Catalog</h1>
       </div>
       <div>
-        {loading && <LoadingIcon size={45} className="animate-spin text-gray-500" />}
+        {loading && <LoadingIcon size={45} className="animate-spin text-gray-500 mx-auto" />}
         {!loading && (
           <ul className="scrollbar scrollbar-track-y-transparent">
             {courses

@@ -35,6 +35,8 @@ exports.handler = async (event) => {
       MATCH (course: Course)
 
       RETURN properties(course) as course,count(course) as total
+
+      LIMIT 50
     `,
     {
       ...query,

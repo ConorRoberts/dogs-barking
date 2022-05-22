@@ -8,13 +8,14 @@ const CatalogCourse = ({ course }: Props) => {
   const { id, code } = course;
   return (
     <div className="py-2 dark:even:bg-gray-800">
-      <li>
-        <Link href={`/course/${id}`} passHref>
-          <div>
-            <p className="">{code}</p>
-          </div>
-        </Link>
-      </li>
+      <Link href={`/course/${id}`} passHref>
+        <div>
+          <p className="font-semibold">
+            {code} - {course.name}
+          </p>
+          <p>{course.description}</p>
+        </div>
+      </Link>
     </div>
   );
 };

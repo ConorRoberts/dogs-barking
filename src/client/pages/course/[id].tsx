@@ -49,10 +49,8 @@ const Page = ({ course }: PageProps) => {
     <div className="mx-auto max-w-4xl w-full flex flex-col gap-8 p-4">
       <MetaData description={course.description} title={`${course.name} (${course.code})`} />
       <div>
-        <h1 className="text-center mb-1">
-          {course.name}
-        </h1>
-        <h2 className="subheading text-center">({course.code})</h2>
+        <h1 className="text-center mb-1">{course.name}</h1>
+        <h2 className="subheading text-center">{course.code}</h2>
         <Link passHref href={`/school/${course.school.id}`}>
           <p className="text-center text-gray-400">{course.school.name}</p>
         </Link>
@@ -112,10 +110,15 @@ const Page = ({ course }: PageProps) => {
         </>
       )}
       <div>
-        <h2 className="text-center mb-1">Sections</h2>
-        {sections.map((section, index) => (
-          <CourseSection section={section} key={`${course.id} section ${index}`} />
-        ))}
+        <h2 className="text-center">Sections</h2>
+        <p className="text-center text-gray-500 dark:text-gray-500 mb-1">
+          Here are the current offerings for {course.code}
+        </p>
+        <div className="flex gap-2 flex-col">
+          {sections.map((section, index) => (
+            <CourseSection section={section} key={`${course.id} section ${index}`} />
+          ))}
+        </div>
       </div>
     </div>
   );
