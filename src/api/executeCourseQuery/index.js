@@ -32,13 +32,9 @@ exports.handler = async (event) => {
   const session = driver.session();
   const { records } = await session.run(
     `
-      (course: Course)
+      MATCH (course: Course)
 
-      with collect(course) as courses, count (course) as total
-      unwind courses as course
-      return properties(course) as course, total
-      ORDER BY $sortKey $sortDir
-
+      RETURN course
       SKIP $skip
       LIMIT $limit
     `,
