@@ -14,7 +14,18 @@ exports.handler = async (event) => {
     neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
   );
 
+  const session = driver.session();
+  const { records } = await session.run(
+    `
+    MATCH (course: Course {id: $courseId})-[:HAS]->(section: Section)
+
+    return properties(section) as section
+  `,
+    { courseId }
+  );
+
+  await session.close();
   await driver.close();
 
-  return "Hello World";
+  return records.map((e) => e.get("section"));
 };
