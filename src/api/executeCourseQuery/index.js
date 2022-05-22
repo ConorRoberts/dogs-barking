@@ -32,21 +32,15 @@ exports.handler = async (event) => {
   const session = driver.session();
   const { records } = await session.run(
     `
-      MATCH (school:School)
-      -[:OFFERS]->
-      ${query?.degree?.length > 0 ? "(program: Program)-[:MAJOR_REQUIRES]->" : ""}
       (course: Course)
-      ${query?.prerequisites?.length > 0 ? `-[:HAS_PREREQUISITE]->(pc: Course) WHERE pc.id IN $prerequisites` : ""}
-
-      ${filters.join(" AND ")}
 
       with collect(course) as courses, count (course) as total
       unwind courses as course
       return properties(course) as course, total
-      ${query?.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir) ? `ORDER BY $sortKey $sortDir` : ""}
+      ORDER BY $sortKey $sortDir
 
-      SKIP (${skip})
-      LIMIT (${limit})
+      SKIP $skip
+      LIMIT $limit
     `,
     {
       ...query,
@@ -60,7 +54,7 @@ exports.handler = async (event) => {
   await driver.close();
 
   return {
-    total: records[0].get("total"),
+    total: records[0].get("total").low,
     courses: records.map((e) => ({ ...e.get("course") })),
   };
 };

@@ -4,6 +4,7 @@ import getNeo4jDriver from "./getNeo4jDriver";
 import chalk from "chalk";
 import dotenv from "dotenv";
 import { v4 } from "uuid";
+import convertTime from "./convertTime";
 
 const logs = [];
 
@@ -12,7 +13,7 @@ const save = async () => {
 
   const startTime = new Date().getTime();
 
-  const log = (msg) => {
+  const log = (msg: string) => {
     const endTime = new Date().getTime();
     const time = (endTime - startTime) / 1000;
     const timestamp =
@@ -109,7 +110,7 @@ const save = async () => {
 
       log(chalk.green(`Added ${course.code}`));
     } catch (error) {
-      console.error("Failed to add course");
+      console.error("Failed to add course: " + course.code);
       log(chalk.red(error));
     }
 
@@ -156,8 +157,6 @@ const save = async () => {
         const lecture = data.lectures.find((e) => e.id === lectureId);
         if (!lecture) continue;
         try {
-          const [startTime, startDayTime] = lecture.startTime.split(" ");
-          const [endTime, endDayTime] = lecture.endTime.split(" ");
           session = driver.session();
           await session.run(
             `
@@ -167,27 +166,27 @@ const save = async () => {
             (section:Section {code: $sectionCode})
 
             CREATE (lecture:Lecture {
-                startTime: localtime($lecture.endTime),
-                endTime: localtime($lecture.endTime),
-                location: $lecture.location,
-                room: $lecture.room,
-                monday: $lecture.monday,
-                tuesday: $lecture.tuesday,
-                wednesday: $lecture.wednesday,
-                thursday: $lecture.thursday,
-                friday: $lecture.friday,
-                saturday: $lecture.saturday,
-                sunday: $lecture.sunday,
-                id: $lecture.id
+                startTime: localtime($data.endTime),
+                endTime: localtime($data.endTime),
+                location: $data.location,
+                room: $data.room,
+                monday: $data.monday,
+                tuesday: $data.tuesday,
+                wednesday: $data.wednesday,
+                thursday: $data.thursday,
+                friday: $data.friday,
+                saturday: $data.saturday,
+                sunday: $data.sunday,
+                id: $data.id
             })
 
             CREATE (section)-[:HAS]->(lecture)
         `,
             {
-              lecture: {
+              data: {
                 ...lecture,
-                startTime,
-                endTime,
+                startTime: convertTime(lecture.startTime),
+                endTime: convertTime(lecture.endTime),
                 id: v4(),
               },
               courseCode: course.code,
@@ -196,7 +195,7 @@ const save = async () => {
           );
           await session.close();
         } catch (error) {
-          log(chalk.red("Error creating lecture"));
+          log(chalk.red(`Error creating lecture for ${course.code}`));
         }
       }
       for (const labId of section.HAS_LAB) {
@@ -211,13 +210,28 @@ const save = async () => {
             -[:HAS]->
             (section:Section {code: $sectionCode})
 
-            CREATE (lab:Lab $lab)
+            CREATE (lab:Lab {
+              startTime: localtime($data.endTime),
+              endTime: localtime($data.endTime),
+              location: $data.location,
+              room: $data.room,
+              monday: $data.monday,
+              tuesday: $data.tuesday,
+              wednesday: $data.wednesday,
+              thursday: $data.thursday,
+              friday: $data.friday,
+              saturday: $data.saturday,
+              sunday: $data.sunday,
+              id: $data.id
+            })
 
             CREATE (section)-[:HAS]->(lab)
         `,
             {
-              lab: {
+              data: {
                 ...lab,
+                startTime: convertTime(lab.startTime),
+                endTime: convertTime(lab.endTime),
                 id: v4(),
               },
               courseCode: course.code,
@@ -226,7 +240,7 @@ const save = async () => {
           );
           await session.close();
         } catch (error) {
-          log(chalk.red("Error creating lab"));
+          log(chalk.red(`Error creating lab for ${course.code}`));
         }
       }
       for (const seminarId of section.HAS_SEMINAR) {
@@ -241,15 +255,38 @@ const save = async () => {
             -[:HAS]->
             (section:Section {code: $sectionCode})
 
-            CREATE (seminar:Seminar $seminar)
+            CREATE (seminar:Seminar {
+              startTime: localtime($data.endTime),
+              endTime: localtime($data.endTime),
+              location: $data.location,
+              room: $data.room,
+              monday: $data.monday,
+              tuesday: $data.tuesday,
+              wednesday: $data.wednesday,
+              thursday: $data.thursday,
+              friday: $data.friday,
+              saturday: $data.saturday,
+              sunday: $data.sunday,
+              id: $data.id
+            })
 
             CREATE (section)-[:HAS]->(seminar)
         `,
-            { seminar, courseCode: course.code, sectionCode: section.code }
+            {
+              data: {
+                ...seminar,
+                startTime: convertTime(seminar.startTime),
+                endTime: convertTime(seminar.endTime),
+                id: v4(),
+              },
+              courseCode: course.code,
+              sectionCode: section.code,
+            }
           );
           await session.close();
         } catch (error) {
           log(chalk.red("Error creating seminar"));
+          console.error(error);
         }
       }
       for (const tutorialId of section.HAS_SEMINAR) {

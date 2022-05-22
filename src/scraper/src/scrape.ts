@@ -1,13 +1,14 @@
 import { writeFileSync } from "fs";
 import { devices, chromium, ElementHandle } from "@playwright/test";
 import chalk from "chalk";
+import { v4 } from "uuid";
 
 export type Meeting = {
   days: string[];
   startTime: string;
   endTime: string;
   location?: string;
-  id: number;
+  id: string;
   room?: string;
 };
 
@@ -120,7 +121,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
           log(chalk.blueBright(`${code} (${courseIndex++})`));
 
           const courseObj = {
-            id: Math.random(),
+            id: v4(),
             description,
             code,
             department: (code.match(/[A-Z]+/g) ?? [])[0].replace(/ +/g, " "),
@@ -182,10 +183,10 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
                 log(chalk.gray(`Section code: ${sectionCode}`));
 
                 const section = {
-                  id: Math.random(),
+                  id: v4(),
                   code: sectionCode,
                   term: sectionTerms[groupIndex],
-                  INSTRUCTED_BY: 0,
+                  INSTRUCTED_BY: "",
                   HAS_LECTURE: [],
                   HAS_EXAM: [],
                   HAS_SEMINAR: [],
@@ -219,7 +220,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
 
                     // If we don't have an instructor with this name, create one
                     if (!instructor) {
-                      const id = Math.random();
+                      const id = v4();
                       instructors.push({
                         id,
                         name: instructorName,
@@ -243,7 +244,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
                     endTime: (
                       await (await row.$(`#${sectionId}-meeting-times-end-${rowIndex}`))?.textContent()
                     )?.trim(),
-                    id: Math.random(),
+                    id: v4(),
                   };
 
                   let itemIndex = 0;

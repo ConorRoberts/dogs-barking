@@ -62,7 +62,7 @@ const Page = () => {
           </div>
           {showResults && (
             <div
-              className="absolute rounded-b-xl top-full left-0 right-0 z-20 shadow-md bg-white overflow-hidden divide-y divide-gray-100"
+              className="absolute rounded-b-xl top-full left-0 right-0 z-20 shadow-md bg-white dark:bg-gray-800 overflow-hidden"
               id="home-course-search-results">
               {results.slice(0, 10).map((e) => (
                 <Link href={`/${searchType}/${e.id}`} key={e.id} passHref>
