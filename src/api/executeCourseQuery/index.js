@@ -39,11 +39,7 @@ exports.handler = async (event) => {
     
     WITH [(s:School)-[:OFFERS]->(course) | {course:properties(course),school:s.name}][0] as courses, total
     
-    RETURN COLLECT(courses) AS courses,total
-    
-
-    SKIP $skip
-    LIMIT $limit
+    RETURN COLLECT(courses)[$skip..$limit] AS courses,total
     `,
     {
       ...query,
