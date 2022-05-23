@@ -5,6 +5,11 @@ import chalk from "chalk";
 import dotenv from "dotenv";
 import { v4 } from "uuid";
 import convertTime from "./convertTime";
+import { Client } from "@opensearch-project/opensearch";
+
+const client = new Client({
+  node: `https://${process.env.OPENSEARCH_USERNAME}:${process.env.OPENSEARCH_PASSWORD}@${process.env.OPENSEARCH_URL}`,
+});
 
 const logs = [];
 
@@ -756,7 +761,92 @@ const save = async () => {
     log(chalk.red(error));
   }
 
+  // Delete programs index
+  try {
+    await client.indices.delete({
+      index: "programs",
+    });
+  } catch (error) {
+    log(chalk.red(error));
+  }
+
+  // Create programs index
+  try {
+    await client.indices.create({
+      index: "programs",
+      body: {
+        settings: {
+          index: {
+            number_of_shards: 4,
+            number_of_replicas: 3,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    log(chalk.red(error));
+  }
+
+  // Delete courses index
+  try {
+    await client.indices.delete({
+      index: "courses",
+    });
+  } catch (error) {
+    log(chalk.red(error));
+  }
+
+  // Create courses index
+  try {
+    await client.indices.create({
+      index: "courses",
+      body: {
+        settings: {
+          index: {
+            number_of_shards: 4,
+            number_of_replicas: 3,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    log(chalk.red(error));
+  }
+
+  // Get courses and programs from Neo4j
+  session = driver.session();
+  const { records } = await session.run(`
+    MATCH (course:Program)
+    MATCH (program:Program)
+
+    RETURN 
+      collect(properties(program)) as programs,
+      collect(properties(course)) as courses
+  `);
+  await session.close();
   await driver.close();
+
+  // Add programs to index
+  for (const program of records[0].get("programs")) {
+    await client.index({
+      id: program.id,
+      index: "programs",
+      body: program,
+      refresh: true,
+    });
+    log(`[OpenSearch] Added program: ${program.short}`);
+  }
+
+  // Add courses to indx
+  for (const course of records[0].get("courses")) {
+    await client.index({
+      id: course.id,
+      index: "courses",
+      body: course,
+      refresh: true,
+    });
+    log(`[OpenSearch] Added course: ${course.code}`);
+  }
 };
 
 (async () => {
