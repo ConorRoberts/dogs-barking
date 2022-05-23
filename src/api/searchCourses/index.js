@@ -8,10 +8,7 @@ exports.handler = async (event) => {
   console.log(event);
 
   try {
-    // const body = JSON.parse(event.body ?? "{}");
     const { query } = event.queryStringParameters;
-    // const pathParams = event.pathParameters;
-    // const headers = event.headers;
 
     const client = new Client({
       node: `https://${process.env.OPENSEARCH_USERNAME}:${process.env.OPENSEARCH_PASSWORD}@${process.env.OPENSEARCH_URL}`,
@@ -21,9 +18,12 @@ exports.handler = async (event) => {
       index: "courses",
       body: {
         query: {
-          multi_match: {
-            query: query,
-            fields: ["department", "code", "name"],
+          query: {
+            multi_match: {
+              query: query,
+              fields: ["code", "name"],
+              fuzziness: "AUTO",
+            },
           },
         },
       },
