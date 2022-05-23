@@ -44,7 +44,7 @@ exports.handler = async (event) => {
     {
       ...query,
       sortKey: `course.${sortKey}`,
-      limit: neo4j.int(pageSize),
+      limit: neo4j.int(pageNum * pageSize + pageSize),
       skip: neo4j.int(pageNum * pageSize),
       sortDir,
     }

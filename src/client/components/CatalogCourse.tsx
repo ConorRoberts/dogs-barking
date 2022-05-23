@@ -31,9 +31,9 @@ const CatalogCourse = ({ course }: Props) => {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ height: 0, overflow: "hidden", padding: "0" }}
+            initial={{ height: 0, overflow: "hidden", padding: "0px" }}
             animate={{ height: "auto", overflow: "visible", padding: "8px" }}
-            exit={{ height: 0, overflow: "hidden", padding: "0" }}
+            exit={{ height: 0, overflow: "hidden", padding: "0px" }}
             transition={{ duration: 0.2 }}
             className="flex flex-col gap-4">
             <p>{course.description}</p>
