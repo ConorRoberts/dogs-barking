@@ -29,6 +29,9 @@ exports.handler = async (event) => {
   if (query?.name?.length > 0) filters.push("course.name STARTS WITH $name");
   if (query?.description?.length > 0) filters.push(`course.description =~ ".*${query.description}.*"`);
 
+  console.log(pageNum * pageSize + pageSize);
+  console.log(pageNum * pageSize);
+
   const session = driver.session();
   const { records } = await session.run(
     `
