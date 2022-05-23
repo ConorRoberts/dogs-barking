@@ -39,8 +39,8 @@ exports.handler = async (event) => {
         count(course) as total,
         [(school)-[:OFFERS]-(course) | school.name][0] as school
 
-      LIMIT $limit
       SKIP $skip
+      LIMIT $limit
     `,
     {
       ...query,
