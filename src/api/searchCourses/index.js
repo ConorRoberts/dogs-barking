@@ -18,12 +18,10 @@ exports.handler = async (event) => {
       index: "courses",
       body: {
         query: {
-          query: {
-            multi_match: {
-              query: query,
-              fields: ["code", "name"],
-              fuzziness: "AUTO",
-            },
+          multi_match: {
+            query: query,
+            fields: ["code", "name"],
+            fuzziness: "AUTO",
           },
         },
       },
