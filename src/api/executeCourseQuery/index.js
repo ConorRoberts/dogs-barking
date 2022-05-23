@@ -29,9 +29,6 @@ exports.handler = async (event) => {
   if (query?.name?.length > 0) filters.push("course.name STARTS WITH $name");
   if (query?.description?.length > 0) filters.push(`course.description =~ ".*${query.description}.*"`);
 
-  console.log(pageNum * pageSize + pageSize);
-  console.log(pageNum * pageSize);
-
   const session = driver.session();
   const { records } = await session.run(
     `
@@ -47,8 +44,8 @@ exports.handler = async (event) => {
     {
       ...query,
       sortKey: `course.${sortKey}`,
-      limit: neo4j.int(pageNum * pageSize + pageSize),
-      skip: neo4j.int(pageNum * pageSize),
+      limit: neo4j.int(Number(pageNum) * Number(pageSize) + Number(pageSize)),
+      skip: neo4j.int(Number(pageNum) * Number(pageSize)),
       sortDir,
     }
   );
