@@ -53,22 +53,24 @@ const RequirementCard = ({ requirement }: Props) => {
           </div>
         )}
       </div>
-      <div
-        className={`${
-          taken ? "bg-emerald-700" : "bg-rose-700"
-        } px-0.5 text-sm flex gap-2 justify-center text-white items-center mt-auto`}>
-        {taken ? (
-          <>
-            <p>Complete</p>
-            <CheckIcon size={15} />
-          </>
-        ) : (
-          <>
-            <p>Incomplete</p>
-            <CancelIcon size={15} />
-          </>
-        )}
-      </div>
+      {user && (
+        <div
+          className={`${
+            taken ? "bg-emerald-700" : "bg-rose-700"
+          } px-0.5 text-sm flex gap-2 justify-center text-white items-center mt-auto`}>
+          {taken ? (
+            <>
+              <p>Complete</p>
+              <CheckIcon size={15} />
+            </>
+          ) : (
+            <>
+              <p>Incomplete</p>
+              <CancelIcon size={15} />
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };
