@@ -75,7 +75,9 @@ const Page = () => {
               <p className="bg-blue-500 rounded-full py-1 px-4">Filter</p>
             </div>
           </div>
-          <p>Showing 1 - 50 of {totals.course} results</p>
+          <p>
+            Showing {50 * page} - {50 * page + 50} of {totals.course} results
+          </p>
           <Button variant="outline" onClick={() => setPage(page + 1)}>
             Next
           </Button>
