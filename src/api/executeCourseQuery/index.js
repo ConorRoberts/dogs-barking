@@ -39,13 +39,14 @@ exports.handler = async (event) => {
         count(course) as total,
         [(school)-[:OFFERS]-(course) | school.name][0] as school
 
-      LIMIT 50
+      LIMIT $limit
+      SKIP $skip
     `,
     {
       ...query,
       sortKey: `course.${sortKey}`,
-      limit: parseInt(pageSize),
-      skip: parseInt(pageNum * pageSize),
+      limit: 50,
+      skip: 0,
       sortDir,
     }
   );
