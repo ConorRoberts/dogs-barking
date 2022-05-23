@@ -54,6 +54,6 @@ exports.handler = async (event) => {
 
   return {
     total: records[0].get("total").low,
-    courses: records[0].get("courses"),
+    courses: records[0].get("courses").map((e) => ({ ...e.course, school: { name: e.school } })),
   };
 };
