@@ -185,13 +185,10 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
       </div>
       <div className="flex flex-col divide-y divide-gray-100 dark:divide-gray-700">
         {data.courses.map((course, index) => (
-          <div
-            className="py-1 px-2 grid grid-cols-6 items-center"
-            key={`${id}-${course.id}-${index}`}
-            onClick={() => removeCourse(course.id)}>
+          <div className="py-1 px-2 grid grid-cols-6 items-center" key={`${id}-${course.id}-${index}`}>
             <p className="col-span-4">{course.code}</p>
             <p className="">{course.credits}</p>
-            <CloseIcon size={15} className="ml-auto" />
+            <CloseIcon size={15} className="ml-auto primary-hover" onClick={() => removeCourse(course.id)} />
           </div>
         ))}
       </div>

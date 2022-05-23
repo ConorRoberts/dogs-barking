@@ -1,6 +1,5 @@
 import MetaData from "@components/MetaData";
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import Link from "next/link";
 import axios from "axios";
 import { LoadingIcon } from "@components/Icons";
 import Program from "@typedefs/Program";

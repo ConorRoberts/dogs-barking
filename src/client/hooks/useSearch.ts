@@ -37,7 +37,7 @@ const useSearch = (query: string, config?: Config) => {
 
       setResults(data);
       setLoading(false);
-    }, 50);
+    }, 10);
 
     return () => {
       clearTimeout(timer);

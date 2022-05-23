@@ -37,7 +37,8 @@ export {
   IoGameControllerOutline as Games,
   IoDocumentTextOutline as DocumentIcon,
 } from "react-icons/io5";
+export { BiBookOpen as CatalogIcon } from "react-icons/bi";
 export { FcGoogle as Google } from "react-icons/fc";
-export { GrImage as Image, GrCatalog as CatalogIcon } from "react-icons/gr";
+export { GrImage as Image } from "react-icons/gr";
 export { GiCheckboxTree as Graph } from "react-icons/gi";
 export { BsArrowUpCircle as ArrowUp, BsArrowDownCircle as ArrowDown, BsTrash as TrashIcon } from "react-icons/bs";

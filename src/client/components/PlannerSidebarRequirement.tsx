@@ -53,6 +53,9 @@ const PlannerSidebarRequirement = ({ requirement }: Props) => {
             ))}
           </div>
         )}
+        {label === "OrBlock" && (
+          <div className="grid grid-cols-2 gap-1 items-centerD">{(requirement as OrBlockData).note}</div>
+        )}
       </div>
       <div
         className={`${
