@@ -32,15 +32,18 @@ exports.handler = async (event) => {
   const session = driver.session();
   const { records } = await session.run(
     `
-      MATCH (course: Course)
+    MATCH (school:School)-[:OFFERS]->(course:Course) 
 
-      RETURN 
-        properties(course) as course,
-        count(course) as total,
-        [(school)-[:OFFERS]-(course) | school.name][0] as school
+    WITH collect(course) AS courses, COUNT (course) AS total
+    UNWIND courses as course
+    
+    WITH [(s:School)-[:OFFERS]->(course) | {course:properties(course),school:s.name}][0] as courses, total
+    
+    RETURN COLLECT(courses) AS courses,total
+    
 
-      SKIP $skip
-      LIMIT $limit
+    SKIP $skip
+    LIMIT $limit
     `,
     {
       ...query,
@@ -55,6 +58,6 @@ exports.handler = async (event) => {
 
   return {
     total: records[0].get("total").low,
-    courses: records.map((e) => ({ ...e.get("course") })),
+    courses: records[0].get("courses"),
   };
 };
