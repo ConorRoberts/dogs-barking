@@ -7,9 +7,8 @@ This project serves as a course management and degree planning utility for Unive
 
 ## Getting started
 
-1. Install pnpm `npm install -g pnpm`
-1. Run `pnpm install` to install all dependencies
-3. Run `pnpm client` to start up a development server for the frontend
+1. Run `yarn install` to install all dependencies
+2. Run `yarn client` to start up a development server for the frontend
 
 ## Tech Stack
 
