@@ -16,6 +16,7 @@ const Page = () => {
   const router = useRouter();
   const [selectedPlanId, setSelectedPlanId] = useState("none");
   const [groupedSemesters, setGroupedSemesters] = useState([]);
+  const [planLoading, setPlanLoading] = useState(false);
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const dispatch = useDispatch();
 
@@ -52,6 +53,7 @@ const Page = () => {
   const fetchPlans = useCallback(async () => {
     if (!user) return;
     try {
+      setPlanLoading(true);
       const { data } = await axios.get(`/api/degree-plan/get-user-plans`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
@@ -75,6 +77,8 @@ const Page = () => {
       setSelectedPlanId(data[0].id);
     } catch (error) {
       console.error(error);
+    } finally {
+      setPlanLoading(false);
     }
   }, [user]);
 
@@ -112,7 +116,7 @@ const Page = () => {
     }
   }, [plan]);
 
-  if (!user) return <LoadingScreen />;
+  if (!user || planLoading) return <LoadingScreen />;
 
   return (
     <div className="grid flex-1 md:grid-cols-4">

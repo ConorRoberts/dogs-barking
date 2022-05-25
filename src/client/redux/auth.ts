@@ -71,11 +71,13 @@ export const auth = createSlice({
     token: null,
   },
   reducers: {
-    setUser: (state, action) => {
-      state.user = { ...state.user, ...action.payload };
+    setUser: (state, { payload }) => {
+      state.user = { ...state.user, ...payload };
     },
-    setToken: (state, action) => {
-      state.token = action.payload;
+    setToken: (state, { payload }) => {
+      if (state.user.token !== payload) {
+        state.user = { ...state.user, token: payload };
+      }
     },
   },
   extraReducers: (builder) => {

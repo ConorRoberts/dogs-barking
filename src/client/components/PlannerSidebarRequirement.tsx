@@ -54,13 +54,13 @@ const PlannerSidebarRequirement = ({ requirement }: Props) => {
           </div>
         )}
         {label === "OrBlock" && (
-          <div className="grid grid-cols-2 gap-1 items-centerD">{(requirement as OrBlockData).note}</div>
+          <div className="grid grid-cols-2 gap-1 items-center">{(requirement as OrBlockData).note}</div>
         )}
       </div>
       <div
         className={`${
           taken ? "text-emerald-500" : "text-rose-500"
-        } w-6 h-6 text-sm flex gap-2 justify-center text-white items-center bg-white dark:bg-gray-800 dark:bg-grrounded-full text-center rounded-full`}>
+        } w-6 h-6 text-sm flex gap-2 justify-center text-white items-center bg-white dark:bg-gray-800 dark:bg-grrounded-full text-center rounded-full shrink-0`}>
         {taken ? <CheckIcon size={15} /> : <CancelIcon size={15} />}
       </div>
     </div>
