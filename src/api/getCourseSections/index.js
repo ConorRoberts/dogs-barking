@@ -42,28 +42,48 @@ exports.handler = async (event) => {
     instructor: e.get("instructor"),
     lectures: e.get("lectures").map((e) => ({
       ...e,
-      startTime: `${e.startTime.hour.low}:${e.startTime.minute.low}`,
-      endTime: `${e.endTime.hour.low}:${e.endTime.minute.low}`,
+      startTime: `${e.startTime.hour.low % 12}:${e.startTime.minute.low.toString().padStart(2, "0")} ${
+        e.startTime.hour.low % 12 > 0 ? "PM" : "AM"
+      }`,
+      endTime: `${e.endTime.hour.low % 12}:${e.endTime.minute.low.toString().padStart(2, "0")} ${
+        e.endTime.hour.low % 12 > 0 ? "PM" : "AM"
+      }`,
     })),
     labs: e.get("labs").map((e) => ({
       ...e,
-      startTime: `${e.startTime.hour.low}:${e.startTime.minute.low}`,
-      endTime: `${e.endTime.hour.low}:${e.endTime.minute.low}`,
+      startTime: `${e.startTime.hour.low % 12}:${e.startTime.minute.low.toString().padStart(2, "0")} ${
+        e.startTime.hour.low % 12 > 0 ? "PM" : "AM"
+      }`,
+      endTime: `${e.endTime.hour.low % 12}:${e.endTime.minute.low.toString().padStart(2, "0")} ${
+        e.endTime.hour.low % 12 > 0 ? "PM" : "AM"
+      }`,
     })),
     seminars: e.get("seminars").map((e) => ({
       ...e,
-      startTime: `${e.startTime.hour.low}:${e.startTime.minute.low}`,
-      endTime: `${e.endTime.hour.low}:${e.endTime.minute.low}`,
+      startTime: `${e.startTime.hour.low % 12}:${e.startTime.minute.low.toString().padStart(2, "0")} ${
+        e.startTime.hour.low % 12 > 0 ? "PM" : "AM"
+      }`,
+      endTime: `${e.endTime.hour.low % 12}:${e.endTime.minute.low.toString().padStart(2, "0")} ${
+        e.endTime.hour.low % 12 > 0 ? "PM" : "AM"
+      }`,
     })),
     exams: e.get("exams").map((e) => ({
       ...e,
-      startTime: `${e.startTime.hour.low}:${e.startTime.minute.low}`,
-      endTime: `${e.endTime.hour.low}:${e.endTime.minute.low}`,
+      startTime: `${e.startTime.hour.low % 12}:${e.startTime.minute.low.toString().padStart(2, "0")} ${
+        e.startTime.hour.low % 12 > 0 ? "PM" : "AM"
+      }`,
+      endTime: `${e.endTime.hour.low % 12}:${e.endTime.minute.low.toString().padStart(2, "0")} ${
+        e.endTime.hour.low % 12 > 0 ? "PM" : "AM"
+      }`,
     })),
     tutorial: e.get("tutorials").map((e) => ({
       ...e,
-      startTime: `${e.startTime.hour.low}:${e.startTime.minute.low}`,
-      endTime: `${e.endTime.hour.low}:${e.endTime.minute.low}`,
+      startTime: `${e.startTime.hour.low % 12}:${e.startTime.minute.low.toString().padStart(2, "0")} ${
+        e.startTime.hour.low % 12 > 0 ? "PM" : "AM"
+      }`,
+      endTime: `${e.endTime.hour.low % 12}:${e.endTime.minute.low.toString().padStart(2, "0")} ${
+        e.endTime.hour.low % 12 > 0 ? "PM" : "AM"
+      }`,
     })),
   }));
 };
