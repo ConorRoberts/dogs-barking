@@ -18,9 +18,11 @@ const Page = () => {
       </div>
       <div className="flex flex-col gap-4">
         <div
-          className="bg-white dark:bg-gray-700 rounded-md overflow-hidden px-4 py-1 shadow-md mx-auto w-96 text-lg font-medium flex items-center gap-2"
+          className="bg-white dark:bg-gray-700 rounded-md overflow-hidden px-4 py-1 shadow-md mx-auto w-72 text-lg font-medium flex items-center gap-2 cursor-pointer hover:dark:bg-gray-800 hover:bg-gray-100 transition"
           onClick={() => dispatch(setOpen(true))}>
-          <SearchIcon size={25} /> Search here
+          <SearchIcon size={25} />
+          <p>Search here</p>
+          <kbd className="ml-auto opacity-60 text-sm">CTRL + K</kbd>
         </div>
       </div>
 

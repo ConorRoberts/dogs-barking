@@ -26,7 +26,6 @@ const SearchModal = () => {
       if (e.key === "k" && e.ctrlKey) {
         e.preventDefault();
         dispatch(setOpen(!open));
-        dispatch(setText(""));
       }
 
       if (inputRef.current) {
@@ -39,6 +38,10 @@ const SearchModal = () => {
     return () => {
       window.removeEventListener("keydown", toggleOpen);
     };
+  }, [open, dispatch]);
+
+  useEffect(() => {
+    dispatch(setText(""));
   }, [open, dispatch]);
 
   useEffect(() => {

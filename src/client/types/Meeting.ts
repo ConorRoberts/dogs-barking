@@ -1,14 +1,13 @@
 import Instructor from "./Instructor";
-import Meeting from "./Meeting";
 import Weekday from "./Weekday";
 
-interface Lecture extends Meeting {
+interface Meeting {
   id: string;
   days: Weekday[];
-  instructor:Instructor;
+  instructor: Instructor;
   startTime: string;
   endTime: string;
   room: string;
 }
 
-export default Lecture;
+export default Meeting;

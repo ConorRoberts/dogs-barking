@@ -118,7 +118,7 @@ const Page = ({ course }: PageProps) => {
         </p>
 
         {sectionsLoading && <LoadingIcon className="animate-spin mx-auto" size={25} />}
-        <div className="flex gap-2 flex-col">
+        <div className="grid gap-2 grid-cols-2">
           {sections.map((section, index) => (
             <CourseSection section={section} key={`${course.id} section ${index}`} />
           ))}

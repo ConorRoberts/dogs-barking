@@ -12,6 +12,7 @@ import {
   PlannerIcon,
   CatalogIcon,
   SearchIcon,
+  AboutIcon,
 } from "@components/Icons";
 import { useRouter } from "next/router";
 import useDarkMode from "@hooks/useDarkMode";
@@ -50,6 +51,12 @@ const Navigation = () => {
               <div className="nav-drawer-button md:hidden">
                 <CatalogIcon size={20} />
                 <p>Catalog</p>
+              </div>
+            </Link>
+            <Link href="/about" passHref>
+              <div className="nav-drawer-button md:hidden">
+                <AboutIcon size={20} />
+                <p>About</p>
               </div>
             </Link>
             <div className="mt-auto">
@@ -119,6 +126,9 @@ const Navigation = () => {
         )}
         <Link href="/catalog" passHref>
           <a className="big-screen-nav-button">Catalog</a>
+        </Link>
+        <Link href="/about" passHref>
+          <a className="big-screen-nav-button">About</a>
         </Link>
 
         <SearchIcon size={25} className="primary-hover ml-auto" onClick={() => dispatch(setOpen(true))} />

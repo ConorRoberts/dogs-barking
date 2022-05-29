@@ -1,7 +1,5 @@
-import Exam from "./Exam";
 import Instructor from "./Instructor";
-import Lab from "./Lab";
-import Lecture from "./Lecture";
+import Meeting from "./Meeting";
 
 type Section = {
   code: string;
@@ -10,9 +8,11 @@ type Section = {
   semester: string;
   id: string;
   instructor: Instructor;
-  labs?: Lab[];
-  lectures: Lecture[];
-  exams?: Exam[];
+  labs?: Meeting[];
+  lectures: Meeting[];
+  exams?: Meeting[];
+  tutorials?: Meeting[];
+  seminars?: Meeting[];
 };
 
 export default Section;
