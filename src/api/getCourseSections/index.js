@@ -17,18 +17,18 @@ exports.handler = async (event) => {
   const session = driver.session();
   const { records } = await session.run(
     `
-    MATCH (course: Course {id: $courseId})-[:HAS]->(section: Section)
+      MATCH (course: Course {id: $courseId})-[:HAS]->(section: Section)
 
-    MATCH (section)-[:INSTRUCTED_BY]->(instructor: Instructor)
+      MATCH (section)-[:INSTRUCTED_BY]->(instructor: Instructor)
 
-    return 
-      properties(section) as section, 
-      properties(instructor) as instructor,
-      [(section)-[:HAS]->(lab: Lab) | properties(lab)] as labs,
-      [(section)-[:HAS]->(lecture: Lecture) | properties(lecture)] as lectures,
-      [(section)-[:HAS]->(seminar: Seminar) | properties(seminar)] as seminars,
-      [(section)-[:HAS]->(tutorial: Tutorial) | properties(tutorial)] as tutorials,
-      [(section)-[:HAS]->(exam: Exam) | properties(exam)] as exams
+      return 
+        properties(section) as section, 
+        properties(instructor) as instructor,
+        [(section)-[:HAS]->(lab: Lab) | properties(lab)] as labs,
+        [(section)-[:HAS]->(lecture: Lecture) | properties(lecture)] as lectures,
+        [(section)-[:HAS]->(seminar: Seminar) | properties(seminar)] as seminars,
+        [(section)-[:HAS]->(tutorial: Tutorial) | properties(tutorial)] as tutorials,
+        [(section)-[:HAS]->(exam: Exam) | properties(exam)] as exams
       `,
     { courseId }
   );
@@ -37,7 +37,11 @@ exports.handler = async (event) => {
   await driver.close();
 
   return records.map((e) => ({
-    ...e.get("section"),
+    section: {
+      ...e.get("section"),
+      startTime: `${e.get("section").startTime.hour.low}:${e.get("section").startTime.minute.low}`,
+      endTime: `${e.get("section").endTime.hour.low}:${e.get("section").endTime.minute.low}`,
+    },
     instructor: e.get("instructor"),
     lectures: e.get("lectures"),
     labs: e.get("labs"),
