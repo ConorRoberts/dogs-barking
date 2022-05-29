@@ -35,7 +35,7 @@
   }
 
   .primary-hover {
-    @apply hover:text-gray-700 transition dark:hover:text-gray-200 cursor-pointer;
+    @apply text-black hover:text-gray-700 transition  dark:text-white dark:hover:text-gray-300 cursor-pointer;
   }
 
   .background-hover {

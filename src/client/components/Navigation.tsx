@@ -1,17 +1,31 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Drawer } from "@components/form";
-import { Home, Menu, Sun, Moon, PersonIcon, Login, Logout, PlannerIcon, CatalogIcon } from "@components/Icons";
+import {
+  Home,
+  Menu,
+  Sun,
+  Moon,
+  PersonIcon,
+  Login,
+  Logout,
+  PlannerIcon,
+  CatalogIcon,
+  SearchIcon,
+} from "@components/Icons";
 import { useRouter } from "next/router";
 import useDarkMode from "@hooks/useDarkMode";
 import { RootState } from "@redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AuthState } from "@redux/auth";
+import SearchModal from "./SearchModal";
+import { setOpen } from "@redux/search";
 
 const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useDarkMode();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
 
@@ -107,13 +121,16 @@ const Navigation = () => {
           <a className="big-screen-nav-button">Catalog</a>
         </Link>
 
+        <SearchIcon size={25} className="primary-hover ml-auto" onClick={() => dispatch(setOpen(true))} />
+        <SearchModal />
+
         {user ? (
           <Link href="/profile" passHref>
-            <a className="big-screen-nav-button ml-auto">{user?.name.split(" ").at(0)}</a>
+            <a className="big-screen-nav-button ">{user?.name.split(" ").at(0)}</a>
           </Link>
         ) : (
           <Link href="/auth/sign-in" passHref>
-            <a className="big-screen-nav-button ml-auto">Sign In</a>
+            <a className="big-screen-nav-button ">Sign In</a>
           </Link>
         )}
       </div>

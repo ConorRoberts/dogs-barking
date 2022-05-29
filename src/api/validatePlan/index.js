@@ -41,6 +41,8 @@ exports.handler = async (event) => {
     { userId: sub, planId }
   );
 
+  // 1. We need the users taken courses, the courses within the specified plan, and the courses within the user's major
+
   await session.close();
   await driver.close();
 

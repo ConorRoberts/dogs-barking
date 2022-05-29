@@ -1,3 +1,4 @@
+import { AuthState } from "@redux/auth";
 import { PlannerState } from "@redux/planner";
 import { RootState } from "@redux/store";
 import Course from "@typedefs/Course";
@@ -16,8 +17,12 @@ interface Props {
 const PlannerSidebarRequirement = ({ requirement }: Props) => {
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const { label, id } = requirement;
+  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
 
-  const plannedCourses = plan?.semesters?.map((e) => e.courses).flat();
+  const plannedCourses = plan?.semesters
+    ?.map((e) => e.courses)
+    .flat()
+    .concat(...user.takenCourses);
   const taken = isRequirementMet(requirement, plannedCourses);
 
   return (

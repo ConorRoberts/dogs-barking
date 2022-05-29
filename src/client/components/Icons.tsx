@@ -30,6 +30,7 @@ export {
   MdOutlineSave as SaveIcon,
   MdCancel as CancelIcon,
   MdLink as LinkIcon,
+  MdOutlineSearch as SearchIcon,
 } from "react-icons/md";
 export {
   IoCloseOutline as CloseIcon,

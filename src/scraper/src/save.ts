@@ -5,13 +5,15 @@ import chalk from "chalk";
 import dotenv from "dotenv";
 import { v4 } from "uuid";
 import convertTime from "./convertTime";
-import { Client } from "@opensearch-project/opensearch";
+// import { Client } from "@opensearch-project/opensearch";
 
-const client = new Client({
-  node: `https://${process.env.OPENSEARCH_USERNAME}:${process.env.OPENSEARCH_PASSWORD}@${process.env.OPENSEARCH_URL}`,
-});
+// const client = new Client({
+//   node: `https://${process.env.OPENSEARCH_USERNAME}:${process.env.OPENSEARCH_PASSWORD}@${process.env.OPENSEARCH_URL}`,
+// });
 
 const logs = [];
+
+const weekdays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
 const save = async () => {
   dotenv.config({ path: ".env" });
@@ -96,16 +98,17 @@ const save = async () => {
         MATCH (school: School {short: "UOFG"})
 
         MERGE (course: Course {
-            code: $code,
-            name: $name,
-            description: $description,
-            credits: $credits,
-            department: $department,
-            number: $number
+            code: $code
         }) 
 
         ON CREATE 
           SET course.id = $id
+          SET course.name = $name
+          SET course.description = $description
+          SET course.credits = $credits
+          SET course.department = $department
+          SET course.number = $number
+          SET course.code = $code
 
         MERGE (school)-[:OFFERS]->(course)
         `,
@@ -178,13 +181,7 @@ const save = async () => {
                 endTime: localtime($data.endTime),
                 location: $data.location,
                 room: $data.room,
-                monday: $data.monday,
-                tuesday: $data.tuesday,
-                wednesday: $data.wednesday,
-                thursday: $data.thursday,
-                friday: $data.friday,
-                saturday: $data.saturday,
-                sunday: $data.sunday,
+                days: $data.days,
                 id: $data.id
             })
 
@@ -196,6 +193,7 @@ const save = async () => {
                 startTime: convertTime(lecture.startTime),
                 endTime: convertTime(lecture.endTime),
                 id: v4(),
+                days: weekdays.map((e) => lecture[e] && e).filter((e) => e),
               },
               courseCode: course.code,
               sectionCode: section.code,
@@ -223,13 +221,7 @@ const save = async () => {
               endTime: localtime($data.endTime),
               location: $data.location,
               room: $data.room,
-              monday: $data.monday,
-              tuesday: $data.tuesday,
-              wednesday: $data.wednesday,
-              thursday: $data.thursday,
-              friday: $data.friday,
-              saturday: $data.saturday,
-              sunday: $data.sunday,
+              days: $data.days,
               id: $data.id
             })
 
@@ -241,6 +233,7 @@ const save = async () => {
                 startTime: convertTime(lab.startTime),
                 endTime: convertTime(lab.endTime),
                 id: v4(),
+                days: weekdays.map((e) => lab[e] && e).filter((e) => e),
               },
               courseCode: course.code,
               sectionCode: section.code,
@@ -268,13 +261,7 @@ const save = async () => {
               endTime: localtime($data.endTime),
               location: $data.location,
               room: $data.room,
-              monday: $data.monday,
-              tuesday: $data.tuesday,
-              wednesday: $data.wednesday,
-              thursday: $data.thursday,
-              friday: $data.friday,
-              saturday: $data.saturday,
-              sunday: $data.sunday,
+              days: $data.days,
               id: $data.id
             })
 
@@ -286,6 +273,7 @@ const save = async () => {
                 startTime: convertTime(seminar.startTime),
                 endTime: convertTime(seminar.endTime),
                 id: v4(),
+                days: weekdays.map((e) => seminar[e] && e).filter((e) => e),
               },
               courseCode: course.code,
               sectionCode: section.code,
@@ -718,7 +706,7 @@ const save = async () => {
     // Create fulltext search index for courses
     await session.run(
       `
-      DROP INDEX courseSearch
+      CREATE INDEX FOR (n:Course) ON (n.id,n.code)
       `
     );
     await session.close();
@@ -742,7 +730,7 @@ const save = async () => {
     // Create fulltext search index for courses
     await session.run(
       `
-      DROP INDEX programSearch
+      CREATE INDEX FOR (n:Program) ON (n.id)
       `
     );
     await session.close();
@@ -762,56 +750,56 @@ const save = async () => {
   }
 
   // Delete programs index
-  try {
-    await client.indices.delete({
-      index: "programs",
-    });
-  } catch (error) {
-    log(chalk.red(error));
-  }
+  // try {
+  //   await client.indices.delete({
+  //     index: "programs",
+  //   });
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
 
   // Create programs index
-  try {
-    await client.indices.create({
-      index: "programs",
-      body: {
-        settings: {
-          index: {
-            number_of_shards: 4,
-            number_of_replicas: 3,
-          },
-        },
-      },
-    });
-  } catch (error) {
-    log(chalk.red(error));
-  }
+  // try {
+  //   await client.indices.create({
+  //     index: "programs",
+  //     body: {
+  //       settings: {
+  //         index: {
+  //           number_of_shards: 4,
+  //           number_of_replicas: 3,
+  //         },
+  //       },
+  //     },
+  //   });
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
 
   // Delete courses index
-  try {
-    await client.indices.delete({
-      index: "courses",
-    });
-  } catch (error) {
-    log(chalk.red(error));
-  }
+  // try {
+  //   await client.indices.delete({
+  //     index: "courses",
+  //   });
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
 
   // Create courses index
-  try {
-    await client.indices.create({
-      index: "courses",
-      body: {
-        settings: {
-          index: {
-            number_of_shards: 4,
-            number_of_replicas: 3,
-          },
-        },
-      },
-    });
-  } catch (error) {
-    log(chalk.red(error));
-  }
+  // try {
+  //   await client.indices.create({
+  //     index: "courses",
+  //     body: {
+  //       settings: {
+  //         index: {
+  //           number_of_shards: 4,
+  //           number_of_replicas: 3,
+  //         },
+  //       },
+  //     },
+  //   });
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
 
   // Get courses and programs from Neo4j
   session = driver.session();
@@ -827,26 +815,26 @@ const save = async () => {
   await driver.close();
 
   // Add programs to index
-  for (const program of records[0].get("programs")) {
-    await client.index({
-      id: program.id,
-      index: "programs",
-      body: program,
-      refresh: true,
-    });
-    log(`[OpenSearch] Added program: ${program.short}`);
-  }
+  // for (const program of records[0].get("programs")) {
+  //   await client.index({
+  //     id: program.id,
+  //     index: "programs",
+  //     body: program,
+  //     refresh: true,
+  //   });
+  //   log(`[OpenSearch] Added program: ${program.short}`);
+  // }
 
   // Add courses to indx
-  for (const course of records[0].get("courses")) {
-    await client.index({
-      id: course.id,
-      index: "courses",
-      body: course,
-      refresh: true,
-    });
-    log(`[OpenSearch] Added course: ${course.code}`);
-  }
+  // for (const course of records[0].get("courses")) {
+  //   await client.index({
+  //     id: course.id,
+  //     index: "courses",
+  //     body: course,
+  //     refresh: true,
+  //   });
+  //   log(`[OpenSearch] Added course: ${course.code}`);
+  // }
 };
 
 (async () => {

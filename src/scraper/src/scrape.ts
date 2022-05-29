@@ -32,14 +32,7 @@ const meetingDays = {
   Su: "sunday",
 };
 
-const courses = [],
-  labs = [],
-  lectures = [],
-  seminars = [],
-  tutorials = [],
-  exams = [],
-  sections = [],
-  instructors = [];
+const courses = [];
 
 const logs: string[] = [];
 
@@ -133,8 +126,9 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
             credits: parseFloat(
               ((title.match(/\([0-9.]+ Credits\)/) ?? [])[0].match(/[0-9.]+/g) ?? [] ?? "")[0].trim()
             ),
-            HAS_SECTION: [],
           };
+
+          const sections = [];
 
           // Fill out the rest of the course object
           // Properties such as offerings, restrictions, requisites, locations, formats, and departments
@@ -182,21 +176,23 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
                 const sectionCode = (await textElement.textContent()).trim().split("*")[2];
                 log(chalk.gray(`Section code: ${sectionCode}`));
 
+                const [semester, year] = sectionTerms[groupIndex].split(" ");
+
                 const section = {
                   id: v4(),
                   code: sectionCode,
-                  term: sectionTerms[groupIndex],
-                  INSTRUCTED_BY: "",
-                  HAS_LECTURE: [],
-                  HAS_EXAM: [],
-                  HAS_SEMINAR: [],
-                  HAS_LAB: [],
-                  HAS_TUTORIAL: [],
+                  semester: semester.toLowerCase(),
+                  year: parseInt(year),
+                  instructor: "",
                 };
 
-                const sectionId = await textElement.getAttribute("id");
+                const lectures = [];
+                const exams = [];
+                const seminars = [];
+                const labs = [];
+                const tutorials = [];
 
-                const meetings = [];
+                const sectionId = await textElement.getAttribute("id");
 
                 // Iterate over section rows
                 const tableRows = await sectionElement.$$("table tbody tr");
@@ -215,20 +211,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
                     if (!instructorName) instructorName = "TBD";
                     log(chalk.gray(`Instructor name: ${instructorName}`));
 
-                    // Check for an instructor with a matching name
-                    const instructor = instructors.find((i) => i.name === instructorName);
-
-                    // If we don't have an instructor with this name, create one
-                    if (!instructor) {
-                      const id = v4();
-                      instructors.push({
-                        id,
-                        name: instructorName,
-                      });
-                      section.INSTRUCTED_BY = id;
-                    } else {
-                      section.INSTRUCTED_BY = instructor.id;
-                    }
+                    section.instructor = instructorName;
                   }
 
                   // Text content for the "days" attribute
@@ -267,43 +250,30 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
                   )?.trim();
 
                   // Convert meeting days into booleans on our section object
-                  Object.entries(meetingDays).forEach(([key, val]) => {
-                    meeting[val] = meeting.days.includes(key);
-                  });
-
-                  delete meeting.days;
+                  meeting.days = meeting.days.map((day) => meetingDays[day]);
 
                   if (meetingType === "LEC") {
-                    lectures.push(meeting);
-                    section.HAS_LECTURE.push(meeting.id);
+                    lectures.push({ ...meeting, id: v4() });
                   } else if (meetingType === "SEM") {
-                    seminars.push(meeting);
-                    section.HAS_SEMINAR.push(meeting.id);
+                    seminars.push({ ...meeting, id: v4() });
                   } else if (meetingType === "TUT") {
-                    tutorials.push(meeting);
-                    section.HAS_TUTORIAL.push(meeting.id);
+                    tutorials.push({ ...meeting, id: v4() });
                   } else if (meetingType === "LAB") {
-                    labs.push(meeting);
-                    section.HAS_LAB.push(meeting.id);
+                    labs.push({ ...meeting, id: v4() });
                   } else if (meetingType === "EXAM") {
-                    exams.push(meeting);
-                    section.HAS_EXAM.push(meeting.id);
+                    exams.push({ ...meeting, id: v4() });
                   }
 
-                  meetings.push(meeting);
-
                   rowIndex++;
-                  // log(chalk.gray("Row index: " + rowIndex));
                 }
 
-                courseObj.HAS_SECTION.push(section.id);
-                sections.push(section);
+                sections.push({ ...section, lectures, seminars, tutorials, labs, exams });
               }
               groupIndex++;
             }
           }
 
-          courses.push(courseObj);
+          courses.push({ ...courseObj, sections });
         } catch (error) {
           log(chalk.red(error.message));
         }
@@ -355,11 +325,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
     await scrape(courseElements);
 
     // Write data to file. This runs multiple times over the course of the program so that we have data "checkpoints"
-    writeFileSync(
-      `./data/courses/${timestamp}.json`,
-      JSON.stringify({ courses, labs, lectures, seminars, tutorials, exams, sections, instructors }, null, 2),
-      "utf8"
-    );
+    writeFileSync(`./data/courses/${timestamp}.json`, JSON.stringify({ courses }, null, 2), "utf8");
     writeFileSync("logs.txt", logs.join("\n"));
 
     log(chalk.green("Department finished. Saved to file."));

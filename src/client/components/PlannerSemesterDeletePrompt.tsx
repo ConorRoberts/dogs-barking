@@ -33,10 +33,8 @@ const PlannerSemesterDeletePrompt = ({ open, onClose, semester, onSubmit }: Prop
     setDeleteLoading(false);
   };
 
-  if (!open) return null;
-
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={onClose} open={open}>
       <div className="flex flex-col gap-4">
         <h3 className="capitalize">Are you sure you want to delete this semester?</h3>
         <div className="flex justify-center gap-4">

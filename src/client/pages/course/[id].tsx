@@ -13,6 +13,7 @@ import LoadingScreen from "@components/LoadingScreen";
 import RequirementsList from "@components/RequirementsList";
 import axios from "axios";
 import CourseSection from "@components/CourseSection";
+import { LoadingIcon } from "@components/Icons";
 
 interface PageProps {
   course: Course;
@@ -32,14 +33,15 @@ const Page = ({ course }: PageProps) => {
 
   useEffect(() => {
     (async () => {
-      setSectionsLoading(true);
       try {
+        setSectionsLoading(true);
         const { data } = await axios.get(`/api/course/${course.id}/section`);
         setSections(data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setSectionsLoading(false);
       }
-      setSectionsLoading(false);
     })();
   }, [course.id]);
 
@@ -114,6 +116,8 @@ const Page = ({ course }: PageProps) => {
         <p className="text-center text-gray-500 dark:text-gray-500 mb-1">
           Here are the current offerings for {course.code}
         </p>
+
+        {sectionsLoading && <LoadingIcon className="animate-spin mx-auto" size={25} />}
         <div className="flex gap-2 flex-col">
           {sections.map((section, index) => (
             <CourseSection section={section} key={`${course.id} section ${index}`} />

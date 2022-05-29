@@ -3,6 +3,8 @@
  * @returns Timestamp in 24h format as HH:MM
  */
 const convertTime = (time: string) => {
+  if (time.length === 0) return "00:00";
+  
   const [timeString, dayTimeString] = time.split(" ");
   const [startHour, startMinute] = timeString.split(":").map((e) => parseInt(e));
 
