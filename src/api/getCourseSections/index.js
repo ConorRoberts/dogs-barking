@@ -37,16 +37,33 @@ exports.handler = async (event) => {
   await driver.close();
 
   return records.map((e) => ({
-    section: {
-      ...e.get("section"),
-      startTime: `${e.get("section").startTime.hour.low}:${e.get("section").startTime.minute.low}`,
-      endTime: `${e.get("section").endTime.hour.low}:${e.get("section").endTime.minute.low}`,
-    },
+    ...e.get("section"),
+
     instructor: e.get("instructor"),
-    lectures: e.get("lectures"),
-    labs: e.get("labs"),
-    seminars: e.get("seminars"),
-    exams: e.get("exams"),
-    tutorial: e.get("tutorials"),
+    lectures: e.get("lectures").map((e) => ({
+      ...e,
+      startTime: `${e.startTime.hour.low}:${e.startTime.minute.low}`,
+      endTime: `${e.endTime.hour.low}:${e.endTime.minute.low}`,
+    })),
+    labs: e.get("labs").map((e) => ({
+      ...e,
+      startTime: `${e.startTime.hour.low}:${e.startTime.minute.low}`,
+      endTime: `${e.endTime.hour.low}:${e.endTime.minute.low}`,
+    })),
+    seminars: e.get("seminars").map((e) => ({
+      ...e,
+      startTime: `${e.startTime.hour.low}:${e.startTime.minute.low}`,
+      endTime: `${e.endTime.hour.low}:${e.endTime.minute.low}`,
+    })),
+    exams: e.get("exams").map((e) => ({
+      ...e,
+      startTime: `${e.startTime.hour.low}:${e.startTime.minute.low}`,
+      endTime: `${e.endTime.hour.low}:${e.endTime.minute.low}`,
+    })),
+    tutorial: e.get("tutorials").map((e) => ({
+      ...e,
+      startTime: `${e.startTime.hour.low}:${e.startTime.minute.low}`,
+      endTime: `${e.endTime.hour.low}:${e.endTime.minute.low}`,
+    })),
   }));
 };
