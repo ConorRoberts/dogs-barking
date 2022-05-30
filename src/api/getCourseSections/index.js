@@ -76,7 +76,7 @@ exports.handler = async (event) => {
         e.endTime.hour.low % 12 > 0 ? "PM" : "AM"
       }`,
     })),
-    tutorial: e.get("tutorials").map((e) => ({
+    tutorials: e.get("tutorials").map((e) => ({
       ...e,
       startTime: `${e.startTime.hour.low % 12}:${e.startTime.minute.low.toString().padStart(2, "0")} ${
         e.startTime.hour.low % 12 > 0 ? "PM" : "AM"
