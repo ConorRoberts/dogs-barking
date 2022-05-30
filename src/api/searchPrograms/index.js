@@ -19,7 +19,7 @@ exports.handler = async (event) => {
       body: {
         query: {
           wildcard: {
-            code: {
+            short: {
               value: `${query}*`,
             },
           },
