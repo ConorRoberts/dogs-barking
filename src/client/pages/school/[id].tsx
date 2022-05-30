@@ -1,4 +1,4 @@
-import { API_URL } from "@config/config";
+import { API_URL, GOOGLE_MAPS_API_KEY } from "@config/config";
 import School from "@typedefs/School";
 import { NextPageContext } from "next";
 
@@ -21,7 +21,7 @@ const Page = ({ school }: Props) => {
           allowFullScreen
           className="rounded-md overflow-hidden w-full h-[400px]"
           referrerPolicy="no-referrer-when-downgrade"
-          src={`https://www.google.com/maps/embed/v1/place?key=${process.env.GOOGLE_MAPS_API_KEY}
+          src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}
     &q=${school.address}+${school.name}+${school.country}`}
         />
       </div>

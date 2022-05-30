@@ -36,7 +36,6 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
       const { data } = await axios.get(`/api/degree-plan/semester/${id}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
-      // setSemesterData(data);
 
       dispatch(setPlan({ ...plan, semesters: plan.semesters.map((e) => (e.id === id ? data : e)) }));
     } catch (error) {
@@ -51,6 +50,12 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
 
     try {
       const { semester, year } = editState;
+
+      dispatch(setCurrentEditingSemester(null));
+      dispatch(
+        setPlan({ ...plan, semesters: plan.semesters.map((e) => (e.id === id ? { ...e, semester, year } : e)) })
+      );
+
       const { data } = await axios.post(
         `/api/degree-plan/semester/${id}`,
         {
@@ -62,7 +67,6 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
 
-      dispatch(setCurrentEditingSemester(null));
       dispatch(setPlan({ ...plan, semesters: plan.semesters.map((e) => (e.id === id ? data : e)) }));
     } catch (error) {
       console.error(error);
@@ -82,6 +86,26 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
     }
   };
 
+  const removeCourse = async (courseId: string) => {
+    try {
+      // Remove the course from the semester in our redux store
+      dispatch(
+        setPlan({
+          ...plan,
+          semesters: plan.semesters.map((e) =>
+            e.id === id ? { ...e, courses: e.courses.filter((c) => c.id !== courseId) } : e
+          ),
+        })
+      );
+      await axios.delete(`/api/degree-plan/semester/${id}/courses/${courseId}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      await fetchSemesterData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     // if there is a current editing semester, mount a listener for the delete key
     if (currentEditingSemester === id) {
@@ -93,7 +117,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
     return () => {
       document.removeEventListener("keydown", handleDeleteKey);
     };
-  }, [currentEditingSemester,id]);
+  }, [currentEditingSemester, id]);
 
   // If we have no data, we should let the user know it's loading
   if (!data) return <LoadingIcon className="animate-spin mx-auto" />;
@@ -142,7 +166,9 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
             </div>
           </form>
         )}
-        {loading && <LoadingIcon size={18} className="text-gray-500 hover:text-gray-600 animate-spin" />}
+        {(loading || editLoading) && (
+          <LoadingIcon size={18} className="text-gray-500 hover:text-gray-600 animate-spin" />
+        )}
         {editing ? (
           <SaveIcon
             size={18}
@@ -158,8 +184,12 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
         )}
       </div>
       <div className="flex flex-col divide-y divide-gray-100 dark:divide-gray-700">
-        {data.courses.map((e, index) => (
-          <PlannerSemesterCourse key={`${id}-${e.id}-${index}`} course={e} semester={id} />
+        {data.courses.map((course, index) => (
+          <div className="py-1 px-2 grid grid-cols-6 items-center" key={`${id}-${course.id}-${index}`}>
+            <p className="col-span-4">{course.code}</p>
+            <p className="">{course.credits}</p>
+            <CloseIcon size={15} className="ml-auto primary-hover" onClick={() => removeCourse(course.id)} />
+          </div>
         ))}
       </div>
       <div className="flex justify-center mt-auto">

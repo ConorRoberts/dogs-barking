@@ -7,10 +7,7 @@ const neo4j = require("neo4j-driver");
 exports.handler = async (event) => {
   console.log(event);
 
-  // const body = JSON.parse(event.body ?? "{}");
   const query = event.queryStringParameters;
-  // const pathParams = event.pathParameters;
-  // const headers = event.headers;
 
   const driver = neo4j.driver(
     `neo4j://${process.env.NEO4J_HOST}`,
@@ -19,7 +16,7 @@ exports.handler = async (event) => {
 
   const filters = [];
 
-  const { pageNum = 0, pageSize = 50, sortKey = "name", sortDir = "desc", limit = 50, skip = 0 } = query ?? {};
+  const { pageNum = 0, pageSize = 50, sortKey = "code", sortDir = "desc", limit = 50, skip = 0 } = query ?? {};
 
   if (query?.degree?.length > 0) filters.push("program.degree = $degree");
   if (query?.school?.length > 0) filters.push("school.short = $school");
@@ -35,32 +32,28 @@ exports.handler = async (event) => {
   const session = driver.session();
   const { records } = await session.run(
     `
-      MATCH (school:School)
-      -[:OFFERS]->
-      ${query?.degree?.length > 0 ? "(program: Program)-[:MAJOR_REQUIRES]->" : ""}
-      (course: Course)
-      ${query?.prerequisites?.length > 0 ? `-[:HAS_PREREQUISITE]->(pc: Course) WHERE pc.id IN $prerequisites` : ""}
+    MATCH (school:School)-[:OFFERS]->(course:Course) 
 
-      ${filters.join(" AND ")}
-
-      with collect(course) as courses, count (course) as total
-      unwind courses as course
-      return properties(course) as course, total
-      ${query?.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir) ? `ORDER BY $sortKey $sortDir` : ""}
-
-      SKIP (${skip})
-      LIMIT (${limit})
+    WITH collect(course) AS courses, COUNT (course) AS total
+    UNWIND courses as course
+    
+    WITH [(s:School)-[:OFFERS]->(course) | {course:properties(course),school:s.name}][0] as courses, total
+    
+    RETURN COLLECT(courses)[$skip..$limit] AS courses,total
     `,
     {
       ...query,
       sortKey: `course.${sortKey}`,
-      limit: parseInt(pageSize),
-      skip: parseInt(pageNum) * parseInt(pageSize),
+      limit: neo4j.int(Number(pageNum) * Number(pageSize) + Number(pageSize)),
+      skip: neo4j.int(Number(pageNum) * Number(pageSize)),
       sortDir,
     }
   );
   await session.close();
   await driver.close();
 
-  return records.map((e) => ({ ...e.get("course"), total: e.get("total").low }));
+  return {
+    total: records[0].get("total").low,
+    courses: records[0].get("courses").map((e) => ({ ...e.course, school: { name: e.school } })),
+  };
 };

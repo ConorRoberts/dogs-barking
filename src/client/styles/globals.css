@@ -4,27 +4,22 @@
 
 @layer base {
   h1 {
-    @apply text-5xl;
-    @apply md:text-5xl;
-    @apply font-bold;
+    @apply heading;
   }
   h2 {
-    @apply text-4xl;
-    @apply md:text-4xl;
-    @apply font-semibold;
+    @apply subheading;
   }
   h3 {
-    @apply text-2xl;
-    @apply md:text-3xl;
-    @apply font-semibold;
+    @apply subheading;
   }
   h4 {
-    @apply text-xl;
-    @apply md:text-2xl;
+    @apply subheading;
   }
   h5 {
-    @apply text-lg;
-    @apply md:text-xl;
+    @apply subheading;
+  }
+  p {
+    @apply text;
   }
 
   .small-screen-nav-button {
@@ -40,7 +35,7 @@
   }
 
   .primary-hover {
-    @apply hover:text-gray-700 transition dark:hover:text-gray-200 cursor-pointer;
+    @apply text-black hover:text-gray-700 transition  dark:text-white dark:hover:text-gray-300 cursor-pointer;
   }
 
   .background-hover {
@@ -51,11 +46,9 @@
     @apply background-hover flex items-center gap-4 py-3 px-6;
   }
 
-  .form-label-group{
-    @apply flex justify-between gap-2 mb-2 items-center
+  .form-label-group {
+    @apply flex justify-between gap-2 mb-2 items-center;
   }
-
-
 }
 
 @layer utilities {
@@ -76,5 +69,18 @@
   }
   .shadow-center-lg-white {
     box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.2);
+  }
+  .heading {
+    @apply text-5xl;
+    @apply md:text-5xl;
+    @apply font-bold;
+  }
+  .subheading {
+    @apply text-2xl;
+    @apply md:text-3xl;
+    @apply font-semibold;
+  }
+  .text {
+    @apply text-base font-normal;
   }
 }

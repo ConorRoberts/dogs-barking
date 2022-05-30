@@ -10,17 +10,23 @@ import {
   Login,
   Logout,
   PlannerIcon,
+  CatalogIcon,
+  SearchIcon,
+  AboutIcon,
 } from "@components/Icons";
 import { useRouter } from "next/router";
 import useDarkMode from "@hooks/useDarkMode";
 import { RootState } from "@redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AuthState } from "@redux/auth";
+import SearchModal from "./SearchModal";
+import { setOpen } from "@redux/search";
 
 const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useDarkMode();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
 
@@ -41,13 +47,25 @@ const Navigation = () => {
                 </div>
               </Link>
             )}
+            <Link href="/catalog" passHref>
+              <div className="nav-drawer-button md:hidden">
+                <CatalogIcon size={20} />
+                <p>Catalog</p>
+              </div>
+            </Link>
+            <Link href="/about" passHref>
+              <div className="nav-drawer-button md:hidden">
+                <AboutIcon size={20} />
+                <p>About</p>
+              </div>
+            </Link>
             <div className="mt-auto">
               {user && (
                 <Link href="/auth/sign-out" passHref>
-                  <div className="nav-drawer-button">
+                  <a className="nav-drawer-button">
                     <Logout size={20} />
                     <p>Sign Out</p>
-                  </div>
+                  </a>
                 </Link>
               )}
               {darkMode ? (
@@ -70,21 +88,21 @@ const Navigation = () => {
       <div className="md:hidden">
         <div className="fixed bottom-0 left-0 right-0 dark:border-t shadow-center-md dark:border-gray-600 flex justify-evenly items-center dark:bg-gray-900 bg-white z-30 pb-4">
           <Link href="/" passHref>
-            <div className="small-screen-nav-button">
+            <a className="small-screen-nav-button">
               <Home size={25} />
-            </div>
+            </a>
           </Link>
           {user ? (
             <Link href="/profile" passHref>
-              <div className="small-screen-nav-button">
+              <a className="small-screen-nav-button">
                 <PersonIcon size={25} />
-              </div>
+              </a>
             </Link>
           ) : (
             <Link href="/auth/sign-in" passHref>
-              <div className="small-screen-nav-button">
+              <a className="small-screen-nav-button">
                 <Login size={25} />
-              </div>
+              </a>
             </Link>
           )}
           <div className="small-screen-nav-button" onClick={() => setMenuOpen(true)}>
@@ -99,23 +117,30 @@ const Navigation = () => {
           <Menu size={20} />
         </div>
         <Link href="/" passHref>
-          <div className="big-screen-nav-button">
-            <p>Home</p>
-          </div>
+          <a className="big-screen-nav-button">Home</a>
         </Link>
         {user && (
           <Link href="/planner" passHref>
-            <div className="big-screen-nav-button">Degree Planner</div>
+            <a className="big-screen-nav-button">Degree Planner</a>
           </Link>
         )}
+        <Link href="/catalog" passHref>
+          <a className="big-screen-nav-button">Catalog</a>
+        </Link>
+        <Link href="/about" passHref>
+          <a className="big-screen-nav-button">About</a>
+        </Link>
+
+        <SearchIcon size={25} className="primary-hover ml-auto" onClick={() => dispatch(setOpen(true))} />
+        <SearchModal />
 
         {user ? (
           <Link href="/profile" passHref>
-            <div className="big-screen-nav-button ml-auto">{user.name.split(" ").at(0)}</div>
+            <a className="big-screen-nav-button ">{user?.name.split(" ").at(0)}</a>
           </Link>
         ) : (
           <Link href="/auth/sign-in" passHref>
-            <div className="big-screen-nav-button ml-auto">Sign In</div>
+            <a className="big-screen-nav-button ">Sign In</a>
           </Link>
         )}
       </div>

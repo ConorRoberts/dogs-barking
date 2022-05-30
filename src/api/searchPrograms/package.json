@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "neo4j-driver": "^4.4.5"
+    "@opensearch-project/opensearch": "^1.1.0"
   }
 }

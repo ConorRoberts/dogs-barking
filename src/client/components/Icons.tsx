@@ -7,8 +7,9 @@ export {
   AiOutlineStar as EmptyStarIcon,
   AiFillStar as FilledStarIcon,
   AiOutlineLoading as LoadingIcon,
+  AiOutlineQuestionCircle as AboutIcon,
 } from "react-icons/ai";
-export { FaRandom as Random, FaGraduationCap as PlannerIcon } from "react-icons/fa";
+export { FaRandom as Random, FaGraduationCap as PlannerIcon, FaGithub as GitHubIcon } from "react-icons/fa";
 export { GiHamburgerMenu as Menu, GiNodular as GraphIcon } from "react-icons/gi";
 export {
   MdLogin as Login,
@@ -29,7 +30,8 @@ export {
   MdEdit as PencilIcon,
   MdOutlineSave as SaveIcon,
   MdCancel as CancelIcon,
-  MdLink as LinkIcon
+  MdLink as LinkIcon,
+  MdOutlineSearch as SearchIcon,
 } from "react-icons/md";
 export {
   IoCloseOutline as CloseIcon,
@@ -37,6 +39,7 @@ export {
   IoGameControllerOutline as Games,
   IoDocumentTextOutline as DocumentIcon,
 } from "react-icons/io5";
+export { BiBookOpen as CatalogIcon } from "react-icons/bi";
 export { FcGoogle as Google } from "react-icons/fc";
 export { GrImage as Image } from "react-icons/gr";
 export { GiCheckboxTree as Graph } from "react-icons/gi";

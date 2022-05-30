@@ -49,5 +49,8 @@ jobs:
           --environment "Variables={ \
               NEO4J_HOST=${{secrets.NEO4J_HOST}}, \
               NEO4J_PASSWORD=${{secrets.NEO4J_PASSWORD}}, \
-              NEO4J_USERNAME=${{secrets.NEO4J_USERNAME}} \
+              NEO4J_USERNAME=${{secrets.NEO4J_USERNAME}}, \
+              OPENSEARCH_USERNAME=${{secrets.OPENSEARCH_USERNAME}}, \
+              OPENSEARCH_PASSWORD=${{secrets.OPENSEARCH_PASSWORD}}, \
+              OPENSEARCH_URL=${{secrets.OPENSEARCH_URL}} \
             }"

@@ -33,9 +33,11 @@ const Rating = ({
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   const [updateLoading, setUpdateLoading] = useState(false);
 
+  const canRateCourse = user && user?.takenCourses.some((e) => e.id === courseId);
+
   // Update rating on backend
   const submitRating = async ({ ratingValue }: { ratingValue: number }) => {
-    if (!user.token) return;
+    if (!user?.token || !canRateCourse) return;
 
     setUpdateLoading(true);
     setMouseIndex(-1);
@@ -73,11 +75,11 @@ const Rating = ({
             <motion.div
               key={`rating-star-${index}-${courseId}`}
               animate={{
-                scale: mouseIndex >= index && user ? 1.2 : 1,
+                scale: mouseIndex >= index && canRateCourse ? 1.2 : 1,
               }}
               transition={{ duration: 0.1, damping: 10, stiffness: 150, type: "spring" }}
               className={`cursor-pointer ${
-                mouseIndex >= index && user ? "dark:text-gray-300 text-gray-700" : "dark:text-white"
+                mouseIndex >= index && canRateCourse ? "dark:text-gray-300 text-gray-700" : "dark:text-white"
               }`}
               onMouseEnter={() => setMouseIndex(index)}
               onMouseLeave={() => setMouseIndex(-1)}

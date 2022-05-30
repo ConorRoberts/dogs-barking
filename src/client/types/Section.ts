@@ -1,13 +1,18 @@
-import Option from "./Option";
+import Instructor from "./Instructor";
+import Meeting from "./Meeting";
 
 type Section = {
-  courses: {
-    course?: string;
-    section?: string;
-    subsection?: string;
-  }[];
-
-  options: Option[];
+  code: string;
+  term?: string;
+  year: number;
+  semester: string;
+  id: string;
+  instructor: Instructor;
+  labs?: Meeting[];
+  lectures: Meeting[];
+  exams?: Meeting[];
+  tutorials?: Meeting[];
+  seminars?: Meeting[];
 };
 
 export default Section;

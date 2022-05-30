@@ -1,7 +1,8 @@
 import Course from "@typedefs/Course";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RadioButtonEmptyIcon, RadioButtonFilledIcon } from "./Icons";
 import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios";
 
 const PlannerCourseSearchResult = ({
   course,
@@ -13,6 +14,20 @@ const PlannerCourseSearchResult = ({
   selectCourse: (course: Course) => void;
 }) => {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+
+    (async () => {
+      try {
+        const { data } = await axios.get(`/api/course/${course.id}/section`);
+
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [open, course]);
 
   return (
     <div>
@@ -38,6 +53,7 @@ const PlannerCourseSearchResult = ({
             transition={{ duration: 0.4 }}
             className="overflow-hidden">
             <p>{course.description}</p>
+            <div></div>
           </motion.div>
         )}
       </AnimatePresence>

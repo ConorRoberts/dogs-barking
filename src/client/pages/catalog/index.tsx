@@ -1,122 +1,99 @@
 import MetaData from "@components/MetaData";
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import CatalogFilter from "@components/CatalogFilter";
-import Link from "next/link";
 import axios from "axios";
-import PageIndex from "@components/PageIndex";
 import { LoadingIcon } from "@components/Icons";
-import { CatalogState } from "@redux/catalog";
-import { RootState } from "@redux/store";
-import { Provider, useSelector } from "react-redux";
-import catalogStore from "@redux/catalog";
-
-interface PageProps {
-  counts: {
-    courses: number;
-    programs: number;
-  };
-}
+import Program from "@typedefs/Program";
+import Course from "@typedefs/Course";
+import CourseQueryApiResponse from "@typedefs/CourseQueryAPIResponse";
+import CatalogCourse from "@components/CatalogCourse";
+import { Button, Input } from "@components/form";
+import Checkbox from "@components/form/Checkbox";
 
 const Page = () => {
-  const { filters, pageState, type, scope } = useSelector<CatalogState, CatalogState>((state) => state);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
-  const [total, setTotal] = useState(0);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [programs, setPrograms] = useState<Program[]>([]);
+  const [totals, setTotals] = useState({ course: 0, program: 0 });
+  const [page, setPage] = useState(0);
+  const type: "course" | "program" = "course";
 
-  const handleSubmit = useCallback(
+  const submitQuery = useCallback(
     async (e?: FormEvent) => {
       e?.preventDefault();
       setLoading(true);
 
-      try {
-        const res = await axios.get("/api/course", { params: { ...filters, ...pageState, scope } });
-        // Set total number of nodes returned instead of all nodes in the database
-        if (res.data.length > 0) {
-          setTotal(res.data[0].total);
-        } else {
-          setTotal(0);
+      if (type === "course") {
+        try {
+          const { data } = await axios.get<CourseQueryApiResponse>("/api/course", {
+            params: { pageSize: 50, pageNum: page },
+          });
+          setCourses(data.courses);
+          setTotals((prev) => ({ ...prev, course: data.total }));
+        } catch (error) {
+          setCourses([]);
         }
-        setData(res.data);
-      } catch (error) {
-        setData([]);
       }
+
       setLoading(false);
     },
-    [filters, pageState, scope]
+    [page]
   );
 
   useEffect(() => {
-    handleSubmit();
-  }, [type, handleSubmit]);
+    submitQuery();
+  }, [submitQuery]);
 
   return (
     <div className="flex flex-col gap-4 mx-auto max-w-6xl w-full">
-      <MetaData title="Catalog" />
+      <MetaData title="Catalog" description="Search for courses and programs in our database." />
       <div className="text-center mb-8">
         <h1>Catalog</h1>
       </div>
-      <div className="flex gap-4">
-        <div className="flex-1">
-          {/* <div className="flex justify-center my-2">
-            <PageIndex totalEntries={total} />
-          </div> */}
-          <div>
-            {loading && <LoadingIcon size={45} className="animate-spin text-gray-500" />}
-            {!loading && (
-              <ul
-                className="divide-slate-200 dark:divide-slate-600 divide-y overflow-y-scroll h-screen box-content scrollbar
-                      scrollbar-track-y-transparent">
-                {data.length === 0 ? (
-                  <p className="text-center">Nothing found</p>
-                ) : (
-                  data?.map((e) => (
-                    <div
-                      className="py-2 hover:bg-sky-200 even:bg-gray-200 dark:hover:bg-gray-700 dark:odd:bg-gray-900 dark:even:bg-gray-800 dark:opacity-90 cursor-pointer transition"
-                      key={e.id}>
-                      {
-                        <li>
-                          <Link href={`/${type === "courses" ? "course" : "program"}/${e.id}`} passHref>
-                            <div>
-                              <p className="text-sm font-medium text-slate-900 dark:text-white">
-                                {type === "courses" ? e.code : e.short}
-                              </p>
-                              <p className="text-sm text-slate-600 dark:text-slate-400 truncate">
-                                {e.name} {type === "courses" && `- [${e?.weight?.toFixed(2)}]`}
-                              </p>
-                              {type === "programs" && (
-                                <>
-                                  <p className="text-sm text-slate-600 dark:text-slate-400 truncate">{e.school}</p>
-                                </>
-                              )}
-                            </div>
-                          </Link>
-                        </li>
-                      }
-                    </div>
-                  ))
-                )}
-              </ul>
-            )}
+      {loading && <LoadingIcon size={45} className="animate-spin text-gray-500 mx-auto" />}
+      {!loading && (
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-4 items-center">
+              <Input />
+
+              <div className="flex gap-4">
+                <Checkbox value={true} />
+                <div className="h-6 w-16 bg-blue-500"></div>
+              </div>
+              <div className="flex gap-4">
+                <Checkbox value={true} />
+                <div className="h-6 w-16 bg-blue-500"></div>
+              </div>
+            </div>
+
+            <div className="flex gap-4 items-center">
+              <p className="bg-blue-500 rounded-full py-1 px-4">Filter</p>
+              <p className="bg-blue-500 rounded-full py-1 px-4">Filter</p>
+              <p className="bg-blue-500 rounded-full py-1 px-4">Filter</p>
+              <p className="bg-blue-500 rounded-full py-1 px-4">Filter</p>
+              <p className="bg-blue-500 rounded-full py-1 px-4">Filter</p>
+            </div>
           </div>
+          <p>
+            Showing {50 * page} - {50 * page + 50} of {totals.course} results
+          </p>
+          <Button variant="outline" onClick={() => setPage(page + 1)}>
+            Next
+          </Button>
+          <Button variant="outline" onClick={() => setPage(page - 1 < 0 ? 0 : page - 1)}>
+            Previous
+          </Button>
+          <ul className="scrollbar scrollbar-track-y-transparent">
+            {courses
+              ?.sort((a, b) => a.code.localeCompare(b.code))
+              .map((course) => (
+                <CatalogCourse key={course.id} course={course} />
+              ))}
+          </ul>
         </div>
-        {/* <CatalogFilter handleSubmit={handleSubmit} /> */}
-      </div>
+      )}
     </div>
   );
 };
 
-export const getServerSideProps = () => {
-  return {
-    props: { counts: { courses: 0, programs: 0 } },
-  };
-};
-
-const WrappedPage = (props) => {
-  return (
-    <Provider store={catalogStore}>
-      <Page {...props} />
-    </Provider>
-  );
-};
-
-export default WrappedPage;
+export default Page;

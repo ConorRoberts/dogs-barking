@@ -4,13 +4,14 @@
   "description": "",
   "scripts": {
     "save": "ts-node ./src/save.ts",
-    "scrape": "ts-node ./src/scrape.ts",
-    "stinky": "ts-node ./src/save2.ts"
+    "save2": "ts-node ./src/save2.ts",
+    "scrape": "ts-node ./src/scrape.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@opensearch-project/opensearch": "^1.1.0",
     "@playwright/test": "^1.20.2",
     "chalk": "4.1.2",
     "dotenv": "^16.0.0",

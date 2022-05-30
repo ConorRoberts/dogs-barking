@@ -39,7 +39,7 @@ jobs:
           aws lambda update-function-code \
           --function-name ${{ env.FUNCTION_NAME }} \
           --zip-file fileb://src/api/${{env.FUNCTION_NAME}}/build.zip \
-         
+
       - name: Configure function
         run: |
           aws lambda wait function-updated --function-name ${{ env.FUNCTION_NAME }}
@@ -49,5 +49,8 @@ jobs:
           --environment "Variables={ \
               NEO4J_HOST=${{secrets.NEO4J_HOST}}, \
               NEO4J_PASSWORD=${{secrets.NEO4J_PASSWORD}}, \
-              NEO4J_USERNAME=${{secrets.NEO4J_USERNAME}} \
+              NEO4J_USERNAME=${{secrets.NEO4J_USERNAME}}, \
+              OPENSEARCH_USERNAME=${{secrets.OPENSEARCH_USERNAME}}, \
+              OPENSEARCH_PASSWORD=${{secrets.OPENSEARCH_PASSWORD}}, \
+              OPENSEARCH_URL=${{secrets.OPENSEARCH_URL}} \
             }"

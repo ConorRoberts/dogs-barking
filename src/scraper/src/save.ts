@@ -4,15 +4,23 @@ import getNeo4jDriver from "./getNeo4jDriver";
 import chalk from "chalk";
 import dotenv from "dotenv";
 import { v4 } from "uuid";
+import convertTime from "./convertTime";
+// import { Client } from "@opensearch-project/opensearch";
+
+// const client = new Client({
+//   node: `https://${process.env.OPENSEARCH_USERNAME}:${process.env.OPENSEARCH_PASSWORD}@${process.env.OPENSEARCH_URL}`,
+// });
 
 const logs = [];
+
+const weekdays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
 const save = async () => {
   dotenv.config({ path: ".env" });
 
   const startTime = new Date().getTime();
 
-  const log = (msg) => {
+  const log = (msg: string) => {
     const endTime = new Date().getTime();
     const time = (endTime - startTime) / 1000;
     const timestamp =
@@ -90,15 +98,17 @@ const save = async () => {
         MATCH (school: School {short: "UOFG"})
 
         MERGE (course: Course {
-            code: $code,
-            name: $name,
-            description: $description,
-            credits: $credits,
-            department: $department,
-            number: $number
+            code: $code
         }) 
 
-        ON CREATE SET course.id = $id
+        ON CREATE 
+          SET course.id = $id
+          SET course.name = $name
+          SET course.description = $description
+          SET course.credits = $credits
+          SET course.department = $department
+          SET course.number = $number
+          SET course.code = $code
 
         MERGE (school)-[:OFFERS]->(course)
         `,
@@ -108,7 +118,7 @@ const save = async () => {
 
       log(chalk.green(`Added ${course.code}`));
     } catch (error) {
-      console.error("Failed to add course");
+      console.error("Failed to add course: " + course.code);
       log(chalk.red(error));
     }
 
@@ -116,6 +126,7 @@ const save = async () => {
       const section = data.sections.find((e) => e.id === sectionId);
       const instructor = data.instructors.find((e) => e.id === section.INSTRUCTED_BY);
       if (!instructor || !section) continue;
+      const [semester, year] = section.term.split(" ").map((e: string) => e.trim().toLowerCase());
 
       // Add section, instructors
       session = driver.session();
@@ -123,12 +134,13 @@ const save = async () => {
         `   
             MATCH 
             (school:School {short: "UOFG"})
-            -[:HAS_COURSE]->
+            -[:OFFERS]->
             (course:Course {code: $courseCode})
 
             CREATE (section:Section {
-                code: $code,
-                term: $term
+                code: $section.code,
+                term: $section.term,
+                id: $section.id
             })
 
             CREATE (course)-[:HAS]->(section)
@@ -139,7 +151,16 @@ const save = async () => {
 
             CREATE (section)-[:INSTRUCTED_BY]->(instructor)
         `,
-        { ...section, courseCode: course.code, instructorName: instructor.name }
+        {
+          section: {
+            ...section,
+            semester,
+            year: parseInt(year),
+            id: v4(),
+          },
+          courseCode: course.code,
+          instructorName: instructor.name,
+        }
       );
       await session.close();
 
@@ -156,26 +177,31 @@ const save = async () => {
             (section:Section {code: $sectionCode})
 
             CREATE (lecture:Lecture {
-                startTime: $endTime,
-                endTime: $endTime,
-                location: $location,
-                room: $room,
-                monday: $monday,
-                tuesday: $tuesday,
-                wednesday: $wednesday,
-                thursday: $thursday,
-                friday: $friday,
-                saturday: $saturday,
-                sunday: $sunday
+                startTime: localtime($data.endTime),
+                endTime: localtime($data.endTime),
+                location: $data.location,
+                room: $data.room,
+                days: $data.days,
+                id: $data.id
             })
 
             CREATE (section)-[:HAS]->(lecture)
         `,
-            { ...lecture, courseCode: course.code, sectionCode: section.code }
+            {
+              data: {
+                ...lecture,
+                startTime: convertTime(lecture.startTime),
+                endTime: convertTime(lecture.endTime),
+                id: v4(),
+                days: weekdays.map((e) => lecture[e] && e).filter((e) => e),
+              },
+              courseCode: course.code,
+              sectionCode: section.code,
+            }
           );
           await session.close();
         } catch (error) {
-          console.error("Error creating lecture");
+          log(chalk.red(`Error creating lecture for ${course.code}`));
         }
       }
       for (const labId of section.HAS_LAB) {
@@ -190,15 +216,32 @@ const save = async () => {
             -[:HAS]->
             (section:Section {code: $sectionCode})
 
-            CREATE (lab:Lab $lab)
+            CREATE (lab:Lab {
+              startTime: localtime($data.endTime),
+              endTime: localtime($data.endTime),
+              location: $data.location,
+              room: $data.room,
+              days: $data.days,
+              id: $data.id
+            })
 
             CREATE (section)-[:HAS]->(lab)
         `,
-            { lab, courseCode: course.code, sectionCode: section.code }
+            {
+              data: {
+                ...lab,
+                startTime: convertTime(lab.startTime),
+                endTime: convertTime(lab.endTime),
+                id: v4(),
+                days: weekdays.map((e) => lab[e] && e).filter((e) => e),
+              },
+              courseCode: course.code,
+              sectionCode: section.code,
+            }
           );
           await session.close();
         } catch (error) {
-          console.error("Error creating lab");
+          log(chalk.red(`Error creating lab for ${course.code}`));
         }
       }
       for (const seminarId of section.HAS_SEMINAR) {
@@ -213,15 +256,33 @@ const save = async () => {
             -[:HAS]->
             (section:Section {code: $sectionCode})
 
-            CREATE (seminar:Seminar $seminar)
+            CREATE (seminar:Seminar {
+              startTime: localtime($data.endTime),
+              endTime: localtime($data.endTime),
+              location: $data.location,
+              room: $data.room,
+              days: $data.days,
+              id: $data.id
+            })
 
             CREATE (section)-[:HAS]->(seminar)
         `,
-            { seminar, courseCode: course.code, sectionCode: section.code }
+            {
+              data: {
+                ...seminar,
+                startTime: convertTime(seminar.startTime),
+                endTime: convertTime(seminar.endTime),
+                id: v4(),
+                days: weekdays.map((e) => seminar[e] && e).filter((e) => e),
+              },
+              courseCode: course.code,
+              sectionCode: section.code,
+            }
           );
           await session.close();
         } catch (error) {
-          console.error("Error creating seminar");
+          log(chalk.red("Error creating seminar"));
+          console.error(error);
         }
       }
       for (const tutorialId of section.HAS_SEMINAR) {
@@ -244,7 +305,7 @@ const save = async () => {
           );
           await session.close();
         } catch (error) {
-          console.error("Error creating tutorial");
+          log(chalk.red("Error creating tutorial"));
         }
       }
     }
@@ -554,6 +615,8 @@ const save = async () => {
         }
         for (const block of program.major.options) {
           session = driver.session();
+          const [level] = block.text.match(/[0-9]+ level/g) ?? [];
+          const type = block.text.includes("credits") ? "credit" : "course";
 
           await session.run(
             `
@@ -563,7 +626,8 @@ const save = async () => {
               note: $note,
               target: $target,
               department: $department,
-              level: $level
+              level: $level,
+              type: $type
             })
             
           `,
@@ -573,7 +637,8 @@ const save = async () => {
               note: block.text,
               target: block.targetWeight,
               department: block.dpt,
-              level: block.level,
+              level: parseInt(level) ?? -1,
+              type,
             }
           );
           await session.close();
@@ -622,7 +687,7 @@ const save = async () => {
               `
                 MATCH (program:Program {id: $programId})
                 MATCH (course:Course {code: $code})
-                CREATE (program)-[:REQUIRES]->(course)
+                CREATE (program)-[:MINOR_REQUIRES]->(course)
               `,
               { code: course.replace("*", ""), programId }
             );
@@ -641,7 +706,7 @@ const save = async () => {
     // Create fulltext search index for courses
     await session.run(
       `
-      DROP INDEX courseSearch
+      CREATE INDEX FOR (n:Course) ON (n.id,n.code)
       `
     );
     await session.close();
@@ -652,7 +717,7 @@ const save = async () => {
     session = driver.session();
     await session.run(
       `
-      CREATE FULLTEXT INDEX courseSearch FOR (n:Course) ON EACH [n.name,n.code,n.description,n.weight]
+      CREATE FULLTEXT INDEX courseSearch FOR (n:Course) ON EACH [n.name,n.code,n.description,n.credits,n.number,n.department]
       `
     );
     await session.close();
@@ -665,7 +730,7 @@ const save = async () => {
     // Create fulltext search index for courses
     await session.run(
       `
-      DROP INDEX programSearch
+      CREATE INDEX FOR (n:Program) ON (n.id)
       `
     );
     await session.close();
@@ -684,7 +749,92 @@ const save = async () => {
     log(chalk.red(error));
   }
 
+  // Delete programs index
+  // try {
+  //   await client.indices.delete({
+  //     index: "programs",
+  //   });
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
+
+  // Create programs index
+  // try {
+  //   await client.indices.create({
+  //     index: "programs",
+  //     body: {
+  //       settings: {
+  //         index: {
+  //           number_of_shards: 4,
+  //           number_of_replicas: 3,
+  //         },
+  //       },
+  //     },
+  //   });
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
+
+  // Delete courses index
+  // try {
+  //   await client.indices.delete({
+  //     index: "courses",
+  //   });
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
+
+  // Create courses index
+  // try {
+  //   await client.indices.create({
+  //     index: "courses",
+  //     body: {
+  //       settings: {
+  //         index: {
+  //           number_of_shards: 4,
+  //           number_of_replicas: 3,
+  //         },
+  //       },
+  //     },
+  //   });
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
+
+  // Get courses and programs from Neo4j
+  session = driver.session();
+  const { records } = await session.run(`
+    MATCH (course:Program)
+    MATCH (program:Program)
+
+    RETURN 
+      collect(properties(program)) as programs,
+      collect(properties(course)) as courses
+  `);
+  await session.close();
   await driver.close();
+
+  // Add programs to index
+  // for (const program of records[0].get("programs")) {
+  //   await client.index({
+  //     id: program.id,
+  //     index: "programs",
+  //     body: program,
+  //     refresh: true,
+  //   });
+  //   log(`[OpenSearch] Added program: ${program.short}`);
+  // }
+
+  // Add courses to indx
+  // for (const course of records[0].get("courses")) {
+  //   await client.index({
+  //     id: course.id,
+  //     index: "courses",
+  //     body: course,
+  //     refresh: true,
+  //   });
+  //   log(`[OpenSearch] Added course: ${course.code}`);
+  // }
 };
 
 (async () => {

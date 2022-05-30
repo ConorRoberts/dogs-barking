@@ -1,4 +1,4 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export interface CatalogState {
   // Filter Data
@@ -62,10 +62,5 @@ const catalog = createSlice({
   },
 });
 
-const catalogStore = configureStore({
-  reducer: { planner: catalog.reducer },
-});
-
-export type AppDispatch = typeof catalogStore.dispatch;
 export const { setFilters, setPageState, setCatalogType, resetFilters, setScope } = catalog.actions;
-export default catalogStore;
+export default catalog.reducer;

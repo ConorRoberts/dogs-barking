@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import auth from "./auth";
 import planner from "./planner";
+import catalog from "./catalog";
+import search from "./search";
 
 const store = configureStore({
-  reducer: { auth, planner },
+  reducer: { auth, planner, catalog, search },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

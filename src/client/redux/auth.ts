@@ -8,18 +8,30 @@ import axios from "axios";
  */
 export const signIn = createAsyncThunk("auth/signIn", async () => {
   try {
-    const res = await Auth.currentAuthenticatedUser();
+    const { attributes } = await Auth.currentAuthenticatedUser();
     const token = (await Auth.currentSession()).getIdToken().getJwtToken();
 
     try {
+      // Find user in Neo4j. Throw error if we can't find the user
       const { data } = await axios.get(`/api/user/`, { headers: { Authorization: `Bearer ${token}` } });
 
-      return { ...res.attributes, ...data, token };
+      return { ...attributes, ...data, token };
     } catch (error) {
-      const { data } = await axios.post(`/api/user/`, {}, { headers: { Authorization: `Bearer ${token}` } });
-      return { ...res.attributes, ...data, token };
+      // Could not find a user. Create one.
+      const { data } = await axios.post(
+        `/api/user/`,
+        {
+          email: attributes.email,
+          birthdate: attributes.birthdate,
+          name: attributes.name,
+          sub: attributes.sub,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return { ...attributes, ...data, token };
     }
   } catch (error) {
+    // If all else fails, return null
     return null;
   }
 });
@@ -59,11 +71,13 @@ export const auth = createSlice({
     token: null,
   },
   reducers: {
-    setUser: (state, action) => {
-      state.user = { ...state.user, ...action.payload };
+    setUser: (state, { payload }) => {
+      state.user = { ...state.user, ...payload };
     },
-    setToken: (state, action) => {
-      state.token = action.payload;
+    setToken: (state, { payload }) => {
+      if (state.user.token !== payload) {
+        state.user = { ...state.user, token: payload };
+      }
     },
   },
   extraReducers: (builder) => {

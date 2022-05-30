@@ -54,10 +54,8 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
     }
   };
 
-  if (!open) return null;
-
   return (
-    <Modal onClose={() => onClose()}>
+    <Modal onClose={() => onClose()} open={open}>
       <div className="relative mx-auto max-w-md w-full flex flex-col gap-4">
         <h3 className="text-xl font-normal text-center mb-2">Find your favourite courses</h3>
 

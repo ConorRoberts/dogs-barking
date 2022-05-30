@@ -11,6 +11,9 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import LoadingScreen from "@components/LoadingScreen";
 import RequirementsList from "@components/RequirementsList";
+import axios from "axios";
+import CourseSection from "@components/CourseSection";
+import { LoadingIcon } from "@components/Icons";
 
 interface PageProps {
   course: Course;
@@ -21,12 +24,26 @@ interface PageProps {
 const Page = ({ course }: PageProps) => {
   const router = useRouter();
   const [ratingCount, setRatingCount] = useState(course.rating.count);
-
-  console.log(course);
+  const [sections, setSections] = useState([]);
+  const [sectionsLoading, setSectionsLoading] = useState(false);
 
   useEffect(() => {
     if (!course) router.push("/error/404");
   }, [router, course]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setSectionsLoading(true);
+        const { data } = await axios.get(`/api/course/${course.id}/section`);
+        setSections(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setSectionsLoading(false);
+      }
+    })();
+  }, [course.id]);
 
   if (!course) return <LoadingScreen />;
 
@@ -34,9 +51,8 @@ const Page = ({ course }: PageProps) => {
     <div className="mx-auto max-w-4xl w-full flex flex-col gap-8 p-4">
       <MetaData description={course.description} title={`${course.name} (${course.code})`} />
       <div>
-        <h2 className="text-center mb-1">
-          {course.name} ({course.code})
-        </h2>
+        <h1 className="text-center mb-1">{course.name}</h1>
+        <h2 className="subheading text-center">{course.code}</h2>
         <Link passHref href={`/school/${course.school.id}`}>
           <p className="text-center text-gray-400">{course.school.name}</p>
         </Link>
@@ -95,10 +111,19 @@ const Page = ({ course }: PageProps) => {
           <RequirementsList requirements={course.requirements.filter((e) => e.label !== "AndBlock")} />
         </>
       )}
-      {/* <div>
-        <h3 className="text-center mb-1">Prerequisites</h3>
-        <CourseGraph nodes={nodes} edges={edges} />
-      </div> */}
+      <div>
+        <h2 className="text-center">Sections</h2>
+        <p className="text-center text-gray-500 dark:text-gray-500 mb-1">
+          Here are the current offerings for {course.code}
+        </p>
+
+        {sectionsLoading && <LoadingIcon className="animate-spin mx-auto" size={25} />}
+        <div className="grid gap-2 grid-cols-2">
+          {sections.map((section, index) => (
+            <CourseSection section={section} key={`${course.id} section ${index}`} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
