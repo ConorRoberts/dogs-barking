@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { MeiliSearch } from "meilisearch";
+import { MEILISEARCH_HOST, MEILISEARCH_KEY } from "@config/config";
 
 export interface UseCourseSearchParams {
   courseId: string;
@@ -24,8 +25,8 @@ const useSearch = (query: string, config?: Config) => {
 
     (async () => {
       const client = new MeiliSearch({
-        host: process.env.NEXT_PUBLIC_MEILISEARCH_HOST,
-        apiKey: process.env.NEXT_PUBLIC_MEILISEARCH_KEY,
+        host: MEILISEARCH_HOST,
+        apiKey: MEILISEARCH_KEY,
       });
 
       try {

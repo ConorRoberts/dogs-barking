@@ -55,10 +55,6 @@ jobs:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
-          environment-variables: |
-            NEXT_PUBLIC_MEILISEARCH_KEY=${{ secrets.MEILISEARCH_KEY }}
-            NEXT_PUBLIC_MEILISEARCH_HOST=${{ secrets.MEILISEARCH_HOST }}
-            NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${{secrets.GOOGLE_MAPS_API_KEY}}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
