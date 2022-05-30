@@ -8,6 +8,7 @@ export {
   AiFillStar as FilledStarIcon,
   AiOutlineLoading as LoadingIcon,
   AiOutlineQuestionCircle as AboutIcon,
+  AiFillLinkedin as LinkedInIcon,
 } from "react-icons/ai";
 export { FaRandom as Random, FaGraduationCap as PlannerIcon, FaGithub as GitHubIcon } from "react-icons/fa";
 export { GiHamburgerMenu as Menu, GiNodular as GraphIcon } from "react-icons/gi";

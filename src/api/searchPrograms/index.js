@@ -18,10 +18,10 @@ exports.handler = async (event) => {
       index: "programs",
       body: {
         query: {
-          multi_match: {
-            query: query,
-            fields: ["short", "name"],
-            fuzziness: "AUTO",
+          wildcard: {
+            short: {
+              value: `${query}*`,
+            },
           },
         },
       },

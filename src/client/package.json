@@ -18,6 +18,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^6.3.3",
     "lodash": "^4.17.21",
+    "meilisearch": "^0.25.1",
     "neo4j-driver": "^4.4.3",
     "next": "latest",
     "next-pwa": "^3.1.0",

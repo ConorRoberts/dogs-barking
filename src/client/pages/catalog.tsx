@@ -44,7 +44,7 @@ const Page = () => {
   }, [submitQuery]);
 
   return (
-    <div className="flex flex-col gap-4 mx-auto max-w-6xl w-full">
+    <div className="flex flex-col gap-4 mx-auto max-w-4xl w-full p-2">
       <MetaData title="Catalog" description="Search for courses and programs in our database." />
       <div className="text-center mb-8">
         <h1>Catalog</h1>

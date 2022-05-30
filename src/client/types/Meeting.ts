@@ -8,6 +8,7 @@ interface Meeting {
   startTime: string;
   endTime: string;
   room: string;
+  location: string;
 }
 
 export default Meeting;

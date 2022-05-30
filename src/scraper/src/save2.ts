@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import { v4 } from "uuid";
 import convertTime from "./convertTime";
 import { Client } from "@opensearch-project/opensearch";
+import { MeiliSearch } from "meilisearch";
 
 (async () => {
   dotenv.config({ path: ".env" });
@@ -15,8 +16,13 @@ import { Client } from "@opensearch-project/opensearch";
     neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
   );
 
-  const client = new Client({
-    node: `https://${process.env.OPENSEARCH_USERNAME}:${process.env.OPENSEARCH_PASSWORD}@${process.env.OPENSEARCH_URL}`,
+  // const client = new Client({
+  //   node: `https://${process.env.OPENSEARCH_USERNAME}:${process.env.OPENSEARCH_PASSWORD}@${process.env.OPENSEARCH_URL}`,
+  // });
+
+  const client = new MeiliSearch({
+    host: process.env.MEILISEARCH_HOST,
+    apiKey: process.env.MEILISEARCH_KEY,
   });
 
   const logs = [];
@@ -591,111 +597,111 @@ import { Client } from "@opensearch-project/opensearch";
   //   await session.close();
   // }
 
-  try {
-    session = driver.session();
-    // Create fulltext search index for courses
-    await session.run(
-      `
-      CREATE INDEX FOR (n:Course) ON (n.id,n.code)
-      `
-    );
-    await session.close();
-  } catch (error) {
-    log(chalk.red(error));
-  }
-  try {
-    session = driver.session();
-    await session.run(
-      `
-          CREATE FULLTEXT INDEX courseSearch FOR (n:Course) ON EACH [n.name,n.code,n.description,n.credits,n.number,n.department]
-        `
-    );
-    await session.close();
-  } catch (error) {
-    log(chalk.red(error));
-  }
+  // try {
+  //   session = driver.session();
+  //   // Create fulltext search index for courses
+  //   await session.run(
+  //     `
+  //     CREATE INDEX FOR (n:Course) ON (n.id,n.code)
+  //     `
+  //   );
+  //   await session.close();
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
+  // try {
+  //   session = driver.session();
+  //   await session.run(
+  //     `
+  //         CREATE FULLTEXT INDEX courseSearch FOR (n:Course) ON EACH [n.name,n.code,n.description,n.credits,n.number,n.department]
+  //       `
+  //   );
+  //   await session.close();
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
 
-  try {
-    session = driver.session();
-    // Create fulltext search index for courses
-    await session.run(
-      `
-        CREATE INDEX FOR (n:Program) ON (n.id)
-      `
-    );
-    await session.close();
-  } catch (error) {
-    log(chalk.red(error));
-  }
-  try {
-    session = driver.session();
-    await session.run(
-      `
-      CREATE FULLTEXT INDEX programSearch FOR (n:Program) ON EACH [n.name,n.short,n.degree]
-      `
-    );
-    await session.close();
-  } catch (error) {
-    log(chalk.red(error));
-  }
+  // try {
+  //   session = driver.session();
+  //   // Create fulltext search index for courses
+  //   await session.run(
+  //     `
+  //       CREATE INDEX FOR (n:Program) ON (n.id)
+  //     `
+  //   );
+  //   await session.close();
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
+  // try {
+  //   session = driver.session();
+  //   await session.run(
+  //     `
+  //     CREATE FULLTEXT INDEX programSearch FOR (n:Program) ON EACH [n.name,n.short,n.degree]
+  //     `
+  //   );
+  //   await session.close();
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
 
   // Delete programs index
-  try {
-    await client.indices.delete({
-      index: "programs",
-    });
-    log(chalk.green("[OpenSearch] Deleted program index"));
-  } catch (error) {
-    log(chalk.red(error));
-  }
+  // try {
+  //   await client.indices.delete({
+  //     index: "programs",
+  //   });
+  //   log(chalk.green("[OpenSearch] Deleted program index"));
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
 
   // Create programs index
-  try {
-    await client.indices.create({
-      index: "programs",
-      body: {
-        settings: {
-          index: {
-            number_of_shards: 4,
-            number_of_replicas: 3,
-          },
-        },
-      },
-    });
-    log(chalk.green("[OpenSearch] Created program index"));
-  } catch (error) {
-    log(chalk.red(error));
-  }
+  // try {
+  //   await client.indices.create({
+  //     index: "programs",
+  //     body: {
+  //       settings: {
+  //         index: {
+  //           number_of_shards: 4,
+  //           number_of_replicas: 3,
+  //         },
+  //       },
+  //     },
+  //   });
+  //   log(chalk.green("[OpenSearch] Created program index"));
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
 
   // Delete courses index
-  try {
-    await client.indices.delete({
-      index: "courses",
-    });
-    log(chalk.green("[OpenSearch] Deleted course index"));
-  } catch (error) {
-    log(chalk.red(error));
-  }
+  // try {
+  //   await client.indices.delete({
+  //     index: "courses",
+  //   });
+  //   log(chalk.green("[OpenSearch] Deleted course index"));
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
 
   // Create courses index
-  try {
-    await client.indices.create({
-      index: "courses",
-      body: {
-        settings: {
-          index: {
-            number_of_shards: 4,
-            number_of_replicas: 3,
-          },
-        },
-      },
-    });
-    log(chalk.green("[OpenSearch] Created course index"));
-  } catch (error) {
-    log(chalk.red(error));
-  }
+  // try {
+  //   await client.indices.create({
+  //     index: "courses",
+  //     body: {
+  //       settings: {
+  //         index: {
+  //           number_of_shards: 4,
+  //           number_of_replicas: 3,
+  //         },
+  //       },
+  //     },
+  //   });
+  //   log(chalk.green("[OpenSearch] Created course index"));
+  // } catch (error) {
+  //   log(chalk.red(error));
+  // }
 
-  try{
+  try {
     // Get programs from Neo4j
     session = driver.session();
     const { records } = await session.run(`
@@ -706,20 +712,24 @@ import { Client } from "@opensearch-project/opensearch";
     `);
     await session.close();
 
+    const index = client.index("programs");
+    // await index.deleteAllDocuments();
+
+    // await index.addDocuments(records[0].get("programs"));
+
     // Add programs to index
-    for (const program of records[0].get("programs")) {
-      await client.index({
-        id: program.id,
-        index: "programs",
-        body: program,
-        refresh: true,
-      });
-      log(`[OpenSearch] Added program: ${program.short}`);
-    }
-  }catch(error){
+    // for (const program of records[0].get("programs")) {
+    //   await client.index({
+    //     id: program.id,
+    //     index: "programs",
+    //     body: program,
+    //     refresh: true,
+    //   });
+    //   log(`[OpenSearch] Added program: ${program.short}`);
+    // }
+  } catch (error) {
     log(chalk.red(error));
   }
-
 
   try {
     // Get courses from Neo4j
@@ -731,21 +741,29 @@ import { Client } from "@opensearch-project/opensearch";
           collect(properties(course)) as courses
     `);
     await session.close();
-    
+
+    const index = client.index("courses");
+    // await index.deleteAllDocuments();
+
+    // await index.addDocuments(records[0].get("courses"));
+
+    const search = await index.search("CIS2");
+
+    console.log(search);
+
     // Add courses to index
-    for (const course of records[0].get("courses")) {
-      await client.index({
-        id: course.id,
-        index: "courses",
-        body: course,
-        refresh: true,
-      });
-      log(`[OpenSearch] Added course: ${course.code}`);
-    }
-  }catch(error){
+    // for (const course of records[0].get("courses")) {
+    //   await client.index({
+    //     id: course.id,
+    //     index: "courses",
+    //     body: course,
+    //     refresh: true,
+    //   });
+    //   log(`[OpenSearch] Added course: ${course.code}`);
+    // }
+  } catch (error) {
     log(chalk.red(error));
   }
- 
 
   writeFileSync("logs.txt", logs.join("\n"));
   await driver.close();

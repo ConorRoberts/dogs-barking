@@ -1,11 +1,10 @@
 /* eslint-disable indent */
-import { FieldAttributes } from "formik";
 import React, { ForwardedRef, forwardRef } from "react";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   variant?: "default" | "blank" | "file";
   error?: boolean;
-  field?: FieldAttributes<null>;
+  field?: object;
 }
 
 const Input = forwardRef(({ error, field, ...props }: InputProps, ref: ForwardedRef<HTMLInputElement>) => {

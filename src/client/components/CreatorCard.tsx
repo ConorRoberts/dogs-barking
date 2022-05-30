@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { GitHubIcon } from "./Icons";
+import { GitHubIcon, LinkedInIcon } from "./Icons";
 
 interface Props {
   image: string;
@@ -27,6 +27,11 @@ const CreatorCard = (props: Props) => {
         {githubUrl && (
           <a className="primary-hover" href={githubUrl}>
             <GitHubIcon size={25} />
+          </a>
+        )}
+        {linkedinUrl && (
+          <a className="primary-hover" href={linkedinUrl}>
+            <LinkedInIcon size={25} />
           </a>
         )}
       </div>
