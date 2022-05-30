@@ -38,21 +38,6 @@ const CourseSection = ({ section }: Props) => {
             </div>
           )
       )}
-      {/* {section.exams.map((lecture) => (
-        <div key={`section ${section.id} lecture ${lecture.id}`} className="flex gap-2 items-center">
-          {lecture.days.map((day, dayIndex) => (
-            <div
-              key={`section ${section.id} lecture ${lecture.id} day ${dayIndex}`}
-              className="rounded-full border border-gray-300 dark:border-gray-700 w-7 h-7 text-center flex justify-center items-center">
-              <p className="capitalize text-sm">{day.slice(0, 2)}</p>
-            </div>
-          ))}
-          <p className="text-sm ml-auto">
-            {lecture.startTime} - {lecture.endTime}
-          </p>
-        </div>
-      ))} */}
-
       <p className="ml-auto">{section.instructor.name}</p>
     </div>
   );
