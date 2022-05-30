@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { MeiliSearch } from "meilisearch";
 
 export interface UseCourseSearchParams {
   courseId: string;
@@ -23,6 +23,11 @@ const useSearch = (query: string, config?: Config) => {
     // Fetch data from search endpoint
 
     (async () => {
+      const client = new MeiliSearch({
+        host: process.env.NEXT_PUBLIC_MEILISEARCH_HOST,
+        apiKey: process.env.NEXT_PUBLIC_MEILISEARCH_KEY,
+      });
+
       try {
         setLoading(true);
 
@@ -32,12 +37,11 @@ const useSearch = (query: string, config?: Config) => {
           return;
         }
 
-        const { data } = await axios.get(`/api/search/${type}`, {
-          params: {
-            query,
-          },
-        });
-        setResults(data);
+        const index = client.index(type + "s");
+
+        const { hits } = await index.search(query);
+
+        setResults(hits);
       } catch (error) {
         console.error(error);
       } finally {

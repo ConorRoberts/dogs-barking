@@ -1,4 +1,4 @@
-import { FilledStarIcon, PlannerIcon, SearchIcon } from "@components/Icons";
+import { EmptyStarIcon, FilledStarIcon, PlannerIcon, SearchIcon } from "@components/Icons";
 import MetaData from "@components/MetaData";
 import { APP_NAME } from "@config/config";
 import { setOpen } from "@redux/search";
@@ -30,14 +30,14 @@ const Page = () => {
       <div>
         <div className="flex gap-4 flex-wrap justify-center">
           <div className="bg-white dark:bg-gray-800 shadow-md rounded-md py-12 px-4 flex flex-col gap-4 w-80">
-            <SearchIcon size={60} className="text-gray-400 dark:text-gray-100 mx-auto" />
+            <SearchIcon size={60} className="text-gray-600 dark:text-gray-100 mx-auto" />
             <div>
               <h3 className="text-center text-xl">Find Information</h3>
               <p className="text-center">Find information about courses and programs at The University of Guelph</p>
             </div>
           </div>
           <div className="bg-white dark:bg-gray-800 shadow-md rounded-md py-12 px-4 flex flex-col gap-4 w-80">
-            <PlannerIcon size={60} className="text-gray-400 dark:text-gray-100 mx-auto" />
+            <PlannerIcon size={60} className="text-gray-600 dark:text-gray-100 mx-auto" />
             <div>
               <h3 className="text-center text-xl">Plan Your Degree</h3>
               <p className="text-center">
@@ -46,7 +46,7 @@ const Page = () => {
             </div>
           </div>
           <div className="bg-white dark:bg-gray-800 shadow-md rounded-md py-12 px-4 flex flex-col gap-4 w-80">
-            <FilledStarIcon size={60} className="text-gray-400 dark:text-gray-100 mx-auto" />
+            <EmptyStarIcon size={60} className="text-gray-600 dark:text-gray-100 mx-auto" />
             <div>
               <h3 className="text-center text-xl">Give Feedback</h3>
               <p className="text-center">Rate courses on a number of metrics to give other students insight</p>

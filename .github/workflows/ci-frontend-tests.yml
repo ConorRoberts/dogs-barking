@@ -13,10 +13,9 @@ jobs:
         uses: cypress-io/github-action@v2
         env:
           PORT: 3000
-          NEO4J_HOST: ${{ secrets.NEO4J_HOST }}
-          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-          NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
-          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+          NEXT_PUBLIC_MEILISEARCH_HOST: ${{ secrets.NEXT_PUBLIC_MEILISEARCH_HOST }}
+          NEXT_PUBLIC_MEILISEARCH_KEY: ${{ secrets.NEXT_PUBLIC_MEILISEARCH_KEY }}
+          NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
         with:
           browser: chrome
           headless: true
