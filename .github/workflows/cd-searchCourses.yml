@@ -53,4 +53,6 @@ jobs:
               OPENSEARCH_USERNAME=${{secrets.OPENSEARCH_USERNAME}}, \
               OPENSEARCH_PASSWORD=${{secrets.OPENSEARCH_PASSWORD}}, \
               OPENSEARCH_URL=${{secrets.OPENSEARCH_URL}} \
+              MEILISEARCH_HOST=${{secrets.MEILISEARCH_HOST}} \
+              MEILISEARCH_KEY=${{secrets.MEILISEARCH_KEY}} \
             }"
