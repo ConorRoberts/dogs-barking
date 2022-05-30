@@ -13,9 +13,6 @@ jobs:
         uses: cypress-io/github-action@v2
         env:
           PORT: 3000
-          NEXT_PUBLIC_MEILISEARCH_HOST: ${{ secrets.NEXT_PUBLIC_MEILISEARCH_HOST }}
-          NEXT_PUBLIC_MEILISEARCH_KEY: ${{ secrets.NEXT_PUBLIC_MEILISEARCH_KEY }}
-          NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
         with:
           browser: chrome
           headless: true
