@@ -1,4 +1,4 @@
-const { Client } = require("@opensearch-project/opensearch");
+const { MeiliSearch } = require("meilisearch");
 
 /**
  * @method GET
@@ -10,24 +10,16 @@ exports.handler = async (event) => {
   try {
     const { query } = event.queryStringParameters;
 
-    const client = new Client({
-      node: `https://${process.env.OPENSEARCH_USERNAME}:${process.env.OPENSEARCH_PASSWORD}@${process.env.OPENSEARCH_URL}`,
+    const client = new MeiliSearch({
+      host: process.env.MEILISEARCH_HOST,
+      apiKey: process.env.MEILISEARCH_KEY,
     });
 
-    const response = await client.search({
-      index: "programs",
-      body: {
-        query: {
-          wildcard: {
-            short: {
-              value: `${query}*`,
-            },
-          },
-        },
-      },
-    });
+    const index = client.index("programs");
 
-    return response.body.hits.hits.map((hit) => hit._source);
+    const { hits } = await index.search(query);
+
+    return hits;
   } catch (error) {
     console.error(error);
     return [];

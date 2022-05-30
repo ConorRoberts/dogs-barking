@@ -7,7 +7,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@opensearch-project/opensearch": "^1.1.0",
     "meilisearch": "^0.25.1"
   }
 }
