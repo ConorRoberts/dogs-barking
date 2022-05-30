@@ -92,6 +92,9 @@ const Navigation = () => {
               <Home size={25} />
             </a>
           </Link>
+          <div className="small-screen-nav-button">
+            <SearchIcon size={25} onClick={() => dispatch(setOpen(true))} />
+          </div>
           {user ? (
             <Link href="/profile" passHref>
               <a className="small-screen-nav-button">
@@ -132,7 +135,6 @@ const Navigation = () => {
         </Link>
 
         <SearchIcon size={25} className="primary-hover ml-auto" onClick={() => dispatch(setOpen(true))} />
-        <SearchModal />
 
         {user ? (
           <Link href="/profile" passHref>
@@ -144,6 +146,8 @@ const Navigation = () => {
           </Link>
         )}
       </div>
+
+      <SearchModal />
     </div>
   );
 };
