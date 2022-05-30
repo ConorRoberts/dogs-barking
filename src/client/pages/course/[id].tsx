@@ -60,7 +60,7 @@ const Page = ({ course }: PageProps) => {
       <div className="flex flex-col gap-4">
         <p>{course.description}</p>
         <p>
-          This course is worth <span className="text-blue-500 dark:text-blue-400">{course.credits}</span> credit(s)
+          This course is worth <span className="font-semibold">{course.credits}</span> credit(s)
         </p>
       </div>
 
@@ -111,19 +111,21 @@ const Page = ({ course }: PageProps) => {
           <RequirementsList requirements={course.requirements.filter((e) => e.label !== "AndBlock")} />
         </>
       )}
-      <div>
-        <h2 className="text-center">Sections</h2>
-        <p className="text-center text-gray-500 dark:text-gray-500 mb-1">
-          Here are the current offerings for {course.code}
-        </p>
+      {sections.length > 0 && (
+        <div>
+          <h2 className="text-center">Sections</h2>
+          <p className="text-center text-gray-500 dark:text-gray-500 mb-1">
+            Here are the current offerings for {course.code}
+          </p>
 
-        {sectionsLoading && <LoadingIcon className="animate-spin mx-auto" size={25} />}
-        <div className="grid gap-2 grid-cols-2">
-          {sections.map((section, index) => (
-            <CourseSection section={section} key={`${course.id} section ${index}`} />
-          ))}
+          {sectionsLoading && <LoadingIcon className="animate-spin mx-auto" size={25} />}
+          <div className="grid gap-2 sm:grid-cols-2">
+            {sections.map((section, index) => (
+              <CourseSection section={section} key={`${course.id} section ${index}`} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
