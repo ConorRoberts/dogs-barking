@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { MeiliSearch } from "meilisearch";
-import { MEILISEARCH_HOST, MEILISEARCH_KEY } from "@config/config";
+import axios from "axios";
 
 export interface UseCourseSearchParams {
   courseId: string;
@@ -24,25 +23,13 @@ const useSearch = (query: string, config?: Config) => {
     // Fetch data from search endpoint
 
     (async () => {
-      const client = new MeiliSearch({
-        host: MEILISEARCH_HOST,
-        apiKey: MEILISEARCH_KEY,
-      });
 
       try {
         setLoading(true);
 
-        if (query.length === 0) {
-          setResults([]);
-          setLoading(false);
-          return;
-        }
+        const { data } = await axios.get(`/api/search/${type}`, { params: { query } });
 
-        const index = client.index(type + "s");
-
-        const { hits } = await index.search(query);
-
-        setResults(hits);
+        setResults(data);
       } catch (error) {
         console.error(error);
       } finally {
