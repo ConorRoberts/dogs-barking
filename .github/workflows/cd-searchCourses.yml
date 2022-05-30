@@ -47,12 +47,6 @@ jobs:
           --function-name ${{ env.FUNCTION_NAME }} \
           --timeout 30 \
           --environment "Variables={ \
-              NEO4J_HOST=${{secrets.NEO4J_HOST}}, \
-              NEO4J_PASSWORD=${{secrets.NEO4J_PASSWORD}}, \
-              NEO4J_USERNAME=${{secrets.NEO4J_USERNAME}}, \
-              OPENSEARCH_USERNAME=${{secrets.OPENSEARCH_USERNAME}}, \
-              OPENSEARCH_PASSWORD=${{secrets.OPENSEARCH_PASSWORD}}, \
-              OPENSEARCH_URL=${{secrets.OPENSEARCH_URL}}, \
               MEILISEARCH_HOST=${{secrets.MEILISEARCH_HOST}}, \
               MEILISEARCH_KEY=${{secrets.MEILISEARCH_KEY}} \
             }"
