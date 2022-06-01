@@ -1,0 +1,9 @@
+{
+  "name": "@dogs-barking/common",
+  "version": "1.0.3",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
