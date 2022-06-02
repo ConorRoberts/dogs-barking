@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Program from "@typedefs/Program";
+import Course from "@typedefs/Course";
 
 export interface UseCourseSearchParams {
   courseId: string;
@@ -14,7 +16,7 @@ interface Config {
  * Calls the API to get the course search results on update of the query params
  */
 const useSearch = (query: string, config?: Config) => {
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<(Course | Program)[]>([]);
   const [loading, setLoading] = useState(false);
 
   const { type = "course" } = config ?? {};
@@ -22,8 +24,11 @@ const useSearch = (query: string, config?: Config) => {
   useEffect(() => {
     // Fetch data from search endpoint
 
-    (async () => {
+    if (query.length === 0) {
+      return setResults([]);
+    }
 
+    (async () => {
       try {
         setLoading(true);
 

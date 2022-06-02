@@ -25,7 +25,7 @@ const Page = ({ program, nodes, edges }: PageProps) => {
         <h1>{program.name}</h1>
         <Link href={`/school/${program.school.id}`} passHref>
           <a className="primary-hover">
-            At<span className="mx-1 bg-white rounded-md dark:bg-gray-700 py-0.5 px-1">{program.school.name}</span>
+            At {program.school.name}
           </a>
         </Link>
       </div>

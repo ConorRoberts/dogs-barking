@@ -2,6 +2,8 @@ import useSearch from "@hooks/useSearch";
 import { AuthState } from "@redux/auth";
 import { RootState } from "@redux/store";
 import Course from "@typedefs/Course";
+import { PlannerSemesterData } from "@typedefs/DegreePlan";
+import PlannerSectionSelection from "@typedefs/PlannerSectionSelection";
 import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -12,29 +14,29 @@ interface Props {
   open: boolean;
   onClose: () => void;
   onSubmit: () => void;
-  semester: string;
+  semester: PlannerSemesterData;
 }
 
 const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Props) => {
   const [searchText, setSearchText] = useState("");
   const { results } = useSearch(searchText);
-  const [coursesToAdd, setCoursesToAdd] = useState([]);
+  const [selections, setSelections] = useState<PlannerSectionSelection[]>([]);
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
 
-  const credits = coursesToAdd.reduce((acc, c) => acc + c.credits, 0);
+  const credits = selections.reduce((acc, { course }) => acc + course.credits, 0);
 
   const handleSubmit = async () => {
     try {
       await axios.post(
-        `/api/degree-plan/semester/${semester}/courses`,
+        `/api/degree-plan/semester/${semester.id}/section`,
         {
-          courses: coursesToAdd.map((e) => e.id),
+          sections: selections.map(({ section }) => section.id),
         },
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
       );
-      setCoursesToAdd([]);
+      setSelections([]);
 
       onSubmit();
       onClose();
@@ -43,19 +45,19 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
     }
   };
 
-  const selectCourse = (course: Course) => {
-    const found = coursesToAdd.find((c) => c.id === course.id);
+  const selectSection = ({ section, course }: PlannerSectionSelection) => {
+    const found = selections.some((s) => s.section.id === section.id);
     if (found) {
       // Remove the course from the list
-      setCoursesToAdd(coursesToAdd.filter((c) => c.id !== course.id));
+      setSelections(selections.filter((s) => s.section.id === section.id));
     } else {
       // Add the course to the list
-      setCoursesToAdd([...new Set([...coursesToAdd, course])]);
+      setSelections([...new Set([...selections, { section, course }])]);
     }
   };
 
   return (
-    <Modal onClose={() => onClose()} open={open}>
+    <Modal onClose={() => onClose()} open={open} width={500}>
       <div className="relative mx-auto max-w-md w-full flex flex-col gap-4">
         <h3 className="text-xl font-normal text-center mb-2">Find your favourite courses</h3>
 
@@ -69,11 +71,11 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
         <div>
           <h4>Selected ({credits})</h4>
           <div className="flex flex-col gap-2">
-            {coursesToAdd.map((e) => (
+            {selections.map((e) => (
               <p
-                key={`course-to-add-${e.code}`}
+                key={`course-to-add-${e.course.code}-${e.section.code}`}
                 className="bg-white dark:bg-gray-800 rounded-md py-1 border border-gray-200 px-4 dark:border-gray-600">
-                {e.code}
+                {e.course.code} - {e.section.code}
               </p>
             ))}
           </div>
@@ -87,9 +89,9 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
             {results.slice(0, 10).map((e) => (
               <PlannerCourseSearchResult
                 key={e.id}
-                course={e}
-                selected={coursesToAdd.find((c) => e.id === c.id)}
-                selectCourse={selectCourse}
+                course={e as Course}
+                selected={selections.some(({ course }) => e.id === course.id)}
+                selectSection={selectSection}
               />
             ))}
           </div>

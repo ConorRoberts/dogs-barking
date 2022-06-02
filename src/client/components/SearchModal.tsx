@@ -1,6 +1,8 @@
 import useSearch from "@hooks/useSearch";
 import { SearchState, setOpen, setText } from "@redux/search";
 import { RootState } from "@redux/store";
+import Course from "@typedefs/Course";
+import Program from "@typedefs/Program";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -80,8 +82,8 @@ const SearchModal = () => {
             <Link href={`/${searchType}/${e.id}`} key={e.id} passHref>
               <a
                 className="px-4 py-0.5 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-white dark:hover:bg-gray-900 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16"
-                id={`home-course-search-result-${searchType === "course" ? e.code : e.short}`}>
-                <p>{searchType === "course" ? e.code : e.short}</p>
+                id={`home-course-search-result-${searchType === "course" ? (e as Course).code : (e as Program).short}`}>
+                <p>{searchType === "course" ? (e as Course).code : (e as Program).short}</p>
                 <p className="truncate">{e.name}</p>
               </a>
             </Link>

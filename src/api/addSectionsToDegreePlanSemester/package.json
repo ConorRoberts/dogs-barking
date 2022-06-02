@@ -1,5 +1,5 @@
 {
-  "name": "validateplan",
+  "name": "addsectionstodegreeplansemester",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-lambda": "^3.100.0",
     "jsonwebtoken": "^8.5.1",
     "neo4j-driver": "^4.4.5"
   }

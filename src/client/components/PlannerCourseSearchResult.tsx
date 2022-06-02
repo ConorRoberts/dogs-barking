@@ -3,38 +3,37 @@ import { useEffect, useState } from "react";
 import { RadioButtonEmptyIcon, RadioButtonFilledIcon } from "./Icons";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
+import Section from "@typedefs/Section";
+import PlannerSectionSelection from "@typedefs/PlannerSectionSelection";
 
-const PlannerCourseSearchResult = ({
-  course,
-  selected,
-  selectCourse,
-}: {
+interface Props {
   course: Course;
   selected: boolean;
-  selectCourse: (course: Course) => void;
-}) => {
+  selectSection: (course: PlannerSectionSelection) => void;
+}
+
+const PlannerCourseSearchResult = ({ course, selected, selectSection }: Props) => {
   const [open, setOpen] = useState(false);
+  const [sections, setSections] = useState<Section[]>([]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open || sections.length > 0) return;
 
     (async () => {
       try {
         const { data } = await axios.get(`/api/course/${course.id}/section`);
 
-        console.log(data);
+        setSections(data);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [open, course]);
+  }, [open, course, sections]);
 
   return (
     <div>
-      <div className={`py-0.5 transition-all duration-75 text-lg flex gap-2 sm:gap-16`}>
-        <div
-          className="p-1 rounded-md border border-gray-300 dark:bg-gray-800 flex items-center justify-center bg-white dark:border-gray-600"
-          onClick={() => selectCourse(course)}>
+      <div className={`py-0.5 transition-all duration-75 text-lg flex gap-2`}>
+        <div className="p-1 rounded-md border border-gray-300 dark:bg-gray-800 flex items-center justify-center bg-white dark:border-gray-600">
           {selected ? <RadioButtonFilledIcon size={15} /> : <RadioButtonEmptyIcon size={15} />}
         </div>
         <div
@@ -53,7 +52,17 @@ const PlannerCourseSearchResult = ({
             transition={{ duration: 0.4 }}
             className="overflow-hidden">
             <p>{course.description}</p>
-            <div></div>
+            <div className="flex flex-col divide-y dark:divide-gray-300">
+              {sections.map((section) => (
+                <div
+                  key={section.id}
+                  className="py-1 flex gap-2 dark:hover:bg-gray-700 cursor-pointer transition"
+                  onClick={() => selectSection({ section, course })}>
+                  <p>{section.code}</p>
+                  <p>{section.instructor.name}</p>
+                </div>
+              ))}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

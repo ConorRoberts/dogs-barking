@@ -24,11 +24,19 @@ exports.handler = async (event) => {
 
   const { records } = await session.run(
     ` 
-        MATCH (user:User)-[:HAS]->(plan:DegreePlan {id: $planId})
-        RETURN properties(plan) as plan,[(plan)-[:CONTAINS]->(semester:DegreePlanSemester) | {
-          semester: properties(semester),
-          courses: [(semester)-[:CONTAINS]->(course:Course) | properties(course)]
-        }] as semesters
+        MATCH (user: User)-[:HAS]->(plan: DegreePlan {id: $planId})
+        RETURN 
+          properties(plan) as plan,
+          [(plan)-[:CONTAINS]->(semester:DegreePlanSemester) | 
+            {
+              semester: properties(semester),
+              courses: [(semester)-[:CONTAINS]->(s:Section)<-[:HAS]->(c:Course) | 
+                {
+                  course: properties(c),
+                  section: properties(s)
+                }
+              ]
+          }] as semesters
     `,
     {
       id: sub,

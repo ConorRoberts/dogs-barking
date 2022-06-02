@@ -4,7 +4,6 @@
   "description": "",
   "scripts": {
     "save": "ts-node ./src/save.ts",
-    "save2": "ts-node ./src/save2.ts",
     "scrape": "ts-node ./src/scrape.ts"
   },
   "keywords": [],
