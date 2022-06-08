@@ -96,7 +96,8 @@ const Page = ({ schools }: PageProps) => {
             setTimeout(() => {
               setUpdateStatus("");
             }, 2500);
-          }}>
+          }}
+        >
           {({ values, handleChange, handleSubmit, touched, errors, isSubmitting }) => (
             <Form onSubmit={handleSubmit} className="flex flex-col gap-4 mx-auto max-w-md">
               <div>
@@ -155,7 +156,8 @@ const Page = ({ schools }: PageProps) => {
                   <div
                     className={`flex gap-4 items-center shadow-md dark:bg-gray-800 bg-white overflow-hidden rounded-t-md ${
                       showResults && results.length > 0 ? "rounded-b-none" : "rounded-b-md"
-                    }`}>
+                    }`}
+                  >
                     <Input
                       onChange={(e) => setCourseQuery(e.target.value)}
                       value={courseQuery}
@@ -170,7 +172,7 @@ const Page = ({ schools }: PageProps) => {
                   </div>
                   {showResults && (
                     <div className="absolute rounded-b-xl top-full left-0 right-0 z-20 shadow-md bg-white overflow-hidden divide-y divide-gray-100">
-                      {results.map((e) => (
+                      {results.map((e: Course) => (
                         <div
                           onClick={() => toggleCourse(e)}
                           key={e.id}
@@ -178,7 +180,8 @@ const Page = ({ schools }: PageProps) => {
                             [...newTakenCourses, ...user.takenCourses].find((c) => c.id === e.id)
                               ? "bg-blue-500 text-white hover:text-gray-200"
                               : "bg-white dark:bg-gray-800 hover:text-gray-500 dark:hover:text-gray-300"
-                          } px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm transition-all cursor-pointer duration-75 flex justify-between gap-8 sm:gap-16`}>
+                          } px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm transition-all cursor-pointer duration-75 flex justify-between gap-8 sm:gap-16`}
+                        >
                           <p>{e.code}</p>
                           <p className="truncate">{e.name}</p>
                         </div>

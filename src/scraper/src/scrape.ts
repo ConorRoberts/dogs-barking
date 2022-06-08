@@ -340,7 +340,7 @@ const s3 = new S3Client({
             .match(/[A-Z]{2,4}\*[0-9]{4}/) ?? [])[0].replace(/\*/g, "");
 
           log(chalk.yellow(`Have courses ${firstCourse} and ${newFirstCourse}`));
-        } while (newFirstCourse === firstCourse || tries++ < 25);
+        } while (newFirstCourse === firstCourse && tries++ < 25);
 
         courseElements = newCourseElements;
         firstCourse = newFirstCourse;

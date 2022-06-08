@@ -9,7 +9,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CourseSection from "./CourseSection";
-import { Button, Input, Modal } from "./form";
+import { Input, Modal } from "./form";
 import { LabIcon, LectureIcon } from "./Icons";
 import PlannerCourseSearchResult from "./PlannerCourseSearchResult";
 import PlannerCourseSearchSelections from "./PlannerCourseSearchSelections";
@@ -28,7 +28,6 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [sections, setSections] = useState<Section[]>([]);
-
 
   const handleSubmit = async () => {
     try {
