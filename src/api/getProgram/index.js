@@ -17,26 +17,37 @@ exports.handler = async (event) => {
     neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
   );
 
-  const session = driver.session();
+  let session = driver.session();
 
   const { records } = await session.run(
     `
         MATCH(program:Program {id: $programId})
         OPTIONAL MATCH major=(program)-[:REQUIRES|MAJOR_REQUIRES*]->(prereq)
-        OPTIONAL MATCH minor=(program)-[:REQUIRES|MINOR_REQUIRES*]->(prereq)
 
         MATCH (school:School)-[:OFFERS]->(program)
 
         return 
             properties(program) as program,
             properties(school) as school,
-            [n in nodes(major) | {data: properties(n), label: labels(n)[0]}] as major,
-            [n in nodes(minor) | {data: properties(n), label: labels(n)[0]}] as minor
+            [n in nodes(major) | {data: properties(n), label: labels(n)[0]}] as major
       `,
     { programId }
   );
-
   await session.close();
+
+  session = driver.session();
+  const { records: minorRecords } = await session.run(
+    `
+      MATCH(program:Program {id: $programId})
+      OPTIONAL MATCH minor=(program)-[:REQUIRES|MINOR_REQUIRES*]->(prereq)
+
+      RETURN
+        [n in nodes(minor) | {data: properties(n), label: labels(n)[0]}] as minor
+    `,
+    { programId }
+  );
+  await session.close();
+
   await driver.close();
 
   console.log(records);
@@ -71,8 +82,8 @@ exports.handler = async (event) => {
   }
 
   const minor = {};
-  if (records[0]?.get("minor") !== null) {
-    records
+  if (minorRecords[0]?.get("minor") !== null) {
+    minorRecords
       .map((e) => e.get("minor"))
       .forEach((list) => {
         let previous;
@@ -130,7 +141,7 @@ exports.handler = async (event) => {
       .map((e) => fillMajorTree(e.get("major")?.length > 1 ? e.get("major")[1]?.data?.id : null))
       .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
       .filter((e) => e !== undefined && e !== null),
-    minor: records
+    minor: minorRecords
       .map((e) => fillMinorTree(e.get("minor")?.length > 1 ? e.get("minor")[1]?.data?.id : null))
       .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
       .filter((e) => e !== undefined && e !== null),
