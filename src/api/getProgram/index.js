@@ -60,7 +60,7 @@ exports.handler = async (event) => {
             if (major[formatted.id] === undefined) major[formatted.id] = formatted;
 
             if (index > 1 && previous)
-              major[previous.id].requirements = [...new Set([...major[previous.id].major, formatted.id])];
+              major[previous.id].requirements = [...new Set([...major[previous.id].requirements, formatted.id])];
           }
 
           previous = formatted;
@@ -87,7 +87,7 @@ exports.handler = async (event) => {
             if (minor[formatted.id] === undefined) minor[formatted.id] = formatted;
 
             if (index > 1 && previous)
-              minor[previous.id].requirements = [...new Set([...minor[previous.id].minor, formatted.id])];
+              minor[previous.id].requirements = [...new Set([...minor[previous.id].requirements, formatted.id])];
           }
 
           previous = formatted;
