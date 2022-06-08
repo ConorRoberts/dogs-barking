@@ -13,10 +13,6 @@ interface Config {
   type?: "course" | "program";
 }
 
-const client = new MeiliSearch({
-  host: MEILISEARCH_HOST,
-  apiKey: MEILISEARCH_KEY,
-});
 
 /**
  * Calls the API to get the course search results on update of the query params
@@ -24,11 +20,15 @@ const client = new MeiliSearch({
 const useSearch = (query: string, config?: Config) => {
   const [results, setResults] = useState<(Course | Program)[]>([]);
   const [loading, setLoading] = useState(false);
-
+  
   const { type = "course" } = config ?? {};
-
+  
   useEffect(() => {
     // Fetch data from search endpoint
+    const client = new MeiliSearch({
+      host: `${location.protocol}//${MEILISEARCH_HOST}`,
+      apiKey: MEILISEARCH_KEY,
+    });
 
     if (query.length === 0) {
       return setResults([]);
