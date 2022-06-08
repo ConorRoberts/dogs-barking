@@ -26,7 +26,6 @@ exports.handler = async (event) => {
         OPTIONAL MATCH minor=(program)-[:REQUIRES|MINOR_REQUIRES*]->(prereq)
 
         MATCH (school:School)-[:OFFERS]->(program)
-        OPTIONAL MATCH (program)-[:HAS_RATING]->(rating:Rating)
 
         return 
             properties(program) as program,
@@ -61,7 +60,7 @@ exports.handler = async (event) => {
             if (major[formatted.id] === undefined) major[formatted.id] = formatted;
 
             if (index > 1 && previous)
-              major[previous.id].major = [...new Set([...major[previous.id].major, formatted.id])];
+              major[previous.id].requirements = [...new Set([...major[previous.id].major, formatted.id])];
           }
 
           previous = formatted;
@@ -88,7 +87,7 @@ exports.handler = async (event) => {
             if (minor[formatted.id] === undefined) minor[formatted.id] = formatted;
 
             if (index > 1 && previous)
-              minor[previous.id].minor = [...new Set([...minor[previous.id].minor, formatted.id])];
+              minor[previous.id].requirements = [...new Set([...minor[previous.id].minor, formatted.id])];
           }
 
           previous = formatted;
