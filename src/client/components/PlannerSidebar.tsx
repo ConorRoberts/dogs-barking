@@ -30,7 +30,7 @@ const PlannerSidebar = () => {
         setLoading((state) => ({ ...state, major: true }));
         try {
           const { data } = await axios.get<Program>(`/api/program/${user.major.id}`);
-          setMajorRequirements(data.requirements);
+          setMajorRequirements(data.major);
         } catch (error) {
           console.error(error);
         }
@@ -40,7 +40,7 @@ const PlannerSidebar = () => {
         setLoading((state) => ({ ...state, minor: true }));
         try {
           const { data } = await axios.get<Program>(`/api/program/${user.minor.id}`);
-          setMinorRequirements(data.requirements);
+          setMinorRequirements(data.minor);
         } catch (error) {
           console.error(error);
         }
