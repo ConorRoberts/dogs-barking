@@ -67,6 +67,14 @@ exports.handler = async (event) => {
             requirements: [],
           };
 
+          if (formatted.updatedAt !== undefined) {
+            formatted.updatedAt = formatted.updatedAt.low;
+          }
+
+          if (formatted.target !== undefined) {
+            formatted.target = formatted.target.low;
+          }
+
           // If this is the first element, skip it
           if (index !== 0) {
             // Are we missing this entry in our list?
@@ -93,6 +101,13 @@ exports.handler = async (event) => {
             label: e.label,
             requirements: [],
           };
+
+          if (formatted.target !== undefined) {
+            formatted.target = formatted.target.low;
+          }
+          if (formatted.updatedAt !== undefined) {
+            formatted.updatedAt = formatted.updatedAt.low;
+          }
 
           // If this is the first element, skip it
           if (index !== 0) {
