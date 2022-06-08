@@ -39,6 +39,8 @@ exports.handler = async (event) => {
   await session.close();
   await driver.close();
 
+  console.log(records);
+
   // This is to store the requirement tree. Object format is fastest for retrieval and duplicate prevention.
   const major = {};
 
@@ -51,7 +53,7 @@ exports.handler = async (event) => {
           const formatted = {
             ...e.data,
             label: e.label,
-            major: [],
+            requirements: [],
           };
 
           // If this is the first element, skip it
