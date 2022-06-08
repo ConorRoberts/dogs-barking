@@ -13,12 +13,12 @@ export interface MetaDataProps {
  * @param param0
  * @returns
  */
-const MetaData = ({ title, ...props }: MetaDataProps) => {
+const MetaData = ({ title, description, ...props }: MetaDataProps) => {
   return (
     <Head>
       <title>{`${title} - ${APP_NAME}`}</title>
       <meta property="og:title" content={`${title} - ${APP_NAME}`} />
-      <meta property="og:description" content={props.description} />
+      <meta property="og:description" content={description} />
       {props?.children && props.children}
     </Head>
   );

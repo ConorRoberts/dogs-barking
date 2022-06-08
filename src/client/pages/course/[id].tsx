@@ -146,7 +146,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
     };
   }
 
-  const { nodes, edges } = createPrerequisiteGraph(course);
+  const { nodes, edges } = createPrerequisiteGraph(course, course.requirements);
 
   return {
     props: {

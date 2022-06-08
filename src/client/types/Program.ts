@@ -6,7 +6,8 @@ type Program = {
   name: string;
   id: string;
   short: string;
-  requirements?: Requirement[];
+  major?: Requirement[];
+  minor?: Requirement[];
   school?: School;
 };
 

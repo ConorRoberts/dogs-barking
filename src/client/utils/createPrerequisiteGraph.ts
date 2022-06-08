@@ -1,10 +1,11 @@
 import Course from "@typedefs/Course";
 import Program from "@typedefs/Program";
+import Requirement from "@typedefs/Requirement";
 import { Edge, Node } from "react-flow-renderer";
 import formatNodes from "./formatNodes";
 
 interface Config {
-  type: "Program" | "Course";
+  type?: "Program" | "Course";
 }
 
 /**
@@ -12,7 +13,7 @@ interface Config {
  * @param nodeId
  * @returns
  */
-const createPrerequisiteGraph = (origin: Course | Program, config?: Config) => {
+const createPrerequisiteGraph = (origin: Course | Program, requirements: Requirement[], config?: Config) => {
   const nodes: (Node | Edge)[] = [
     {
       id: origin.id,
@@ -23,8 +24,8 @@ const createPrerequisiteGraph = (origin: Course | Program, config?: Config) => {
   ];
 
   try {
-    const populate = (parent) => {
-      parent.requirements.forEach((e) => {
+    const populate = (parent, requirements) => {
+      requirements.forEach((e) => {
         // Check if the node already exists. If not, add the node
         if (!nodes.find((n) => n?.id === e.id)) {
           nodes.push({
@@ -45,11 +46,11 @@ const createPrerequisiteGraph = (origin: Course | Program, config?: Config) => {
           });
         }
 
-        populate(e);
+        populate(e, e.requirements);
       });
     };
 
-    populate(origin);
+    populate(origin, requirements);
 
     return formatNodes(nodes);
   } catch (error) {
