@@ -22,7 +22,8 @@ exports.handler = async (event) => {
   const { records } = await session.run(
     `
         MATCH(program:Program {id: $programId})
-        OPTIONAL MATCH path=(program)-[:REQUIRES|MAJOR_REQUIRES*]->(prereq)
+        OPTIONAL MATCH major=(program)-[:REQUIRES|MAJOR_REQUIRES*]->(prereq)
+        OPTIONAL MATCH minor=(program)-[:REQUIRES|MINOR_REQUIRES*]->(prereq)
 
         MATCH (school:School)-[:OFFERS]->(program)
         OPTIONAL MATCH (program)-[:HAS_RATING]->(rating:Rating)
@@ -30,7 +31,8 @@ exports.handler = async (event) => {
         return 
             properties(program) as program,
             properties(school) as school,
-            [n in nodes(path) | {data: properties(n), label: labels(n)[0]}] as requirements
+            [n in nodes(major) | {data: properties(n), label: labels(n)[0]}] as major
+            [n in nodes(minor) | {data: properties(n), label: labels(n)[0]}] as minor
       `,
     { programId }
   );
@@ -39,11 +41,38 @@ exports.handler = async (event) => {
   await driver.close();
 
   // This is to store the requirement tree. Object format is fastest for retrieval and duplicate prevention.
-  const requirements = {};
+  const major = {};
 
-  if (records[0]?.get("requirements") !== null) {
+  if (records[0]?.get("major") !== null) {
     records
-      .map((e) => e.get("requirements"))
+      .map((e) => e.get("major"))
+      .forEach((list) => {
+        let previous;
+        list.forEach((e, index) => {
+          const formatted = {
+            ...e.data,
+            label: e.label,
+            major: [],
+          };
+
+          // If this is the first element, skip it
+          if (index !== 0) {
+            // Are we missing this entry in our list?
+            if (major[formatted.id] === undefined) major[formatted.id] = formatted;
+
+            if (index > 1 && previous)
+              major[previous.id].major = [...new Set([...major[previous.id].major, formatted.id])];
+          }
+
+          previous = formatted;
+        });
+      });
+  }
+
+  const minor = {};
+  if (records[0]?.get("minor") !== null) {
+    records
+      .map((e) => e.get("minor"))
       .forEach((list) => {
         let previous;
         list.forEach((e, index) => {
@@ -56,12 +85,10 @@ exports.handler = async (event) => {
           // If this is the first element, skip it
           if (index !== 0) {
             // Are we missing this entry in our list?
-            if (requirements[formatted.id] === undefined) requirements[formatted.id] = formatted;
+            if (minor[formatted.id] === undefined) minor[formatted.id] = formatted;
 
             if (index > 1 && previous)
-              requirements[previous.id].requirements = [
-                ...new Set([...requirements[previous.id].requirements, formatted.id]),
-              ];
+              minor[previous.id].minor = [...new Set([...minor[previous.id].minor, formatted.id])];
           }
 
           previous = formatted;
@@ -69,16 +96,28 @@ exports.handler = async (event) => {
       });
   }
 
-  console.log(requirements);
+  console.log(major);
+  console.log(minor);
 
-  const fillTree = (id) => {
-    const node = requirements[id];
+  const fillMajorTree = (id) => {
+    const node = major[id];
 
     if (!node) return null;
 
     return {
       ...node,
-      requirements: node?.requirements?.map((e) => fillTree(e)).filter((e) => e !== undefined && e !== null) ?? [],
+      requirements: node?.requirements?.map((e) => fillMajorTree(e)).filter((e) => e !== undefined && e !== null) ?? [],
+    };
+  };
+
+  const fillMinorTree = (id) => {
+    const node = minor[id];
+
+    if (!node) return null;
+
+    return {
+      ...node,
+      requirements: node?.requirements?.map((e) => fillMinorTree(e)).filter((e) => e !== undefined && e !== null) ?? [],
     };
   };
 
@@ -86,8 +125,12 @@ exports.handler = async (event) => {
     ...records[0].get("program"),
     school: records[0].get("school"),
     label: "Program",
-    requirements: records
-      .map((e) => fillTree(e.get("requirements")?.length > 1 ? e.get("requirements")[1]?.data?.id : null))
+    major: records
+      .map((e) => fillMajorTree(e.get("major")?.length > 1 ? e.get("major")[1]?.data?.id : null))
+      .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
+      .filter((e) => e !== undefined && e !== null),
+    minor: records
+      .map((e) => fillMinorTree(e.get("minor")?.length > 1 ? e.get("minor")[1]?.data?.id : null))
       .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
       .filter((e) => e !== undefined && e !== null),
   };
