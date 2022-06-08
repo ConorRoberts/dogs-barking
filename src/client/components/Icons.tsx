@@ -9,6 +9,7 @@ export {
   AiOutlineLoading as LoadingIcon,
   AiOutlineQuestionCircle as AboutIcon,
   AiFillLinkedin as LinkedInIcon,
+  AiOutlineSound as LectureIcon,
 } from "react-icons/ai";
 export { FaRandom as Random, FaGraduationCap as PlannerIcon, FaGithub as GitHubIcon } from "react-icons/fa";
 export { GiHamburgerMenu as Menu, GiNodular as GraphIcon } from "react-icons/gi";
@@ -45,3 +46,4 @@ export { FcGoogle as Google } from "react-icons/fc";
 export { GrImage as Image } from "react-icons/gr";
 export { GiCheckboxTree as Graph } from "react-icons/gi";
 export { BsArrowUpCircle as ArrowUp, BsArrowDownCircle as ArrowDown, BsTrash as TrashIcon } from "react-icons/bs";
+export { ImLab as LabIcon } from "react-icons/im";

@@ -1,23 +1,26 @@
 import { readdirSync, writeFileSync, readFileSync } from "fs";
 import { courseCodeRegex } from "./config";
-import getNeo4jDriver from "./getNeo4jDriver";
+import neo4j from "neo4j-driver";
 import chalk from "chalk";
 import dotenv from "dotenv";
 import { v4 } from "uuid";
 import convertTime from "./convertTime";
-// import { Client } from "@opensearch-project/opensearch";
+import { MeiliSearch } from "meilisearch";
 
-// const client = new Client({
-//   node: `https://${process.env.OPENSEARCH_USERNAME}:${process.env.OPENSEARCH_PASSWORD}@${process.env.OPENSEARCH_URL}`,
-// });
-
-const logs = [];
-
-const weekdays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-
-const save = async () => {
+(async () => {
   dotenv.config({ path: ".env" });
 
+  const driver = neo4j.driver(
+    `neo4j://${process.env.NEO4J_HOST}`,
+    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+  );
+
+  const client = new MeiliSearch({
+    host: process.env.MEILISEARCH_HOST,
+    apiKey: process.env.MEILISEARCH_KEY,
+  });
+
+  const logs = [];
   const startTime = new Date().getTime();
 
   const log = (msg: string) => {
@@ -36,26 +39,24 @@ const save = async () => {
     console.log(text);
   };
 
-  const files = readdirSync("./data/courses");
+  // const files = readdirSync("./data/courses");
 
   // Get file with greatest number
-  const file = files.reduce((prev, curr) => {
-    const prevNum = Number(prev.split(".")[0]);
-    const currNum = Number(curr.split(".")[0]);
-    return prevNum > currNum ? prev : curr;
-  });
+  // const file = files.reduce((prev, curr) => {
+  //   const prevNum = Number(prev.split(".")[0]);
+  //   const currNum = Number(curr.split(".")[0]);
+  //   return prevNum > currNum ? prev : curr;
+  // });
 
-  const data = JSON.parse(readFileSync("./data/courses/" + file, "utf-8"));
-  const driver = getNeo4jDriver();
+  // const data = JSON.parse(readFileSync("./data/courses/" + file, "utf-8"));
+
   let session = driver.session();
-
   // Clear database
-  await session.run(`
-    MATCH (e)
-    WHERE (e:OrBlock or e:Course or e:CreditRequirement or e:RegistrationRequirement or e:Program or e:Section or e:Instructor or e:Lecture)
-    DETACH DELETE e
-  `);
-
+  // await session.run(`
+  //     MATCH (e)
+  //     WHERE (e:OrBlock or e:Seminar or e:Tutorial or e:Lab or e:CreditRequirement or e:RegistrationRequirement or e:Section or e:Instructor or e:Lecture or e:Rating)
+  //     DETACH DELETE e
+  //   `);
   await session.close();
   // session = driver.session();
 
@@ -90,436 +91,332 @@ const save = async () => {
   // await session.close();
 
   // Add courses
-  for (const course of data.courses) {
-    try {
-      session = driver.session();
-      await session.run(
-        `
-        MATCH (school: School {short: "UOFG"})
+  // for (const course of data.courses) {
+  //   try {
+  //     session = driver.session();
+  //     await session.run(
+  //       `
+  //         MATCH (s: School {short: "UOFG"})
 
-        MERGE (course: Course {
-            code: $code
-        }) 
+  //         MERGE (c: Course {
+  //             code: $code
+  //         })
 
-        ON CREATE 
-          SET course.id = $id
-          SET course.name = $name
-          SET course.description = $description
-          SET course.credits = $credits
-          SET course.department = $department
-          SET course.number = $number
-          SET course.code = $code
+  //         ON CREATE
+  //           SET c.id = $id
+  //           SET c.name = $name
+  //           SET c.description = $description
+  //           SET c.credits = $credits
+  //           SET c.department = $department
+  //           SET c.number = $number
+  //           SET c.code = $code
+  //           SET c.updatedAt = timestamp()
 
-        MERGE (school)-[:OFFERS]->(course)
-        `,
-        { description: "", ...course, id: v4() }
-      );
-      await session.close();
+  //         CREATE (s)-[:OFFERS]->(c)
+  //       `,
+  //       { description: "", ...course }
+  //     );
+  //     await session.close();
 
-      log(chalk.green(`Added ${course.code}`));
-    } catch (error) {
-      console.error("Failed to add course: " + course.code);
-      log(chalk.red(error));
-    }
+  //     for (const section of course.sections) {
+  //       try {
+  //         session = driver.session();
+  //         await session.run(
+  //           `
+  //           MATCH (c:Course {code: $courseCode})
+  //           MERGE (c)-[:HAS]->(sec: Section {
+  //             code: $section.code
+  //           })
 
-    for (const sectionId of course.HAS_SECTION) {
-      const section = data.sections.find((e) => e.id === sectionId);
-      const instructor = data.instructors.find((e) => e.id === section.INSTRUCTED_BY);
-      if (!instructor || !section) continue;
-      const [semester, year] = section.term.split(" ").map((e: string) => e.trim().toLowerCase());
+  //           ON CREATE
+  //             SET sec.id = $section.id
+  //             SET sec.code = $section.code
+  //             SET sec.year = $section.year
+  //             SET sec.semester = $section.semester
+  //             SET sec.semester = $section.semester
+  //             SET sec.updatedAt = timestamp()
 
-      // Add section, instructors
-      session = driver.session();
-      await session.run(
-        `   
-            MATCH 
-            (school:School {short: "UOFG"})
-            -[:OFFERS]->
-            (course:Course {code: $courseCode})
+  //           WITH sec
 
-            CREATE (section:Section {
-                code: $section.code,
-                term: $section.term,
-                id: $section.id
-            })
+  //           MERGE (i:Instructor {
+  //             name: $section.instructor
+  //           })
 
-            CREATE (course)-[:HAS]->(section)
+  //           CREATE (sec)-[:INSTRUCTED_BY]->(i)
+  //         `,
+  //           { courseCode: course.code, section }
+  //         );
+  //         await session.close();
 
-            MERGE (instructor:Instructor {
-                name: $instructorName
-            })
 
-            CREATE (section)-[:INSTRUCTED_BY]->(instructor)
-        `,
-        {
-          section: {
-            ...section,
-            semester,
-            year: parseInt(year),
-            id: v4(),
-          },
-          courseCode: course.code,
-          instructorName: instructor.name,
-        }
-      );
-      await session.close();
+  //         // Add all meeting types
+  //         for (const meetingType of ["lectures", "labs", "exams", "seminars", "tutorials"]) {
+  //           try {
+  //             session = driver.session();
+  //             const label = meetingType[0].toUpperCase() + meetingType.slice(1, -1);
+  //             await session.run(
+  //               `
+  //               MATCH (:Course {code: $courseCode})-[:HAS]->(s: Section {code: $sectionCode})
 
-      for (const lectureId of section.HAS_LECTURE) {
-        const lecture = data.lectures.find((e) => e.id === lectureId);
-        if (!lecture) continue;
-        try {
-          session = driver.session();
-          await session.run(
-            `
-            MATCH 
-            (course:Course {code :$courseCode})
-            -[:HAS]->
-            (section:Section {code: $sectionCode})
+  //               UNWIND $meetings as meeting
 
-            CREATE (lecture:Lecture {
-                startTime: localtime($data.endTime),
-                endTime: localtime($data.endTime),
-                location: $data.location,
-                room: $data.room,
-                days: $data.days,
-                id: $data.id
-            })
+  //               MERGE (m: ${label} {
+  //                 days: meeting.days,
+  //                 startTime: localtime(meeting.startTime),
+  //                 endTime: localtime(meeting.endTime),
+  //                 room: meeting.room,
+  //                 location: meeting.location,
+  //                 seatsAvailable: meeting.seatsAvailable
+  //               })
 
-            CREATE (section)-[:HAS]->(lecture)
-        `,
-            {
-              data: {
-                ...lecture,
-                startTime: convertTime(lecture.startTime),
-                endTime: convertTime(lecture.endTime),
-                id: v4(),
-                days: weekdays.map((e) => lecture[e] && e).filter((e) => e),
-              },
-              courseCode: course.code,
-              sectionCode: section.code,
-            }
-          );
-          await session.close();
-        } catch (error) {
-          log(chalk.red(`Error creating lecture for ${course.code}`));
-        }
-      }
-      for (const labId of section.HAS_LAB) {
-        const lab = data.lectures.find((e) => e.id === labId);
-        if (!lab) continue;
-        try {
-          session = driver.session();
-          await session.run(
-            `
-            MATCH 
-            (course:Course {code: $courseCode})
-            -[:HAS]->
-            (section:Section {code: $sectionCode})
+  //               ON CREATE
+  //                 SET m.id = meeting.id
+  //                 SET m:Meeting
 
-            CREATE (lab:Lab {
-              startTime: localtime($data.endTime),
-              endTime: localtime($data.endTime),
-              location: $data.location,
-              room: $data.room,
-              days: $data.days,
-              id: $data.id
-            })
+  //               MERGE (s)-[:HAS]->(m)
+  //           `,
+  //               {
+  //                 meetings: section[meetingType].map((e) => ({
+  //                   ...e,
+  //                   startTime: convertTime(e.startTime),
+  //                   endTime: convertTime(e.endTime),
+  //                   seatsAvailable: isNaN(parseInt(e.seatsAvailable)) ? 0 : e.seatsAvailable,
+  //                 })),
+  //                 courseCode: course.code,
+  //                 sectionCode: section.code,
+  //               }
+  //             );
 
-            CREATE (section)-[:HAS]->(lab)
-        `,
-            {
-              data: {
-                ...lab,
-                startTime: convertTime(lab.startTime),
-                endTime: convertTime(lab.endTime),
-                id: v4(),
-                days: weekdays.map((e) => lab[e] && e).filter((e) => e),
-              },
-              courseCode: course.code,
-              sectionCode: section.code,
-            }
-          );
-          await session.close();
-        } catch (error) {
-          log(chalk.red(`Error creating lab for ${course.code}`));
-        }
-      }
-      for (const seminarId of section.HAS_SEMINAR) {
-        const seminar = data.seminars.find((e) => e.id === seminarId);
-        if (!seminar) continue;
-        try {
-          session = driver.session();
-          await session.run(
-            `
-            MATCH 
-            (course:Course {code :$courseCode})
-            -[:HAS]->
-            (section:Section {code: $sectionCode})
+  //             log(chalk.blueBright(`Added ${meetingType} for section ${section.code}`));
+  //           } catch (error) {
+  //             log(chalk.red(`Failed to add meeting type: ${meetingType}`));
+  //             log(chalk.red(error));
+  //           } finally {
+  //             await session.close();
+  //           }
+  //         }
+  //       } catch (error) {
+  //         log(chalk.red(`Failed to add section: ${section.id}`));
+  //         log(chalk.red(error));
+  //       }
+  //     }
 
-            CREATE (seminar:Seminar {
-              startTime: localtime($data.endTime),
-              endTime: localtime($data.endTime),
-              location: $data.location,
-              room: $data.room,
-              days: $data.days,
-              id: $data.id
-            })
+  //     log(chalk.green(`Added ${course.code}`));
+  //   } catch (error) {
+  //     log(chalk.red(`Failed to add course: ${course.code}`));
+  //     log(chalk.red(error));
+  //   }
+  // }
 
-            CREATE (section)-[:HAS]->(seminar)
-        `,
-            {
-              data: {
-                ...seminar,
-                startTime: convertTime(seminar.startTime),
-                endTime: convertTime(seminar.endTime),
-                id: v4(),
-                days: weekdays.map((e) => seminar[e] && e).filter((e) => e),
-              },
-              courseCode: course.code,
-              sectionCode: section.code,
-            }
-          );
-          await session.close();
-        } catch (error) {
-          log(chalk.red("Error creating seminar"));
-          console.error(error);
-        }
-      }
-      for (const tutorialId of section.HAS_SEMINAR) {
-        const tutorial = data.tutorials.find((e) => e.id === tutorialId);
-        if (!tutorial) continue;
-        try {
-          session = driver.session();
-          await session.run(
-            `
-            MATCH 
-            (course:Course {code :$courseCode})
-            -[:HAS]->
-            (section:Section {code: $sectionCode})
+  // // Polling requisite data and creating relationships between nodes
+  // for (const course of data.courses) {
+  //   // (ACCT*3330 or BUS*3330), (ACCT*3340 or BUS*3340)
+  //   // 15.00 credits including ACCT*3280, ACCT*3340, ACCT*3350
+  //   // CIS*2520, (CIS*2430 or ENGG*1420)
+  //   // [CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520
 
-            CREATE (tutorial:Tutorial $tutorial)
+  //   // Handle requisites
+  //   let requisiteText = course.requisites.replace("- Must be completed prior to taking this course.", "").trim();
 
-            CREATE (section)-[:HAS]->(tutorial)
-        `,
-            { tutorial, courseCode: course.code, sectionCode: section.code }
-          );
-          await session.close();
-        } catch (error) {
-          log(chalk.red("Error creating tutorial"));
-        }
-      }
-    }
-  }
+  //   log(chalk.gray(requisiteText));
 
-  // Polling requisite data and creating relationships between nodes
-  for (const course of data.courses) {
-    // (ACCT*3330 or BUS*3330), (ACCT*3340 or BUS*3340)
-    // 15.00 credits including ACCT*3280, ACCT*3340, ACCT*3350
-    // CIS*2520, (CIS*2430 or ENGG*1420)
-    // [CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520
+  //   const andRegex = /\([A-Z]{2,4}\*[0-9]{4} and [A-Z]{2,4}\*[0-9]{4}\)/g;
+  //   const andStatements = requisiteText.match(andRegex) ?? [];
 
-    // Handle requisites
-    let requisiteText = course.requisites.replace("- Must be completed prior to taking this course.", "").trim();
+  //   // ("[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520");
+  //   const andCount = 0;
+  //   for (const statement of andStatements) {
+  //     log(chalk.gray("And statement: " + statement));
+  //     requisiteText = requisiteText.replace(statement, "and" + andCount);
+  //     const courses = statement.match(courseCodeRegex);
 
-    log(chalk.gray(requisiteText));
+  //     const andBlockId = v4();
 
-    const andRegex = /\([A-Z]{2,4}\*[0-9]{4} and [A-Z]{2,4}\*[0-9]{4}\)/g;
-    const andStatements = requisiteText.match(andRegex) ?? [];
+  //     // Create an AndBlock
+  //     session = driver.session();
+  //     await session.run(
+  //       `
+  //       MATCH (c:Course {code: $code})
+  //       CREATE (andBlock:AndBlock {
+  //           id: $id
+  //       })
+  //       CREATE (c)-[:REQUIRES]->(andBlock)
+  //     `,
+  //       { code: course.code, id: andBlockId }
+  //     );
+  //     await session.close();
 
-    // ("[CIS*1910 or (CIS*2910 and ENGG*1500)], CIS*2520");
-    const andCount = 0;
-    for (const statement of andStatements) {
-      log(chalk.gray("And statement: " + statement));
-      requisiteText = requisiteText.replace(statement, "and" + andCount);
-      const courses = statement.match(courseCodeRegex);
+  //     for (const andBlockCourse of courses) {
+  //       session = driver.session();
+  //       await session.run(
+  //         `
+  //         MATCH (c:Course {code: $code})
+  //         CREATE (andBlock:AndBlock {
+  //             id: $id
+  //         })
+  //         CREATE (c)-[:REQUIRES]->(andBlock)
+  //       `,
+  //         { code: andBlockCourse.replace("*", ""), id: andBlockId }
+  //       );
+  //       await session.close();
 
-      const andBlockId = v4();
+  //       for (const andBlockCourse of courses) {
+  //         session = driver.session();
+  //         await session.run(
+  //           `
+  //           MATCH (c:Course {code: $code})
+  //           MATCH (block:AndBlock {id: $andBlockId})
+  //           CREATE (block)-[:REQUIRES]->(c)
+  //         `,
+  //           { code: andBlockCourse, andBlockId }
+  //         );
+  //         await session.close();
+  //       }
+  //     }
+  //   }
 
-      // Create an AndBlock
-      session = driver.session();
-      await session.run(
-        `
-        MATCH (c:Course {code: $code})
-        CREATE (andBlock:AndBlock {
-            id: $id
-        })
-        CREATE (c)-[:REQUIRES]->(andBlock)
-      `,
-        { code: course.code, id: andBlockId }
-      );
-      await session.close();
+  //   const oneOfRegex = /[0-9]+ of ([A-Z]{2,4}\*[0-9]{4}, )+[A-Z]{2,4}\*[0-9]{4}/g;
+  //   const numberOfStatements = requisiteText.match(oneOfRegex) ?? [];
+  //   requisiteText = requisiteText.replaceAll(oneOfRegex, "");
 
-      for (const andBlockCourse of courses) {
-        session = driver.session();
-        await session.run(
-          `
-          MATCH (c:Course {code: $code})
-          CREATE (andBlock:AndBlock {
-              id: $id
-          })
-          CREATE (c)-[:REQUIRES]->(andBlock)
-        `,
-          { code: andBlockCourse.replace("*", ""), id: andBlockId }
-        );
-        await session.close();
+  //   // ("3 of CIS*1200, CIS*1300, CIS*1500");
+  //   for (const statement of numberOfStatements) {
+  //     const numCourses = statement.match(/^[0-9]+/g).at(0);
 
-        for (const andBlockCourse of courses) {
-          session = driver.session();
-          await session.run(
-            `
-            MATCH (c:Course {code: $code})
-            MATCH (block:AndBlock {id: $andBlockId})
-            CREATE (block)-[:REQUIRES]->(c)
-          `,
-            { code: andBlockCourse, andBlockId }
-          );
-          await session.close();
-        }
-      }
-    }
+  //     const courses = statement.match(courseCodeRegex) ?? [];
 
-    const oneOfRegex = /[0-9]+ of ([A-Z]{2,4}\*[0-9]{4}, )+[A-Z]{2,4}\*[0-9]{4}/g;
-    const numberOfStatements = requisiteText.match(oneOfRegex) ?? [];
-    requisiteText = requisiteText.replaceAll(oneOfRegex, "");
+  //     const orBlockId = v4();
 
-    // ("3 of CIS*1200, CIS*1300, CIS*1500");
-    for (const statement of numberOfStatements) {
-      const numCourses = statement.match(/^[0-9]+/g).at(0);
+  //     // Create an OrBlock using numCourses as target
+  //     session = driver.session();
+  //     await session.run(
+  //       `
+  //         MATCH (c:Course {code: $code})
+  //         CREATE (orBlock:OrBlock {
+  //             target: $numCourses,
+  //             id: $id,
+  //             type: "course"
+  //         })
+  //         CREATE (c)-[:REQUIRES]->(orBlock)
+  //       `,
+  //       { code: course.code.replace("*", ""), numCourses: Number(numCourses), id: orBlockId }
+  //     );
+  //     await session.close();
 
-      const courses = statement.match(courseCodeRegex) ?? [];
+  //     // log(chalk.yellow(`Added OrBlock for ${course.code.replace("*", "")}`));
 
-      const orBlockId = v4();
+  //     // Attach courses to that OrBlock
+  //     for (const orBlockCourse of courses) {
+  //       session = driver.session();
+  //       await session.run(
+  //         `
+  //           MATCH (c:Course {code: $code})
+  //           MATCH (block:OrBlock {id: $orBlockId})
+  //           CREATE (block)-[:REQUIRES]->(c)
+  //         `,
+  //         { code: orBlockCourse.replace("*", ""), numCourses: Number(numCourses), orBlockId }
+  //       );
+  //       await session.close();
 
-      // Create an OrBlock using numCourses as target
-      session = driver.session();
-      await session.run(
-        `
-          MATCH (c:Course {code: $code})
-          CREATE (orBlock:OrBlock {
-              target: $numCourses,
-              id: $id,
-              type: "course"
-          })
-          CREATE (c)-[:REQUIRES]->(orBlock)
-        `,
-        { code: course.code.replace("*", ""), numCourses: Number(numCourses), id: orBlockId }
-      );
-      await session.close();
+  //       log(
+  //         chalk.yellowBright(
+  //           `Added link ${course.code.replace("*", "")} -> OrBlock -> ${orBlockCourse.replace("*", "")}`
+  //         )
+  //       );
+  //     }
+  //   }
 
-      // log(chalk.yellow(`Added OrBlock for ${course.code.replace("*", "")}`));
+  //   const creditRequirementRegex = /[0-9]+\.[0-9]+ credits including/g;
+  //   const creditRequirementStatements = requisiteText.match(creditRequirementRegex) ?? [];
+  //   requisiteText = requisiteText.replaceAll(creditRequirementRegex, "");
 
-      // Attach courses to that OrBlock
-      for (const orBlockCourse of courses) {
-        session = driver.session();
-        await session.run(
-          `
-            MATCH (c:Course {code: $code})
-            MATCH (block:OrBlock {id: $orBlockId})
-            CREATE (block)-[:REQUIRES]->(c)
-          `,
-          { code: orBlockCourse.replace("*", ""), numCourses: Number(numCourses), orBlockId }
-        );
-        await session.close();
+  //   for (const statement of creditRequirementStatements) {
+  //     const creditRequirementId = v4();
+  //     const value = Number(statement.match(/[0-9]+\.[0-9]+/g).at(0));
 
-        log(
-          chalk.yellowBright(
-            `Added link ${course.code.replace("*", "")} -> OrBlock -> ${orBlockCourse.replace("*", "")}`
-          )
-        );
-      }
-    }
+  //     // Create an OrBlock using numCourses as target
+  //     session = driver.session();
+  //     await session.run(
+  //       `
+  //         MATCH (c:Course {code: $code})
+  //         CREATE (creditRequirement:CreditRequirement {
+  //             value: $value,
+  //             id: $id
+  //         })
+  //         CREATE (c)-[:REQUIRES]->(creditRequirement)
+  //       `,
+  //       { code: course.code.replace("*", ""), id: creditRequirementId, value }
+  //     );
+  //     await session.close();
 
-    const creditRequirementRegex = /[0-9]+\.[0-9]+ credits including/g;
-    const creditRequirementStatements = requisiteText.match(creditRequirementRegex) ?? [];
-    requisiteText = requisiteText.replaceAll(creditRequirementRegex, "");
+  //     log(chalk.yellowBright(`Added link ${course.code.replace("*", "")} -> CreditRequirement (${value} credits)`));
+  //   }
 
-    for (const statement of creditRequirementStatements) {
-      const creditRequirementId = v4();
-      const value = Number(statement.match(/[0-9]+\.[0-9]+/g).at(0));
+  //   const multipleOrRegex = /[A-Z]{2,4}\*[0-9]{4}( or [A-Z]{2,4}\*[0-9]{4})+/g;
+  //   const multipleOrStatements = requisiteText.match(multipleOrRegex) ?? [];
+  //   requisiteText = requisiteText.replaceAll(multipleOrRegex, "");
 
-      // Create an OrBlock using numCourses as target
-      session = driver.session();
-      await session.run(
-        `
-          MATCH (c:Course {code: $code})
-          CREATE (creditRequirement:CreditRequirement {
-              value: $value,
-              id: $id
-          })
-          CREATE (c)-[:REQUIRES]->(creditRequirement)
-        `,
-        { code: course.code.replace("*", ""), id: creditRequirementId, value }
-      );
-      await session.close();
+  //   for (const statement of multipleOrStatements) {
+  //     const courses = statement.match(courseCodeRegex) ?? [];
 
-      log(chalk.yellowBright(`Added link ${course.code.replace("*", "")} -> CreditRequirement (${value} credits)`));
-    }
+  //     const orBlockId = v4();
 
-    const multipleOrRegex = /[A-Z]{2,4}\*[0-9]{4}( or [A-Z]{2,4}\*[0-9]{4})+/g;
-    const multipleOrStatements = requisiteText.match(multipleOrRegex) ?? [];
-    requisiteText = requisiteText.replaceAll(multipleOrRegex, "");
+  //     // Create an OrBlock using numCourses as target
+  //     session = driver.session();
+  //     await session.run(
+  //       `
+  //         MATCH (c:Course {code: $code})
+  //         CREATE (orBlock:OrBlock {
+  //             target: $numCourses,
+  //             id: $id,
+  //             type: "course"
+  //         })
+  //         CREATE (c)-[:REQUIRES]->(orBlock)
+  //       `,
+  //       { code: course.code.replace("*", ""), numCourses: 1, id: orBlockId }
+  //     );
+  //     await session.close();
 
-    for (const statement of multipleOrStatements) {
-      const courses = statement.match(courseCodeRegex) ?? [];
+  //     log(chalk.yellow(`Added OrBlock for ${course.code.replace("*", "")}`));
 
-      const orBlockId = v4();
+  //     // Attach courses to that OrBlock
+  //     for (const orBlockCourse of courses) {
+  //       session = driver.session();
+  //       await session.run(
+  //         `
+  //           MATCH (c:Course {code: $code})
+  //           MATCH (block:OrBlock {id: $orBlockId})
+  //           CREATE (block)-[:REQUIRES]->(c)
+  //         `,
+  //         { code: orBlockCourse.replace("*", ""), numCourses: courses.length, orBlockId }
+  //       );
+  //       await session.close();
 
-      // Create an OrBlock using numCourses as target
-      session = driver.session();
-      await session.run(
-        `
-          MATCH (c:Course {code: $code})
-          CREATE (orBlock:OrBlock {
-              target: $numCourses,
-              id: $id,
-              type: "course"
-          })
-          CREATE (c)-[:REQUIRES]->(orBlock)
-        `,
-        { code: course.code.replace("*", ""), numCourses: 1, id: orBlockId }
-      );
-      await session.close();
+  //       log(
+  //         chalk.yellowBright(
+  //           `Added link ${course.code.replace("*", "")} -> OrBlock -> ${orBlockCourse.replace("*", "")}`
+  //         )
+  //       );
+  //     }
+  //   }
 
-      log(chalk.yellow(`Added OrBlock for ${course.code.replace("*", "")}`));
+  //   const courses = requisiteText.match(courseCodeRegex) ?? [];
 
-      // Attach courses to that OrBlock
-      for (const orBlockCourse of courses) {
-        session = driver.session();
-        await session.run(
-          `
-            MATCH (c:Course {code: $code})
-            MATCH (block:OrBlock {id: $orBlockId})
-            CREATE (block)-[:REQUIRES]->(c)
-          `,
-          { code: orBlockCourse.replace("*", ""), numCourses: courses.length, orBlockId }
-        );
-        await session.close();
+  //   for (const requisite of courses) {
+  //     session = driver.session();
+  //     await session.run(
+  //       `
+  //         MATCH (c:Course {code: $code})
+  //         MATCH (req:Course {code: $requisiteCode})
+  //         CREATE (c)-[:REQUIRES]->(req)
+  //       `,
+  //       { code: course.code.replace("*", ""), id: v4(), requisiteCode: requisite.replace("*", "") }
+  //     );
+  //     await session.close();
 
-        log(
-          chalk.yellowBright(
-            `Added link ${course.code.replace("*", "")} -> OrBlock -> ${orBlockCourse.replace("*", "")}`
-          )
-        );
-      }
-    }
-
-    const courses = requisiteText.match(courseCodeRegex) ?? [];
-
-    for (const requisite of courses) {
-      session = driver.session();
-      await session.run(
-        `
-          MATCH (c:Course {code: $code})
-          MATCH (req:Course {code: $requisiteCode})
-          CREATE (c)-[:REQUIRES]->(req)
-        `,
-        { code: course.code.replace("*", ""), id: v4(), requisiteCode: requisite.replace("*", "") }
-      );
-      await session.close();
-
-      log(chalk.yellowBright(`Added link ${course.code.replace("*", "")} -> ${requisite.replace("*", "")}`));
-    }
-  }
+  //     log(chalk.yellowBright(`Added link ${course.code.replace("*", "")} -> ${requisite.replace("*", "")}`));
+  //   }
+  // }
 
   const programsFolderFiles = readdirSync("./data/programs");
 
@@ -545,12 +442,15 @@ const save = async () => {
         `
           MATCH (school: School {short: $school})
 
-          CREATE (program: Program {
+          MERGE (program: Program {
             short: $short,
-            name: $name,
-            degree: $degree,
-            id: $programId
+            degree: $degree
           })
+
+          ON CREATE
+            SET program.id = $programId
+            SET program.name = $name
+            SET program.updatedAt = timestamp()
 
           CREATE (school)-[:OFFERS]->(program)
         `,
@@ -571,8 +471,6 @@ const save = async () => {
             await session.run(
               `
                 MATCH (program:Program {id: $programId})
-
-                SET program: Major
 
                 CREATE (block:OrBlock {
                   id: $blockId,
@@ -629,7 +527,7 @@ const save = async () => {
               level: $level,
               type: $type
             })
-            
+
           `,
             {
               programId,
@@ -703,141 +601,54 @@ const save = async () => {
 
   try {
     session = driver.session();
-    // Create fulltext search index for courses
-    await session.run(
-      `
-      CREATE INDEX FOR (n:Course) ON (n.id,n.code)
-      `
-    );
-    await session.close();
-  } catch (error) {
-    log(chalk.red(error));
-  }
-  try {
-    session = driver.session();
-    await session.run(
-      `
-      CREATE FULLTEXT INDEX courseSearch FOR (n:Course) ON EACH [n.name,n.code,n.description,n.credits,n.number,n.department]
-      `
-    );
-    await session.close();
-  } catch (error) {
-    log(chalk.red(error));
-  }
 
-  try {
-    session = driver.session();
-    // Create fulltext search index for courses
-    await session.run(
-      `
-      CREATE INDEX FOR (n:Program) ON (n.id)
-      `
-    );
+    // Get programs from Neo4j
+    const { records } = await session.run(`
+        MATCH (program:Program)
+  
+        RETURN 
+          collect(properties(program)) as programs
+    `);
     await session.close();
-  } catch (error) {
-    log(chalk.red(error));
-  }
-  try {
-    session = driver.session();
-    await session.run(
-      `
-      CREATE FULLTEXT INDEX programSearch FOR (n:Program) ON EACH [n.name,n.short,n.degree]
-      `
-    );
-    await session.close();
+
+    // Specify which index we want to change
+    const index = client.index("programs");
+
+    // Clear index in case some IDs have changed
+    await index.deleteAllDocuments();
+
+    // Re-add all programs
+    await index.addDocuments(records[0].get("programs"));
+
+    log("Added programs to program index.");
   } catch (error) {
     log(chalk.red(error));
   }
 
-  // Delete programs index
   // try {
-  //   await client.indices.delete({
-  //     index: "programs",
-  //   });
+  //   session = driver.session();
+  //   // Get all courses from Neo4j
+  //   const { records } = await session.run(`
+  //       MATCH (course:Course)
+  
+  //       RETURN 
+  //         collect(properties(course)) as courses
+  //   `);
+  //   await session.close();
+
+  //   // Specify which index we want to change
+  //   const index = client.index("courses");
+
+  //   // Clear index in case some IDs have changed
+  //   await index.deleteAllDocuments();
+
+  //   // Add all courses to the courses index
+  //   await index.addDocuments(records[0].get("courses"));
+  //   log("Added courses to course index.");
   // } catch (error) {
   //   log(chalk.red(error));
   // }
 
-  // Create programs index
-  // try {
-  //   await client.indices.create({
-  //     index: "programs",
-  //     body: {
-  //       settings: {
-  //         index: {
-  //           number_of_shards: 4,
-  //           number_of_replicas: 3,
-  //         },
-  //       },
-  //     },
-  //   });
-  // } catch (error) {
-  //   log(chalk.red(error));
-  // }
-
-  // Delete courses index
-  // try {
-  //   await client.indices.delete({
-  //     index: "courses",
-  //   });
-  // } catch (error) {
-  //   log(chalk.red(error));
-  // }
-
-  // Create courses index
-  // try {
-  //   await client.indices.create({
-  //     index: "courses",
-  //     body: {
-  //       settings: {
-  //         index: {
-  //           number_of_shards: 4,
-  //           number_of_replicas: 3,
-  //         },
-  //       },
-  //     },
-  //   });
-  // } catch (error) {
-  //   log(chalk.red(error));
-  // }
-
-  // Get courses and programs from Neo4j
-  session = driver.session();
-  const { records } = await session.run(`
-    MATCH (course:Program)
-    MATCH (program:Program)
-
-    RETURN 
-      collect(properties(program)) as programs,
-      collect(properties(course)) as courses
-  `);
-  await session.close();
-  await driver.close();
-
-  // Add programs to index
-  // for (const program of records[0].get("programs")) {
-  //   await client.index({
-  //     id: program.id,
-  //     index: "programs",
-  //     body: program,
-  //     refresh: true,
-  //   });
-  //   log(`[OpenSearch] Added program: ${program.short}`);
-  // }
-
-  // Add courses to indx
-  // for (const course of records[0].get("courses")) {
-  //   await client.index({
-  //     id: course.id,
-  //     index: "courses",
-  //     body: course,
-  //     refresh: true,
-  //   });
-  //   log(`[OpenSearch] Added course: ${course.code}`);
-  // }
-};
-
-(async () => {
-  await save();
   writeFileSync("logs.txt", logs.join("\n"));
+  await driver.close();
 })();

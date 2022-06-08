@@ -13,20 +13,24 @@ import { Edge, Node } from "react-flow-renderer";
 
 interface PageProps {
   program: Program;
-  nodes: Node<Course>[];
-  edges: Edge[];
+  majorGraph: {
+    nodes: Node<Course>[];
+    edges: Edge[];
+  };
+  minorGraph: {
+    nodes: Node<Course>[];
+    edges: Edge[];
+  };
 }
 
-const Page = ({ program, nodes, edges }: PageProps) => {
+const Page = ({ program, majorGraph, minorGraph }: PageProps) => {
   const [viewType, setViewType] = useState<"default" | "graph">("default");
   return (
     <div className="mx-auto max-w-5xl w-full flex flex-col gap-16">
       <div className="text-center grid gap-2">
         <h1>{program.name}</h1>
         <Link href={`/school/${program.school.id}`} passHref>
-          <a className="primary-hover">
-            At<span className="mx-1 bg-white rounded-md dark:bg-gray-700 py-0.5 px-1">{program.school.name}</span>
-          </a>
+          <a className="primary-hover">At {program.school.name}</a>
         </Link>
       </div>
 
@@ -38,8 +42,14 @@ const Page = ({ program, nodes, edges }: PageProps) => {
             <p className="sm:block hidden">View Graph</p>
           </Button>
         </div>
-        {viewType === "default" && <RequirementsList requirements={program.requirements} />}
-        {viewType === "graph" && <CourseGraph nodes={nodes} edges={edges} />}
+        {viewType === "default" && program.major.length > 0 && <RequirementsList requirements={program.major} />}
+        {viewType === "graph" && program.major.length > 0 && (
+          <CourseGraph nodes={majorGraph.nodes} edges={majorGraph.edges} />
+        )}
+        {viewType === "default" && program.minor.length > 0 && <RequirementsList requirements={program.minor} />}
+        {viewType === "graph" && program.minor.length > 0 && (
+          <CourseGraph nodes={minorGraph.nodes} edges={minorGraph.edges} />
+        )}
       </div>
     </div>
   );
@@ -51,13 +61,26 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const data = await fetch(`${API_URL}/program/${programId}`, { method: "GET" });
   const program = (await data.json()) as Program;
 
-  const { nodes, edges } = createPrerequisiteGraph(program, { type: "Program" });
+  console.log(program);
+
+  const { nodes: majorNodes, edges: majorEdges } = createPrerequisiteGraph(program, program.major, {
+    type: "Program",
+  });
+  const { nodes: minorNodes, edges: minorEdges } = createPrerequisiteGraph(program, program.minor, {
+    type: "Program",
+  });
 
   return {
     props: {
       program,
-      nodes,
-      edges,
+      majorGraph: {
+        nodes: majorNodes,
+        edges: majorEdges,
+      },
+      minorGraph: {
+        nodes: minorNodes,
+        edges: minorEdges,
+      },
     },
   };
 };

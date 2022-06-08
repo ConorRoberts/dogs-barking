@@ -1,4 +1,5 @@
 import { AuthState } from "@redux/auth";
+import { PlannerState } from "@redux/planner";
 import { RootState } from "@redux/store";
 import Program from "@typedefs/Program";
 import Requirement from "@typedefs/Requirement";
@@ -13,6 +14,15 @@ const PlannerSidebar = () => {
   const [minorRequirements, setMinorRequirements] = useState<Requirement[]>([]);
   const [loading, setLoading] = useState({ major: false, minor: false });
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
+
+  const plannedCourses = plan?.semesters
+    ?.map((e) => e.courses)
+    .flat()
+    .concat(...user.takenCourses);
+
+  const progressPercentage = 50;
+
   useEffect(() => {
     if (!user) return;
     (async () => {
@@ -20,7 +30,7 @@ const PlannerSidebar = () => {
         setLoading((state) => ({ ...state, major: true }));
         try {
           const { data } = await axios.get<Program>(`/api/program/${user.major.id}`);
-          setMajorRequirements(data.requirements);
+          setMajorRequirements(data.major);
         } catch (error) {
           console.error(error);
         }
@@ -30,7 +40,7 @@ const PlannerSidebar = () => {
         setLoading((state) => ({ ...state, minor: true }));
         try {
           const { data } = await axios.get<Program>(`/api/program/${user.minor.id}`);
-          setMinorRequirements(data.requirements);
+          setMinorRequirements(data.minor);
         } catch (error) {
           console.error(error);
         }
@@ -38,9 +48,12 @@ const PlannerSidebar = () => {
       }
     })();
   }, [user]);
+
   return (
     <div className="hidden md:block overflow-y-auto max-h-full border-l border-gray-100 dark:border-gray-700 p-4">
       <h2 className="text-center">Progress</h2>
+
+      <p>{plannedCourses?.reduce((a, b) => a + b.credits, 0)} credits / 20</p>
 
       <div className="flex flex-col py-4">
         <div>

@@ -26,7 +26,14 @@ exports.handler = async (event) => {
     `
       MATCH (user:User {id: $userId})-[:HAS]->(dp:DegreePlan)-[:CONTAINS]->(semester: DegreePlanSemester {id: $semesterId})
       
-      return properties(semester) as semester, [(semester)-[:CONTAINS]->(course:Course) | properties(course)] as courses
+      RETURN 
+        properties(semester) as semester, 
+        [(semester)-[:CONTAINS]->(s:Section)<-[:HAS]->(c:Course) | 
+          {
+            course: properties(c),
+            section: properties(s)
+          }
+        ] as courses
       `,
     { userId: sub, semesterId }
   );

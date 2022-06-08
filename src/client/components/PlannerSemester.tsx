@@ -1,8 +1,7 @@
 import { PlannerSemesterData } from "@typedefs/DegreePlan";
-import { FormEvent, KeyboardEvent, KeyboardEventHandler, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { CloseIcon, LoadingIcon, PencilIcon, PlusIcon, SaveIcon } from "./Icons";
 import axios from "axios";
-import PlannerSemesterCourse from "./PlannerSemesterCourse";
 import PlannerSemesterCourseSearch from "./PlannerSemesterCourseSearch";
 import PlannerSemesterDeletePrompt from "./PlannerSemesterDeletePrompt";
 import { Button, Input, Select } from "./form";
@@ -138,7 +137,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
         open={showCourseSelect}
         onSubmit={() => fetchSemesterData()}
         onClose={() => setShowCourseSelect(false)}
-        semester={id}
+        semester={data}
       />
       <div className="flex justify-between gap-4 items-center">
         {!editing && (
@@ -187,7 +186,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
         {data.courses.map((course, index) => (
           <div className="py-1 px-2 grid grid-cols-6 items-center" key={`${id}-${course.id}-${index}`}>
             <p className="col-span-4">{course.code}</p>
-            <p className="">{course.credits}</p>
+            <p>{course.credits}</p>
             <CloseIcon size={15} className="ml-auto primary-hover" onClick={() => removeCourse(course.id)} />
           </div>
         ))}

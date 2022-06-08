@@ -10,6 +10,7 @@ import { groupBy } from "lodash";
 import PlannerYear from "@components/PlannerYear";
 import { PlannerState, setPlan } from "@redux/planner";
 import PlannerSidebar from "@components/PlannerSidebar";
+import MetaData from "@components/MetaData";
 
 const Page = () => {
   const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
@@ -116,10 +117,11 @@ const Page = () => {
     }
   }, [plan]);
 
-  if (!user || planLoading) return <LoadingScreen />;
+  if (!user || (planLoading && selectedPlanId !== "none")) return <LoadingScreen />;
 
   return (
     <div className="grid flex-1 md:grid-cols-4">
+      <MetaData title="Degree Planner" />
       <div className="p-2 flex flex-col gap-8 mx-auto max-w-4xl w-full overflow-y-auto col-span-3">
         <div>
           <h1 className="text-center">Degree Planner</h1>
