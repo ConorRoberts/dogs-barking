@@ -31,7 +31,7 @@ exports.handler = async (event) => {
         return 
             properties(program) as program,
             properties(school) as school,
-            [n in nodes(major) | {data: properties(n), label: labels(n)[0]}] as major
+            [n in nodes(major) | {data: properties(n), label: labels(n)[0]}] as major,
             [n in nodes(minor) | {data: properties(n), label: labels(n)[0]}] as minor
       `,
     { programId }
