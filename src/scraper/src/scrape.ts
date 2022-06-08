@@ -1,7 +1,11 @@
-import { writeFileSync } from "fs";
-import { devices, chromium, ElementHandle } from "@playwright/test";
+import { readFileSync, writeFileSync } from "fs";
+import { chromium, ElementHandle } from "@playwright/test";
 import chalk from "chalk";
 import { v4 } from "uuid";
+import { S3Client, UploadPartCommand } from "@aws-sdk/client-s3";
+import dotenv from "dotenv";
+
+dotenv.config({ path: ".env" });
 
 export type Meeting = {
   days: string[];
@@ -40,11 +44,20 @@ const timestamp = new Date().getTime();
 
 const baseUrl = "https://colleague-ss.uoguelph.ca";
 
+const s3 = new S3Client({
+  region: "us-east-1",
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+  },
+});
+
 (async () => {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({ headless: true });
 
   const context = await browser.newContext({
-    ...devices["Desktop Chrome"],
+    userAgent:
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36",
   });
 
   const startTime = new Date().getTime();
@@ -76,12 +89,24 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
     const dptPage = await context.newPage();
     const slug = await dpt.getAttribute("href");
     await dptPage.goto(baseUrl + slug);
+
+    await dptPage.waitForTimeout(1000);
+    // await dptPage.reload();
     let currentPage = 1;
 
     try {
       // Wait for the first course in the list to render (5s maximum)
       await dptPage.waitForSelector("#course-resultul > li:nth-child(1) span[id^=course-]", { timeout: 5000 });
+
+      // const loadingElement = dptPage.locator("#aria-announcements:empty");
+
+      const loadingElement = dptPage.locator("#collapsible-1-groupHeading").first();
+      await loadingElement.waitFor({ state: "attached", timeout: 5000 });
+      // log("Loading element found");
+      // await loadingElement.waitFor({ state: "detached", timeout: 5000 });
+      // log("Loading is now empty");
     } catch (error) {
+      log(chalk.red(error));
       continue;
     }
 
@@ -184,6 +209,8 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
                   semester: semester.toLowerCase(),
                   year: parseInt(year),
                   instructor: "",
+                  seatsAvailable:
+                    parseInt(await sectionElement.$eval("span.search-seatsavailabletext", (e) => e.textContent)) ?? 0,
                 };
 
                 const lectures = [];
@@ -246,7 +273,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
 
                   // LAB, LEC, SEM, etc.
                   const meetingType = (
-                    await (await row.$(`#${sectionId}-meeting-instructional-method-${index}`))?.textContent()
+                    await (await row.$(`#${sectionId}-meeting-instructional-method-${rowIndex}`))?.textContent()
                   )?.trim();
 
                   // Convert meeting days into booleans on our section object
@@ -271,6 +298,8 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
               }
               groupIndex++;
             }
+          } else {
+            log(chalk.gray("No sections found"));
           }
 
           courses.push({ ...courseObj, sections });
@@ -301,6 +330,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
 
         let newCourseElements = [];
         let newFirstCourse = "";
+        let tries = 0;
 
         do {
           // Get first course in the list
@@ -310,7 +340,7 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
             .match(/[A-Z]{2,4}\*[0-9]{4}/) ?? [])[0].replace(/\*/g, "");
 
           log(chalk.yellow(`Have courses ${firstCourse} and ${newFirstCourse}`));
-        } while (newFirstCourse === firstCourse);
+        } while (newFirstCourse === firstCourse || tries++ < 25);
 
         courseElements = newCourseElements;
         firstCourse = newFirstCourse;
@@ -327,6 +357,16 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
     // Write data to file. This runs multiple times over the course of the program so that we have data "checkpoints"
     writeFileSync(`./data/courses/${timestamp}.json`, JSON.stringify({ courses }, null, 2), "utf8");
     writeFileSync("logs.txt", logs.join("\n"));
+
+    // s3.send(
+    //   new UploadPartCommand({
+    //     Bucket: process.env.S3_BUCKET,
+    //     Key: `scraper_data/courses/${timestamp}.json`,
+    //     Body: Buffer.from(JSON.stringify({ courses }, null, 2)),
+    //     PartNumber: 1,
+    //     UploadId: v4(),
+    //   })
+    // );
 
     log(chalk.green("Department finished. Saved to file."));
     await dptPage.close();

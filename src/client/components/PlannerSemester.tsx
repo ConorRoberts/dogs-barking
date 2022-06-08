@@ -186,7 +186,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
         {data.courses.map((course, index) => (
           <div className="py-1 px-2 grid grid-cols-6 items-center" key={`${id}-${course.id}-${index}`}>
             <p className="col-span-4">{course.code}</p>
-            <p className="">{course.credits}</p>
+            <p>{course.credits}</p>
             <CloseIcon size={15} className="ml-auto primary-hover" onClick={() => removeCourse(course.id)} />
           </div>
         ))}

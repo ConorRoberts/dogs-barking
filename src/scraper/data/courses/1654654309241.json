@@ -1,0 +1,1393 @@
+{
+  "courses": [
+    {
+      "id": "33b5b1ac-d615-4e67-a6c2-6847ec13a5c8",
+      "description": "This course will introduce students to the fundamental concepts and practices of Financial Accounting. Students are expected to become adept at performing the functions related to the accounting cycle, including the preparation of financial statements.",
+      "code": "ACCT1220",
+      "department": "ACCT",
+      "number": 1220,
+      "name": "Intro Financial Accounting",
+      "credits": 0.5,
+      "offerings": "Also  offered through Distance Education  format.",
+      "restrictions": "ACCT*2220. This is a  Priority Access Course. Enrolment may be  restricted to particular programs or  specializations. See department for more  information.",
+      "departments": "Department of  Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "formats": "Summer, Fall, and Winter, All Years",
+      "sections": [
+        {
+          "id": "0ae08bbe-6203-4f68-a8f4-1a3ed75ba0d2",
+          "code": "DE01",
+          "semester": "summer",
+          "year": 2022,
+          "instructor": "Nasreen, T",
+          "seatsAvailable": 31,
+          "lectures": [],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": [
+            {
+              "days": [
+                "monday"
+              ],
+              "startTime": "2:30 PM",
+              "endTime": "4:30 PM",
+              "id": "c8bcff17-15d5-42af-835c-a6bac830e0ca",
+              "location": "TBD",
+              "room": "EXAM"
+            }
+          ]
+        },
+        {
+          "id": "a01396dd-0343-49d4-adc5-fc7dc3d19e10",
+          "code": "0101",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Lassou, P",
+          "seatsAvailable": 50,
+          "lectures": [
+            {
+              "days": [
+                "friday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "10:20 AM",
+              "id": "4c84888e-8063-4066-9dac-7d4a8be1a801",
+              "location": "ROZH",
+              "room": "104"
+            }
+          ],
+          "seminars": [
+            {
+              "days": [
+                "monday"
+              ],
+              "startTime": "4:30 PM",
+              "endTime": "5:20 PM",
+              "id": "cdc6c064-04fd-485b-b97e-94a2059a0f77",
+              "location": "MCKN",
+              "room": "225"
+            }
+          ],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "20d992c7-f541-4693-abf9-e60f49a69048",
+          "code": "0102",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Lassou, P",
+          "seatsAvailable": 50,
+          "lectures": [
+            {
+              "days": [
+                "friday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "10:20 AM",
+              "id": "695306a7-4834-43ce-9439-a2cd96967e31",
+              "location": "ROZH",
+              "room": "104"
+            }
+          ],
+          "seminars": [
+            {
+              "days": [
+                "tuesday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "9:20 AM",
+              "id": "69cbabb6-e929-4b24-aad2-30aa9a14cbc3",
+              "location": "MCKN",
+              "room": "227"
+            }
+          ],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "041a02e8-28e6-4a57-829d-01e7e439c205",
+          "code": "0103",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Lassou, P",
+          "seatsAvailable": 50,
+          "lectures": [
+            {
+              "days": [
+                "friday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "10:20 AM",
+              "id": "b74459a9-c033-40cf-82fc-2bb4962a0102",
+              "location": "ROZH",
+              "room": "104"
+            }
+          ],
+          "seminars": [
+            {
+              "days": [
+                "wednesday"
+              ],
+              "startTime": "4:30 PM",
+              "endTime": "5:20 PM",
+              "id": "b880b32c-4119-45a3-bb6c-c0165233013b",
+              "location": "MACS",
+              "room": "121"
+            }
+          ],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "5d247470-7fb6-4d0e-90d2-c0149f2cf5b8",
+          "code": "0104",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Lassou, P",
+          "seatsAvailable": 50,
+          "lectures": [
+            {
+              "days": [
+                "friday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "10:20 AM",
+              "id": "f17e9835-894f-4e48-8344-354dbcdfb61e",
+              "location": "ROZH",
+              "room": "104"
+            }
+          ],
+          "seminars": [
+            {
+              "days": [
+                "thursday"
+              ],
+              "startTime": "12:30 PM",
+              "endTime": "1:20 PM",
+              "id": "60f18c12-f67a-4fcf-b912-8cff957f6991",
+              "location": "MACS",
+              "room": "121"
+            }
+          ],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "a75b8b0a-2eea-48bf-bc79-3109e26fc3e5",
+          "code": "0105",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Lassou, P",
+          "seatsAvailable": 50,
+          "lectures": [
+            {
+              "days": [
+                "friday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "10:20 AM",
+              "id": "5a80d59d-d0fe-440a-8f4a-2ab9da932d30",
+              "location": "ROZH",
+              "room": "104"
+            }
+          ],
+          "seminars": [
+            {
+              "days": [
+                "monday"
+              ],
+              "startTime": "11:30 AM",
+              "endTime": "12:20 PM",
+              "id": "e0d510aa-52b4-4043-9eff-8ab6beb6190d",
+              "location": "MCKN",
+              "room": "226"
+            }
+          ],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "5fe2e91c-5669-4ed5-8cab-36d201bc86a3",
+          "code": "0106",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Lassou, P",
+          "seatsAvailable": 50,
+          "lectures": [
+            {
+              "days": [
+                "friday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "10:20 AM",
+              "id": "2a382869-81f8-4449-ad24-52e5f7bd8e51",
+              "location": "ROZH",
+              "room": "104"
+            }
+          ],
+          "seminars": [
+            {
+              "days": [
+                "tuesday"
+              ],
+              "startTime": "2:30 PM",
+              "endTime": "3:20 PM",
+              "id": "55c3787f-6186-426a-9490-c3d987f3a16f",
+              "location": "MACS",
+              "room": "121"
+            }
+          ],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "f2e66de6-529f-4969-9de9-2fd251519a5a",
+          "code": "0107",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Lassou, P",
+          "seatsAvailable": 50,
+          "lectures": [
+            {
+              "days": [
+                "friday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "10:20 AM",
+              "id": "55266b86-0dc4-40fa-adf9-6857277eb728",
+              "location": "ROZH",
+              "room": "104"
+            }
+          ],
+          "seminars": [
+            {
+              "days": [
+                "tuesday"
+              ],
+              "startTime": "9:30 AM",
+              "endTime": "10:20 AM",
+              "id": "6d835872-9e41-434e-888c-ef6f8025314b",
+              "location": "AD-S",
+              "room": "VIRTUAL"
+            }
+          ],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "d8b96ff5-57e2-4e27-a4de-15dfa9e7327c",
+          "code": "0108",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Lassou, P",
+          "seatsAvailable": 50,
+          "lectures": [
+            {
+              "days": [
+                "friday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "10:20 AM",
+              "id": "1d38d3a8-0b3e-4162-8d08-24bc7654f4de",
+              "location": "ROZH",
+              "room": "104"
+            }
+          ],
+          "seminars": [
+            {
+              "days": [
+                "wednesday"
+              ],
+              "startTime": "1:30 PM",
+              "endTime": "2:20 PM",
+              "id": "055a71f9-520b-47c1-b8fc-bbd0a6974a33",
+              "location": "AD-S",
+              "room": "VIRTUAL"
+            }
+          ],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "bf00fe89-00fa-4e61-9b02-1a73086aac36",
+          "code": "0109",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Lassou, P",
+          "seatsAvailable": 50,
+          "lectures": [
+            {
+              "days": [
+                "friday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "10:20 AM",
+              "id": "15f0a585-91b5-4c35-be7e-4fd538e17d90",
+              "location": "ROZH",
+              "room": "104"
+            }
+          ],
+          "seminars": [
+            {
+              "days": [
+                "monday"
+              ],
+              "startTime": "12:30 PM",
+              "endTime": "1:20 PM",
+              "id": "054eebaf-5f39-4ee9-9e07-0628b559516a",
+              "location": "MCKN",
+              "room": "231"
+            }
+          ],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "4c0881b1-a749-4dca-b939-9b1c2c802da3",
+          "code": "0110",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Lassou, P",
+          "seatsAvailable": 60,
+          "lectures": [
+            {
+              "days": [
+                "friday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "10:20 AM",
+              "id": "090a3217-ee0c-4dfa-8804-2d1ca99b003b",
+              "location": "ROZH",
+              "room": "104"
+            }
+          ],
+          "seminars": [
+            {
+              "days": [
+                "thursday"
+              ],
+              "startTime": "11:30 AM",
+              "endTime": "12:20 PM",
+              "id": "dfec6b88-5105-4633-bd56-6cd5523d21fe",
+              "location": "MACS",
+              "room": "121"
+            }
+          ],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "47e02b83-5694-43ef-a104-2d1848342d43",
+          "code": "DE01",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "TBD",
+          "seatsAvailable": 200,
+          "lectures": [],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "98b6fa6d-cfaa-4ba7-8791-88b60fb35fd7",
+      "description": "This course requires students to apply the fundamental principles emanating from accounting's conceptual framework and undertake the practice of financial accounting. Students will become adept at performing the functions related to each step in the accounting cycle, up to and including the preparation of the financial statements and client reports. Students will also develop the skills necessary for assessing an organization's system of internal controls and financial conditions.",
+      "code": "ACCT1240",
+      "department": "ACCT",
+      "number": 1240,
+      "name": "Applied Financial Accounting",
+      "credits": 0.5,
+      "offerings": "Also offered through Distance Education format.",
+      "restrictions": "ACCT*2240. This is a Priority Access Course. Enrolment may be restricted to particular programs or specializations. See department for more  information.",
+      "departments": "Department of  Management",
+      "requisites": "ACCT*1220 or ACCT*2220   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Winter Only, All Years",
+      "sections": []
+    },
+    {
+      "id": "91ce0260-c9d9-4152-8719-39bc472410d9",
+      "description": "This course emphasizes the use of accounting information to facilitate effective management decisions. Topics include cost determination, cost control and analysis, budgeting, profit-volume analysis and capital investment analysis.",
+      "code": "ACCT2230",
+      "department": "ACCT",
+      "number": 2230,
+      "name": "Management Accounting",
+      "credits": 0.5,
+      "equates": "AGEC*2230,  BUS*2230",
+      "restrictions": "This is a Priority  Access Course. Enrolment may be restricted to  particular programs or specializations. See  department for more information.",
+      "departments": "Department of Management",
+      "requisites": "ACCT*1220 or ACCT*2220   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Fall and Winter, All Years",
+      "sections": [
+        {
+          "id": "47394296-a573-4ad7-8bc0-4d57adc130cc",
+          "code": "DE01",
+          "semester": "summer",
+          "year": 2022,
+          "instructor": "Dhaliwal, S",
+          "seatsAvailable": 140,
+          "lectures": [],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": [
+            {
+              "days": [
+                "saturday"
+              ],
+              "startTime": "7:00 PM",
+              "endTime": "9:00 PM",
+              "id": "1d79369c-59e5-40a3-a6ca-55fab535a9b0",
+              "location": "TBD",
+              "room": "EXAM"
+            }
+          ]
+        },
+        {
+          "id": "2335e302-bdbc-4b7c-b54a-8acaaecb814a",
+          "code": "01",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Jagoda, K",
+          "seatsAvailable": 600,
+          "lectures": [
+            {
+              "days": [
+                "wednesday"
+              ],
+              "startTime": "7:00 PM",
+              "endTime": "9:50 PM",
+              "id": "4d6ec45b-b337-47cb-be9e-9208296a60ab",
+              "location": "ROZH",
+              "room": "104"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "377d80a3-ec0b-4677-97c8-36735bdd3521",
+          "code": "DE01",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Dhaliwal, S",
+          "seatsAvailable": 200,
+          "lectures": [],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "ca7923f3-f509-4f45-8876-7845ddfc74ee",
+      "description": "This course continues the managerial decision making focus of ACCT*2230. Topics include process costing, transfer pricing, the decision making process, variances and performance measurement.",
+      "code": "ACCT3230",
+      "department": "ACCT",
+      "number": 3230,
+      "name": "Intermediate Mgmt Accounting",
+      "credits": 0.5,
+      "offerings": "Also offered through Distance  Education format.",
+      "equates": "BUS*3230",
+      "restrictions": "Enrolment may be  restricted to particular degrees or programs. See  department for more information.",
+      "departments": "Department of Management",
+      "requisites": "ACCT*2230   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Winter and Summer, All Years",
+      "sections": [
+        {
+          "id": "bf5cfe47-2d28-43b3-b6d6-d46343062033",
+          "code": "01",
+          "semester": "summer",
+          "year": 2022,
+          "instructor": "Murison, R",
+          "seatsAvailable": 9,
+          "lectures": [
+            {
+              "days": [
+                "monday",
+                "wednesday"
+              ],
+              "startTime": "11:30 AM",
+              "endTime": "12:50 PM",
+              "id": "163d25fb-ce96-4496-bd85-805625734538",
+              "location": "MCKN",
+              "room": "116"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": [
+            {
+              "days": [
+                "monday"
+              ],
+              "startTime": "2:30 PM",
+              "endTime": "4:30 PM",
+              "id": "b0bfbbc4-4922-4e2e-a106-93d89344867a",
+              "location": "TBD",
+              "room": "EXAM"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16b01b01-316d-46b4-a0b6-fed50d9f0403",
+      "description": "Auditing I is an examination of the principles and theory underlying the practice of auditing. Concepts of materiality and audit risk are examined and discussed. Sources and techniques for gathering auditing evidence will also be examined. Modern organizations rely on information systems, technology and internal controls to manage and monitor their operations and the impact of these systems on the quality of information produced and on the scope of audits are important elements of this course.",
+      "code": "ACCT3280",
+      "department": "ACCT",
+      "number": 3280,
+      "name": "Auditing I",
+      "credits": 0.5,
+      "departments": "Department of Management",
+      "requisites": "ACCT*3330   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Summer and Fall, All Years",
+      "sections": [
+        {
+          "id": "c04189b9-e615-4b94-885e-a7f2b9a37485",
+          "code": "01",
+          "semester": "summer",
+          "year": 2022,
+          "instructor": "Zavitz, C",
+          "seatsAvailable": 25,
+          "lectures": [
+            {
+              "days": [
+                "tuesday",
+                "thursday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "9:50 AM",
+              "id": "70bdbbec-5160-413f-a049-aa05375a6d6a",
+              "location": "MAC",
+              "room": "149"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": [
+            {
+              "days": [
+                "wednesday"
+              ],
+              "startTime": "11:30 AM",
+              "endTime": "1:30 PM",
+              "id": "45111a71-01f4-4500-a443-b5706769854b",
+              "location": "TBD",
+              "room": "EXAM"
+            }
+          ]
+        },
+        {
+          "id": "e5ad9488-2ba1-4424-862e-d3bcb163ae8f",
+          "code": "01",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Ghattas, P",
+          "seatsAvailable": 70,
+          "lectures": [
+            {
+              "days": [
+                "wednesday",
+                "friday"
+              ],
+              "startTime": "1:00 PM",
+              "endTime": "2:20 PM",
+              "id": "483e27d5-257f-4b5f-9e7e-dc2e1fb5b128",
+              "location": "CRSC",
+              "room": "116"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "436a8838-69c1-4362-b91e-b977fe6dd1c4",
+          "code": "02",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Ghattas, P",
+          "seatsAvailable": 80,
+          "lectures": [
+            {
+              "days": [
+                "wednesday",
+                "friday"
+              ],
+              "startTime": "4:00 PM",
+              "endTime": "5:20 PM",
+              "id": "967a1beb-b47f-4c4e-b1d6-2e2ad7aa32fd",
+              "location": "MCKN",
+              "room": "029"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "65580c8f-338c-4fcc-90e9-31994df5dcfe",
+      "description": "This course presents a critical evaluation of accounting concepts, principles and practices in relation to both the traditional and current value accounting measurement models. Emphasis will be on the effect of alternative accounting practices and measurement models on income determination and asset valuation.",
+      "code": "ACCT3330",
+      "department": "ACCT",
+      "number": 3330,
+      "name": "Intermed Financial Account I",
+      "credits": 0.5,
+      "offerings": "Also offered through Distance Education  format.",
+      "equates": "BUS*3330",
+      "restrictions": "This is a Priority Access Course. Enrolment may  be restricted to particular programs or  specializations. See department for more  information.",
+      "departments": "Department of  Management",
+      "requisites": "ACCT*1220 or ACCT*2220   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Fall and Winter, All Years",
+      "sections": [
+        {
+          "id": "a86a4e2c-30a6-4bd1-939d-2418f20920ad",
+          "code": "DE01",
+          "semester": "summer",
+          "year": 2022,
+          "instructor": "Wick, S",
+          "seatsAvailable": 24,
+          "lectures": [],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": [
+            {
+              "days": [
+                "thursday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "10:30 AM",
+              "id": "010a5b89-6f3d-43c7-9f58-45b600b637c3",
+              "location": "TBD",
+              "room": "EXAM"
+            }
+          ]
+        },
+        {
+          "id": "1d03985d-d83b-4000-b2d7-d84bcf0f0ce9",
+          "code": "01",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Wick, S",
+          "seatsAvailable": 70,
+          "lectures": [
+            {
+              "days": [
+                "monday",
+                "wednesday"
+              ],
+              "startTime": "4:00 PM",
+              "endTime": "5:20 PM",
+              "id": "8cb7ad01-558c-4812-8bb1-50372e024941",
+              "location": "MCKN",
+              "room": "116"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "fa1e15da-1a4a-4e92-b2b1-aaa3ffd82139",
+          "code": "02",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Wick, S",
+          "seatsAvailable": 70,
+          "lectures": [
+            {
+              "days": [
+                "monday",
+                "wednesday"
+              ],
+              "startTime": "1:00 PM",
+              "endTime": "2:20 PM",
+              "id": "132a5827-8a81-406a-b810-2d1d28835f22",
+              "location": "MCKN",
+              "room": "121"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "158e53de-e4cc-466a-92a4-01e5d92dd9df",
+      "description": "This course focuses on how entities account for current and non-current liabilities and equity accounts, including, income taxes, leases, pensions and other post retirement benefits, share equity and retained earnings, stock options. Additional topics may include earnings per share, restatements and statement analysis.",
+      "code": "ACCT3340",
+      "department": "ACCT",
+      "number": 3340,
+      "name": "Intermed Financial Account II",
+      "credits": 0.5,
+      "departments": "Department of Management",
+      "requisites": "ACCT*3330   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Summer and Fall, All Years",
+      "sections": [
+        {
+          "id": "bc2d02a1-a9a4-4b87-8702-3f2bc503e0c9",
+          "code": "01",
+          "semester": "summer",
+          "year": 2022,
+          "instructor": "Murison, R",
+          "seatsAvailable": 8,
+          "lectures": [
+            {
+              "days": [
+                "tuesday",
+                "thursday"
+              ],
+              "startTime": "2:30 PM",
+              "endTime": "3:50 PM",
+              "id": "c9b474a6-6807-41bd-b3d4-98c8500eb397",
+              "location": "RICH",
+              "room": "2529"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": [
+            {
+              "days": [
+                "saturday"
+              ],
+              "startTime": "11:30 AM",
+              "endTime": "1:30 PM",
+              "id": "63bb3c35-3429-4ff0-a47f-941e0465af52",
+              "location": "TBD",
+              "room": "EXAM"
+            }
+          ]
+        },
+        {
+          "id": "a255048f-8bbf-432c-94c3-942db61a8e12",
+          "code": "01",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Scott, S",
+          "seatsAvailable": 65,
+          "lectures": [
+            {
+              "days": [
+                "wednesday",
+                "friday"
+              ],
+              "startTime": "11:30 AM",
+              "endTime": "12:50 PM",
+              "id": "5611ad4f-b5f7-43a4-8670-3b8bc67f3c13",
+              "location": "MACS",
+              "room": "209"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "ea5b134b-08e2-4984-9a75-c91212809580",
+          "code": "02",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Scott, S",
+          "seatsAvailable": 65,
+          "lectures": [
+            {
+              "days": [
+                "wednesday",
+                "friday"
+              ],
+              "startTime": "2:30 PM",
+              "endTime": "3:50 PM",
+              "id": "3441a87f-ac81-44ac-a4de-fd7f3fc8c836",
+              "location": "CRSC",
+              "room": "116"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "9d09808f-2e79-47b6-a640-58ed5b30a03d",
+      "description": "The fundamentals of the tax system as it applies to all taxpayers will be the focus of the first half of the course. The second half will develop forms of business organizations from a tax perspective. Basic tax planning techniques which attempt to maximize the cash flows and returns on investments will then be studied. The emphasis in the course is on business decision making. A review of personal financial planning and investment decisions will also be included.",
+      "code": "ACCT3350",
+      "department": "ACCT",
+      "number": 3350,
+      "name": "Taxation",
+      "credits": 0.5,
+      "restrictions": "This is a Priority Access Course. Enrolment may be restricted to  particular degrees or programs. See the  department for more information.",
+      "departments": "Department of Management",
+      "requisites": "ACCT*3330   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Summer and Fall, All Years",
+      "sections": [
+        {
+          "id": "1e259009-d5b1-4a4e-a06b-5f34d6cf91f4",
+          "code": "01",
+          "semester": "summer",
+          "year": 2022,
+          "instructor": "Dhaliwal, S",
+          "seatsAvailable": 27,
+          "lectures": [
+            {
+              "days": [
+                "tuesday",
+                "thursday"
+              ],
+              "startTime": "1:00 PM",
+              "endTime": "2:20 PM",
+              "id": "402bb078-f83a-47a0-a2bd-49111aee4374",
+              "location": "MAC",
+              "room": "149"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": [
+            {
+              "days": [
+                "monday"
+              ],
+              "startTime": "11:30 AM",
+              "endTime": "1:30 PM",
+              "id": "5e6a4a5d-a665-4014-b6d3-35232bde0fe5",
+              "location": "TBD",
+              "room": "EXAM"
+            }
+          ]
+        },
+        {
+          "id": "c9800b20-5bb4-449b-8225-5dedda21374e",
+          "code": "01",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Dhaliwal, S",
+          "seatsAvailable": 70,
+          "lectures": [
+            {
+              "days": [
+                "tuesday",
+                "thursday"
+              ],
+              "startTime": "2:30 PM",
+              "endTime": "3:50 PM",
+              "id": "32c41ea8-16f8-4c7e-98ee-9d9eec874670",
+              "location": "CRSC",
+              "room": "117"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "6bac658d-1dd3-495b-aee2-ea17a8378890",
+          "code": "02",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Dhaliwal, S",
+          "seatsAvailable": 70,
+          "lectures": [
+            {
+              "days": [
+                "tuesday",
+                "thursday"
+              ],
+              "startTime": "11:30 AM",
+              "endTime": "12:50 PM",
+              "id": "038672ad-7912-4778-817a-ee98a887b325",
+              "location": "CRSC",
+              "room": "116"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "6ecb7f5e-956e-4342-ba38-d21363dc5672",
+      "description": "This course is a critical evaluation of issues and problems associated with business combinations, long-term intercorporate investments, foreign operations and accounting for not-for-profit organizations. There is a strong emphasis on applying this body of knowledge through practical problems.",
+      "code": "ACCT4220",
+      "department": "ACCT",
+      "number": 4220,
+      "name": "Advanced Financial Accounting",
+      "credits": 0.5,
+      "equates": "BUS*4220",
+      "restrictions": "Enrolment may be  restricted to particular degrees or programs. See  the department for more  information.",
+      "departments": "Department of  Management",
+      "requisites": "(ACCT*3330 or BUS*3330), (ACCT*3340 or BUS*3340)   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Fall Only, All Years",
+      "sections": [
+        {
+          "id": "74f45bbb-e833-4cb0-b1a9-13efe1bc60b5",
+          "code": "01",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Baker, R",
+          "seatsAvailable": 75,
+          "lectures": [
+            {
+              "days": [
+                "tuesday",
+                "thursday"
+              ],
+              "startTime": "4:00 PM",
+              "endTime": "5:20 PM",
+              "id": "063be121-3853-44dd-8420-1c3257125b84",
+              "location": "MCKN",
+              "room": "116"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "70e5b8bf-022e-44c3-9a06-2f6ea050a5c2",
+          "code": "02",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Baker, R",
+          "seatsAvailable": 75,
+          "lectures": [
+            {
+              "days": [
+                "tuesday",
+                "thursday"
+              ],
+              "startTime": "11:30 AM",
+              "endTime": "12:50 PM",
+              "id": "291cf36a-a334-455e-a110-5664108cb4d6",
+              "location": "MCKN",
+              "room": "116"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "4fb373d5-242a-4e29-98cf-780ee013b81b",
+      "description": "This course provides advanced coverage of management accounting concepts and the application of management accounting information for managerial decision-making. This course extends the concepts covered in intermediate management accounting and also integrates pertinent situational problems from other functional areas of enterprises such as global trade and process controls.",
+      "code": "ACCT4230",
+      "department": "ACCT",
+      "number": 4230,
+      "name": "Advanced Management Accounting",
+      "credits": 0.5,
+      "equates": "BUS*4230",
+      "restrictions": "This is a Priority Access Course. Enrolment may be restricted to particular degrees or programs. See the department for more information.",
+      "departments": "Department of Management",
+      "requisites": "ACCT*3230 or BUS*3230   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Winter Only, All Years",
+      "sections": [
+        {
+          "id": "ab47a157-2cae-43d4-b6f4-f6cc875e20af",
+          "code": "01",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Jagoda, K",
+          "seatsAvailable": 60,
+          "lectures": [
+            {
+              "days": [
+                "tuesday",
+                "thursday"
+              ],
+              "startTime": "11:30 AM",
+              "endTime": "12:50 PM",
+              "id": "cb6f9bf6-f198-456a-9e8f-86b47f8394d1",
+              "location": "MCLN",
+              "room": "107"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "8f6537c0-3ae4-4fe6-bbf1-d1ef94b4a4dc",
+      "description": "This course considers a number of advanced topics concerning both the auditor and audit techniques within the context of public accounting. It builds on the knowledge of the audit task derived in Auditing I - ACCT*3280 as well as the depth and breadth of knowledge gained in ACCT*3330 and ACCT*3340.",
+      "code": "ACCT4270",
+      "department": "ACCT",
+      "number": 4270,
+      "name": "Auditing II",
+      "credits": 0.5,
+      "equates": "BUS*4270",
+      "departments": "Department of Management",
+      "requisites": "ACCT*3280 or BUS*3280   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Fall Only, All Years",
+      "sections": [
+        {
+          "id": "669ceea9-b2d1-4933-b39e-6fd50cfdc3c6",
+          "code": "01",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Zavitz, C",
+          "seatsAvailable": 80,
+          "lectures": [
+            {
+              "days": [
+                "monday",
+                "wednesday"
+              ],
+              "startTime": "4:00 PM",
+              "endTime": "5:20 PM",
+              "id": "2de313c8-3ed6-48ee-b645-322e580fb3f0",
+              "location": "MAC",
+              "room": "149"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        },
+        {
+          "id": "00140bb0-58f7-4b96-a610-5e90e4c5bad9",
+          "code": "02",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Zavitz, C",
+          "seatsAvailable": 80,
+          "lectures": [
+            {
+              "days": [
+                "monday",
+                "wednesday"
+              ],
+              "startTime": "1:00 PM",
+              "endTime": "2:20 PM",
+              "id": "9f478403-e292-459b-8fe1-296e5678db4f",
+              "location": "MAC",
+              "room": "149"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "ecfefbbf-97e0-491d-94bd-0063de165eee",
+      "description": "This course introduces the student to the field of auditing within a computer based environment. Students will develop an enhanced understanding of information systems, information system risks, management controls, control evaluation, audit strategies, and computer assisted audit techniques. The course will also introduce data analytic techniques used to analyze structured and unstructured data.",
+      "code": "ACCT4290",
+      "department": "ACCT",
+      "number": 4290,
+      "name": "IT Auditing & Data Analytics",
+      "credits": 0.5,
+      "equates": "BUS*4290",
+      "departments": "Department of  Management",
+      "requisites": "ACCT*3280 or BUS*4280   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Winter Only, All Years",
+      "sections": []
+    },
+    {
+      "id": "43db6845-3d0c-4f34-a37b-b2acc0984b6c",
+      "description": "This course will draw on accounting research, primarily empirical research. Rather than covering specific GAAP rules, the course will focus on how investors react to GAAP rules, why financial information is important, and how its use/misuse affects investor decision making and management behaviour. The course is thus about accounting, instead of about how to apply accounting standards.",
+      "code": "ACCT4340",
+      "department": "ACCT",
+      "number": 4340,
+      "name": "Accounting Theory",
+      "credits": 0.5,
+      "departments": "Department of Management",
+      "requisites": "15.00 credits including ACCT*3340   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Winter Only, All Years",
+      "sections": []
+    },
+    {
+      "id": "e6979693-a098-4364-a5cb-c2004c3d4ec9",
+      "description": "An intensive study of the Canadian Income Tax Act and related statutes, this course will focus on the application to the taxation of individuals, partnerships and corporations. A strong emphasis will be placed on compliance and tax planning.",
+      "code": "ACCT4350",
+      "department": "ACCT",
+      "number": 4350,
+      "name": "Income Taxation II",
+      "credits": 0.5,
+      "equates": "BUS*4350",
+      "departments": "Department  of Management",
+      "requisites": "ACCT*3350 or BUS*3350   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Fall Only, All Years",
+      "sections": [
+        {
+          "id": "b08abff8-e141-4534-ac06-8e4074b4a8df",
+          "code": "01",
+          "semester": "fall",
+          "year": 2022,
+          "instructor": "Dhaliwal, S",
+          "seatsAvailable": 100,
+          "lectures": [
+            {
+              "days": [
+                "monday",
+                "wednesday"
+              ],
+              "startTime": "8:30 AM",
+              "endTime": "9:50 AM",
+              "id": "2910dbfa-2687-48ec-827d-7bc180f5d528",
+              "location": "MACS",
+              "room": "209"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "bc288652-33c5-42bc-bf58-9654bec08049",
+      "description": "This course will help students develop an analytical approach to analyzing accounting problems and improve professional judgement. Students will apply previously-gained technical knowledge of accounting, tax, assurance, finance, and corporate governance to various financial reporting and advisory problems and scenarios. They will develop an enhanced understanding of the impact of user and preparer objectives on the selection of accounting policies, and accounting estimates in an environment of some uncertainty.",
+      "code": "ACCT4440",
+      "department": "ACCT",
+      "number": 4440,
+      "name": "Integrated Cases in Accounting",
+      "credits": 0.5,
+      "departments": "Department of Management",
+      "requisites": "15.00 credits including ACCT*3280, ACCT*3340, ACCT*3350   - Must be completed prior to taking this course.",
+      "locations": "Guelph",
+      "formats": "Winter Only, All Years",
+      "sections": []
+    },
+    {
+      "id": "76e43cfd-3348-4a2c-adb0-65fa7ea1e041",
+      "description": "\"Integrated Cases I\" is a required course for students pursuing a Chartered Professional Accountant (CPA) designation and will provide students with an in-depth knowledge of financial reporting and auditing. The course will integrate topics from both the finance and taxation areas of the CPA competency map. The course will also assist students in developing their problem solving and decision making abilities and communication skills, which are part of the enabling competencies of the CPA competency map.",
+      "code": "ACCT6100",
+      "department": "ACCT",
+      "number": 6100,
+      "name": "Integrated Cases I",
+      "credits": 0.5,
+      "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
+      "departments": "Department of Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "formats": "Summer Only, All Years",
+      "sections": [
+        {
+          "id": "48e824d9-3ff7-4fcc-ab82-731053969f27",
+          "code": "01",
+          "semester": "summer",
+          "year": 2022,
+          "instructor": "Matthews, K",
+          "seatsAvailable": 3,
+          "lectures": [
+            {
+              "days": [],
+              "startTime": "",
+              "endTime": "",
+              "id": "9e3f20d1-0342-41d5-9444-fa5b3be8892a",
+              "location": "MAC",
+              "room": "232"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "313aefbb-f4b5-48b9-a02e-ef6d1b96e9ca",
+      "description": "\"Integrated Cases II\" is a required course for students pursuing a Chartered Professional Accountant (CPA) designation and will provide students with an in-depth knowledge of management accounting. The course will integrate topics from both the strategy and governance and the finance areas of the CPA competency map. The course will also assist students in developing their problem solving and decision-making abilities and communication skills, which are part of the enabling competencies of the CPA competency map.",
+      "code": "ACCT6200",
+      "department": "ACCT",
+      "number": 6200,
+      "name": "Integrated Cases II",
+      "credits": 0.5,
+      "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
+      "departments": "Department of Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "formats": "Summer Only, All Years",
+      "sections": [
+        {
+          "id": "01f8e066-36cf-4d3e-ab97-6d834c4fa0a4",
+          "code": "01",
+          "semester": "summer",
+          "year": 2022,
+          "instructor": "Wick, S",
+          "seatsAvailable": 3,
+          "lectures": [
+            {
+              "days": [],
+              "startTime": "",
+              "endTime": "",
+              "id": "407d3329-dae4-4818-94cd-d7668ece2881",
+              "location": "MAC",
+              "room": "232"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "dd1aa412-5ea6-4601-8e4f-b1239872f507",
+      "description": "This course is intended to help students achieve the competencies related to Elective Module 4 (E4) - Taxation in the CPA Competency Map. It covers the competencies necessary to provide taxation services and guidance. Topics include: compliance and tax-planning issues for both individuals and corporate entities, as well as, partnerships and trusts, risk tolerance of all stakeholders involved, tax governance, controls, and risk management, and the importance of taking taxes into account when making business and investment decisions..",
+      "code": "ACCT6300",
+      "department": "ACCT",
+      "number": 6300,
+      "name": "Taxation",
+      "credits": 0.5,
+      "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
+      "departments": "Department of  Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "formats": "Summer Only, All Years",
+      "sections": [
+        {
+          "id": "c530b036-5db7-43cc-9578-156aa27dffe6",
+          "code": "01",
+          "semester": "summer",
+          "year": 2022,
+          "instructor": "Dhaliwal, S",
+          "seatsAvailable": 3,
+          "lectures": [
+            {
+              "days": [],
+              "startTime": "",
+              "endTime": "",
+              "id": "bc48fef8-9844-4bbc-a5d9-39511edf4918",
+              "location": "MAC",
+              "room": "232"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "5fb960fa-1735-4161-9e39-691433c9a4c1",
+      "description": "Performance Management is an elective course for students pursuing a Chartered Professional Accountant (CPA) designation and will build on students' management accounting knowledge from both their undergraduate courses as well as \"Integrated Cases II\". The course will also assist students in further developing their problem solving and decision-making abilities and communication skills, which are part of the enabling competencies of the CPA competency map.",
+      "code": "ACCT6400",
+      "department": "ACCT",
+      "number": 6400,
+      "name": "Performance Management",
+      "credits": 0.5,
+      "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
+      "departments": "Department of Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "formats": "Unspecified, All Years",
+      "sections": []
+    },
+    {
+      "id": "3a1e3424-efdf-4f68-bbe0-065b7e1d76fe",
+      "description": "This course develops the competencies necessary to assess an entity's assurance needs and perform both internal audit projects and external assurance engagements. The CPA Competency Map describes in detail the two types of competencies - technical and enabling - that employers in public practice, industry, and government require of accounting professionals. As such, the CPA Competency Map will be utilized in this course to help ensure that students meet the course learning objectives.",
+      "code": "ACCT6500",
+      "department": "ACCT",
+      "number": 6500,
+      "name": "Assurance",
+      "credits": 0.5,
+      "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP students.",
+      "departments": "Department of Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "formats": "Summer Only, All Years",
+      "sections": [
+        {
+          "id": "df072b01-e9c5-41c5-a6e6-5f07849f6b42",
+          "code": "01",
+          "semester": "summer",
+          "year": 2022,
+          "instructor": "Zavitz, C",
+          "seatsAvailable": 3,
+          "lectures": [
+            {
+              "days": [],
+              "startTime": "",
+              "endTime": "",
+              "id": "61b03ee2-7211-42c5-903e-8b1e30b6e53f",
+              "location": "MAC",
+              "room": "232"
+            }
+          ],
+          "seminars": [],
+          "tutorials": [],
+          "labs": [],
+          "exams": []
+        }
+      ]
+    },
+    {
+      "id": "9849c8e0-a51c-4088-9f13-1e152a46ebd0",
+      "description": "The course will build upon the conceptual foundation developed in undergraduate introductory finance courses. The focus of the course is on the development of competencies in identifying, analyzing, evaluating and making appropriate recommendations for investing and financing decisions in a variety of professional contexts, particularly in the areas of treasury management, valuation, and risk management. There will be a strong emphasis on applying the body of knowledge in integrated case problems.",
+      "code": "ACCT6600",
+      "department": "ACCT",
+      "number": 6600,
+      "name": "Financial Management",
+      "credits": 0.5,
+      "restrictions": "Restricted to Graduate Diploma Accounting and Management MSc coursework/MRP Management students.",
+      "departments": "Department of Management",
+      "requisites": "None",
+      "locations": "Guelph",
+      "formats": "Unspecified, All Years",
+      "sections": []
+    }
+  ]
+}

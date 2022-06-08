@@ -51,7 +51,7 @@ const SearchModal = () => {
   }, [router.asPath, dispatch]);
 
   return (
-    <Modal onClose={() => dispatch(setOpen(false))} width={500} open={open}>
+    <Modal onClose={() => dispatch(setOpen(false))} className={"max-w-xl"} open={open}>
       <div className="relative mx-auto max-w-xl w-full flex flex-col gap-2">
         <div className={`flex gap-4 items-center shadow-md dark:bg-gray-800 bg-white px-4 overflow-hidden rounded-md`}>
           <Input

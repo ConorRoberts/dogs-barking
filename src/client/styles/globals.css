@@ -83,4 +83,8 @@
   .text {
     @apply text-base font-normal;
   }
+
+  .rhombus {
+    clip-path: polygon(0 100%, 80% 100%, 100% 0, 20% 0);
+  }
 }

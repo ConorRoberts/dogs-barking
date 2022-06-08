@@ -117,7 +117,7 @@ const Page = () => {
     }
   }, [plan]);
 
-  if (!user || planLoading) return <LoadingScreen />;
+  if (!user || (planLoading && selectedPlanId !== "none")) return <LoadingScreen />;
 
   return (
     <div className="grid flex-1 md:grid-cols-4">

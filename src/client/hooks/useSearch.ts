@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { MEILISEARCH_KEY, MEILISEARCH_HOST } from "@config/config";
 import Program from "@typedefs/Program";
 import Course from "@typedefs/Course";
+import MeiliSearch from "meilisearch";
 
 export interface UseCourseSearchParams {
   courseId: string;
@@ -11,6 +12,11 @@ export interface UseCourseSearchParams {
 interface Config {
   type?: "course" | "program";
 }
+
+const client = new MeiliSearch({
+  host: MEILISEARCH_HOST,
+  apiKey: MEILISEARCH_KEY,
+});
 
 /**
  * Calls the API to get the course search results on update of the query params
@@ -32,9 +38,11 @@ const useSearch = (query: string, config?: Config) => {
       try {
         setLoading(true);
 
-        const { data } = await axios.get(`/api/search/${type}`, { params: { query } });
+        const index = client.index(`${type}s`);
 
-        setResults(data);
+        const { hits } = await index.search(query);
+
+        setResults(hits as (Course | Program)[]);
       } catch (error) {
         console.error(error);
       } finally {

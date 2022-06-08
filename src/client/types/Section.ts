@@ -13,6 +13,7 @@ type Section = {
   exams?: Meeting[];
   tutorials?: Meeting[];
   seminars?: Meeting[];
+  seatsRemaining?: number;
 };
 
 export default Section;
