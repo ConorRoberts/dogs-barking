@@ -46,7 +46,6 @@ exports.handler = async (event) => {
         properties(c) as course,
         total
 
-      ORDER BY c.code
       SKIP $skip
       LIMIT $limit
     `,
