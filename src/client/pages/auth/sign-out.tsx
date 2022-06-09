@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { signOut } from "@redux/auth";
 import { useDispatch } from "react-redux";
 import useRestrictedAuth from "@hooks/useRestrictedAuth";
+import MetaData from "@components/MetaData";
 
 /**
  * Page
@@ -25,7 +26,12 @@ const Page = () => {
     })();
   }, [user, router]);
 
-  return <LoadingScreen />;
+  return (
+    <>
+      <MetaData title="Sign Out" />
+      <LoadingScreen />
+    </>
+  );
 };
 
 export default Page;

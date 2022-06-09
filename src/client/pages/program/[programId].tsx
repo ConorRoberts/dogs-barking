@@ -1,6 +1,7 @@
 import CourseGraph from "@components/CourseGraph";
 import { Button } from "@components/form";
 import { GraphIcon } from "@components/Icons";
+import MetaData from "@components/MetaData";
 import RequirementsList from "@components/RequirementsList";
 import { API_URL } from "@config/config";
 import Course from "@typedefs/Course";
@@ -27,6 +28,7 @@ const Page = ({ program, majorGraph, minorGraph }: PageProps) => {
   const [viewType, setViewType] = useState<"default" | "graph">("default");
   return (
     <div className="mx-auto max-w-5xl w-full flex flex-col gap-16">
+      <MetaData title={program.name} />
       <div className="text-center grid gap-2">
         <h1>{program.name}</h1>
         <Link href={`/school/${program.school.id}`} passHref>

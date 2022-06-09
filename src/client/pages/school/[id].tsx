@@ -1,3 +1,4 @@
+import MetaData from "@components/MetaData";
 import { API_URL, GOOGLE_MAPS_API_KEY } from "@config/config";
 import School from "@typedefs/School";
 import { NextPageContext } from "next";
@@ -9,6 +10,7 @@ interface Props {
 const Page = ({ school }: Props) => {
   return (
     <div className="mx-auto max-w-6xl w-full p-1">
+      <MetaData title={school.name} />
       <div className="text-center flex flex-col gap-1">
         <h1>{school.name}</h1>
         <a href={school.url} className="text-gray-500">

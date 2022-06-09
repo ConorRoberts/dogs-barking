@@ -1,21 +1,20 @@
 import { Button, CustomErrorMessage, Input, Select } from "@components/form";
-import { CheckIcon, ErrorIcon, LoadingIcon } from "@components/Icons";
+import { LoadingIcon } from "@components/Icons";
 import LoadingScreen from "@components/LoadingScreen";
 import { AuthState, refreshToken, setUser } from "@redux/auth";
 import { RootState } from "@redux/store";
 import School from "@typedefs/School";
 import axios from "axios";
 import { ErrorMessage, Form, Formik } from "formik";
-import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { motion } from "framer-motion";
 import { API_URL } from "@config/config";
 import Course from "@typedefs/Course";
 import useSearch from "@hooks/useSearch";
 import Toast from "@components/form/Toast";
 import User from "@typedefs/User";
+import MetaData from "@components/MetaData";
 
 interface PageProps {
   schools: School[];
@@ -52,6 +51,7 @@ const Page = ({ schools }: PageProps) => {
 
   return (
     <div onClick={(e) => !searchContainer.current.contains(e.target) && setShowResults(false)}>
+      <MetaData title={`${user.name}'s Profile`} />
       <div className="mx-auto w-full max-w-3xl p-2">
         <h1 className="text-center">Profile</h1>
         <Formik

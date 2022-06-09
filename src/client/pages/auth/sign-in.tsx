@@ -9,6 +9,7 @@ import { LoadingIcon } from "@components/Icons";
 import { Auth } from "aws-amplify";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
+import MetaData from "@components/MetaData";
 
 export enum AuthStage {
   ConfirmSignUp,
@@ -31,6 +32,7 @@ const Page = () => {
 
   return (
     <div className="flex-1 flex justify-center items-center">
+      <MetaData title="Sign In" />
       <div className="mx-auto bg-white sm:p-8 p-4 dark:bg-gray-800 rounded-xl shadow-md max-w-sm w-full">
         <Formik
           initialValues={{ email: "", password: "", confirmCode: "" }}
@@ -66,7 +68,8 @@ const Page = () => {
           validationSchema={Yup.object({
             email: Yup.string().required("Email is required"),
             password: Yup.string().required("Password is required"),
-          })}>
+          })}
+        >
           {({ isSubmitting }) => (
             <Form>
               <div className="flex flex-col gap-4 mt-6">
