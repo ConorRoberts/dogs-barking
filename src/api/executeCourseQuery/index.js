@@ -24,7 +24,7 @@ exports.handler = async (event) => {
   if (!isNaN(query?.weight)) filters.push("c.credits = $weight");
   if (!isNaN(query?.number)) filters.push("c.number = $number");
   if (query?.name?.length > 0) filters.push("c.name STARTS WITH $name");
-  if (query?.description?.length > 0) filters.push(`c.description =~ ".*${query.description}.*"`);
+  if (query?.description?.length > 0) filters.push(`c.description CONTAINS $description`);
 
   const session = driver.session();
   const { records, summary } = await session.run(
@@ -46,6 +46,7 @@ exports.handler = async (event) => {
         properties(c) as course,
         total
 
+      ORDER BY course.code $sortDir
       SKIP $skip
       LIMIT $limit
     `,
