@@ -16,18 +16,15 @@ exports.handler = async (event) => {
 
   const filters = [];
 
-  const { pageNum = 0, pageSize = 50, sortKey = "code", sortDir = "desc", limit = 50, skip = 0 } = query ?? {};
+  const { pageNum = 0, pageSize = 50, sortKey = "code", sortDir = "desc" } = query ?? {};
 
-  if (query?.degree?.length > 0) filters.push("program.degree = $degree");
-  if (query?.school?.length > 0) filters.push("school.short = $school");
-  if (query?.scope === "undergrad") filters.push("course.number < 5000");
-  if (query?.scope === "grad") filters.push("course.number > 5000");
-  if (query?.code?.length > 0) filters.push("course.code STARTS WITH $code");
-  if (query?.department?.length > 0) filters.push("course.department = $department");
-  if (!isNaN(query?.weight)) filters.push("course.credits = $weight");
-  if (!isNaN(query?.number)) filters.push("course.number = $number");
-  if (query?.name?.length > 0) filters.push("course.name STARTS WITH $name");
-  if (query?.description?.length > 0) filters.push(`course.description =~ ".*${query.description}.*"`);
+  if (query?.school?.length > 0) filters.push("s.short = $school");
+  if (query?.code?.length > 0) filters.push("c.code STARTS WITH $code");
+  if (query?.department?.length > 0) filters.push("c.department = $department");
+  if (!isNaN(query?.weight)) filters.push("c.credits = $weight");
+  if (!isNaN(query?.number)) filters.push("c.number = $number");
+  if (query?.name?.length > 0) filters.push("c.name STARTS WITH $name");
+  if (query?.description?.length > 0) filters.push(`c.description =~ ".*${query.description}.*"`);
 
   const session = driver.session();
   const { records } = await session.run(
@@ -35,12 +32,15 @@ exports.handler = async (event) => {
       CALL{
         MATCH (c:Course)
       
-        RETURN count(c) as total
+        RETURN 
+          count(c) as total
       }
       
       WITH total
       
       MATCH (s:School)-[:OFFERS]->(c:Course) 
+
+      ${filters.length > 0 ? "WHERE " : ""}${filters.join(" AND ")}
       
       RETURN 
         properties(c) as course,
