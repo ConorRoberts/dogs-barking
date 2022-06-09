@@ -1,25 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface CatalogState {
-  // Filter Data
-  filters: {
-    courseId?: string;
-    school?: string;
-    number?: number;
-    description?: string;
-    prerequisites?: string[];
-    department?: string;
-    name?: string;
-    weight?: number;
-    degree?: string;
-    programId?: string;
-  };
-
   type: "courses" | "programs";
 
-  scope: "all" | "undergrad" | "grad";
+  filters: [string, string | number][];
 
-  // Data of the catalog page
   pageState: {
     pageNum: number;
     pageSize: number;
@@ -35,8 +20,7 @@ const initialState: CatalogState = {
     sortDir: "desc",
     sortKey: "courseCode",
   },
-  scope: "all",
-  filters: {},
+  filters: [],
   type: "courses",
 };
 
@@ -54,13 +38,16 @@ const catalog = createSlice({
       state.type = action.payload;
     },
     resetFilters: (state) => {
-      state.filters = {};
+      state.filters = [];
     },
-    setScope: (state, { payload }) => {
-      state.scope = payload;
+    addFilter: (state, { payload }) => {
+      state.filters = [...state.filters, payload];
+    },
+    removeFilter: (state, { payload }) => {
+      state.filters = state.filters.filter((filter) => filter[0] !== payload[0]);
     },
   },
 });
 
-export const { setFilters, setPageState, setCatalogType, resetFilters, setScope } = catalog.actions;
+export const { setFilters, setPageState, setCatalogType, resetFilters, addFilter, removeFilter } = catalog.actions;
 export default catalog.reducer;
