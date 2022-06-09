@@ -31,18 +31,11 @@ exports.handler = async (event) => {
   const session = driver.session();
   const { records, summary } = await session.run(
     `
-      CALL{
-        MATCH (c:Course)
-      
-        RETURN 
-          count(c) as total
-      }
-      
-      WITH total
-      
       MATCH (s:School)-[:OFFERS]->(c:Course) 
 
       ${filters.length > 0 ? "WHERE " : ""}${filters.join(" AND ")}
+
+      WITH count(c) as total, properties(c) as course
       
       RETURN DISTINCT
         properties(c) as course,
