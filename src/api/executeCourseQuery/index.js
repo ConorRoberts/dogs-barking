@@ -26,6 +26,8 @@ exports.handler = async (event) => {
   if (query?.name?.length > 0) filters.push("c.name STARTS WITH $name");
   if (query?.description?.length > 0) filters.push(`c.description =~ ".*${query.description}.*"`);
 
+  console.log(filters);
+
   const session = driver.session();
   const { records } = await session.run(
     `
@@ -46,6 +48,7 @@ exports.handler = async (event) => {
         properties(c) as course,
         total
 
+      ORDER BY c.code
       SKIP $skip
       LIMIT $limit
     `,
