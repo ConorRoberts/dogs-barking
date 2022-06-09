@@ -38,7 +38,7 @@ exports.handler = async (event) => {
       WITH count(c) as total, properties(c) as course
       
       RETURN DISTINCT
-        properties(c) as course,
+        course,
         total
 
       ORDER BY course.code ${sortDir}
