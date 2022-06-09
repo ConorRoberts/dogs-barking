@@ -42,7 +42,7 @@ exports.handler = async (event) => {
 
       ${filters.length > 0 ? "WHERE " : ""}${filters.join(" AND ")}
       
-      RETURN 
+      RETURN DISTINCT
         properties(c) as course,
         total
 
