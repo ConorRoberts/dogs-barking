@@ -32,14 +32,22 @@ exports.handler = async (event) => {
   const session = driver.session();
   const { records } = await session.run(
     `
-    MATCH (s:School)-[:OFFERS]->(c:Course) 
+      CALL{
+        MATCH (c:Course)
+      
+        RETURN count(c) as total
+      }
+      
+      WITH total
+      
+      MATCH (s:School)-[:OFFERS]->(c:Course) 
+      
+      RETURN 
+        properties(c) as course,
+        total
 
-    RETURN 
-      properties(c) as course,
-      count(c) as total
-
-    SKIP $skip
-    LIMIT $limit
+      SKIP $skip
+      LIMIT $limit
     `,
     {
       ...query,
