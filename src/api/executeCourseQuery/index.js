@@ -26,10 +26,8 @@ exports.handler = async (event) => {
   if (query?.name?.length > 0) filters.push("c.name STARTS WITH $name");
   if (query?.description?.length > 0) filters.push(`c.description =~ ".*${query.description}.*"`);
 
-  console.log(filters);
-
   const session = driver.session();
-  const { records } = await session.run(
+  const { records, summary } = await session.run(
     `
       CALL{
         MATCH (c:Course)
@@ -60,6 +58,9 @@ exports.handler = async (event) => {
       sortDir,
     }
   );
+
+  console.log(summary);
+
   await session.close();
   await driver.close();
 
