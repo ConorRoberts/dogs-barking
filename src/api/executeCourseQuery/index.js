@@ -18,6 +18,8 @@ exports.handler = async (event) => {
 
   const { pageNum = 0, pageSize = 50, sortKey = "code", sortDir = "desc" } = query ?? {};
 
+  if (!["asc", "desc"].includes(sortDir)) throw new Error("Invalid sort direction (sortDir)");
+
   if (query?.school?.length > 0) filters.push("s.short = $school");
   if (query?.code?.length > 0) filters.push("c.code STARTS WITH $code");
   if (query?.department?.length > 0) filters.push("c.department = $department");
@@ -46,7 +48,7 @@ exports.handler = async (event) => {
         properties(c) as course,
         total
 
-      ORDER BY course.code $sortDir
+      ORDER BY course.code ${sortDir}
       SKIP $skip
       LIMIT $limit
     `,
@@ -56,7 +58,6 @@ exports.handler = async (event) => {
       sortKey: `course.${sortKey}`,
       limit: neo4j.int(Number(pageNum) * Number(pageSize) + Number(pageSize)),
       skip: neo4j.int(Number(pageNum) * Number(pageSize)),
-      sortDir,
     }
   );
 
