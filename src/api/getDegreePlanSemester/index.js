@@ -28,7 +28,7 @@ exports.handler = async (event) => {
       
       RETURN 
         properties(semester) as semester, 
-        [(semester)-[:CONTAINS]->(s:Section)<-[:HAS]->(c:Course) | 
+        [(semester)-[:CONTAINS]->(s:Section)<-[:CONTAINS]->(c:Course) | 
           {
             course: properties(c),
             section: properties(s)

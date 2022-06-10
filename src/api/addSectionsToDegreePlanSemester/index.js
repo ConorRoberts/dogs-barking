@@ -31,7 +31,8 @@ exports.handler = async (event) => {
 
         MERGE (semester)-[:CONTAINS]->(s)
 
-        RETURN properties(s) as section
+        RETURN 
+          properties(s) as section
     `,
     {
       userId: sub,

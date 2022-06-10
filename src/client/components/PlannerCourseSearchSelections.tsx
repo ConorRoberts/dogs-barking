@@ -9,14 +9,14 @@ const PlannerCourseSearchSelections = ({ selections }: Props) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex bg-white rounded-full px-2 py-2 shadow-md">
+      {/* <div className="flex bg-white rounded-full px-2 py-2 shadow-md">
         {[...Array(5)].map((e, index) => (
           <div
             key={`planner course search selection ${index}`}
             className={`w-12 h-3 ${index > 3 ? "bg-gray-300" : "bg-green-500"} rhombus`}
           ></div>
         ))}
-      </div>
+      </div> */}
       {selections.map((e) => (
         <p
           key={`course-to-add-${e.course.code}-${e.section.code}`}
