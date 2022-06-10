@@ -4,20 +4,22 @@
   "description": "",
   "scripts": {
     "save": "ts-node ./src/save.ts",
-    "scrape": "ts-node ./src/scrape.ts"
+    "scrape:course": "ts-node ./src/scrapeCourses.ts",
+    "scrape:windows": "ts-node ./src/scrapeRegistrationWindows.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.105.0",
     "@playwright/test": "^1.20.2",
     "chalk": "4.1.2",
+    "dayjs": "^1.11.3",
     "dotenv": "^16.0.0",
     "meilisearch": "^0.25.1",
     "neo4j-driver": "^4.4.3",
     "ts-node": "^10.7.0",
-    "uuid": "^8.3.2",
-    "@aws-sdk/client-s3":"^3.105.0"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.31",

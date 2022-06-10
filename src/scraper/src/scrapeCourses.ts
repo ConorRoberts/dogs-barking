@@ -1,8 +1,8 @@
-import { readFileSync, writeFileSync } from "fs";
+import { writeFileSync } from "fs";
 import { chromium, ElementHandle } from "@playwright/test";
 import chalk from "chalk";
 import { v4 } from "uuid";
-import { S3Client, UploadPartCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
 
 dotenv.config({ path: ".env" });
@@ -355,22 +355,24 @@ const s3 = new S3Client({
     await scrape(courseElements);
 
     // Write data to file. This runs multiple times over the course of the program so that we have data "checkpoints"
-    writeFileSync(`./data/courses/${timestamp}.json`, JSON.stringify({ courses }, null, 2), "utf8");
+    // writeFileSync(`./data/courses/${timestamp}.json`, JSON.stringify({ courses }, null, 2), "utf8");
     writeFileSync("logs.txt", logs.join("\n"));
 
-    // s3.send(
-    //   new UploadPartCommand({
-    //     Bucket: process.env.S3_BUCKET,
-    //     Key: `scraper_data/courses/${timestamp}.json`,
-    //     Body: Buffer.from(JSON.stringify({ courses }, null, 2)),
-    //     PartNumber: 1,
-    //     UploadId: v4(),
-    //   })
-    // );
-
-    log(chalk.green("Department finished. Saved to file."));
+    // log(chalk.green("Department finished. Saved to file."));
     await dptPage.close();
   }
+
+  const fileName = `scraper_data/courses/${timestamp}.json`;
+
+  await s3.send(
+    new PutObjectCommand({
+      Bucket: process.env.S3_BUCKET,
+      Key: fileName,
+      Body: Buffer.from(JSON.stringify({ courses }, null, 2)),
+    })
+  );
+
+  log(`Saved file to S3 - ${chalk.blue(fileName)}`);
 
   await browser.close();
 

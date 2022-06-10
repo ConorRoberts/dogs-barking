@@ -10,7 +10,6 @@
     "lint": "eslint ./src/**",
     "lint:fix": "eslint ./src/** --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md,js}\"",
-    "scrape": "yarn workspace scraper scrape",
     "client": "yarn workspace web-client dev",
     "test:client": "yarn workspace web-client test"
   },
