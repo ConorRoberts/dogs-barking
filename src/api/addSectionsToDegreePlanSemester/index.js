@@ -24,7 +24,7 @@ exports.handler = async (event) => {
 
   const { records } = await session.run(
     `
-        MATCH (:User {id: $userId})-->(:DegreePlan)-->(semester:DegreePlanSemester {id: $semesterId})
+        MATCH (semester: DegreePlanSemester {id: $semesterId})
 
         UNWIND $sections AS section
         MATCH (s: Section {id: section})
