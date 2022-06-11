@@ -27,9 +27,10 @@ exports.handler = async (event) => {
         MATCH (semester: DegreePlanSemester {id: $semesterId})
 
         UNWIND $sections AS section
-        MATCH (s: Section {id: section})
+        MATCH (c:Course)-->(s: Section {id: section})
 
         MERGE (semester)-[:CONTAINS]->(s)
+        MERGE (semester)-[:CONTAINS]->(c)
 
         RETURN 
           properties(s) as section
