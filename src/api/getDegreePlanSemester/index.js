@@ -24,13 +24,13 @@ exports.handler = async (event) => {
 
   const { records } = await session.run(
     `
-      MATCH (user:User {id: $userId})-->(dp:DegreePlan)-->(semester: DegreePlanSemester {id: $semesterId})-->(c:Course)
+      MATCH (user:User {id: $userId})-->(dp:DegreePlan)-->(semester: DegreePlanSemester {id: $semesterId})
       
       RETURN
-        [(c)-->(s:Section)<--(semester) | 
+        [(c:Course)<--(semester) | 
           {
             course: properties(c),
-            section: properties(s)
+            section: [(c)-->(s:Section) | properties(s)][0]
           }
         ] as courses,
         properties(semester) as semester
@@ -43,6 +43,6 @@ exports.handler = async (event) => {
 
   return {
     ...records[0].get("semester"),
-    courses: records[0].get("courses").map((record) => record.map(({ course, section }) => ({ ...course, section }))),
+    courses: records[0].get("courses").map(({ course, section }) => ({ ...course, section })),
   };
 };
