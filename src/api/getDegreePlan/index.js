@@ -49,6 +49,8 @@ exports.handler = async (event) => {
 
   return {
     ...records[0].get("plan"),
-    semesters: records[0].get("semesters").map((e) => ({ ...e.semester, courses: e.courses })),
+    semesters: records[0]
+      .get("semesters")
+      .map((e) => ({ ...e.semester, courses: e.courses.map(({ course, section }) => ({ ...course, section })) })),
   };
 };
