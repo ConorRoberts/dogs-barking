@@ -37,7 +37,7 @@ exports.handler = async (event) => {
     {
       userId: sub,
       semesterId,
-      sections: sections.map((e) => e.id),
+      sections: sections,
     }
   );
 
