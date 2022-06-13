@@ -4,7 +4,7 @@ import { RootState } from "@redux/store";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { PlusIcon } from "@components/Icons";
+import { LoadingIcon, PlusIcon } from "@components/Icons";
 import axios from "axios";
 import { groupBy } from "lodash";
 import PlannerYear from "@components/PlannerYear";
@@ -126,14 +126,6 @@ const Page = () => {
         <div>
           <h1 className="text-center">Degree Planner</h1>
         </div>
-        {/* <Select value={selectedPlanId} onChange={(e) => setSelectedPlanId(e.target.value)}>
-        <option value="none">Select a plan</option>
-        {plans.map((plan) => (
-          <option key={plan.id} value={plan.id}>
-            {plan.name ?? "My Plan"} {plan.id}
-          </option>
-        ))}
-      </Select> */}
 
         <div className="flex flex-col gap-8">
           {selectedPlanId !== "none" &&
@@ -153,6 +145,11 @@ const Page = () => {
             onClick={addSemester}
           />
         </div>
+        {(!user || (planLoading && selectedPlanId !== "none")) && (
+          <div className="flex justify-center my-6">
+            <LoadingIcon className="animate-spin" size={25} />
+          </div>
+        )}
       </div>
       <PlannerSidebar />
     </div>
