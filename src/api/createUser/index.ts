@@ -1,29 +1,28 @@
-const neo4j = require("neo4j-driver");
-const jwt = require("jsonwebtoken");
+import jwt, { JwtPayload } from "jsonwebtoken";
+import neo4j from "neo4j-driver";
+import { APIGatewayEvent, APIGatewayProxyResultV2 } from "aws-lambda";
 
 /**
  * @method POST
  * @description Creates metadata for a Cognito user within Neo4j
  */
-exports.handler = async (event) => {
-  console.log(event);
-
-  // const body = JSON.parse(event.body ?? "{}");
-  // const query = event.queryStringParameters;
-  // const pathParams = event.pathParameters;
-  const headers = event.headers;
-
-  const { sub, birthdate, name, email } = jwt.decode(headers.authorization.replace("Bearer ", ""));
-
+export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2<object>> => {
   const driver = neo4j.driver(
     `neo4j://${process.env.NEO4J_HOST}`,
-    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+    neo4j.auth.basic(process.env.NEO4J_USERNAME as string, process.env.NEO4J_PASSWORD as string)
   );
 
-  const session = driver.session();
+  try {
+    console.log(event);
 
-  const { records } = await session.run(
-    `
+    const { authorization } = event.headers;
+    if (!authorization) throw new Error("Unauthorized");
+    const { sub, birthdate, name, email } = jwt.decode(authorization?.replace("Bearer ", "")) as JwtPayload;
+
+    const session = driver.session();
+
+    const { records } = await session.run(
+      `
         MERGE (user: User {
             id: $sub,
             email: $email,
@@ -36,11 +35,17 @@ exports.handler = async (event) => {
 
         return properties(user) as user
     `,
-    { sub, email, name, birthdate: birthdate.slice(0, 10), major: "", minor: "", school: "" }
-  );
+      { sub, email, name, birthdate: birthdate.slice(0, 10), major: "", minor: "", school: "" }
+    );
 
-  await session.close();
-  await driver.close();
+    await session.close();
+    await driver.close();
 
-  return records[0].get("user");
+    return records[0].get("user");
+  } catch (error) {
+    console.error(error);
+    throw error;
+  } finally {
+    await driver.close();
+  }
 };
