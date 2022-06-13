@@ -1,11 +1,11 @@
-const neo4j = require("neo4j-driver");
-const jwt = require("jsonwebtoken");
+import neo4j from "neo4j-driver";
+import jwt from "jsonwebtoken";
 
 /**
  * @method method POST
  * @description Updates a user's metadata in Neo4j
  */
-exports.handler = async (event) => {
+export const handler = async (event) => {
   console.log(event);
 
   const { major = "", minor = "", school = "", takenCourses = [] } = JSON.parse(event.body ?? "{}");
@@ -15,7 +15,7 @@ exports.handler = async (event) => {
 
   const driver = neo4j.driver(
     `neo4j://${process.env.NEO4J_HOST}`,
-    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+    neo4j.auth.basic(process.env.NEO4J_USERNAME as string, process.env.NEO4J_PASSWORD as string)
   );
 
   const user = {

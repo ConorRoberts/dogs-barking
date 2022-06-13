@@ -1,22 +1,28 @@
-const jwt = require("jsonwebtoken");
-const neo4j = require("neo4j-driver");
+import { APIGatewayEvent, APIGatewayProxyEventPathParameters } from "aws-lambda";
+import jwt from "jsonwebtoken";
+import neo4j from "neo4j-driver";
+
+interface PathParams extends APIGatewayProxyEventPathParameters {
+  semesterId: string;
+}
 
 /**
  * @method method POST
  * @description description
  */
-exports.handler = async (event) => {
+export const handler = async (event: APIGatewayEvent) => {
   console.log(event);
 
   const { courses } = JSON.parse(event.body ?? "{}");
-  const { semesterId } = event.pathParameters;
+  const { semesterId } = event.pathParameters as PathParams;
   const { authorization } = event.headers;
 
-  const { sub } = jwt.decode(authorization.replace("Bearer ", ""));
+  if (!authorization) throw new Error("Unauthorized");
+  const { sub }: any = jwt.decode(authorization.replace("Bearer ", ""));
 
   const driver = neo4j.driver(
     `neo4j://${process.env.NEO4J_HOST}`,
-    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+    neo4j.auth.basic(process.env.NEO4J_USERNAME as string, process.env.NEO4J_PASSWORD as string)
   );
   const session = driver.session();
 

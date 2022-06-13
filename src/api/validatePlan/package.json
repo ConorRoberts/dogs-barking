@@ -1,5 +1,5 @@
 {
-  "name": "validateplan",
+  "name": "validate-plan",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,5 +13,12 @@
     "@aws-sdk/client-lambda": "^3.100.0",
     "jsonwebtoken": "^8.5.1",
     "neo4j-driver": "^4.4.5"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.100",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/node": "^17.0.42",
+    "typescript": "^4.7.3"
   }
 }
+

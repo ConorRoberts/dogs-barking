@@ -1,6 +1,6 @@
 import { PlannerSemesterData } from "@typedefs/DegreePlan";
 import { FormEvent, useEffect, useState } from "react";
-import { CloseIcon, LoadingIcon, PencilIcon, PlusIcon, SaveIcon } from "./Icons";
+import { CalendarCheckIcon, CloseIcon, LoadingIcon, PencilIcon, PlusIcon, SaveIcon } from "./Icons";
 import axios from "axios";
 import PlannerSemesterCourseSearch from "./PlannerSemesterCourseSearch";
 import PlannerSemesterDeletePrompt from "./PlannerSemesterDeletePrompt";
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@redux/store";
 import { AuthState } from "@redux/auth";
 import { PlannerState, setCurrentEditingSemester, setPlan } from "@redux/planner";
+import RequestRegistrationModal from "./RequestRegistrationModal";
 
 interface PlannerSemesterProps {
   data: PlannerSemesterData;
@@ -22,6 +23,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
   const [editState, setEditState] = useState(data);
   const [showCourseSelect, setShowCourseSelect] = useState(false);
   const [showDeletePrompt, setShowDeletePrompt] = useState(false);
+  const [showRequestModal, setShowRequestModal] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
@@ -126,7 +128,8 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
       className="flex flex-col gap-4 bg-white dark:bg-gray-800 rounded-xl shadow-center-sm p-2 w-64 min-h-[256px] flex-none m-2"
       initial={{ translateX: "200%" }}
       animate={{ translateX: "0%" }}
-      transition={{ duration: 0.4 }}>
+      transition={{ duration: 0.4 }}
+    >
       <PlannerSemesterDeletePrompt
         onClose={() => setShowDeletePrompt(false)}
         semester={id}
@@ -139,6 +142,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
         onClose={() => setShowCourseSelect(false)}
         semester={data}
       />
+      <RequestRegistrationModal open={showRequestModal} onClose={() => setShowRequestModal(false)} semester={data} />
       <div className="flex justify-between gap-4 items-center">
         {!editing && (
           <h3 className="capitalize">
@@ -150,7 +154,8 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
             <div className="col-span-3">
               <Select
                 value={editState.semester}
-                onChange={(e) => setEditState({ ...editState, semester: e.target.value })}>
+                onChange={(e) => setEditState({ ...editState, semester: e.target.value })}
+              >
                 <option value="winter">Winter</option>
                 <option value="summer">Summer</option>
                 <option value="fall">Fall</option>
@@ -184,10 +189,13 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
       </div>
       <div className="flex flex-col divide-y divide-gray-100 dark:divide-gray-700">
         {data.courses.map((course, index) => (
-          <div className="py-1 px-2 grid grid-cols-6 items-center" key={`${id}-${course.id}-${index}`}>
-            <p className="col-span-4">{course.code}</p>
-            <p>{course.credits}</p>
-            <CloseIcon size={15} className="ml-auto primary-hover" onClick={() => removeCourse(course.id)} />
+          <div key={`${id}-${course.id}-${index}`}>
+            <div className="py-1 px-2 grid grid-cols-6 items-center">
+              <p className="col-span-4">{course.code}</p>
+              <p>{course.credits}</p>
+              <CloseIcon size={15} className="ml-auto primary-hover" onClick={() => removeCourse(course.id)} />
+            </div>
+            {course.section && <p>{course.section.code}</p>}
           </div>
         ))}
       </div>
@@ -196,6 +204,13 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
           <PlusIcon size={20} />
           <p>Add Course</p>
         </Button>
+      </div>
+      <div className="flex justify-center gap-2">
+        <CalendarCheckIcon
+          size={15}
+          className="text-gray-300 dark:text-gray-500 primary-hover"
+          onClick={() => setShowRequestModal(true)}
+        />
       </div>
     </motion.div>
   );

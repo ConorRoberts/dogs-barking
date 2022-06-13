@@ -10,5 +10,11 @@
     "jsonwebtoken": "^8.5.1",
     "neo4j-driver": "^4.4.5",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@dogs-barking/common": "^1.0.25",
+    "@types/aws-lambda": "^8.10.100",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/uuid": "^8.3.4"
   }
 }

@@ -1,13 +1,10 @@
 {
   "name": "@dogs-barking/common",
-  "version": "1.0.17",
+  "version": "1.0.24",
   "description": "",
   "keywords": [],
   "author": "Conor Roberts",
   "license": "ISC",
-  "scripts": {
-    "build": "tsc"
-  },
   "dependencies": {
     "neo4j-driver": "^4.4.5"
   },

@@ -25,7 +25,9 @@
     "typescript": "^4.6.4"
   },
   "workspaces": [
-    "src/*"
+    "src/client",
+    "src/scraper",
+    "src/api/*"
   ],
   "repository": {
     "type": "git",

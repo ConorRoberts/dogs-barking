@@ -1,24 +1,25 @@
-const neo4j = require("neo4j-driver");
-const jwt = require("jsonwebtoken");
-const { v4 } = require("uuid");
+import neo4j from "neo4j-driver";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { v4 } from "uuid";
+import { APIGatewayEvent } from "aws-lambda";
 
 /**
  * @method POST
  * @description Updates the rating for a course
  */
-exports.handler = async (event) => {
+export const handler = async (event: APIGatewayEvent) => {
   console.log(event);
 
   const { courseId, ratingType, ratingValue } = JSON.parse(event.body ?? "{}");
-  // const query = event.queryStringParameters;
-  // const pathParams = event.pathParameters;
-  const headers = event.headers;
+  const { authorization } = event.headers;
 
-  const { sub } = jwt.decode(headers.authorization.replace("Bearer ", ""));
+  if (!authorization) throw new Error("Unauthorized");
+
+  const { sub } = jwt.decode(authorization.replace("Bearer ", "")) as JwtPayload;
 
   const driver = neo4j.driver(
     `neo4j://${process.env.NEO4J_HOST}`,
-    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+    neo4j.auth.basic(process.env.NEO4J_USERNAME as string, process.env.NEO4J_PASSWORD as string)
   );
 
   const ratingTypes = ["difficulty", "timeSpent", "usefulness"];
@@ -30,18 +31,19 @@ exports.handler = async (event) => {
   const { records } = await session.run(
     `
     CALL {
-      MATCH (user:User {id: $userId}),(course:Course {id: $courseId})
+      MATCH (user:User {id: $userId})
+      MATCH (course:Course {id: $courseId})
 
-      MERGE (user)-[:RATED]->(rating:Rating)<-[:HAS_RATING]-(course)
+      MERGE (user)-[r:RATED]->(course)
       
       ON CREATE
-        SET rating.id = $id
+        SET r.id = $id
       
-      SET rating.${ratingType} = $rating
-      SET rating.updatedAt = timestamp()
+      SET r[$ratingType] = $r
+      SET r.updatedAt = timestamp()
     }
     
-    MATCH (course: Course {id: $courseId})-[:HAS_RATING]->(allRatings:Rating)<-[:RATED]-(user:User)
+    MATCH (course: Course {id: $courseId})<-[allRatings:RATED]-(user:User)
 
     RETURN
       avg(allRatings.difficulty) as difficulty,
