@@ -39,7 +39,7 @@ export const handler = async (event: APIGatewayEvent) => {
       ON CREATE
         SET r.id = $id
       
-      SET r[$ratingType] = $r
+      SET r:[$ratingType] = $r
       SET r.updatedAt = timestamp()
     }
     
