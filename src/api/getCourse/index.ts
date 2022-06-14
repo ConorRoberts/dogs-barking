@@ -1,26 +1,32 @@
-const neo4j = require("neo4j-driver");
+import neo4j from "neo4j-driver";
+import { APIGatewayEvent, APIGatewayProxyEventPathParameters, APIGatewayProxyResultV2 } from "aws-lambda";
+import Course from "@dogs-barking/common/Course";
 
 /**
  * @method GET
  * @description Gets the course with the given id
  */
-exports.handler = async (event) => {
-  console.log(event);
+interface PathParameters extends APIGatewayProxyEventPathParameters {
+  courseId: string;
+}
 
-  const { courseId } = event.pathParameters;
-  // const headers = event.headers;
-
-  if (courseId === undefined || typeof courseId !== "string") throw new Error("Invalid courseId");
-
+export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2> => {
   const driver = neo4j.driver(
     `neo4j://${process.env.NEO4J_HOST}`,
-    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+    neo4j.auth.basic(process.env.NEO4J_USERNAME as string, process.env.NEO4J_PASSWORD as string)
   );
 
-  const session = driver.session();
+  try {
+    console.log(event);
 
-  const { records } = await session.run(
-    `
+    const { courseId } = event.pathParameters as PathParameters;
+
+    if (courseId === undefined || typeof courseId !== "string") throw new Error("Invalid courseId");
+
+    const session = driver.session();
+
+    const { records } = await session.run(
+      `
         MATCH (course:Course {id: $courseId})
         OPTIONAL MATCH path=(course)-[:REQUIRES*]->(prereq)
 
@@ -35,72 +41,81 @@ exports.handler = async (event) => {
             avg(rating.timeSpent) as timeSpent,
             avg(rating.usefulness) as usefulness,
             count(rating) as ratingCount
-            `,
-    { courseId }
-  );
+      `,
+      { courseId }
+    );
 
-  console.log(records[0].get("course"));
+    console.log(records[0].get("course"));
 
-  await session.close();
-  await driver.close();
+    await session.close();
+    await driver.close();
 
-  // This is to store the requirement tree. Object format is fastest for retrieval and duplicate prevention.
-  const requirements = {};
+    // This is to store the requirement tree. Object format is fastest for retrieval and duplicate prevention.
+    const requirements: any = {};
 
-  if (records[0]?.get("requirements") !== null) {
-    records
-      .map((e) => e.get("requirements"))
-      .forEach((list) => {
-        let previous;
-        list.forEach((e, index) => {
-          const formatted = {
-            ...e.data,
-            label: e.label,
-            requirements: [],
-          };
+    if (records[0]?.get("requirements") !== null) {
+      records
+        .map((e) => e.get("requirements"))
+        .forEach((list: any[]) => {
+          let previous: Course | undefined;
+          list.forEach((e, index) => {
+            const formatted: Course = {
+              ...e.data,
+              label: e.label,
+              requirements: [],
+            };
 
-          // If this is the first element, skip it
-          if (index !== 0) {
-            // Are we missing this entry in our list?
-            if (requirements[formatted.id] === undefined) requirements[formatted.id] = formatted;
+            // If this is the first element, skip it
+            if (index !== 0) {
+              // Are we missing this entry in our list?
+              if (requirements[formatted.id] === undefined) requirements[formatted.id] = formatted;
 
-            if (index > 1 && previous)
-              requirements[previous.id].requirements = [
-                ...new Set([...requirements[previous.id].requirements, formatted.id]),
-              ];
-          }
+              if (index > 1 && previous)
+                requirements[previous.id].requirements = [
+                  ...new Set([...requirements[previous.id].requirements, formatted.id]),
+                ];
+            }
 
-          previous = formatted;
+            previous = formatted;
+          });
         });
-      });
-  }
+    }
 
-  console.log(requirements);
+    console.log(requirements);
 
-  const fillTree = (id) => {
-    const node = requirements[id];
+    const fillTree = (id: string) => {
+      const node = requirements[id];
 
-    if (!node) return null;
+      if (!node) return null;
+
+      return {
+        ...node,
+        requirements:
+          node?.requirements
+            ?.map((e: string) => fillTree(e))
+            .filter((e: Course | null) => e !== undefined && e !== null) ?? [],
+      };
+    };
 
     return {
-      ...node,
-      requirements: node?.requirements?.map((e) => fillTree(e)).filter((e) => e !== undefined && e !== null) ?? [],
+      ...records[0].get("course"),
+      school: records[0].get("school"),
+      label: "Course",
+      requirements: records
+        .map((e) => fillTree(e.get("requirements")?.length > 1 ? e.get("requirements")[1]?.data?.id : null))
+        .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
+        .filter((e) => e !== undefined && e !== null),
+      rating: {
+        difficulty: records[0].get("difficulty") ?? 0,
+        usefulness: records[0].get("usefulness") ?? 0,
+        timeSpent: records[0].get("timeSpent") ?? 0,
+        count: records[0].get("ratingCount")?.low ?? 0,
+      },
     };
-  };
-
-  return {
-    ...records[0].get("course"),
-    school: records[0].get("school"),
-    label: "Course",
-    requirements: records
-      .map((e) => fillTree(e.get("requirements")?.length > 1 ? e.get("requirements")[1]?.data?.id : null))
-      .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
-      .filter((e) => e !== undefined && e !== null),
-    rating: {
-      difficulty: records[0].get("difficulty") ?? 0,
-      usefulness: records[0].get("usefulness") ?? 0,
-      timeSpent: records[0].get("timeSpent") ?? 0,
-      count: records[0].get("ratingCount")?.low ?? 0,
-    },
-  };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    await driver.close();
+  }
 };
