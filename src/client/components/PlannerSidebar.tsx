@@ -1,6 +1,7 @@
 import { AuthState } from "@redux/auth";
 import { PlannerState } from "@redux/planner";
 import { RootState } from "@redux/store";
+import OrBlockData from "@typedefs/OrBlockData";
 import Program from "@typedefs/Program";
 import Requirement from "@typedefs/Requirement";
 import axios from "axios";
@@ -21,7 +22,17 @@ const PlannerSidebar = () => {
     .flat()
     .concat(...user.takenCourses);
 
-  const progressPercentage = 50;
+  const neededCredits = majorRequirements.reduce((acc, curr) => {
+    if (curr.label === "Course") {
+      return acc + curr.credits;
+    } else if (curr.label === "OrBlock" && curr.target !== undefined) {
+      return acc + curr.target;
+    } else {
+      return acc;
+    }
+  }, 0);
+
+  const currentCredits = plannedCourses?.reduce((a, b) => a + b.credits, 0);
 
   useEffect(() => {
     if (!user) return;
@@ -53,7 +64,10 @@ const PlannerSidebar = () => {
     <div className="hidden md:block overflow-y-auto max-h-full border-l border-gray-100 dark:border-gray-700 p-4">
       <h2 className="text-center">Progress</h2>
 
-      <p>{plannedCourses?.reduce((a, b) => a + b.credits, 0)} credits / 20</p>
+      <p>{(currentCredits / neededCredits) * 100} credits / 20</p>
+      <div className="h-4 bg-primary-100 overflow-hidden rounded-full">
+        <div style={{ width: `${(currentCredits / neededCredits) * 100}%` }} className="bg-primary-500 h-full"></div>
+      </div>
 
       <div className="flex flex-col py-4">
         <div>

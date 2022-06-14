@@ -9,7 +9,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CourseSection from "./CourseSection";
-import { Input, Modal } from "./form";
+import { Button, Input, Modal } from "./form";
 import { LabIcon, LectureIcon } from "./Icons";
 import PlannerCourseSearchResult from "./PlannerCourseSearchResult";
 import PlannerCourseSearchSelections from "./PlannerCourseSearchSelections";
@@ -129,13 +129,11 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
             {/* <h4>Selected ({credits})</h4> */}
             <PlannerCourseSearchSelections selections={selections} />
           </div>
-          {/* <div>
-            <div className="mt-auto">
-              <Button variant="outline" onClick={handleSubmit}>
-                Submit
-              </Button>
-            </div>
-          </div> */}
+        </div>
+        <div className="mt-auto flex justify-center">
+          <Button variant="outline" onClick={handleSubmit}>
+            Submit
+          </Button>
         </div>
       </div>
     </Modal>

@@ -41,7 +41,7 @@ export {
   IoGameControllerOutline as Games,
   IoDocumentTextOutline as DocumentIcon,
 } from "react-icons/io5";
-export { BiBookOpen as CatalogIcon } from "react-icons/bi";
+export { BiBookOpen as CatalogIcon, BiCalendarCheck as CalendarCheckIcon } from "react-icons/bi";
 export { FcGoogle as Google } from "react-icons/fc";
 export { GrImage as Image } from "react-icons/gr";
 export { GiCheckboxTree as Graph } from "react-icons/gi";

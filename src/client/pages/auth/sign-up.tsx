@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { AuthState } from "@redux/auth";
 import { RootState } from "@redux/store";
 import getToken from "@utils/getToken";
+import MetaData from "@components/MetaData";
 
 export enum AuthStage {
   SignUp,
@@ -97,6 +98,7 @@ const Page = () => {
 
   return (
     <div className="flex-1 flex justify-center items-center">
+      <MetaData title="Sign Up" />
       <div className="mx-auto bg-white sm:p-8 p-4 dark:bg-gray-800 rounded-xl shadow-md max-w-md w-full">
         <Formik
           initialValues={{
@@ -108,7 +110,8 @@ const Page = () => {
             name: "",
           }}
           onSubmit={handleSubmit}
-          validationSchema={shape}>
+          validationSchema={shape}
+        >
           {({ isSubmitting }) => (
             <Form>
               {authStage === AuthStage.SignUp && (
@@ -161,7 +164,9 @@ const Page = () => {
               {authStage === AuthStage.ConfirmSignUp && (
                 <>
                   <h2 className="text-center font-normal">Confirm Sign Up</h2>
-                  <p className="text-gray-500 text-center">You should receive a confirmation code in your email shortly</p>
+                  <p className="text-gray-500 text-center">
+                    You should receive a confirmation code in your email shortly
+                  </p>
                   <div className="flex flex-col gap-8">
                     <Field placeholder="123456" name="confirmCode" component={Input} />
 

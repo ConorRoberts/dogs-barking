@@ -53,9 +53,11 @@ const Page = ({ course }: PageProps) => {
       <div>
         <h1 className="text-center mb-1">{course.name}</h1>
         <h2 className="subheading text-center">{course.code}</h2>
-        <Link passHref href={`/school/${course.school.id}`}>
-          <p className="text-center text-gray-400">{course.school.name}</p>
-        </Link>
+        <div className="flex justify-center">
+          <Link passHref href={`/school/${course.school.id}`}>
+            <a className="text-gray-400">{course.school.name}</a>
+          </Link>
+        </div>
       </div>
       <div className="flex flex-col gap-4">
         <p>{course.description}</p>

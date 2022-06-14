@@ -1,8 +1,10 @@
 import CreatorCard from "@components/CreatorCard";
+import MetaData from "@components/MetaData";
 
 const Page = () => {
   return (
     <div className="flex flex-col gap-4">
+      <MetaData title="About" />
       <h1 className="text-center">About</h1>
 
       <h3 className="text-center">Creators</h3>
