@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
 /**
@@ -6,7 +6,13 @@ import ReactDOM from "react-dom";
  * @param children Children components to render.
  */
 const Portal = ({ children }: { children: ReactNode }) => {
-  return ReactDOM.createPortal(children, document.getElementById("app"));
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  return mounted ? ReactDOM.createPortal(children, document.getElementById("app")) : null;
 };
 
 export default Portal;
