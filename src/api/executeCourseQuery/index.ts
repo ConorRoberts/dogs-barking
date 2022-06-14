@@ -56,7 +56,7 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
         WITH course
         
         RETURN
-            collect(course)[$skip..$limit],
+            collect(course)[$skip..$limit] as courses,
             count(course) as total
       `,
       {
@@ -74,7 +74,7 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
 
     return {
       total: records[0].get("total").low,
-      courses: records.map((record) => record.get("course")),
+      courses: records[0].get("courses"),
     };
   } catch (error) {
     console.error(error);
