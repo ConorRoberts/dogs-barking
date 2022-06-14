@@ -31,7 +31,7 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
         OPTIONAL MATCH path=(course)-[:REQUIRES*]->(prereq)
 
         MATCH (school:School)-[:OFFERS]->(course)
-        OPTIONAL MATCH (course)-[:HAS_RATING]->(rating:Rating)
+        OPTIONAL MATCH (:User)-[rating:RATED]->(course)
 
         return 
             properties(course) as course,
