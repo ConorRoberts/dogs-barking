@@ -1,46 +1,50 @@
 import neo4j from "neo4j-driver";
-import jwt from "jsonwebtoken";
+import { APIGatewayEvent, APIGatewayProxyResultV2 } from "aws-lambda";
+import School from "@dogs-barking/common/School";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 /**
  * @method method POST
  * @description Updates a user's metadata in Neo4j
  */
-export const handler = async (event) => {
-  console.log(event);
-
-  const { major = "", minor = "", school = "", takenCourses = [] } = JSON.parse(event.body ?? "{}");
-  const headers = event.headers;
-
-  const { sub } = jwt.decode(headers.authorization.replace("Bearer ", ""));
-
+export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2<School[]>> => {
   const driver = neo4j.driver(
     `neo4j://${process.env.NEO4J_HOST}`,
     neo4j.auth.basic(process.env.NEO4J_USERNAME as string, process.env.NEO4J_PASSWORD as string)
   );
 
-  const user = {
-    major: null,
-    minor: null,
-    school: null,
-    takenCourses: [],
-  };
+  try {
+    console.log(event);
 
-  let session = driver.session();
-  await session.run(
-    `
+    const { major = "", minor = "", school = "", takenCourses = [] } = JSON.parse(event.body ?? "{}");
+    const { authorization } = event.headers;
+
+    if (!authorization) throw new Error("Unauthorized");
+    const { sub } = jwt.decode(authorization.replace("Bearer ", "")) as JwtPayload;
+
+    const user = {
+      major: null,
+      minor: null,
+      school: null,
+      takenCourses: [],
+    };
+
+    let session = driver.session();
+    await session.run(
+      `
     MERGE (user:User {id: $userId})
     `,
-    { userId: sub }
-  );
-  await session.close();
+      { userId: sub }
+    );
+    await session.close();
 
-  // Handle major
-  if (major !== "") {
-    try {
-      session = driver.session();
+    // Handle major
+    if (major !== "") {
+      try {
+        session = driver.session();
 
-      const { records } = await session.run(
-        `
+        const { records } = await session.run(
+          `
         MATCH (user:User {id: $userId})
         
         WITH user
@@ -52,24 +56,24 @@ export const handler = async (event) => {
         
         RETURN properties(major) as major
         `,
-        { userId: sub, major }
-      );
+          { userId: sub, major }
+        );
 
-      await session.close();
+        await session.close();
 
-      user.major = records[0].get("major");
-    } catch (error) {
-      console.error(error);
+        user.major = records[0].get("major");
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }
 
-  // Handle minor
-  if (minor !== "") {
-    try {
-      session = driver.session();
+    // Handle minor
+    if (minor !== "") {
+      try {
+        session = driver.session();
 
-      const { records } = await session.run(
-        `
+        const { records } = await session.run(
+          `
         MATCH (user:User {id: $userId})
 
         WITH user
@@ -81,24 +85,24 @@ export const handler = async (event) => {
 
         RETURN properties(minor) as minor
       `,
-        { userId: sub, minor }
-      );
+          { userId: sub, minor }
+        );
 
-      await session.close();
+        await session.close();
 
-      user.minor = records[0].get("minor");
-    } catch (error) {
-      console.error(error);
+        user.minor = records[0].get("minor");
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }
 
-  // Handle school
-  if (school !== "") {
-    try {
-      session = driver.session();
+    // Handle school
+    if (school !== "") {
+      try {
+        session = driver.session();
 
-      const { records } = await session.run(
-        `
+        const { records } = await session.run(
+          `
         MATCH (user:User {id: $userId})
 
         CALL{
@@ -116,21 +120,21 @@ export const handler = async (event) => {
 
         RETURN properties(school) as school
       `,
-        { userId: sub, school }
-      );
+          { userId: sub, school }
+        );
 
-      await session.close();
+        await session.close();
 
-      user.school = records[0].get("school");
-    } catch (error) {
-      console.error(error);
+        user.school = records[0].get("school");
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }
 
-  session = driver.session();
+    session = driver.session();
 
-  const { records } = await session.run(
-    `
+    const { records } = await session.run(
+      `
       CALL{
         MATCH (user: User {id: $userId})-[r:HAS_TAKEN]->(:Course)
         DELETE r
@@ -156,17 +160,23 @@ export const handler = async (event) => {
         properties(user) as user,
         [(user)-[:HAS_TAKEN]->(c:Course) | properties(c)] as takenCourses
         `,
-    { userId: sub, takenCourses }
-  );
+      { userId: sub, takenCourses }
+    );
 
-  await session.close();
-  await driver.close();
+    await session.close();
+    await driver.close();
 
-  console.log(records);
+    console.log(records);
 
-  return {
-    ...records[0].get("user"),
-    ...user,
-    takenCourses: records[0].get("takenCourses"),
-  };
+    return {
+      ...records[0].get("user"),
+      ...user,
+      takenCourses: records[0].get("takenCourses"),
+    };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  } finally {
+    await driver.close();
+  }
 };
