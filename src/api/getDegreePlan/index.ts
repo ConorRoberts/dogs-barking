@@ -22,8 +22,6 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
   try {
     console.log(event);
 
-    // const body = JSON.parse(event.body ?? "{}");
-    // const query = event.queryStringParameters;
     const { planId } = event.pathParameters as PathParameters;
     const { authorization } = event.headers;
 
@@ -55,7 +53,6 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
     );
 
     await session.close();
-    await driver.close();
 
     return {
       ...records[0].get("plan"),
