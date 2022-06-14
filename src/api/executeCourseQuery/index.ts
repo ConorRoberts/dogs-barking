@@ -42,19 +42,22 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
     const session = driver.session();
     const { records, summary } = await session.run(
       `
-      MATCH (s:School)-[:OFFERS]->(c:Course) 
+        CALL{
+          MATCH (c:Course) 
+          
+          RETURN
+            c as course
+          
+          ORDER by c.code
+        }
+        
+        ${filters.length > 0 ? "WHERE " : ""}${filters.join(" AND ")}
 
-      ${filters.length > 0 ? "WHERE " : ""}${filters.join(" AND ")}
-
-      WITH count(c) as total, properties(c) as course
-      
-      RETURN DISTINCT
-        course,
-        total
-
-      ORDER BY course.code ${sortDir}
-      SKIP $skip
-      LIMIT $limit
+        WITH course
+        
+        RETURN
+            collect(course)[$skip..$limit],
+            count(course)
     `,
       {
         ...query,
