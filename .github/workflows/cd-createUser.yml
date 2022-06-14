@@ -25,7 +25,7 @@ jobs:
         run: |
           cd src/api/${{env.FUNCTION_NAME}}
           yarn install
-          yarn tsc
+          yarn tsc 
           yarn install --production=true
           zip -r build.zip index.js package.json yarn.lock node_modules
       - name: Configure AWS credentials
