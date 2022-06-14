@@ -45,14 +45,14 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
         CALL{
           MATCH (c:Course) 
           
+          ${filters.length > 0 ? "WHERE " : ""}${filters.join(" AND ")}
+
           RETURN
             c as course
           
           ORDER by c.code
         }
         
-        ${filters.length > 0 ? "WHERE " : ""}${filters.join(" AND ")}
-
         WITH course
         
         RETURN
