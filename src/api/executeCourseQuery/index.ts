@@ -56,7 +56,7 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
         WITH course
         
         RETURN
-            collect(course)[$skip..$limit] as courses,
+            collect(properties(course))[$skip..$limit] as courses,
             count(course) as total
       `,
       {
