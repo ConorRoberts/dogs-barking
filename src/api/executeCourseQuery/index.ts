@@ -57,8 +57,8 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
         
         RETURN
             collect(course)[$skip..$limit],
-            count(course)
-    `,
+            count(course) as total
+      `,
       {
         ...query,
         number: parseInt(query?.number),
@@ -71,7 +71,6 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
     console.log(summary);
 
     await session.close();
-    await driver.close();
 
     return {
       total: records[0].get("total").low,
