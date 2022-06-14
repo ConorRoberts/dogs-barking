@@ -26,8 +26,7 @@
   },
   "workspaces": [
     "src/client",
-    "src/scraper",
-    "src/api/*"
+    "src/scraper"
   ],
   "repository": {
     "type": "git",
