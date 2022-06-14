@@ -1,26 +1,26 @@
-const neo4j = require("neo4j-driver");
+import neo4j from "neo4j-driver";
+import { APIGatewayEvent, APIGatewayProxyResultV2 } from "aws-lambda";
+import Program from "@dogs-barking/common/Program";
+import School from "@dogs-barking/common/School";
 
 /**
  * @method GET
  * @description Gets all schools from our DB
  */
-exports.handler = async (event) => {
-  console.log(event);
 
-  // const body = JSON.parse(event.body ?? "{}");
-  // const query = event.queryStringParameters;
-  // const pathParams = event.pathParameters;
-  // const headers = event.headers;
-
+export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2<School[]>> => {
   const driver = neo4j.driver(
     `neo4j://${process.env.NEO4J_HOST}`,
-    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+    neo4j.auth.basic(process.env.NEO4J_USERNAME as string, process.env.NEO4J_PASSWORD as string)
   );
 
-  const session = driver.session();
+  try {
+    console.log(event);
 
-  const data = await session.run(
-    `
+    const session = driver.session();
+
+    const data = await session.run(
+      `
     MATCH (school:School)
     RETURN
       properties(school) as school,
@@ -33,15 +33,21 @@ exports.handler = async (event) => {
         }
       ] as programs
     `
-  );
+    );
 
-  await session.close();
+    await session.close();
 
-  return data.records.map((record) => ({
-    programs: record
-      .get("programs")
-      .map(({ program, ...e }) => ({ ...program, ...e }))
-      .sort((a, b) => a.name.localeCompare(b.name)),
-    ...record.get("school"),
-  }));
+    return data.records.map((record) => ({
+      programs: record
+        .get("programs")
+        .map(({ program, ...e }: { program: Program }) => ({ ...program, ...e }))
+        .sort((a: Program, b: Program) => a.name.localeCompare(b.name)),
+      ...record.get("school"),
+    }));
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    await driver.close();
+  }
 };
