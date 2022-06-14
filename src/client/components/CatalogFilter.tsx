@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { PlusIcon } from "./Icons";
-import { CatalogState, setCatalogType, setPageState, setFilters, resetFilters, setScope } from "@redux/catalog";
+import { CatalogState, setCatalogType, setPageState, setFilters, resetFilters } from "@redux/catalog";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Input, Select } from "./form";
 
@@ -24,7 +24,7 @@ const validFilters = {
 };
 
 const CatalogFilter = ({ handleSubmit }) => {
-  const { pageState, type, filters, scope } = useSelector<CatalogState, CatalogState>((state) => state);
+  const { pageState, type } = useSelector<CatalogState, CatalogState>((state) => state);
   const [filterKey, setFilterKey] = useState("number");
   const [filterValue, setFilterValue] = useState("");
   const dispatch = useDispatch();
@@ -81,13 +81,13 @@ const CatalogFilter = ({ handleSubmit }) => {
           </Select>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-2">
+      {/* <div className="grid grid-cols-3 gap-2">
         {["all", "grad", "undergrad"].map((e) => (
           <Button onClick={() => dispatch(setScope(e))} variant={scope === e ? "default" : "outline"} key={e}>
             <p className="capitalize">{e}</p>
           </Button>
         ))}
-      </div>
+      </div> */}
       <div>
         <h4 className="text-center">Filters</h4>
         <div className="flex gap-4 flex-col">
@@ -113,7 +113,7 @@ const CatalogFilter = ({ handleSubmit }) => {
           </div>
         </div>
       </div>
-      <div>
+      {/* <div>
         <h4 className="text-center">Applied Filters</h4>
         <div className="divide-y divide-gray-300 dark:divide-gray-800">
           {Object.entries(filters).map(([key, value]) => (
@@ -123,7 +123,7 @@ const CatalogFilter = ({ handleSubmit }) => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
       <div className="flex justify-center gap-4 my-2">
         <Button onClick={handleSubmit} type="submit">
           Submit
