@@ -24,7 +24,7 @@ const CatalogCourse = ({ course }: Props) => {
           onClick={() => setOpen(!open)}>
           <DropdownIcon size={40} />
         </motion.div>
-        <p className="font-semibold flex-1 cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-300 transition-colors p-2 duration-100">
+        <p className="font-semibold flex-1 p-2">
           {code} - {course.name}
         </p>
       </div>

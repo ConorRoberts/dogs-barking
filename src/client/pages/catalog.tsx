@@ -2,7 +2,7 @@ import MetaData from "@components/MetaData";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { CloseIcon, LoadingIcon, PlusIcon } from "@components/Icons";
-import Program from "@typedefs/Program";
+// import Program from "@typedefs/Program";
 import Course from "@typedefs/Course";
 import CourseQueryApiResponse from "@typedefs/CourseQueryAPIResponse";
 import CatalogCourse from "@components/CatalogCourse";
@@ -15,7 +15,7 @@ import { RootState } from "@redux/store";
 const Page = () => {
   const [loading, setLoading] = useState(false);
   const [courses, setCourses] = useState<Course[]>([]);
-  const [programs, setPrograms] = useState<Program[]>([]);
+  // const [programs, setPrograms] = useState<Program[]>([]);
   const [totals, setTotals] = useState({ course: 0, program: 0 });
   const [page, setPage] = useState(0);
   const { filters } = useSelector<RootState, CatalogState>((state) => state.catalog);
@@ -72,7 +72,7 @@ const Page = () => {
                 <option value="" disabled>
                   None
                 </option>
-                {CATALOG_FILTER_OPTIONS.map((e, index) => (
+                {CATALOG_FILTER_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map((e, index) => (
                   <option key={`catalog filter key option ${index}`} value={e} className="capitalize">
                     {e}
                   </option>
@@ -86,21 +86,33 @@ const Page = () => {
               />
               <PlusIcon
                 size={25}
-                className="border border-gray-300 rounded-full"
-                onClick={() => dispatch(addFilter([currentFilterKey, currentFilterValue]))}
+                className="border border-gray-300 rounded-full min-w-max"
+                onClick={() => {
+                  setCurrentFilterValue("");
+                  dispatch(addFilter([currentFilterKey, currentFilterValue]));
+                }}
               />
             </div>
 
-            <div className="flex gap-4 items-center">
+            <div className="flex gap-4 items-center flex-wrap">
               {filters.map(([key, val], index) => (
                 <div
-                  className="bg-blue-500 rounded-full py-0.5 px-5 text-white capitalize"
+                  className="rounded-full capitalize flex overflow-hidden items-center group shadow-md"
                   key={`catalog filter ${index}`}
                 >
-                  <p>
-                    {key}: {val}
+                  <div className="dark:bg-gray-700 bg-white shadow-md py-0.5 flex items-center px-2 sm:px-4 ">
+                    <CloseIcon
+                      className="w-0 h-0 group-hover:w-5 group-hover:h-5 transition-all group-hover:mr-2 primary-hover"
+                      onClick={() => {
+                        setCurrentFilterValue("");
+                        dispatch(removeFilter([key, val]));
+                      }}
+                    />
+                    <p className="text-sm sm:text-base">{key}</p>
+                  </div>
+                  <p className="px-2 sm:px-4 py-0.5 bg-blue-500 dark:bg-blue-800 text-white text-sm sm:text-base">
+                    {val}
                   </p>
-                  <CloseIcon size={25} onClick={() => dispatch(removeFilter([key, val]))} />
                 </div>
               ))}
             </div>
@@ -108,12 +120,12 @@ const Page = () => {
           <p>
             Showing {50 * page} - {50 * page + 50} of {totals.course} results
           </p>
-          <div className="flex gap-2 items-center justify-center">
-            <Button variant="outline" onClick={() => setPage(page + 1)}>
-              Next
-            </Button>
+          <div className="flex gap-2 items-center justify-end">
             <Button variant="outline" onClick={() => setPage(page - 1 < 0 ? 0 : page - 1)}>
               Previous
+            </Button>
+            <Button variant="outline" onClick={() => setPage(page + 1)}>
+              Next
             </Button>
           </div>
           <ul className="scrollbar scrollbar-track-y-transparent">
