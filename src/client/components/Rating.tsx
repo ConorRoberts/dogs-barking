@@ -2,10 +2,12 @@ import { AuthState } from "@redux/auth";
 import { RootState } from "@redux/store";
 import RatingData from "@typedefs/RatingData";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Loading, RadioButtonEmptyIcon, RadioButtonFilledIcon } from "./Icons";
 import { motion } from "framer-motion";
+import { Toast } from "./form";
+import { sleep } from "meilisearch";
 
 interface RatingProps {
   courseId: string;
@@ -30,15 +32,28 @@ const Rating = ({
 }: RatingProps) => {
   const [mouseIndex, setMouseIndex] = useState(-1);
   const [rating, setRating] = useState(initialRating);
+  const [ratingSubmission, setRatingSubmission] = useState(false);
+  const [ratingSubmissionError, setRatingSubmissionError] = useState("");
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   const [updateLoading, setUpdateLoading] = useState(false);
 
   const canRateCourse = user && user?.takenCourses.some((e) => e.id === courseId);
 
+  useEffect(() => {
+    if (ratingSubmission) {
+      
+      sleep(2500).then(() => setRatingSubmission(false));
+    }
+  }, [ratingSubmission]);
+
   // Update rating on backend
   const submitRating = async ({ ratingValue }: { ratingValue: number }) => {
-    if (!user?.token || !canRateCourse) return;
-
+    if (!user?.token || !canRateCourse) {
+      setRatingSubmission(true);
+      if(!user?.token) setRatingSubmissionError("You must be logged in to rate courses.");
+      else setRatingSubmissionError("You cannot rate courses you have not taken.");
+      return;
+    }
     setUpdateLoading(true);
     setMouseIndex(-1);
     try {
@@ -96,6 +111,7 @@ const Rating = ({
         </motion.div>
       )}
       <p className="dark:text-gray-400 text-gray-600 text-center text-xs">{tooltip}</p>
+      <Toast open={ratingSubmission} type={"failure"} text={ratingSubmissionError} />
     </div>
   );
 };
