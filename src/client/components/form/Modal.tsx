@@ -33,8 +33,8 @@ const Modal = ({ children, onClose, className, open }: ModalProps) => {
         onMouseDown={(e) => ref?.current && !ref?.current.contains(e?.target) && onClose()}
         onTouchEnd={(e) => ref?.current && !ref?.current.contains(e?.target) && onClose()}>
         <div
-          className={`bg-white dark:bg-gray-900 bg-opacity-90 backdrop-filter backdrop-blur-[6px] ${
-            className ?? "max-w-full"
+          className={`bg-gray-100 dark:bg-gray-900 bg-opacity-90 backdrop-filter backdrop-blur-[6px] ${
+            className ?? "max-w-xl"
           } rounded-xl p-4 sm:p-6 absolute top-2 mx-auto w-full`}
           ref={ref}>
           <CloseIcon

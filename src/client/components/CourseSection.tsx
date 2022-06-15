@@ -1,13 +1,24 @@
 import Meeting from "@typedefs/Meeting";
 import Section from "@typedefs/Section";
+import { CheckIcon } from "./Icons";
 
 interface Props {
   section: Section;
+  selected?: boolean;
 }
 
-const CourseSection = ({ section }: Props) => {
+const CourseSection = ({ section, selected }: Props) => {
   return (
-    <div className="dark:bg-gray-800 bg-white rounded-md p-2 flex flex-col gap-1">
+    <div
+      className={`rounded-md p-2 flex flex-col gap-1 relative ${
+        selected ? "dark:bg-blue-900 bg-blue-100" : "dark:bg-gray-800 bg-white"
+      }`}
+    >
+      {selected && (
+        <div className="absolute -top-2 -right-2">
+          <CheckIcon size={18} className="dark:text-green-400" />
+        </div>
+      )}
       <div className="flex gap-2 justify-between items-center">
         <h3 className="text-xl">{section.code}</h3>
         <h3 className="text-xl">

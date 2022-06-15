@@ -61,7 +61,7 @@ const PlannerSidebar = () => {
   }, [user]);
 
   return (
-    <div className="hidden md:block overflow-y-auto max-h-full border-l border-gray-100 dark:border-gray-700 p-4">
+    <div className="hidden md:block overflow-y-auto max-h-full border-l border-gray-200 dark:border-gray-700 p-4">
       <h2 className="text-center">Progress</h2>
 
       <p>{(currentCredits / neededCredits) * 100} credits / 20</p>

@@ -1,7 +1,7 @@
-import PlannerSectionSelection from "@typedefs/PlannerSectionSelection";
+import PlannerCourseSelection from "@typedefs/PlannerCourseSelection";
 
 interface Props {
-  selections: PlannerSectionSelection[];
+  selections: PlannerCourseSelection[];
 }
 
 const PlannerCourseSearchSelections = ({ selections }: Props) => {
