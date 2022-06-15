@@ -4,26 +4,21 @@ describe("Course search autocomplete provides valid suggestions", () => {
   });
 
   it("should display suggestions", () => {
+    cy.get("#home-search-button").click();
     cy.get("input[placeholder='Course code']").type("CIS2750");
 
-    cy.wait(100);
-
-    cy.get("div.absolute.top-full > div[href *= '/course/'] p:nth-child(1)").should("contain", "CIS2750");
+    cy.get("#search-modal-result-CIS2750").should("contain", "CIS2750");
   });
 
   it("title should contain correct text", () => {
-    cy.get("h1").should("contain", "Dogs Barking Inc.");
+    cy.get("h1").should("contain", "Dogs Barking");
   });
 
   it("Test /course/{id} - CIS2750", () => {
-    cy.get("#home-course-search-input").type("CIS2750");
+    cy.get("#home-search-button").click();
+    cy.get("input[placeholder='Course code']").type("CIS2750");
 
-    // TODO - Wait for the spinner to go away
-
-    cy.get("#home-course-search-loading").should("not.exist");
-
-    cy.get("#home-course-search-result-CIS2750").first().click();
-    cy.get("h2").should("contain.text", "CIS2750");
+    cy.get("#search-modal-result-CIS2750").click();
   });
 });
 
