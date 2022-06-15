@@ -50,7 +50,7 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
         userId: sub,
         data: {
           year: data?.year ?? new Date().getFullYear(),
-          semester: data?.semester ?? "winter",
+          semester: data?.semester.toLowerCase() ?? "winter",
           id: v4(),
         },
       }
