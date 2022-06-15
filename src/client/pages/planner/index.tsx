@@ -25,15 +25,6 @@ const Page = () => {
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const dispatch = useDispatch();
 
-  const deleteSemester = (semesterId: string) => {
-    dispatch(
-      setPlan({
-        ...plan,
-        semesters: plan.semesters.filter((semester) => semester.id != semesterId),
-      })
-    );
-  };
-
   // Add a semester to the selected plan
   const addSemester = async () => {
     try {
@@ -178,7 +169,6 @@ const Page = () => {
                   key={`year-${year}-${index}`}
                   year={Number(year)}
                   semesters={semesters}
-                  deleteSemester={deleteSemester}
                 />
               ))}
           <PlusIcon

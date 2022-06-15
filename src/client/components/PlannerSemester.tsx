@@ -14,17 +14,15 @@ import RequestRegistrationModal from "./RequestRegistrationModal";
 
 interface PlannerSemesterProps {
   data: PlannerSemesterData;
-  deleteSemester: (semesterId: string) => void;
 }
-const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
+const PlannerSemester = ({ data }: PlannerSemesterProps) => {
   const { id } = data;
 
-  // const [semesterData, setSemesterData] = useState<PlannerSemesterData>(data);
   const [editState, setEditState] = useState(data);
   const [showCourseSelect, setShowCourseSelect] = useState(false);
   const [showDeletePrompt, setShowDeletePrompt] = useState(false);
   const [showRequestModal, setShowRequestModal] = useState(false);
-  const [editLoading, setEditLoading] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   const dispatch = useDispatch();
@@ -45,9 +43,34 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
     setLoading(false);
   };
 
+  const deleteSemester = async () => {
+    // Save plan state in case this request fails
+    const tmp = plan;
+
+    try {
+      setUpdateLoading(true);
+      // Update frontend so this looks really fast
+      dispatch(
+        setPlan({
+          ...plan,
+          semesters: plan.semesters.filter((semester) => semester.id != id),
+        })
+      );
+
+      await axios.delete(`/api/degree-plan/semester/${id}`, { headers: { Authorization: `Bearer ${user?.token}` } });
+    } catch (error) {
+      console.error(error);
+
+      // Revert plan state
+      dispatch(setPlan(tmp));
+    } finally {
+      setUpdateLoading(false);
+    }
+  };
+
   const handleSemesterUpdate = async (e?: FormEvent) => {
     e?.preventDefault();
-    setEditLoading(true);
+    setUpdateLoading(true);
 
     try {
       const { semester, year } = editState;
@@ -73,7 +96,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
       console.error(error);
     }
 
-    setEditLoading(false);
+    setUpdateLoading(false);
   };
 
   const toggleEditing = () => {
@@ -130,11 +153,19 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
       animate={{ translateX: "0%" }}
       transition={{ duration: 0.4 }}
     >
+      {editing && (
+        <div
+          className="rounded-full p-1 flex items-center justify-center shadow-md border border-gray-200 dark:border-gray-700 absolute w-6 h-6 -top-3 -right-3 dark:bg-gray-700 transition cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-100 bg-white"
+          onClick={() => setShowDeletePrompt(true)}
+        >
+          <CloseIcon size={15} />
+        </div>
+      )}
       <PlannerSemesterDeletePrompt
         onClose={() => setShowDeletePrompt(false)}
         semester={id}
         open={showDeletePrompt}
-        onSubmit={() => deleteSemester(id)}
+        onSubmit={() => deleteSemester()}
       />
       <PlannerSemesterCourseSearch
         open={showCourseSelect}
@@ -170,7 +201,7 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
             </div>
           </form>
         )}
-        {(loading || editLoading) && (
+        {(loading || updateLoading) && (
           <LoadingIcon size={18} className="text-gray-500 hover:text-gray-600 animate-spin" />
         )}
         {editing ? (
@@ -195,7 +226,11 @@ const PlannerSemester = ({ data, deleteSemester }: PlannerSemesterProps) => {
               <p>{course.credits}</p>
               <CloseIcon size={15} className="ml-auto primary-hover" onClick={() => removeCourse(course.id)} />
             </div>
-            {course.section && <p>{course.section.code}</p>}
+            {course.section && (
+              <div className="py-1 px-2">
+                <p>#{course.section.code}</p>
+              </div>
+            )}
           </div>
         ))}
       </div>
