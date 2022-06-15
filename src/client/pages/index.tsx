@@ -20,6 +20,7 @@ const Page = () => {
       <div className="flex flex-col gap-4">
         <div
           className="bg-white dark:bg-gray-800 rounded-md overflow-hidden px-6 py-2 shadow-md mx-auto w-80 text-lg font-medium flex items-center gap-4 cursor-pointer hover:dark:bg-gray-700 hover:bg-gray-100 transition"
+          id="home-search-button"
           onClick={() => dispatch(setOpen(true))}
         >
           <SearchIcon size={25} />

@@ -52,7 +52,7 @@ const SearchModal = () => {
 
   return (
     <Modal onClose={() => dispatch(setOpen(false))} className={"max-w-xl"} open={open}>
-      <div className="relative mx-auto max-w-xl w-full flex flex-col gap-2">
+      <div className="relative mx-auto max-w-xl w-full flex flex-col gap-2" id="search-modal">
         <div className={`flex gap-4 items-center shadow-md dark:bg-gray-800 bg-white px-4 overflow-hidden rounded-md`}>
           <Input
             onChange={(e) => dispatch(setText(e.target.value))}
@@ -82,7 +82,7 @@ const SearchModal = () => {
             <Link href={`/${searchType}/${e.id}`} key={e.id} passHref>
               <a
                 className="px-4 py-0.5 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-white dark:hover:bg-gray-900 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16"
-                id={`home-course-search-result-${searchType === "course" ? (e as Course).code : (e as Program).short}`}>
+                id={`search-modal-result-${searchType === "course" ? (e as Course).code : (e as Program).short}`}>
                 <p>{searchType === "course" ? (e as Course).code : (e as Program).short}</p>
                 <p className="truncate">{e.name}</p>
               </a>
