@@ -15,7 +15,7 @@ const toastColours = {
 };
 
 /**
- * Notification that slides in from the side of the screen and lasts a short amount of time.
+ * Notification that slides in from the side of the screen.
  * Great for giving the user feedback.
  */
 const Toast = ({ open, type = "default", text }: Props) => {
