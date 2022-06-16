@@ -3,7 +3,7 @@ import { AuthState } from "@redux/auth";
 import { RootState } from "@redux/store";
 import Course from "@typedefs/Course";
 import { PlannerSemesterData } from "@typedefs/DegreePlan";
-import PlannerSectionSelection from "@typedefs/PlannerSectionSelection";
+import PlannerCourseSelection from "@typedefs/PlannerCourseSelection";
 import Section from "@typedefs/Section";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -24,7 +24,7 @@ interface Props {
 const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Props) => {
   const [searchText, setSearchText] = useState("");
   const { results } = useSearch(searchText);
-  const [selections, setSelections] = useState<PlannerSectionSelection[]>([]);
+  const [selections, setSelections] = useState<PlannerCourseSelection[]>([]);
   const { user } = useSelector<RootState, AuthState>((state) => state.auth);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [sections, setSections] = useState<Section[]>([]);
@@ -49,16 +49,16 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
     }
   };
 
-  const selectCourse = (course: Course) => {
-    setSelectedCourse(course);
-  };
-
-  const selectSection = (section: Section) => {
-    const course = selectedCourse;
-    const found = selections.some((s) => s.section.id === section.id);
-    if (found) {
-      // Remove the course from the list
-      setSelections(selections.filter((s) => s.section.id !== section.id));
+  const selectCourse = ({ course, section }: { course: Course; section: Section }) => {
+    const foundCourse = selections.some((s) => s.course.id === course.id);
+    const foundSection = selections.some((s) => s.section?.id === section?.id);
+    
+    if (foundCourse && !foundSection) {
+      // Found course but not section. Swap section.
+      setSelections(selections.map((s) => (s.course.id === course.id ? { course, section } : s)));
+    } else if (foundCourse && foundSection) {
+      // Found both courese and section. Remove course.
+      setSelections(selections.filter((s) => s.course.id !== course.id));
     } else {
       // Add the course to the list
       setSelections([...new Set([...selections, { section, course }])]);
@@ -89,27 +89,27 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
           className={`py-1 text-xl font-light w-full border border-gray-300 dark:bg-gray-800 bg-white px-4 overflow-hidden rounded-md mx-auto max-w-xl`}
           variant="blank"
         />
-        <div className="grid grid-cols-3 gap-4">
+        <div className="">
           <div>
             {/* <p className="text-center">Search Results</p> */}
             <div className="flex flex-col gap-1 overflow-y-auto max-h-[650px]">
-              {results.slice(0, 10).map((e) => (
+              {results.map((e) => (
                 <PlannerCourseSearchResult
                   key={e.id}
                   course={e as Course}
-                  selected={selectedCourse?.id === e.id}
+                  selected={selections.find(({ course }) => course?.id === e.id)}
                   selectCourse={selectCourse}
                 />
               ))}
             </div>
           </div>
 
-          <div>
+          {/* <div>
             {selectedCourse && (
               <>
                 <h2>{selectedCourse.code}</h2>
                 <p>{selectedCourse.name}</p>
-                {/* <p>{selectedCourse.description}</p> */}
+                <p>{selectedCourse.description}</p>
                 <div className="divide-y divide-gray-200">
                   {sections.map((section) => (
                     <div
@@ -123,7 +123,7 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
                 </div>
               </>
             )}
-          </div>
+          </div> */}
 
           <div>
             {/* <h4>Selected ({credits})</h4> */}

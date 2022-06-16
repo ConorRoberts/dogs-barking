@@ -22,25 +22,19 @@ const Drawer = (props: DrawerProps) => {
 
 const ResponsiveDrawer = ({ children, onClose, position }: ResponsiveDrawerProps) => {
   const ref = useRef(null);
-  const controls = useAnimation();
-  const startPos = position === "left" ? "-100%" : "100%";
-  const endPos = position === "left" ? "0%" : "0%";
 
   useEffect(() => {
-    // ref?.current?.scrollIntoView({ behavior: "smooth" });
-
-    controls.start({ translateX: endPos });
+    ref?.current?.scrollIntoView({ behavior: "smooth" });
 
     document.body.style.overflow = "hidden";
 
     return () => {
       document.body.style.overflow = "visible";
     };
-  }, [controls, endPos]);
+  }, []);
 
-  const handleEvent = async (e: MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>) => {
+  const handleEvent = (e: MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>) => {
     if (ref?.current && !ref?.current?.contains(e.target)) {
-      await controls.start({ translateX: startPos });
       onClose();
     }
   };
@@ -52,17 +46,20 @@ const ResponsiveDrawer = ({ children, onClose, position }: ResponsiveDrawerProps
           position === "left" ? "md:block hidden" : "md:hidden"
         }`}
         onMouseDown={handleEvent}
-        onTouchEnd={handleEvent}>
+        onTouchEnd={handleEvent}
+      >
         <motion.div
           className={` bg-white dark:bg-gray-900 w-max h-screen px-2 py-8`}
-          animate={controls}
-          initial={{ translateX: startPos }}
+          animate={{ translateX: position === "left" ? "0%" : "0%" }}
+          initial={{ translateX: position === "left" ? "-100%" : "100%" }}
+          exit={{ translateX: position === "left" ? "-100%" : "100%" }}
           transition={{
             type: "spring",
             damping: 40,
             stiffness: 500,
           }}
-          ref={ref}>
+          ref={ref}
+        >
           {children}
         </motion.div>
       </div>

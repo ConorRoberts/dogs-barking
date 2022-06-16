@@ -75,6 +75,7 @@ const Page = ({ course }: PageProps) => {
             initialRating={course.rating.difficulty}
             setRatingCount={setRatingCount}
             tooltip="How difficult was this course?"
+            key={`course-${course.id}-difficulty`}
           />
         </div>
         <div className="flex flex-col items-center gap-2 flex-1">
@@ -85,6 +86,7 @@ const Page = ({ course }: PageProps) => {
             initialRating={course.rating.usefulness}
             setRatingCount={setRatingCount}
             tooltip="How useful was this course to you?"
+            key={`course-${course.id}-usefulness`}
           />
         </div>
         <div className="flex flex-col items-center gap-2 flex-1">
@@ -97,6 +99,7 @@ const Page = ({ course }: PageProps) => {
             tooltip="Hours spent per week"
             labelLow="<1h"
             labelHigh=">24h"
+            key={`course-${course.id}-timeSpent`}
           />
         </div>
       </div>

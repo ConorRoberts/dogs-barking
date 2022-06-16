@@ -9,7 +9,7 @@ const overrides = `focus:ring-0 focus:outline-none appearance-none`;
 
 const styles = {
   default: {
-    style: "text-white bg-blue-500 rounded-md py-1 px-6 hover:bg-blue-400 transition",
+    style: "text-white bg-blue-500 rounded-full py-1 px-6 hover:bg-blue-400 transition",
     error: "border border-red-500 flex items-center gap-2 justify-center",
     disabled: "filter brightness-50",
   },

@@ -6,14 +6,13 @@ import PlannerSemester from "./PlannerSemester";
 interface Props {
   year: number;
   semesters: PlannerSemesterData[];
-  deleteSemester: (semesterId: string) => void;
 }
 
 /**
  * This component just renders a list of semesters
  * No data modification is handled here
  */
-const PlannerYear = ({ year, semesters, deleteSemester }: Props) => {
+const PlannerYear = ({ year, semesters }: Props) => {
   const [layout, setLayout] = useState<"row" | "col">("row");
   // const [semesters, setSemesters] = useState<PlannerSemesterData[]>(initialSemesters);
 
@@ -36,9 +35,9 @@ const PlannerYear = ({ year, semesters, deleteSemester }: Props) => {
       <div
         className={`gap-4 ${
           layout === "row" ? "flex overflow-x-auto md:justify-center md:grid md:grid-cols-3" : "flex flex-col items-center"
-        } transition-all`}>
+        } transition-all py-4`}>
         {semesters.map((semester) => (
-          <PlannerSemester key={semester.id} data={semester} deleteSemester={deleteSemester} />
+          <PlannerSemester key={semester.id} data={semester}  />
         ))}
       </div>
     </div>

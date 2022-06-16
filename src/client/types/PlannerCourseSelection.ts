@@ -2,7 +2,7 @@ import Course from "./Course";
 import Section from "./Section";
 
 interface PlannerCourseSelection {
-  section: Section;
+  section?: Section;
   course: Course;
 }
 
