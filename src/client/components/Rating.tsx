@@ -40,7 +40,7 @@ const Rating = ({
   // Update rating on backend
   const submitRating = async ({ ratingValue }: { ratingValue: number }) => {
     // Do we already have some error that we're waiting to timeout?
-    // This stops duplicates from appearing.
+    // This stops overriding the timer on the error message.
     if (ratingSubmissionError.length > 0) {
       return;
     }
