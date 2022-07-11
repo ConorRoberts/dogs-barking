@@ -9,7 +9,7 @@ import {
   PersonIcon,
   Login,
   Logout,
-  PlannerIcon,
+  // PlannerIcon,
   CatalogIcon,
   SearchIcon,
   AboutIcon,
@@ -39,14 +39,14 @@ const Navigation = () => {
       {menuOpen && (
         <Drawer onClose={() => setMenuOpen(false)}>
           <div className="flex flex-col h-full">
-            {user && ( //TODO: Change href back to /planner once MVP is finished
-              <Link href="/error/403" passHref> 
+            {/* {user && (
+              <Link href="/planner" passHref>
                 <div className="nav-drawer-button md:hidden">
                   <PlannerIcon size={20} />
                   <p>Degree Planner</p>
                 </div>
               </Link>
-            )}
+            )} */}
             <Link href="/catalog" passHref>
               <div className="nav-drawer-button md:hidden">
                 <CatalogIcon size={20} />
@@ -120,11 +120,11 @@ const Navigation = () => {
         <Link href="/" passHref>
           <a className="big-screen-nav-button">Home</a>
         </Link>
-        {user && ( //TODO: Change href back to /planner once MVP is finished
-          <Link href="/error/403" passHref> 
+        {/* {user && (
+          <Link href="planner" passHref>
             <a className="big-screen-nav-button">Degree Planner</a>
           </Link>
-        )}
+        )} */}
         <Link href="/catalog" passHref>
           <a className="big-screen-nav-button">Catalog</a>
         </Link>
