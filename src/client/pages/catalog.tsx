@@ -22,6 +22,21 @@ const Page = () => {
   const [currentFilterKey, setCurrentFilterKey] = useState("");
   const [currentFilterValue, setCurrentFilterValue] = useState("");
 
+  const setFilterPlaceHolder = (placeholderValue:string) => {
+    switch (placeholderValue) {
+      case "code":
+        return "Enter a course code, valid formats: CIS1300 ENGG1500 PSYC2000 HROB2010";
+      case "number":
+        return "Enter a course number, can range from 0-9999";
+      case "name":
+        return "Enter a course name, ie: Taxation or Into to financial accounting";
+      case "description":
+        return "Enter keyword(s)";
+      default:
+        return "Enter a search value";
+    }
+  };
+
   const dispatch = useDispatch();
 
   const type: "course" | "program" = "course";
@@ -83,6 +98,7 @@ const Page = () => {
                 className="bg-white dark:bg-gray-700 border border-gray-300"
                 onChange={(e) => setCurrentFilterValue(e.target.value)}
                 value={currentFilterValue}
+                placeholder={setFilterPlaceHolder(currentFilterKey)}
               />
               <PlusIcon
                 size={25}
