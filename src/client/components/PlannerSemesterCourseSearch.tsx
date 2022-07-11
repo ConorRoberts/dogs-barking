@@ -1,16 +1,13 @@
+import { useAuthenticator } from "@aws-amplify/ui-react";
 import useSearch from "@hooks/useSearch";
-import { AuthState } from "@redux/auth";
-import { RootState } from "@redux/store";
 import Course from "@typedefs/Course";
 import { PlannerSemesterData } from "@typedefs/DegreePlan";
 import PlannerCourseSelection from "@typedefs/PlannerCourseSelection";
 import Section from "@typedefs/Section";
+import getToken from "@utils/getToken";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import CourseSection from "./CourseSection";
 import { Button, Input, Modal } from "./form";
-import { LabIcon, LectureIcon } from "./Icons";
 import PlannerCourseSearchResult from "./PlannerCourseSearchResult";
 import PlannerCourseSearchSelections from "./PlannerCourseSearchSelections";
 
@@ -25,7 +22,7 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
   const [searchText, setSearchText] = useState("");
   const { results } = useSearch(searchText);
   const [selections, setSelections] = useState<PlannerCourseSelection[]>([]);
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user } = useAuthenticator();
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [sections, setSections] = useState<Section[]>([]);
 
@@ -37,7 +34,7 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
           sections: selections.map(({ section }) => section.id),
         },
         {
-          headers: { Authorization: `Bearer ${user.token}` },
+          headers: { Authorization: `Bearer ${getToken(user)}` },
         }
       );
       setSelections([]);
@@ -52,7 +49,7 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
   const selectCourse = ({ course, section }: { course: Course; section: Section }) => {
     const foundCourse = selections.some((s) => s.course.id === course.id);
     const foundSection = selections.some((s) => s.section?.id === section?.id);
-    
+
     if (foundCourse && !foundSection) {
       // Found course but not section. Swap section.
       setSelections(selections.map((s) => (s.course.id === course.id ? { course, section } : s)));

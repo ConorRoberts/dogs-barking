@@ -33,7 +33,7 @@ const Page = () => {
         {
           userId: user.id,
         },
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        { headers: { Authorization: `Bearer ${getToken(user)}` } }
       );
 
       // Update our local state without refetching
@@ -51,7 +51,7 @@ const Page = () => {
     try {
       setPlanLoading(true);
       const { data } = await axios.get(`/api/degree-plan/get-user-plans`, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        headers: { Authorization: `Bearer ${getToken(user)}` },
       });
 
       // No plans? Create plan.
@@ -62,7 +62,7 @@ const Page = () => {
             {
               userId: user.id,
             },
-            { headers: { Authorization: `Bearer ${user.token}` } }
+            { headers: { Authorization: `Bearer ${getToken(user)}` } }
           );
         } catch (error) {
           console.error(error);
@@ -81,7 +81,7 @@ const Page = () => {
   const fetchPlanData = useCallback(async () => {
     try {
       const { data } = await axios.get(`/api/degree-plan/${selectedPlanId}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        headers: { Authorization: `Bearer ${getToken(user)}` },
       });
       dispatch(setPlan(data));
     } catch (error) {

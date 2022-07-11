@@ -8,9 +8,10 @@ import { Button, Input, Select } from "./form";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@redux/store";
-import { AuthState } from "@redux/auth";
 import { PlannerState, setCurrentEditingSemester, setPlan } from "@redux/planner";
 import RequestRegistrationModal from "./RequestRegistrationModal";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import getToken from "@utils/getToken";
 
 interface PlannerSemesterProps {
   data: PlannerSemesterData;
@@ -24,7 +25,7 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
   const [showRequestModal, setShowRequestModal] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user } = useAuthenticator();
   const dispatch = useDispatch();
   const { plan, currentEditingSemester } = useSelector<RootState, PlannerState>((state) => state.planner);
   const editing = currentEditingSemester === id;
@@ -33,7 +34,7 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
     setLoading(true);
     try {
       const { data } = await axios.get(`/api/degree-plan/semester/${id}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        headers: { Authorization: `Bearer ${getToken(user)}` },
       });
 
       dispatch(setPlan({ ...plan, semesters: plan.semesters.map((e) => (e.id === id ? data : e)) }));
@@ -57,7 +58,7 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
         })
       );
 
-      await axios.delete(`/api/degree-plan/semester/${id}`, { headers: { Authorization: `Bearer ${user?.token}` } });
+      await axios.delete(`/api/degree-plan/semester/${id}`, { headers: { Authorization: `Bearer ${getToken(user)}` } });
     } catch (error) {
       console.error(error);
 
@@ -88,7 +89,7 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
             year,
           },
         },
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        { headers: { Authorization: `Bearer ${getToken(user)}` } }
       );
 
       dispatch(setPlan({ ...plan, semesters: plan.semesters.map((e) => (e.id === id ? data : e)) }));
@@ -122,7 +123,7 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
         })
       );
       await axios.delete(`/api/degree-plan/semester/${id}/courses/${courseId}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        headers: { Authorization: `Bearer ${getToken(user)}` },
       });
       await fetchSemesterData();
     } catch (error) {

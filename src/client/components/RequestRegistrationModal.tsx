@@ -1,9 +1,8 @@
-import { AuthState } from "@redux/auth";
-import { RootState } from "@redux/store";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 import { PlannerSemesterData } from "@typedefs/DegreePlan";
+import getToken from "@utils/getToken";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
-import { useSelector } from "react-redux";
 import { Button, Input, Modal } from "./form";
 
 interface Props {
@@ -13,7 +12,7 @@ interface Props {
 }
 
 const RequestRegistrationModal = ({ open, onClose, semester }: Props) => {
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user } = useAuthenticator();
 
   return (
     <Modal onClose={onClose} open={open} className="max-w-lg">
@@ -26,7 +25,7 @@ const RequestRegistrationModal = ({ open, onClose, semester }: Props) => {
         onSubmit={async (values) => {
           try {
             const { data } = await axios.post(`/api/degree-plan/semester/${semester.id}/request-registration`, values, {
-              headers: { Authorization: `Bearer ${user.token}` },
+              headers: { Authorization: `Bearer ${getToken(user)}` },
             });
             console.log(data);
           } catch (error) {

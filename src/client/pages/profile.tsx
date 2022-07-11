@@ -1,20 +1,18 @@
 import { Button, CustomErrorMessage, Input, Select } from "@components/form";
 import { LoadingIcon } from "@components/Icons";
-import LoadingScreen from "@components/LoadingScreen";
-import { AuthState, refreshToken, setUser } from "@redux/auth";
-import { RootState } from "@redux/store";
 import School from "@typedefs/School";
 import axios from "axios";
 import { ErrorMessage, Form, Formik } from "formik";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { API_URL } from "@config/config";
 import Course from "@typedefs/Course";
 import useSearch from "@hooks/useSearch";
 import Toast from "@components/form/Toast";
 import User from "@typedefs/User";
 import MetaData from "@components/MetaData";
+import getToken from "@utils/getToken";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 interface PageProps {
   schools: School[];
@@ -23,10 +21,9 @@ interface PageProps {
 type UpdateStatus = "" | "success" | "failure";
 
 const Page = ({ schools }: PageProps) => {
-  const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user } = useAuthenticator();
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>("");
   const [updateMessage, setUpdateMessage] = useState("");
-  const router = useRouter();
   const [courseQuery, setCourseQuery] = useState<string>("");
   const { results } = useSearch(courseQuery, { type: "course" });
   const dispatch = useDispatch();
@@ -43,24 +40,18 @@ const Page = ({ schools }: PageProps) => {
     );
   };
 
-  useEffect(() => {
-    if (!loading && !user) router.push("/error/403");
-  }, [loading, user, router]);
-
-  if (loading) return <LoadingScreen />;
-
   return (
     <div onClick={(e) => !searchContainer.current.contains(e.target) && setShowResults(false)}>
-      <MetaData title={`${user.name}'s Profile`} />
+      <MetaData title={`Profile`} />
       <div className="mx-auto w-full max-w-3xl p-2">
         <h1 className="text-center">Profile</h1>
         <Formik
           initialValues={{
-            school: user?.school?.id ?? "",
-            email: user?.email,
-            name: user?.name,
-            major: user?.major?.id ?? "",
-            minor: user?.minor?.id ?? "",
+            school: "",
+            email: "",
+            name: "",
+            major: "",
+            minor: "",
           }}
           onSubmit={async (values) => {
             let status: UpdateStatus = "success";
@@ -68,20 +59,20 @@ const Page = ({ schools }: PageProps) => {
             try {
               const { data } = await axios.post<User>(
                 `/api/user`,
-                { ...values, takenCourses: [...user.takenCourses, ...newTakenCourses].map((e) => e.id) },
-                { headers: { Authorization: `Bearer ${user.token}` } }
+                { ...values, takenCourses: [...newTakenCourses].map((e) => e.id) },
+                { headers: { Authorization: `Bearer ${getToken(user)}` } }
               );
-              dispatch(
-                setUser({
-                  ...user,
-                  takenCourses: data.takenCourses,
-                  major: data.major,
-                  minor: data.minor,
-                  school: data.school,
-                })
-              );
+              // dispatch(
+              //   setUser({
+              //     ...user,
+              //     takenCourses: data.takenCourses,
+              //     major: data.major,
+              //     minor: data.minor,
+              //     school: data.school,
+              //   })
+              // );
             } catch (error) {
-              dispatch(refreshToken());
+              // dispatch(refreshToken());
               status = "failure";
             }
 
@@ -164,11 +155,6 @@ const Page = ({ schools }: PageProps) => {
                       placeholder="Search for a course"
                       onFocus={() => setShowResults(true)}
                     />
-                    {loading && (
-                      <div className="hover:text-gray-700 dark:hover:text-gray-300 cursor-pointer transition">
-                        <LoadingIcon size={20} className="animate-spin" />
-                      </div>
-                    )}
                   </div>
                   {showResults && (
                     <div className="absolute rounded-b-xl top-full left-0 right-0 z-20 shadow-md bg-white overflow-hidden divide-y divide-gray-100">
@@ -177,7 +163,7 @@ const Page = ({ schools }: PageProps) => {
                           onClick={() => toggleCourse(e)}
                           key={e.id}
                           className={` ${
-                            [...newTakenCourses, ...user.takenCourses].find((c) => c.id === e.id)
+                            [...newTakenCourses].find((c) => c.id === e.id)
                               ? "bg-blue-500 text-white hover:text-gray-200"
                               : "bg-white dark:bg-gray-800 hover:text-gray-500 dark:hover:text-gray-300"
                           } px-4 py-0.5 bg-opacity-90 backdrop-filter backdrop-blur-sm transition-all cursor-pointer duration-75 flex justify-between gap-8 sm:gap-16`}
@@ -190,14 +176,14 @@ const Page = ({ schools }: PageProps) => {
                   )}
                 </div>
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
-                  {user.takenCourses
+                  {/* {user.takenCourses
                     .slice()
                     .sort((a, b) => a.code.localeCompare(b.code))
                     .map((e, index) => (
                       <div key={`taken-course-${index}`}>
                         <p className="text-center">{e.code}</p>
                       </div>
-                    ))}
+                    ))} */}
                 </div>
               </div>
               <Toast open={updateStatus !== ""} type={updateStatus as "success" | "failure"} text={updateMessage} />

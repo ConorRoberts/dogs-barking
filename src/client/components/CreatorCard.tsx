@@ -13,7 +13,7 @@ interface Props {
 const CreatorCard = (props: Props) => {
   const { image, name, role, githubUrl, linkedinUrl } = props;
   return (
-    <div className="dark:bg-gray-800 rounded-xl px-2 py-4 flex flex-col w-72 gap-4">
+    <div className="dark:bg-gray-800 rounded-xl px-2 py-4 flex flex-col w-72 gap-4 bg-white">
       <div className="relative rounded-full overflow-hidden w-48 h-48 mx-auto">
         <Image src={image} layout="fill" objectFit="cover" alt={`${name}'s face`} />
       </div>

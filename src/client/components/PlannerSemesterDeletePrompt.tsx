@@ -1,8 +1,7 @@
-import { AuthState } from "@redux/auth";
-import { RootState } from "@redux/store";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import getToken from "@utils/getToken";
 import axios from "axios";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { Button, Modal } from "./form";
 import { LoadingIcon } from "./Icons";
 
@@ -14,13 +13,13 @@ interface Props {
 }
 
 const PlannerSemesterDeletePrompt = ({ open, onClose, semester, onSubmit }: Props) => {
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user } = useAuthenticator();
   const [deleteLoading, setDeleteLoading] = useState(false);
   const deleteSemester = async () => {
     setDeleteLoading(true);
     try {
       await axios.delete(`/api/degree-plan/semester/${semester}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        headers: { Authorization: `Bearer ${getToken(user)}` },
       });
 
       onSubmit();

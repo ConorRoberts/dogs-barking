@@ -16,19 +16,19 @@ import {
 } from "@components/Icons";
 import { useRouter } from "next/router";
 import useDarkMode from "@hooks/useDarkMode";
-import { RootState } from "@redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { AuthState } from "@redux/auth";
+import { useDispatch } from "react-redux";
 import SearchModal from "./SearchModal";
 import { setOpen } from "@redux/search";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { Auth } from "aws-amplify";
+import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 
 const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useDarkMode();
   const router = useRouter();
   const dispatch = useDispatch();
-
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user, signOut } = useAuthenticator();
 
   useEffect(() => {
     setMenuOpen(false);
@@ -61,12 +61,10 @@ const Navigation = () => {
             </Link>
             <div className="mt-auto">
               {user && (
-                <Link href="/auth/sign-out" passHref>
-                  <a className="nav-drawer-button">
-                    <Logout size={20} />
-                    <p>Sign Out</p>
-                  </a>
-                </Link>
+                <div className="nav-drawer-button" onClick={() => signOut()}>
+                  <Logout size={20} />
+                  <p>Sign Out</p>
+                </div>
               )}
               {darkMode ? (
                 <div className="nav-drawer-button" onClick={() => setDarkMode(!darkMode)}>
@@ -138,12 +136,13 @@ const Navigation = () => {
 
         {user ? (
           <Link href="/profile" passHref>
-            <a className="big-screen-nav-button ">{user?.name.split(" ").at(0)}</a>
+            {/* <a className="big-screen-nav-button ">{user?.name.split(" ").at(0)}</a> */}
+            <a className="big-screen-nav-button ">Profile</a>
           </Link>
         ) : (
-          <Link href="/auth/sign-in" passHref>
-            <a className="big-screen-nav-button ">Sign In</a>
-          </Link>
+          <div onClick={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })}>
+            <p className="big-screen-nav-button ">Sign In</p>
+          </div>
         )}
       </div>
 
