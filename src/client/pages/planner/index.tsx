@@ -1,6 +1,4 @@
 import LoadingScreen from "@components/LoadingScreen";
-import { AuthState } from "@redux/auth";
-import { RootState } from "@redux/store";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,9 +11,12 @@ import PlannerSidebar from "@components/PlannerSidebar";
 import MetaData from "@components/MetaData";
 import Modal from "@components/form/Modal";
 import Requirement from "@typedefs/Requirement";
+import getToken from "@utils/getToken";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { RootState } from "@redux/store";
 
 const Page = () => {
-  const { user, loading } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user } = useAuthenticator();
   const router = useRouter();
   const [majorRequirements, setMajorRequirements] = useState<Requirement[]>([]);
   const [selectedPlanId, setSelectedPlanId] = useState("none");
@@ -30,9 +31,7 @@ const Page = () => {
     try {
       const { data } = await axios.post(
         `/api/degree-plan/${selectedPlanId}/create-semester`,
-        {
-          userId: user.id,
-        },
+        {},
         { headers: { Authorization: `Bearer ${getToken(user)}` } }
       );
 
@@ -57,13 +56,7 @@ const Page = () => {
       // No plans? Create plan.
       if (data.length === 0) {
         try {
-          await axios.post(
-            `/api/degree-plan/new`,
-            {
-              userId: user.id,
-            },
-            { headers: { Authorization: `Bearer ${getToken(user)}` } }
-          );
+          await axios.post(`/api/degree-plan/new`, {}, { headers: { Authorization: `Bearer ${getToken(user)}` } });
         } catch (error) {
           console.error(error);
         }
@@ -91,14 +84,12 @@ const Page = () => {
 
   // Get the user's plan state
   useEffect(() => {
-    if (loading) return;
-    router.push("/error/403"); //TODO: Remove once interested on refining degree planner
     if (user) {
       fetchPlans();
     } else {
       router.push("/error/403");
     }
-  }, [user, router, loading, fetchPlans]);
+  }, [user, router, fetchPlans]);
 
   // Update the state of our semesters list whenever our selected plan changes
   useEffect(() => {
@@ -112,10 +103,10 @@ const Page = () => {
     }
   }, [plan]);
 
-  const plannedCourses = plan?.semesters
-    ?.map((e) => e.courses)
-    .flat()
-    .concat(...user.takenCourses);
+  // const plannedCourses = plan?.semesters
+  //   ?.map((e) => e.courses)
+  //   .flat()
+  //   .concat(...user.takenCourses);
 
   const neededCredits = majorRequirements.reduce((acc, curr) => {
     if (curr.label === "Course") {
@@ -127,7 +118,7 @@ const Page = () => {
     }
   }, 0);
 
-  const currentCredits = plannedCourses?.reduce((a, b) => a + b.credits, 0);
+  // const currentCredits = plannedCourses?.reduce((a, b) => a + b.credits, 0);
 
   if (!user || (planLoading && selectedPlanId !== "none")) return <LoadingScreen />;
 
@@ -137,20 +128,26 @@ const Page = () => {
       <div className="p-2 flex flex-col gap-8 mx-auto max-w-4xl w-full overflow-y-auto col-span-3">
         <div className="flex flex-col justify-center items-center">
           <h1 className="text-center mb-4">Degree Planner</h1>
-          <button onClick={() => setShowModal(true)} className="border-2 rounded-full pt-1 pb-1 pr-2 pl-2 w-40 md:invisible">View Progress</button>
-          <Modal onClose={() => setShowModal(false)} open={showModal}>
+          <button
+            onClick={() => setShowModal(true)}
+            className="border-2 rounded-full pt-1 pb-1 pr-2 pl-2 w-40 md:invisible"
+          >
+            View Progress
+          </button>
+          {/* <Modal onClose={() => setShowModal(false)} open={showModal}>
             <div className="flex flex-col gap-4">
               <h2 className="text-center">Progress</h2>
               <p>{(currentCredits / neededCredits) * 100} credits / 20</p>
               <div className="h-4 bg-primary-100 overflow-hidden rounded-full">
-                <div style={{ width: `${(currentCredits / neededCredits) * 100}%` }} className="bg-primary-500 h-full"></div>
+                <div
+                  style={{ width: `${(currentCredits / neededCredits) * 100}%` }}
+                  className="bg-primary-500 h-full"
+                ></div>
               </div>
             </div>
-          </Modal>
+          </Modal> */}
         </div>
-        
 
-        
         {/* <Select value={selectedPlanId} onChange={(e) => setSelectedPlanId(e.target.value)}>
         <option value="none">Select a plan</option>
         {plans.map((plan) => (
@@ -165,11 +162,7 @@ const Page = () => {
             groupedSemesters
               ?.sort(([a], [b]) => Number(a) - Number(b))
               .map(([year, semesters], index) => (
-                <PlannerYear
-                  key={`year-${year}-${index}`}
-                  year={Number(year)}
-                  semesters={semesters}
-                />
+                <PlannerYear key={`year-${year}-${index}`} year={Number(year)} semesters={semesters} />
               ))}
           <PlusIcon
             size={30}

@@ -3,21 +3,19 @@ import Requirement from "@typedefs/Requirement";
 import OrBlockData from "@typedefs/OrBlockData";
 import { CancelIcon, CheckIcon, LinkIcon } from "./Icons";
 import Link from "next/link";
-import { RootState } from "@redux/store";
-import { AuthState } from "@redux/auth";
-import { useSelector } from "react-redux";
 import CreditRequirementData from "@typedefs/CreditRequirementData";
 import isRequirementMet from "@utils/isRequirementMet";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 interface Props {
   requirement: Requirement;
 }
 
 const RequirementCard = ({ requirement }: Props) => {
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user } = useAuthenticator();
   const { label, id } = requirement;
 
-  const taken = isRequirementMet(requirement, user?.takenCourses);
+  // const taken = isRequirementMet(requirement, user?.takenCourses);
 
   return (
     <div className="bg-white shadow-sm dark:bg-gray-800 rounded-xl overflow-hidden flex flex-col">
@@ -53,11 +51,12 @@ const RequirementCard = ({ requirement }: Props) => {
           </div>
         )}
       </div>
-      {user && (
+      {/* {user && (
         <div
           className={`${
             taken ? "bg-emerald-700" : "bg-rose-700"
-          } px-0.5 text-sm flex gap-2 justify-center text-white items-center mt-auto`}>
+          } px-0.5 text-sm flex gap-2 justify-center text-white items-center mt-auto`}
+        >
           {taken ? (
             <>
               <p>Complete</p>
@@ -70,7 +69,7 @@ const RequirementCard = ({ requirement }: Props) => {
             </>
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 };

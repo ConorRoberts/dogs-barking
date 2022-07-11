@@ -1,7 +1,6 @@
-import { AuthState } from "@redux/auth";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 import { PlannerState } from "@redux/planner";
 import { RootState } from "@redux/store";
-import OrBlockData from "@typedefs/OrBlockData";
 import Program from "@typedefs/Program";
 import Requirement from "@typedefs/Requirement";
 import axios from "axios";
@@ -14,13 +13,13 @@ const PlannerSidebar = () => {
   const [majorRequirements, setMajorRequirements] = useState<Requirement[]>([]);
   const [minorRequirements, setMinorRequirements] = useState<Requirement[]>([]);
   const [loading, setLoading] = useState({ major: false, minor: false });
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user } = useAuthenticator();
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
 
-  const plannedCourses = plan?.semesters
-    ?.map((e) => e.courses)
-    .flat()
-    .concat(...user.takenCourses);
+  // const plannedCourses = plan?.semesters
+  //   ?.map((e) => e.courses)
+  //   .flat()
+  //   .concat(...user.takenCourses);
 
   const neededCredits = majorRequirements.reduce((acc, curr) => {
     if (curr.label === "Course") {
@@ -32,31 +31,31 @@ const PlannerSidebar = () => {
     }
   }, 0);
 
-  const currentCredits = plannedCourses?.reduce((a, b) => a + b.credits, 0);
+  // const currentCredits = plannedCourses?.reduce((a, b) => a + b.credits, 0);
 
   useEffect(() => {
     if (!user) return;
     (async () => {
-      if (user?.major) {
-        setLoading((state) => ({ ...state, major: true }));
-        try {
-          const { data } = await axios.get<Program>(`/api/program/${user.major.id}`);
-          setMajorRequirements(data.major);
-        } catch (error) {
-          console.error(error);
-        }
-        setLoading((state) => ({ ...state, major: false }));
-      }
-      if (user?.minor) {
-        setLoading((state) => ({ ...state, minor: true }));
-        try {
-          const { data } = await axios.get<Program>(`/api/program/${user.minor.id}`);
-          setMinorRequirements(data.minor);
-        } catch (error) {
-          console.error(error);
-        }
-        setLoading((state) => ({ ...state, minor: false }));
-      }
+      // if (user?.major) {
+      //   setLoading((state) => ({ ...state, major: true }));
+      //   try {
+      //     const { data } = await axios.get<Program>(`/api/program/${user.major.id}`);
+      //     setMajorRequirements(data.major);
+      //   } catch (error) {
+      //     console.error(error);
+      //   }
+      //   setLoading((state) => ({ ...state, major: false }));
+      // }
+      // if (user?.minor) {
+      //   setLoading((state) => ({ ...state, minor: true }));
+      //   try {
+      //     const { data } = await axios.get<Program>(`/api/program/${user.minor.id}`);
+      //     setMinorRequirements(data.minor);
+      //   } catch (error) {
+      //     console.error(error);
+      //   }
+      //   setLoading((state) => ({ ...state, minor: false }));
+      // }
     })();
   }, [user]);
 
@@ -64,12 +63,12 @@ const PlannerSidebar = () => {
     <div className="hidden md:block overflow-y-auto max-h-full border-l border-gray-200 dark:border-gray-700 p-4">
       <h2 className="text-center">Progress</h2>
 
-      <p>{(currentCredits / neededCredits) * 100} credits / 20</p>
+      {/* <p>{(currentCredits / neededCredits) * 100} credits / 20</p>
       <div className="h-4 bg-primary-100 overflow-hidden rounded-full">
         <div style={{ width: `${(currentCredits / neededCredits) * 100}%` }} className="bg-primary-500 h-full"></div>
-      </div>
+      </div> */}
 
-      <div className="flex flex-col py-4">
+      {/* <div className="flex flex-col py-4">
         <div>
           {majorRequirements.length > 0 && <h3 className="text text-center">Major: {user.major.name}</h3>}
           {majorRequirements.map((e) => (
@@ -84,7 +83,7 @@ const PlannerSidebar = () => {
           ))}
           {loading.minor && <LoadingIcon className="animate-spin mx-auto" size={25} />}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
