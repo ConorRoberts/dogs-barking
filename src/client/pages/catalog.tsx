@@ -22,6 +22,56 @@ const Page = () => {
   const [currentFilterKey, setCurrentFilterKey] = useState("");
   const [currentFilterValue, setCurrentFilterValue] = useState("");
 
+  const setFilterPlaceHolder = (placeholderValue:string) => {
+    switch (placeholderValue) {
+      case "code":
+        return "Enter a course code, valid formats: CIS1300 ENGG1500 PSYC2000 HROB2010";
+      case "number":
+        return "Enter a course number, can range from 0-9999";
+      case "name":
+        return "Enter a course name, ie: Taxation or Into to financial accounting";
+      case "description":
+        return "Enter keyword(s)";
+      default:
+        return "Enter a search value";
+    }
+  };
+
+  const validateCourseCode = (courseCode:string) => { // validates a course code
+    const courseCodeRegex = /^[A-Z]{3,4}(\d{4})$/;
+    const courseNumber = courseCodeRegex.test(courseCode) ? courseCodeRegex.exec(courseCode)[1] : undefined;
+    return courseCodeRegex.test(courseCode) && parseInt(courseNumber) >= 1000 && parseInt(courseNumber) <= 9999;
+  };
+
+  const validateUserInput = (filterValue:string, userInput: any) => { // special validation for specific input types, will be added onto later
+    switch (currentFilterKey) {
+      case "code":
+        return validateCourseCode(userInput);
+      case "number":
+        return /^\d+$/.test(userInput) && parseInt(userInput) >= 0 && parseInt(userInput) <= 9999;
+      default:
+        return true;
+    }
+  };
+
+  const addNewFilter = (currentFilterKey:any, currentFilterValue:any) => {
+
+    if (!validateUserInput(currentFilterKey, currentFilterValue)) {
+      switch(currentFilterKey) {
+        case "code":
+          alert("Invalid course code entered... Please enter a course code in the form: CIS1300 or ENGG1500");
+          break;
+        case "number":
+          alert("Input is not a number or out of bounds, please enter a number between 0 and 9999");
+          break;
+      }
+      return;
+    }
+
+    setCurrentFilterValue("");
+    dispatch(addFilter([currentFilterKey, currentFilterValue]));
+  };
+
   const dispatch = useDispatch();
 
   const type: "course" | "program" = "course";
@@ -83,14 +133,12 @@ const Page = () => {
                 className="bg-white dark:bg-gray-700 border border-gray-300"
                 onChange={(e) => setCurrentFilterValue(e.target.value)}
                 value={currentFilterValue}
+                placeholder={setFilterPlaceHolder(currentFilterKey)}
               />
               <PlusIcon
                 size={25}
                 className="border border-gray-300 rounded-full min-w-max"
-                onClick={() => {
-                  setCurrentFilterValue("");
-                  dispatch(addFilter([currentFilterKey, currentFilterValue]));
-                }}
+                onClick={() => addNewFilter(currentFilterKey, currentFilterValue)}
               />
             </div>
 

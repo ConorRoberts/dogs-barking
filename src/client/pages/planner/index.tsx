@@ -92,7 +92,7 @@ const Page = () => {
   // Get the user's plan state
   useEffect(() => {
     if (loading) return;
-
+    router.push("/error/403"); //TODO: Remove once interested on refining degree planner
     if (user) {
       fetchPlans();
     } else {
