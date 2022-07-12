@@ -9,15 +9,12 @@ const FeedbackPage = () => {
   const [renderSuccess, setRenderSuccess] = useState(false, true);
 
   const sendFeedback = async () => {
-    console.log(heading);
-    console.log(body);
     if (!heading || !body) {
         alert("Please enter a heading/message");
         return;
     }
     const response = await axios.post(`http://localhost:3001/api/feedback`, {title: heading, message: body})
       .catch((err) => {
-            console.error(err);
             setRenderError(false);
         });
     response.status === 200 && setRenderSuccess(true);
