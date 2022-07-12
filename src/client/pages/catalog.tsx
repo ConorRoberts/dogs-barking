@@ -119,7 +119,7 @@ const Page = () => {
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-1">
               <div className="flex flex-col pb-6">
-                <label className="pl-1 text-gray-800" >Filter Type</label>
+                <label className="pl-1 text-gray-800 underline">Filter Type</label>
                 <Select value={currentFilterKey} onChange={(e) => setCurrentFilterKey(e.target.value)}>
                   <option value="" disabled>
                     None
