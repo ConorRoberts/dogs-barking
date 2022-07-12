@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Program from "@typedefs/Program";
 import Course from "@typedefs/Course";
-import MeiliSearch from "meilisearch";
 import axios from "axios";
 
 export interface UseCourseSearchParams {
