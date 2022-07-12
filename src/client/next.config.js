@@ -2,11 +2,14 @@
 const withPWA = require("next-pwa");
 const runtimeCaching = require("next-pwa/cache");
 
-const prod = process.env.NODE_ENV === "production";
+const live = process.env.NODE_ENV === "production";
+const mode = live ? "production" : "development";
+
+const API_URL = `https://api.dogs-barking.ca/${mode}`;
 
 module.exports = withPWA({
   pwa: {
-    disable: prod ? false : true,
+    disable: live ? false : true,
     dest: "public",
     runtimeCaching,
   },
@@ -16,7 +19,7 @@ module.exports = withPWA({
   rewrites: async () => [
     {
       source: "/api/:path*",
-      destination: `https://api.dogs-barking.ca/:path*`,
+      destination: `${API_URL}/:path*`,
     },
   ],
 });
