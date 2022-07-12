@@ -1,7 +1,6 @@
-import { APIGatewayEvent, APIGatewayProxyEventPathParameters, APIGatewayProxyResultV2 } from "aws-lambda";
+import { APIGatewayEvent, APIGatewayProxyEventPathParameters } from "aws-lambda";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import neo4j from "neo4j-driver";
-import Section from "@dogs-barking/common/Section";
 import { SecretsManager } from "@aws-sdk/client-secrets-manager";
 
 interface PathParameters extends APIGatewayProxyEventPathParameters {
@@ -17,7 +16,7 @@ interface Body {
  * @method POST
  * @description Adds a list of sections to a given degree plan semester
  */
-export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2<Section[]>> => {
+export const handler = async (event: APIGatewayEvent): Promise<unknown> => {
   const secrets = new SecretsManager({});
   const { stage } = event.requestContext;
 
