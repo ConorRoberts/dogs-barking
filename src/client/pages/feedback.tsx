@@ -13,7 +13,7 @@ const FeedbackPage = () => {
         alert("Please enter a heading/message");
         return;
     }
-    const response = await axios.post(`http://localhost:3001/api/feedback`, {title: heading, message: body})
+    const response = await axios.post(`http://api.dogs-barking.ca/development/feedback`, {title: heading, message: body})
       .catch((err) => {
             setRenderError(false);
         });
