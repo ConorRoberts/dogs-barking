@@ -5,7 +5,7 @@ on:
     branches:
       - dev
     paths:
-      - "api/dogsbarking-sendFeedback/**"
+      - "src/api/dogsbarking-sendFeedback/**"
       - ".github/workflows/cd-dogsbarking-sendFeedback.yml"
 
 env:
@@ -36,7 +36,7 @@ jobs:
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
-        working-directory: ./api/${{env.FUNCTION_NAME}}
+        working-directory: ./src/api/${{env.FUNCTION_NAME}}
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           FUNCTION_NAME: ${{ env.FUNCTION_NAME }}
