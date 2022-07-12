@@ -19,7 +19,7 @@ const App = ({ Component, pageProps }) => {
           <Navigation />
           <Component {...pageProps} />
         </div>
-      </Provider>
+      </Provider> 
     </Authenticator.Provider>
   );
 };
