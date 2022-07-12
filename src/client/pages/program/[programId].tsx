@@ -63,8 +63,6 @@ export const getServerSideProps = async (context: NextPageContext) => {
   const data = await fetch(`${API_URL}/program/${programId}`, { method: "GET" });
   const program = (await data.json()) as Program;
 
-  console.log(program);
-
   const { nodes: majorNodes, edges: majorEdges } = createPrerequisiteGraph(program, program.major, {
     type: "Program",
   });
