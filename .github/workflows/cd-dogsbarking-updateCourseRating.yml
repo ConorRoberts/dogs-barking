@@ -1,0 +1,16 @@
+name: CD/dogsbarking-updateCourseRating
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "api/dogsbarking-updateCourseRating/**"
+      - ".github/workflows/cd-dogsbarking-updateCourseRating.yml"
+
+jobs:
+  deploy:
+    name: Deploy Lambda
+    uses: ./.github/workflows/cd-lambda-default.yml
+    with:
+      function-name: dogsbarking-updateCourseRating

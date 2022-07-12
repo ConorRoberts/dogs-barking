@@ -1,0 +1,16 @@
+name: CD/dogsbarking-createUser
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "api/dogsbarking-createUser/**"
+      - ".github/workflows/cd-dogsbarking-createUser.yml"
+
+jobs:
+  deploy:
+    name: Deploy Lambda
+    uses: ./.github/workflows/cd-lambda-default.yml
+    with:
+      function-name: dogsbarking-createUser

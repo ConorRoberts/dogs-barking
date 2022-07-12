@@ -1,0 +1,16 @@
+name: CD/dogsbarking-getDegreePlan
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "api/dogsbarking-getDegreePlan/**"
+      - ".github/workflows/cd-dogsbarking-getDegreePlan.yml"
+
+jobs:
+  deploy:
+    name: Deploy Lambda
+    uses: ./.github/workflows/cd-lambda-default.yml
+    with:
+      function-name: dogsbarking-getDegreePlan

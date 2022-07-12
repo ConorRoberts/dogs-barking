@@ -1,0 +1,16 @@
+name: CD/dogsbarking-updateUser
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "api/dogsbarking-updateUser/**"
+      - ".github/workflows/cd-dogsbarking-updateUser.yml"
+
+jobs:
+  deploy:
+    name: Deploy Lambda
+    uses: ./.github/workflows/cd-lambda-default.yml
+    with:
+      function-name: dogsbarking-updateUser

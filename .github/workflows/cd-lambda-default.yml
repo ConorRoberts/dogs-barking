@@ -1,23 +1,17 @@
-name: CD/dogsbarking-deleteDegreePlanSemester
+name: cd-lambda-default
 
 on:
-  push:
-    branches:
-      - dev
-    paths:
-      - "api/dogsbarking-deleteDegreePlanSemester/**"
-      - ".github/workflows/cd-dogsbarking-deleteDegreePlanSemester.yml"
-
-env:
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-  FUNCTION_NAME: dogsbarking-deleteDegreePlanSemester
+  workflow_call:
+    inputs:
+      function-name:
+        required: true
+        type: string
 
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: production
+    environment: development
 
     steps:
       - name: Checkout
@@ -36,10 +30,11 @@ jobs:
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
-        working-directory: ./api/${{env.FUNCTION_NAME}}
+        working-directory: ./api/${{inputs.function-name}}
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          FUNCTION_NAME: ${{ env.FUNCTION_NAME }}
+          FUNCTION_NAME: ${{inputs.function-name}}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$FUNCTION_NAME .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$FUNCTION_NAME

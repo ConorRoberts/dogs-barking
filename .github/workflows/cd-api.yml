@@ -1,0 +1,60 @@
+name: CD/Api
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "api/**"
+      - ".github/workflows/cd-api.yml"
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy API
+        run: |
+          aws lambda wait function-updated --function-name ${{ env.FUNCTION_NAME }}
+          aws lambda update-function-configuration \
+          --function-name ${{ env.FUNCTION_NAME }} \
+          --timeout 600
+
+  send-status-to-discord:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: ${{ always() }}
+    steps:
+      - name: Send status message to Discord
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "${{ secrets.DISCORD_WEBHOOK }}"
+          method: "POST"
+          contentType: "application/json"
+          data: |
+            {
+              "content": "<@&969598441980325888>",
+              "allowed_mentions": { "roles": ["969598441980325888"] },
+              "username": "GitHub",
+              "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+              "embeds": [
+                  {
+                      "title": "Status - ${{ github.workflow }}",
+                      "description": "${{ github.workflow }}. See more at the link above.",
+                      "color": ${{ needs.deploy.result == 'success' && 7405424 || 16740464 }},
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+              ]
+            }

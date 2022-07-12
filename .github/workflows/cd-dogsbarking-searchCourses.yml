@@ -1,0 +1,16 @@
+name: CD/dogsbarking-searchCourses
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "api/dogsbarking-searchCourses/**"
+      - ".github/workflows/cd-dogsbarking-searchCourses.yml"
+
+jobs:
+  deploy:
+    name: Deploy Lambda
+    uses: ./.github/workflows/cd-lambda-default.yml
+    with:
+      function-name: dogsbarking-searchCourses

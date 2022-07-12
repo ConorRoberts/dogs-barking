@@ -1,0 +1,16 @@
+name: CD/dogsbarking-getProgram
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "api/dogsbarking-getProgram/**"
+      - ".github/workflows/cd-dogsbarking-getProgram.yml"
+
+jobs:
+  deploy:
+    name: Deploy Lambda
+    uses: ./.github/workflows/cd-lambda-default.yml
+    with:
+      function-name: dogsbarking-getProgram
