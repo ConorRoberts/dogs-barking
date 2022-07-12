@@ -21,18 +21,14 @@ import SearchModal from "./SearchModal";
 import { setOpen } from "@redux/search";
 import { Auth } from "aws-amplify";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useDarkMode();
   const router = useRouter();
   const dispatch = useDispatch();
-
-  const [user, setUser] = useState({});
-
-  const signOut = () => {
-    return false;
-  };
+  const { user, signOut } = useAuthenticator();
 
   useEffect(() => {
     setMenuOpen(false);
@@ -64,15 +60,17 @@ const Navigation = () => {
               </div>
             </Link>
             <div className="mt-auto">
-              { /* // TODO uncomment once nav has been sorted using google/oauth
-                {user && ( 
-                  <div className="nav-drawer-button" onClick={() => {signOut()}}> 
-                    <Logout size={20} />
-                    <p>Sign Out</p>
-                  </div>
-                )}
-              */}
-              
+              {user && (
+                <div
+                  className="nav-drawer-button"
+                  onClick={() => {
+                    signOut();
+                  }}
+                >
+                  <Logout size={20} />
+                  <p>Sign Out</p>
+                </div>
+              )}
               {darkMode ? (
                 <div className="nav-drawer-button" onClick={() => setDarkMode(!darkMode)}>
                   <Sun size={20} />
@@ -138,20 +136,16 @@ const Navigation = () => {
         <Link href="/about" passHref>
           <a className="big-screen-nav-button">About</a>
         </Link>
-
         <SearchIcon size={25} className="primary-hover ml-auto" onClick={() => dispatch(setOpen(true))} />
-        {/* TODO implement profile here once oauth/google is dealt with 
         {user ? (
           <Link href="/profile" passHref>
             <a className="big-screen-nav-button ">Profile</a>
           </Link>
-          ) : (
+        ) : (
           <div onClick={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })}>
             <p className="big-screen-nav-button ">Sign In</p>
           </div>
         )}
-        */}
-        
       </div>
 
       <SearchModal />
