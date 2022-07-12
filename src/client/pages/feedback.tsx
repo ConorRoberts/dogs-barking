@@ -16,8 +16,9 @@ const FeedbackPage = () => {
     const response = await axios.post(`http://api.dogs-barking.ca/development/feedback`, {title: heading, message: body})
       .catch((err) => {
         setRenderError(false);
+        return;
       });
-    response.status === 200 && setRenderSuccess(true);
+    setRenderSuccess(true);
   };
     
   return (
