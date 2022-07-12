@@ -7,6 +7,7 @@ on:
     paths:
       - "api/dogsbarking-updateUser/**"
       - ".github/workflows/cd-dogsbarking-updateUser.yml"
+      - ".github/workflows/cd-lambda-default.yml"
 
 jobs:
   deploy:

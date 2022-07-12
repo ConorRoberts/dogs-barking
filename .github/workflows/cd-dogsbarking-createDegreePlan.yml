@@ -7,6 +7,7 @@ on:
     paths:
       - "api/dogsbarking-createDegreePlan/**"
       - ".github/workflows/cd-dogsbarking-createDegreePlan.yml"
+      - ".github/workflows/cd-lambda-default.yml"
 
 jobs:
   deploy:

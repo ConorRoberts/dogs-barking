@@ -7,6 +7,7 @@ on:
     paths:
       - "api/dogsbarking-searchPrograms/**"
       - ".github/workflows/cd-dogsbarking-searchPrograms.yml"
+      - ".github/workflows/cd-lambda-default.yml"
 
 jobs:
   deploy:
