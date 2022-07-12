@@ -33,7 +33,7 @@ jobs:
         working-directory: ./api/${{inputs.function-name}}
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          FUNCTION_NAME: ${{inputs.function-name}}
+          FUNCTION_NAME: ${{ inputs.function-name }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$FUNCTION_NAME .
@@ -50,5 +50,5 @@ jobs:
         run: |
           aws lambda wait function-updated --function-name ${{ env.FUNCTION_NAME }}
           aws lambda update-function-configuration \
-          --function-name ${{ env.FUNCTION_NAME }} \
+          --function-name ${{ inputs.function-name }} \
           --timeout 600
