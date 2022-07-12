@@ -12,7 +12,6 @@ import Toast from "@components/form/Toast";
 import User from "@typedefs/User";
 import MetaData from "@components/MetaData";
 import getToken from "@utils/getToken";
-import { useAuthenticator } from "@aws-amplify/ui-react";
 
 interface PageProps {
   schools: School[];
@@ -21,7 +20,6 @@ interface PageProps {
 type UpdateStatus = "" | "success" | "failure";
 
 const Page = ({ schools }: PageProps) => {
-  const { user } = useAuthenticator();
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>("");
   const [updateMessage, setUpdateMessage] = useState("");
   const [courseQuery, setCourseQuery] = useState<string>("");
@@ -60,7 +58,7 @@ const Page = ({ schools }: PageProps) => {
               const { data } = await axios.post<User>(
                 `/api/user`,
                 { ...values, takenCourses: [...newTakenCourses].map((e) => e.id) },
-                { headers: { Authorization: `Bearer ${getToken(user)}` } }
+                { headers: { Authorization: `Bearer ${getToken({})}` } } // TODO: implement auth here
               );
               // dispatch(
               //   setUser({
