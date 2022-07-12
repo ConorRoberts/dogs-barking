@@ -44,7 +44,7 @@ const Page = () => {
   };
 
   const validateUserInput = (filterValue:string, userInput: any) => { // special validation for specific input types, will be added onto later
-    switch (currentFilterKey) {
+    switch (filterValue) {
       case "code":
         return validateCourseCode(userInput);
       case "number":
