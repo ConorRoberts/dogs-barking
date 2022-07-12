@@ -13,5 +13,5 @@ jobs:
     name: Deploy Lambda
     uses: ./.github/workflows/cd-lambda-default.yml
     with:
-      function-name: dogsbarking-getCourseSections
+      function-name: dogsbarking-getCourseSections 
     secrets: inherit
