@@ -14,3 +14,4 @@ jobs:
     uses: ./.github/workflows/cd-lambda-default.yml
     with:
       function-name: dogsbarking-executeCourseQuery
+    secrets: inherit

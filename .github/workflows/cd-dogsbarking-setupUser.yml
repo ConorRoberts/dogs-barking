@@ -1,17 +1,17 @@
-name: CD/dogsbarking-getProgram
+name: CD/dogsbarking-setupUser
 
 on:
   push:
     branches:
       - dev
     paths:
-      - "api/dogsbarking-getProgram/**"
-      - ".github/workflows/cd-dogsbarking-getProgram.yml"
+      - "api/dogsbarking-setupUser/**"
+      - ".github/workflows/cd-dogsbarking-setupUser.yml"
 
 jobs:
   deploy:
     name: Deploy Lambda
     uses: ./.github/workflows/cd-lambda-default.yml
     with:
-      function-name: dogsbarking-getProgram
+      function-name: dogsbarking-setupUser
     secrets: inherit
