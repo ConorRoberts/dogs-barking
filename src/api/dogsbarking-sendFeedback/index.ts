@@ -34,7 +34,7 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
         CREATE (f:Feedback {
           title: $data.title,
           message: $data.message,
-          createdAt: datetime()
+          createdAt: toString(datetime())
         })
         
         RETURN 
