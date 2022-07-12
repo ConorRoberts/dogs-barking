@@ -40,7 +40,7 @@ const CatalogSchool = ({ school }: Props) => {
             <p>{school.province}</p>
             <p>{school.city}</p>
             <div className="mx-auto">
-              <Link href={`/course/${id}`} passHref>
+              <Link href={`/school/${id}`} passHref>
                 <a>
                   <Button variant="outline">View More</Button>
                 </a>

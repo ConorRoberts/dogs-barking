@@ -39,7 +39,7 @@ const CatalogProgram = ({ program }: Props) => {
             <p>{program.name}</p>
 
             <div className="mx-auto">
-              <Link href={`/course/${id}`} passHref>
+              <Link href={`/program/${id}`} passHref>
                 <a>
                   <Button variant="outline">View More</Button>
                 </a>
