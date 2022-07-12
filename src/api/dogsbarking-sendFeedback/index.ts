@@ -38,14 +38,14 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
         })
         
         RETURN 
-          properties(f)
+          properties(f) as feedback
       `,
       { data: { title, message } }
     );
 
     await session.close();
 
-    return records[0].get("f");
+    return records[0].get("feedback");
   } catch (error) {
     console.error(error);
     throw error;
