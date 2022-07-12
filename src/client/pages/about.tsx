@@ -9,7 +9,7 @@ const Page = () => {
 
       <h3 className="text-center">Creators</h3>
 
-      <div className="w-full mx-auto max-w-2xl grid sm:grid-cols-2 gap-4 justify-center justify-items-center">
+      <div className="w-full mx-auto max-w-6xl flex flex-row gap-4 justify-center md:items-stretch flex-wrap">
         <CreatorCard
           image={"/creators/Conor.jpg"}
           name="Conor Roberts"
