@@ -1,4 +1,4 @@
-import { AuthState } from "@redux/auth";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 import { PlannerState } from "@redux/planner";
 import { RootState } from "@redux/store";
 import Course from "@typedefs/Course";
@@ -17,13 +17,13 @@ interface Props {
 const PlannerSidebarRequirement = ({ requirement }: Props) => {
   const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const { label, id } = requirement;
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user } = useAuthenticator();
 
-  const plannedCourses = plan?.semesters
-    ?.map((e) => e.courses)
-    .flat()
-    .concat(...user.takenCourses);
-  const taken = isRequirementMet(requirement, plannedCourses);
+  // const plannedCourses = plan?.semesters
+  //   ?.map((e) => e.courses)
+  //   .flat()
+  //   .concat(...user.takenCourses);
+  // const taken = isRequirementMet(requirement, plannedCourses);
 
   return (
     <div className="rounded-xl overflow-hidden flex justify-between py-1">
@@ -62,12 +62,13 @@ const PlannerSidebarRequirement = ({ requirement }: Props) => {
           <div className="grid grid-cols-2 gap-1 items-center">{(requirement as OrBlockData).note}</div>
         )}
       </div>
-      <div
+      {/* <div
         className={`${
           taken ? "text-emerald-500" : "text-rose-500"
-        } w-6 h-6 text-sm flex gap-2 justify-center text-white items-center bg-white dark:bg-gray-800 dark:bg-grrounded-full text-center rounded-full shrink-0`}>
+        } w-6 h-6 text-sm flex gap-2 justify-center text-white items-center bg-white dark:bg-gray-800 dark:bg-grrounded-full text-center rounded-full shrink-0`}
+      >
         {taken ? <CheckIcon size={15} /> : <CancelIcon size={15} />}
-      </div>
+      </div> */}
     </div>
   );
 };

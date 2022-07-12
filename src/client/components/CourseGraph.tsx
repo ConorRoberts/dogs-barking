@@ -19,7 +19,6 @@ type CourseGraphProps = {
 const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, height }: CourseGraphProps) => {
   const [nodes, setNodes] = useNodesState(initialNodes);
   const [edges, setEdges] = useEdgesState(initialEdges);
-
   useEffect(() => {
     setNodes(initialNodes);
     setEdges(initialEdges);

@@ -1,12 +1,11 @@
-import { AuthState } from "@redux/auth";
-import { RootState } from "@redux/store";
 import RatingData from "@typedefs/RatingData";
 import axios from "axios";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { Loading, RadioButtonEmptyIcon, RadioButtonFilledIcon } from "./Icons";
 import { motion } from "framer-motion";
 import { Toast } from "./form";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import getToken from "@utils/getToken";
 
 interface RatingProps {
   courseId: string;
@@ -32,10 +31,8 @@ const Rating = ({
   const [mouseIndex, setMouseIndex] = useState(-1);
   const [rating, setRating] = useState(initialRating);
   const [ratingSubmissionError, setRatingSubmissionError] = useState("");
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user } = useAuthenticator();
   const [updateLoading, setUpdateLoading] = useState(false);
-
-  const userHasTakenCourse = user && user?.takenCourses.some((e) => e.id === courseId);
 
   // Update rating on backend
   const submitRating = async ({ ratingValue }: { ratingValue: number }) => {
@@ -46,8 +43,8 @@ const Rating = ({
     }
 
     // Check if user can rate course
-    if (!user?.token || !userHasTakenCourse) {
-      if (!user?.token) {
+    if (!user) {
+      if (!user) {
         setRatingSubmissionError("You must be logged in to rate courses.");
       } else {
         setRatingSubmissionError("You cannot rate courses you have not taken.");
@@ -71,7 +68,7 @@ const Rating = ({
         },
         {
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${getToken(user)}`,
           },
         }
       );
@@ -96,11 +93,11 @@ const Rating = ({
             <motion.div
               key={`rating-star-${index}-${courseId}`}
               animate={{
-                scale: mouseIndex >= index && userHasTakenCourse ? 1.2 : 1,
+                scale: mouseIndex >= index ? 1.2 : 1,
               }}
               transition={{ duration: 0.1, damping: 10, stiffness: 150, type: "spring" }}
               className={`cursor-pointer ${
-                mouseIndex >= index && userHasTakenCourse ? "dark:text-gray-300 text-gray-700" : "dark:text-white"
+                mouseIndex >= index ? "dark:text-gray-300 text-gray-700" : "dark:text-white"
               }`}
               onMouseEnter={() => setMouseIndex(index)}
               onMouseLeave={() => setMouseIndex(-1)}

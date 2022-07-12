@@ -9,26 +9,26 @@ import {
   PersonIcon,
   Login,
   Logout,
-  PlannerIcon,
+  // PlannerIcon,
   CatalogIcon,
   SearchIcon,
   AboutIcon,
 } from "@components/Icons";
 import { useRouter } from "next/router";
 import useDarkMode from "@hooks/useDarkMode";
-import { RootState } from "@redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { AuthState } from "@redux/auth";
+import { useDispatch } from "react-redux";
 import SearchModal from "./SearchModal";
 import { setOpen } from "@redux/search";
+import { Auth } from "aws-amplify";
+import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
+import { useAuthenticator } from "@aws-amplify/ui-react";
 
 const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useDarkMode();
   const router = useRouter();
   const dispatch = useDispatch();
-
-  const { user } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { user, signOut } = useAuthenticator();
 
   useEffect(() => {
     setMenuOpen(false);
@@ -39,14 +39,14 @@ const Navigation = () => {
       {menuOpen && (
         <Drawer onClose={() => setMenuOpen(false)}>
           <div className="flex flex-col h-full">
-            {user && ( //TODO: Change href back to /planner once MVP is finished
-              <Link href="/error/403" passHref> 
+            {/* {user && (
+              <Link href="/planner" passHref>
                 <div className="nav-drawer-button md:hidden">
                   <PlannerIcon size={20} />
                   <p>Degree Planner</p>
                 </div>
               </Link>
-            )}
+            )} */}
             <Link href="/catalog" passHref>
               <div className="nav-drawer-button md:hidden">
                 <CatalogIcon size={20} />
@@ -61,12 +61,15 @@ const Navigation = () => {
             </Link>
             <div className="mt-auto">
               {user && (
-                <Link href="/auth/sign-out" passHref>
-                  <a className="nav-drawer-button">
-                    <Logout size={20} />
-                    <p>Sign Out</p>
-                  </a>
-                </Link>
+                <div
+                  className="nav-drawer-button"
+                  onClick={() => {
+                    signOut();
+                  }}
+                >
+                  <Logout size={20} />
+                  <p>Sign Out</p>
+                </div>
               )}
               {darkMode ? (
                 <div className="nav-drawer-button" onClick={() => setDarkMode(!darkMode)}>
@@ -122,28 +125,26 @@ const Navigation = () => {
         <Link href="/" passHref>
           <a className="big-screen-nav-button">Home</a>
         </Link>
-        {user && ( //TODO: Change href back to /planner once MVP is finished
-          <Link href="/error/403" passHref> 
+        {/* {user && (
+          <Link href="planner" passHref>
             <a className="big-screen-nav-button">Degree Planner</a>
           </Link>
-        )}
+        )} */}
         <Link href="/catalog" passHref>
           <a className="big-screen-nav-button">Catalog</a>
         </Link>
         <Link href="/about" passHref>
           <a className="big-screen-nav-button">About</a>
         </Link>
-
         <SearchIcon size={25} className="primary-hover ml-auto" onClick={() => dispatch(setOpen(true))} />
-
         {user ? (
           <Link href="/profile" passHref>
-            <a className="big-screen-nav-button ">{user?.name.split(" ").at(0)}</a>
+            <a className="big-screen-nav-button ">Profile</a>
           </Link>
         ) : (
-          <Link href="/auth/sign-in" passHref>
-            <a className="big-screen-nav-button ">Sign In</a>
-          </Link>
+          <div onClick={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })}>
+            <p className="big-screen-nav-button ">Sign In</p>
+          </div>
         )}
       </div>
 

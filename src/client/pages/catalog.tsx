@@ -44,7 +44,7 @@ const Page = () => {
   };
 
   const validateUserInput = (filterValue:string, userInput: any) => { // special validation for specific input types, will be added onto later
-    switch (currentFilterKey) {
+    switch (filterValue) {
       case "code":
         return validateCourseCode(userInput);
       case "number":
@@ -118,17 +118,19 @@ const Page = () => {
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-1">
-              <Select value={currentFilterKey} onChange={(e) => setCurrentFilterKey(e.target.value)}>
-                <option value="" disabled>
-                  None
-                </option>
-                {CATALOG_FILTER_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map((e, index) => (
-                  <option key={`catalog filter key option ${index}`} value={e} className="capitalize">
-                    {e}
+              <div className="flex flex-col pb-6">
+                <label className="pl-1 text-gray-800 underline">Filter Type</label>
+                <Select value={currentFilterKey} onChange={(e) => setCurrentFilterKey(e.target.value)}>
+                  <option value="" disabled>
+                    None
                   </option>
-                ))}
-              </Select>
-
+                  {CATALOG_FILTER_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map((e, index) => (
+                    <option key={`catalog filter key option ${index}`} value={e} className="capitalize">
+                      {e}
+                    </option>
+                  ))}
+                </Select>
+              </div>
               <Input
                 className="bg-white dark:bg-gray-700 border border-gray-300"
                 onChange={(e) => setCurrentFilterValue(e.target.value)}

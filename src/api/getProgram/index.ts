@@ -1,21 +1,31 @@
-const neo4j = require("neo4j-driver");
+import { APIGatewayEvent, APIGatewayProxyEventPathParameters } from "aws-lambda";
+import neo4j from "neo4j-driver";
+import { SecretsManager } from "@aws-sdk/client-secrets-manager";
+import { createClient } from "redis";
+
+interface PathParameters extends APIGatewayProxyEventPathParameters {
+  programId: string;
+}
 
 /**
  * @method GET
  * @description Gets program with the given ID
  */
-exports.handler = async (event) => {
+export const handler = async (event: APIGatewayEvent) => {
   console.log(event);
+
+  const secrets = new SecretsManager({});
+  const { stage } = event.requestContext;
 
   // const body = JSON.parse(event.body ?? "{}");
   // const query = event.queryStringParameters;
-  const { programId } = event.pathParameters;
+  const { programId } = event.pathParameters as PathParameters;
   // const headers = event.headers;
 
-  const driver = neo4j.driver(
-    `neo4j://${process.env.NEO4J_HOST}`,
-    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
-  );
+  const { SecretString: neo4jCredentials } = await secrets.getSecretValue({ SecretId: `${stage}/dogs-barking/neo4j` });
+  const { host, username, password } = JSON.parse(neo4jCredentials ?? "{}");
+
+  const driver = neo4j.driver(`neo4j://${host}`, neo4j.auth.basic(username, password));
 
   let session = driver.session();
 
@@ -148,7 +158,7 @@ exports.handler = async (event) => {
     };
   };
 
-  return {
+  const data = {
     ...records[0].get("program"),
     school: records[0].get("school"),
     label: "Program",
@@ -161,4 +171,20 @@ exports.handler = async (event) => {
       .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
       .filter((e) => e !== undefined && e !== null),
   };
+
+  try {
+    const { SecretString: redisCredentials } = await secrets.getSecretValue({ SecretId: `${stage}/dogs-barking/redis` });
+    const { host: redisHost } = JSON.parse(redisCredentials ?? "{}");
+    const redis = createClient({ url: redisHost });
+    await redis.connect();
+
+    await redis.set(`${stage}/program/${programId}`, JSON.stringify(data));
+    const redisData = await redis.get(`${stage}/program/${programId}`);
+    console.log(redisData);
+    await redis.quit();
+  } catch (error) {
+    console.error(error);
+  }
+
+  return data;
 };

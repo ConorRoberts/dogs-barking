@@ -9,7 +9,7 @@ const Page = () => {
 
       <h3 className="text-center">Creators</h3>
 
-      <div className="w-full mx-auto max-w-2xl grid sm:grid-cols-2 gap-4 justify-center justify-items-center">
+      <div className="w-full mx-auto max-w-6xl flex flex-row gap-4 justify-center md:items-stretch flex-wrap">
         <CreatorCard
           image={"/creators/Conor.jpg"}
           name="Conor Roberts"
@@ -22,6 +22,13 @@ const Page = () => {
           name="Josh Ryan Macadangdang"
           role="UI/UX Designer"
           linkedinUrl="https://www.linkedin.com/in/josh-ryan-macadangdang-60662b1ba/"
+        />
+        <CreatorCard
+          image={"/creators/Ben.jpg"}
+          name="Ben Carlson"
+          role="Full-Stack Developer"
+          githubUrl="https://github.com/BCarlson1512"
+          linkedinUrl="https://www.linkedin.com/in/bencarlson1512/"
         />
       </div>
     </div>

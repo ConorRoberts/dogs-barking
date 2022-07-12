@@ -1,7 +1,8 @@
-import { Auth } from "aws-amplify";
+import { UseAuthenticator } from "@aws-amplify/ui-react/dist/types/components/Authenticator/hooks/useAuthenticator";
 
-const getToken = async () => {
-  return (await Auth.currentSession()).getAccessToken().getJwtToken();
+const getToken = (user?: UseAuthenticator["user"]) => {
+  if (!user) return null;
+  return user?.getSignInUserSession().getAccessToken().getJwtToken();
 };
 
 export default getToken;
