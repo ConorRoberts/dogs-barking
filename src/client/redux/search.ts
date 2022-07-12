@@ -13,7 +13,7 @@ const initialState: SearchState = {
 const search = createSlice({
   name: "search",
   initialState,
-  reducers: {
+  reducers: { 
     setOpen: (state, { payload }) => {
       state.open = payload;
     },
