@@ -29,16 +29,23 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
 
     const session = driver.session();
 
-    await session.run(
+    const { records } = await session.run(
       `
-        CREATE (:Feedback $data)
+        CREATE (f:Feedback {
+          title: $data.title,
+          message: $data.message,
+          createdAt: datetime()
+        })
+        
+        RETURN 
+          properties(f)
       `,
       { data: { title, message } }
     );
 
     await session.close();
 
-    return {};
+    return records[0].get("f");
   } catch (error) {
     console.error(error);
     throw error;
