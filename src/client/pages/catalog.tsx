@@ -24,7 +24,7 @@ const Page = () => {
   const [programs, setPrograms] = useState<Program[]>([]);
   const [schools, setSchools] = useState<School[]>([]);
 
-  const [totals, setTotals] = useState({ course: 0, program: 0 });
+  const [totals, setTotals] = useState({ course: 0, program: 0, school: 0 });
   const [page, setPage] = useState(0);
   const [searchType, setSearchType] = useState("course");
 
@@ -115,7 +115,7 @@ const Page = () => {
             }
           });
           setPrograms(data[0].programs.sort((a,b) => a.name.localeCompare(b.name)));
-          setTotals((prev) => ({...prev, program: data.total}));
+          setTotals((prev) => ({...prev, program: data[0].programs.length}));
         } catch (err) {
           setPrograms([]);
         }
@@ -130,7 +130,7 @@ const Page = () => {
             }
           });
           setSchools(data.schools.sort((a, b) => a.name.localeCompare(b.name)));
-          setTotals((prev) => ({...prev, school: data.total}));
+          setTotals((prev) => ({...prev, school: data[0].total}));
         } catch (err) {
           setSchools([]);
         }
@@ -217,9 +217,9 @@ const Page = () => {
               ))}
             </div>
           </div>
-          <p>
-            Showing {50 * page} - {50 * page + 50} of {totals.course} results
-          </p>
+          {searchType === "course" && <p> Showing {50 * page} - {50 * page + 50} of {totals.course} results </p>}
+          {searchType === "program" && <p> Showing {50 * page} - {50 * page + 50} of {totals.program} results </p>}
+          {searchType === "school" && <p> Showing {50 * page} - {50 * page + 50} of {totals.school} results </p>}
           <div className="flex gap-2 items-center justify-end">
             <Button variant="outline" onClick={() => setPage(page - 1 < 0 ? 0 : page - 1)}>
               Previous
