@@ -6,17 +6,17 @@ const FeedbackPage = () => {
   const [heading, setHeading] = useState("");
   const [body, setBody] = useState("");
   const [renderError, setRenderError] = useState(false);
-  const [renderSuccess, setRenderSuccess] = useState(false, true);
+  const [renderSuccess, setRenderSuccess] = useState(false);
 
   const sendFeedback = async () => {
     if (!heading || !body) {
-        alert("Please enter a heading/message");
-        return;
+      alert("Please enter a heading/message");
+      return;
     }
     const response = await axios.post(`http://api.dogs-barking.ca/development/feedback`, {title: heading, message: body})
       .catch((err) => {
-            setRenderError(false);
-        });
+        setRenderError(false);
+      });
     response.status === 200 && setRenderSuccess(true);
   };
     
@@ -24,25 +24,22 @@ const FeedbackPage = () => {
     <div className="flex flex-col">
       {renderError &&
         <div className="flex width-50 justify-center items-end">
-            <div className="flex flex-col">
-                <p>An error occured when making your request</p>
-                <p>Please retry/wait if the error persists</p>
-            </div>
-            <div className=""> 
-                <Button className="" onClick={() => setRenderError(false)}> Ok </Button>
-            </div>
+          <div className="flex flex-col">
+            <p>An error occured when making your request</p>
+            <p>Please retry/wait if the error persists</p>
+          </div>
+          <div className=""> 
+            <Button className="" onClick={() => setRenderError(false)}> Ok </Button>
+          </div>
         </div>
       }
       {renderSuccess &&
        <div className="flex justify-center width-50 items-end">
-            <div className="flex flex-col">
-                <p className="py-3">Thank you for your feedback</p>
-                <Button className="" onClick={() => setRenderSuccess(false)}> Ok </Button>
-            </div>
-            <div className=""> 
-                
-            </div>
-        </div>
+         <div className="flex flex-col">
+           <p className="py-3">Thank you for your feedback</p>
+           <Button className="" onClick={() => setRenderSuccess(false)}> Ok </Button>
+         </div>
+       </div>
       }
       <div className="flex flex-col justify-center items-center px-2 py-2">
         <h1>Tell us about your visit!</h1>
