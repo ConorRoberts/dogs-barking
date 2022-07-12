@@ -59,6 +59,9 @@ const Navigation = () => {
                 <p>About</p>
               </div>
             </Link>
+            <Link href="/feedback" passHref>
+              <p>Feedback/Contact</p>
+            </Link>
             <div className="mt-auto">
               {user && (
                 <div
@@ -135,6 +138,9 @@ const Navigation = () => {
         </Link>
         <Link href="/about" passHref>
           <a className="big-screen-nav-button">About</a>
+        </Link>
+        <Link href="/feedback" passHref>
+          <a className="big-screen-nav-button">Feedback</a>
         </Link>
         <SearchIcon size={25} className="primary-hover ml-auto" onClick={() => dispatch(setOpen(true))} />
         {user ? (
