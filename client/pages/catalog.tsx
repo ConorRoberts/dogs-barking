@@ -53,14 +53,7 @@ const Page = () => {
   const addNewFilter = (currentFilterKey:string, currentFilterValue:string) => {
 
     if (!validateUserInput(currentFilterKey, currentFilterValue, searchType)) {
-      switch(currentFilterKey) {
-        case "code":
-          alert("Invalid course code entered... Please enter a course code in the form: CIS1300 or ENGG1500");
-          break;
-        case "number":
-          alert("Input is not a number or out of bounds, please enter a number between 0 and 9999");
-          break;
-      }
+      alert("Invalid input detected... please try again");
       return;
     }
 
