@@ -9,7 +9,7 @@ export const GOOGLE_MAPS_API_KEY = "AIzaSyBFOXAHpJwLKqnfW8jMjSXWdHXfMkMsvYc";
 export const CATALOG_FILTER_OPTIONS = ["code", "number", "name", "description"];
 export const CATALOG_SELECTION_OPTIONS = ["course", "program", "school"];
 
-export const CATALOG_COMPARATOR_OPTIONS = ["greater_than", "less_than", "equal_to", "greater_than_or_equal", "less_than_or_equal"];
+export const CATALOG_COMPARATOR_OPTIONS = ["greater", "less", "equal"];
 
 export const CATALOG_DEFAULT_FILTERS = 
 {

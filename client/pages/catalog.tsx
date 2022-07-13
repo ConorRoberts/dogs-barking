@@ -8,7 +8,7 @@ import School from "@typedefs/School";
 import CourseQueryApiResponse from "@typedefs/CourseQueryAPIResponse";
 import CatalogCourse from "@components/CatalogCourse";
 import { Button, Input, Select } from "@components/form";
-import { CATALOG_DEFAULT_FILTERS, CATALOG_SELECTION_OPTIONS } from "@config/config";
+import { CATALOG_COMPARATOR_OPTIONS, CATALOG_DEFAULT_FILTERS, CATALOG_SELECTION_OPTIONS } from "@config/config";
 import { useDispatch, useSelector } from "react-redux";
 import { addFilter, CatalogState, removeFilter } from "@redux/catalog";
 import { RootState } from "@redux/store";
@@ -35,6 +35,7 @@ const Page = () => {
   const { filters } = useSelector<RootState, CatalogState>((state) => state.catalog);
   const [currentFilterKey, setCurrentFilterKey] = useState("");
   const [currentFilterValue, setCurrentFilterValue] = useState("");
+  const [comparatorValue, setComparatorValue] = useState("");
 
   const validateUserInput = (filterValue:string, userInput: string, searchType:string) => {
     if (searchType === "course") { // validate course fields
@@ -166,6 +167,21 @@ const Page = () => {
                   ))}
                 </Select>
               </div>
+              {currentFilterKey === "level" && 
+                <div className="flex flex-col pb-6 w-50">
+                  <label className="pl-1 text-gray-800 underline">Comparison</label>
+                  <Select value={comparatorValue} onChange={(e) => setComparatorValue(e.target.value)}>
+                    <option value="" disabled>
+                      None
+                    </option>
+                    {CATALOG_COMPARATOR_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map((e, index) => (
+                      <option key={`catalog filter key option ${index}`} value={e} className="capitalize">
+                        {e}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              }
               <Input
                 className="bg-white dark:bg-gray-700 border border-gray-300"
                 onChange={(e) => setCurrentFilterValue(e.target.value)}
