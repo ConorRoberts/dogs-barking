@@ -1,0 +1,166 @@
+openapi: "3.0.2"
+info:
+  title: Dogs Barking
+  version: "1.0"
+servers:
+  - url: https://api.dogs-barking.ca/dev
+    description: Development server
+  - url: https://api.dogs-barking.ca/prod
+    description: Production server
+paths:
+  /course:
+    get:
+      description: Gets all courses that partially the given query.
+      responses:
+        "200":
+          description: OK
+      parameters:
+        - name: name
+          in: query
+          required: false
+          schema:
+            type: string
+            example: "computer"
+        - name: school
+          in: query
+          description: School shorthand
+          required: false
+          schema:
+            type: string
+            example: "UOFG"
+        - name: department
+          in: query
+          description: Department shorthand
+          required: false
+          schema:
+            type: string
+            example: "CIS"
+        - name: code
+          in: query
+          description: Course code
+          required: false
+          schema:
+            type: string
+            example: "CIS250"
+        
+  /course/{courseId}:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FullCourse"
+  /program:
+    get:
+      responses:
+        "200":
+          description: OK
+  /program/{programId}:
+    get:
+      responses:
+        "200":
+          description: OK
+  /school:
+    get:
+      responses:
+        "200":
+          description: OK
+  /search/course:
+    get:
+      parameters:
+        - name: query
+          in: query
+          description: Search query.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BasicCourse"
+  /search/program:
+    get:
+      parameters:
+        - name: query
+          in: query
+          description: Search query.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    BasicCourse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 72920608-4b4f-4cf0-b0ed-c07c2ba83acb
+        name:
+          type: string
+          example: "Software System Dvlmt & Intgrn"
+        description:
+          type: string
+          example: This course introduces techniques and tools used in the development of large software systems. Students learn methods for organizing and constructing modular systems, manipulating files, introductory interface design, and use of databases. Software tools for managing projects, database connectivity, configuration management, and system application programmer interfaces are also covered.
+        code:
+          type: string
+          example: "CIS2750"
+        number:
+          type: number
+          example: "2750"
+        department:
+          type: string
+          example: "CIS"
+        credits:
+          type: number
+          example: 0.5
+    FullCourse:
+      allOf:
+        - $ref: "#/components/schemas/BasicCourse"
+        - type: object
+          properties:
+            label:
+              type: "string"
+              enum:
+                - "Course"
+            school:
+              $ref: "#/components/schemas/School"
+            requirements:
+              type: array
+              items:
+                $ref: "#/components/schemas/CourseRequirement"
+            rating:
+              $ref: "#/components/schemas/CourseRating"
+    CourseRequirement:
+      type: object
+    CourseRating:
+      type: object
+      properties:
+        usefulness:
+          type: number
+          description: How useful was this course?
+        timeSpent:
+          type: number
+          description: How much time did you spend on this course in a given week?
+        difficulty:
+          type: number
+          description: How difficult was this course?
+        count:
+          type: number
+          description: Number of ratings
+
+    School:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "c9f5f8c8-f8c8-4f8c-b8c8-f8c8f8c8c8c8"
