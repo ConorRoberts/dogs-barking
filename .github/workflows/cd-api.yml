@@ -28,7 +28,7 @@ jobs:
       - name: Create deployment
         id: create-deployment
         run: |
-          aws apigatewayv2 create-deployment
+          aws apigatewayv2 create-deployment \
           --stage-name prod \
           --api-id ${{ secrets.PROD_API_ID }} 
       
