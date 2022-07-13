@@ -8,7 +8,7 @@ import School from "@typedefs/School";
 import CourseQueryApiResponse from "@typedefs/CourseQueryAPIResponse";
 import CatalogCourse from "@components/CatalogCourse";
 import { Button, Input, Select } from "@components/form";
-import { CATALOG_FILTER_OPTIONS, CATALOG_SELECTION_OPTIONS } from "@config/config";
+import { CATALOG_DEFAULT_FILTERS, CATALOG_FILTER_OPTIONS, CATALOG_SELECTION_OPTIONS } from "@config/config";
 import { useDispatch, useSelector } from "react-redux";
 import { addFilter, CatalogState, removeFilter } from "@redux/catalog";
 import { RootState } from "@redux/store";
@@ -32,18 +32,54 @@ const Page = () => {
   const [currentFilterKey, setCurrentFilterKey] = useState("");
   const [currentFilterValue, setCurrentFilterValue] = useState("");
 
-  const setFilterPlaceHolder = (placeholderValue:string) => {
-    switch (placeholderValue) {
-      case "code":
-        return "Enter a course code, valid formats: CIS1300 ENGG1500 PSYC2000 HROB2010";
-      case "number":
-        return "Enter a course number, can range from 0-9999";
-      case "name":
-        return "Enter a course name, ie: Taxation or Into to financial accounting";
-      case "description":
-        return "Enter keyword(s)";
-      default:
-        return "Enter a search value";
+  const setFilterPlaceHolder = (searchType:string, placeholderValue:string) => {
+    if (searchType === "course") {
+      switch (placeholderValue) {
+        case "code":
+          return "Enter a course code, valid formats: CIS1300 ENGG1500 PSYC2000 HROB2010";
+        case "number":
+          return "Enter a course number, can range from 0-9999";
+        case "name":
+          return "Enter a course name, ie: Taxation or Into to financial accounting";
+        case "description":
+          return "Enter keyword(s)";
+        default:
+          return "Enter a search value";
+      }
+    }
+    if (searchType === "program") {
+      switch (placeholderValue) {
+        case "name":
+          return "Enter in your program name";
+        case "degree":
+          return "Enter the degree program. Ie B.Sc B.Comp B.A B.Eng";
+        case "code":
+          return "Enter the shorthand code for your degree ie: BME PSYC CJPP";
+        case "school":
+          return "Enter a school ie: University of Guelph";
+        default:
+          return "Enter a search value";
+      }
+    }
+    if (searchType === "school") {
+      switch (placeholderValue) {
+        case "country":
+          return "Enter a country";
+        case "name":
+          return "Enter the name of a school ie: University of Guelph or University of Toronto";
+        case "code":
+          return "Enter the shorthand for a school ie: UofG for University of Guelph";
+        case "province":
+          return "Enter a province";
+        case "city":
+          return "Enter a city name";
+        case "type":
+          return "Enter a search value";
+        case "description":
+          return "Enter a keyword";
+        default:
+          return "Enter a search value";
+      }
     }
   };
 
@@ -53,7 +89,18 @@ const Page = () => {
     return courseCodeRegex.test(courseCode) && parseInt(courseNumber) >= 1000 && parseInt(courseNumber) <= 9999;
   };
 
-  const validateUserInput = (filterValue:string, userInput: any) => { // special validation for specific input types, will be added onto later
+  const validateProgramCode = (programCode:string) => { // takes a program code ie: BME or BME:C
+    const programCodeRegex = /^([A-Z]{3,4}|[A-Z]{3,4}:C)$/i;
+    return programCodeRegex.test(programCode);
+  };
+
+  const validateSchoolCode = (schoolCode:string) => { // takes a school code ie: UofG or UoG and tests for validity
+    const programCodeRegex = /^[A-Z]{3,4}$/i;
+    return programCodeRegex.test(schoolCode);
+  };
+
+  const validateUserCourseInput = (filterValue:string, userInput: any) => { // special validation for specific input types, will be added onto later
+
     switch (filterValue) {
       case "code":
         return validateCourseCode(userInput);
@@ -64,9 +111,45 @@ const Page = () => {
     }
   };
 
+  const validateUserProgramInput = (filterValue:string, userInput: any) => { // special validation for specific input types, will be added onto later
+
+    switch (filterValue) {
+      case "code":
+        return validateCourseCode(userInput);
+      case "number":
+        return /^\d+$/.test(userInput) && parseInt(userInput) >= 0 && parseInt(userInput) <= 9999;
+      default:
+        return true;
+    }
+  };
+
+  const validateUserSchoolInput = (filterValue:string, userInput: any) => { // special validation for specific input types, will be added onto later
+    switch (filterValue) {
+      case "code":
+        return validateCourseCode(userInput);
+      case "number":
+        return /^\d+$/.test(userInput) && parseInt(userInput) >= 0 && parseInt(userInput) <= 9999;
+      default:
+        return true;
+    }
+  };
+
+  const validateUserInput = (filterValue:string, userInput: any, searchType:string) => {
+    if (searchType === "course") { // validate course fields
+      return validateUserCourseInput(filterValue, userInput);
+    }
+    if (searchType === "program") { // validate program fields
+      return validateUserProgramInput(filterValue, userInput);
+    }
+    if (searchType === "school") { // validate school fields
+      return validateUserSchoolInput(filterValue, userInput);
+    }
+    return false;
+  };
+
   const addNewFilter = (currentFilterKey:any, currentFilterValue:any) => {
 
-    if (!validateUserInput(currentFilterKey, currentFilterValue)) {
+    if (!validateUserInput(currentFilterKey, currentFilterValue, searchType)) {
       switch(currentFilterKey) {
         case "code":
           alert("Invalid course code entered... Please enter a course code in the form: CIS1300 or ENGG1500");
@@ -168,13 +251,13 @@ const Page = () => {
                   ))}
                 </Select>
               </div>
-              <div className="flex flex-col pb-6">
+              <div className="flex flex-col pb-6 w-40">
                 <label className="pl-1 text-gray-800 underline">Filter Type</label>
                 <Select value={currentFilterKey} onChange={(e) => setCurrentFilterKey(e.target.value)}>
                   <option value="" disabled>
                     None
                   </option>
-                  {CATALOG_FILTER_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map((e, index) => (
+                  {CATALOG_DEFAULT_FILTERS[searchType].filter((e) => filters.every(([filter]) => filter !== e)).map((e, index) => (
                     <option key={`catalog filter key option ${index}`} value={e} className="capitalize">
                       {e}
                     </option>
@@ -185,7 +268,7 @@ const Page = () => {
                 className="bg-white dark:bg-gray-700 border border-gray-300"
                 onChange={(e) => setCurrentFilterValue(e.target.value)}
                 value={currentFilterValue}
-                placeholder={setFilterPlaceHolder(currentFilterKey)}
+                placeholder={setFilterPlaceHolder(searchType, currentFilterKey)}
               />
               <PlusIcon
                 size={25}
