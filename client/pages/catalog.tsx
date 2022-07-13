@@ -16,6 +16,10 @@ import ProgramQueryApiResponse from "@typedefs/ProgramQueryApiResponse";
 import SchoolQueryApiResponse from "@typedefs/SchoolQueryApiResponse";
 import CatalogProgram from "@components/CatalogProgram";
 import CatalogSchool from "@components/CatalogSchool";
+import validateUserSchoolInput from "@utils/catalog/validateUserSchoolInput";
+import validateUserProgramInput from "@utils/catalog/validateUserProgramInput";
+import validateUserCourseInput from "@utils/catalog/validateUserCourseInput";
+import setFilterPlaceHolder from "@utils/catalog/setFilterPlaceholder";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
@@ -32,109 +36,7 @@ const Page = () => {
   const [currentFilterKey, setCurrentFilterKey] = useState("");
   const [currentFilterValue, setCurrentFilterValue] = useState("");
 
-  const setFilterPlaceHolder = (searchType:string, placeholderValue:string) => {
-    if (searchType === "course") {
-      switch (placeholderValue) {
-        case "code":
-          return "Enter a course code, valid formats: CIS1300 ENGG1500 PSYC2000 HROB2010";
-        case "number":
-          return "Enter a course number, can range from 0-9999";
-        case "name":
-          return "Enter a course name, ie: Taxation or Into to financial accounting";
-        case "description":
-          return "Enter keyword(s)";
-        default:
-          return "Enter a search value";
-      }
-    }
-    if (searchType === "program") {
-      switch (placeholderValue) {
-        case "name":
-          return "Enter in your program name";
-        case "degree":
-          return "Enter the degree program. Ie B.Sc B.Comp B.A B.Eng";
-        case "code":
-          return "Enter the shorthand code for your degree ie: BME PSYC CJPP";
-        case "school":
-          return "Enter a school ie: University of Guelph";
-        default:
-          return "Enter a search value";
-      }
-    }
-    if (searchType === "school") {
-      switch (placeholderValue) {
-        case "country":
-          return "Enter a country";
-        case "name":
-          return "Enter the name of a school ie: University of Guelph or University of Toronto";
-        case "code":
-          return "Enter the shorthand for a school ie: UofG for University of Guelph";
-        case "province":
-          return "Enter a province";
-        case "city":
-          return "Enter a city name";
-        case "type":
-          return "Enter a search value";
-        case "description":
-          return "Enter a keyword";
-        default:
-          return "Enter a search value";
-      }
-    }
-  };
-
-  const validateCourseCode = (courseCode:string) => { // validates a course code
-    const courseCodeRegex = /^[A-Z]{3,4}(\d{4})$/;
-    const courseNumber = courseCodeRegex.test(courseCode) ? courseCodeRegex.exec(courseCode)[1] : undefined;
-    return courseCodeRegex.test(courseCode) && parseInt(courseNumber) >= 1000 && parseInt(courseNumber) <= 9999;
-  };
-
-  const validateProgramCode = (programCode:string) => { // takes a program code ie: BME or BME:C
-    const programCodeRegex = /^([A-Z]{3,4}|[A-Z]{3,4}:C)$/i;
-    return programCodeRegex.test(programCode);
-  };
-
-  const validateSchoolCode = (schoolCode:string) => { // takes a school code ie: UofG or UoG and tests for validity
-    const programCodeRegex = /^[A-Z]{3,4}$/i;
-    return programCodeRegex.test(schoolCode);
-  };
-
-  const validateUserCourseInput = (filterValue:string, userInput: any) => { // special validation for specific input types, will be added onto later
-
-    switch (filterValue) {
-      case "code":
-        return validateCourseCode(userInput);
-      case "number":
-        return /^\d+$/.test(userInput) && parseInt(userInput) >= 0 && parseInt(userInput) <= 9999;
-      default:
-        return true;
-    }
-  };
-
-  const validateUserProgramInput = (filterValue:string, userInput: any) => { // special validation for specific input types, will be added onto later
-
-    switch (filterValue) {
-      case "code":
-        return validateCourseCode(userInput);
-      case "number":
-        return /^\d+$/.test(userInput) && parseInt(userInput) >= 0 && parseInt(userInput) <= 9999;
-      default:
-        return true;
-    }
-  };
-
-  const validateUserSchoolInput = (filterValue:string, userInput: any) => { // special validation for specific input types, will be added onto later
-    switch (filterValue) {
-      case "code":
-        return validateCourseCode(userInput);
-      case "number":
-        return /^\d+$/.test(userInput) && parseInt(userInput) >= 0 && parseInt(userInput) <= 9999;
-      default:
-        return true;
-    }
-  };
-
-  const validateUserInput = (filterValue:string, userInput: any, searchType:string) => {
+  const validateUserInput = (filterValue:string, userInput: string, searchType:string) => {
     if (searchType === "course") { // validate course fields
       return validateUserCourseInput(filterValue, userInput);
     }
@@ -147,7 +49,7 @@ const Page = () => {
     return false;
   };
 
-  const addNewFilter = (currentFilterKey:any, currentFilterValue:any) => {
+  const addNewFilter = (currentFilterKey:string, currentFilterValue:string) => {
 
     if (!validateUserInput(currentFilterKey, currentFilterValue, searchType)) {
       switch(currentFilterKey) {
@@ -251,7 +153,7 @@ const Page = () => {
                   ))}
                 </Select>
               </div>
-              <div className="flex flex-col pb-6 w-40">
+              <div className="flex flex-col pb-6 w-48">
                 <label className="pl-1 text-gray-800 underline">Filter Type</label>
                 <Select value={currentFilterKey} onChange={(e) => setCurrentFilterKey(e.target.value)}>
                   <option value="" disabled>
