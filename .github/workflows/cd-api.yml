@@ -3,7 +3,7 @@ name: CD/Api
 on:
   push:
     branches:
-      - dev
+      - main
     paths:
       - "api/**"
       - ".github/workflows/cd-api.yml"
@@ -25,16 +25,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET }}
           aws-region: ${{ secrets.AWS_REGION }}
     
-      - name: Create deployment
+      - name: Create and attach new deployment
         id: create-deployment
         run: |
           aws apigatewayv2 create-deployment \
           --stage-name prod \
           --api-id ${{ secrets.PROD_API_ID }} 
       
-      - name: Update deployment status
-        run: |
-          aws apigatewayv2 update-stage \
-          --api-id ${{ secrets.PROD_API_ID }} \
-          --stage-name prod \
-          --deployment-id ${{ steps.create-deployment.outputs.DeploymentId}}
