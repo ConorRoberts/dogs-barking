@@ -1,0 +1,18 @@
+name: CD/dogsbarking-addCoursesToDegreePlanSemester
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "api/dogsbarking-addCoursesToDegreePlanSemester/**"
+      - ".github/workflows/cd-dogsbarking-addCoursesToDegreePlanSemester.yml"
+      - ".github/workflows/cd-lambda-default.yml"
+
+jobs:
+  deploy:
+    name: Deploy Lambda
+    uses: ./.github/workflows/cd-lambda-default.yml
+    with:
+      function-name: dogsbarking-addCoursesToDegreePlanSemester
+    secrets: inherit

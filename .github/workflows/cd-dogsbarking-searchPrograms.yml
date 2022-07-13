@@ -1,12 +1,12 @@
-name: CD/dogsbarking-sendFeedback
+name: CD/dogsbarking-searchPrograms
 
 on:
   push:
     branches:
       - dev
     paths:
-      - "api/dogsbarking-sendFeedback/**"
-      - ".github/workflows/cd-dogsbarking-sendFeedback.yml"
+      - "api/dogsbarking-searchPrograms/**"
+      - ".github/workflows/cd-dogsbarking-searchPrograms.yml"
       - ".github/workflows/cd-lambda-default.yml"
 
 jobs:
@@ -14,5 +14,5 @@ jobs:
     name: Deploy Lambda
     uses: ./.github/workflows/cd-lambda-default.yml
     with:
-      function-name: dogsbarking-sendFeedback
+      function-name: dogsbarking-searchPrograms
     secrets: inherit

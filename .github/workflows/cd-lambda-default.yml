@@ -1,0 +1,54 @@
+name: cd-lambda-default
+
+on:
+  workflow_call:
+    inputs:
+      function-name:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: development
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        working-directory: ./api/${{inputs.function-name}}
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          FUNCTION_NAME: ${{ inputs.function-name }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$FUNCTION_NAME .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$FUNCTION_NAME
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$FUNCTION_NAME"
+
+      - name: Deploy function
+        run: |
+          aws lambda update-function-code \
+          --function-name ${{ inputs.function-name }} \
+          --image-uri ${{ steps.build-image.outputs.image }}
+
+      - name: Configure function
+        run: |
+          aws lambda wait function-updated --function-name ${{ inputs.function-name }}
+          aws lambda update-function-configuration \
+          --function-name ${{ inputs.function-name }} \
+          --timeout 600
