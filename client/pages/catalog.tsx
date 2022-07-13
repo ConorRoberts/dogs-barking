@@ -8,7 +8,7 @@ import School from "@typedefs/School";
 import CourseQueryApiResponse from "@typedefs/CourseQueryAPIResponse";
 import CatalogCourse from "@components/CatalogCourse";
 import { Button, Input, Select } from "@components/form";
-import { CATALOG_DEFAULT_FILTERS, CATALOG_FILTER_OPTIONS, CATALOG_SELECTION_OPTIONS } from "@config/config";
+import { CATALOG_DEFAULT_FILTERS, CATALOG_SELECTION_OPTIONS } from "@config/config";
 import { useDispatch, useSelector } from "react-redux";
 import { addFilter, CatalogState, removeFilter } from "@redux/catalog";
 import { RootState } from "@redux/store";
