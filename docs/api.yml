@@ -17,6 +17,7 @@ paths:
       parameters:
         - name: name
           in: query
+          description: Course name
           required: false
           schema:
             type: string
