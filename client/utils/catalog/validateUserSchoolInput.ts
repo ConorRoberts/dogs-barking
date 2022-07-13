@@ -1,4 +1,4 @@
-const validateSchoolCode = (schoolCode:string) => { // takes a school code ie: UofG or UoG and tests for validity
+export const validateSchoolCode = (schoolCode:string) => { // takes a school code ie: UofG or UoG and tests for validity
   const programCodeRegex = /^[A-Z]{3,4}$/i;
   return programCodeRegex.test(schoolCode);
 };

@@ -9,6 +9,8 @@ const setFilterPlaceHolder = (searchType:string, placeholderValue:string):string
         return "Enter a course name, ie: Taxation or Into to financial accounting";
       case "description":
         return "Enter keyword(s)";
+      case "level":
+        return "Enter a number between 1000 and 9000";
       default:
         return "Enter a search value";
     }
