@@ -26,8 +26,10 @@ export const handler = async (event: APIGatewayEvent) => {
     const { SecretString: neo4jCredentials } = await secrets.getSecretValue({
       SecretId: `${stage}/dogsbarking/neo4j`,
     });
+    console.log("Got secrets");
     const { host, username, password } = JSON.parse(neo4jCredentials ?? "{}");
     const driver = neo4j.driver(`neo4j://${host}`, neo4j.auth.basic(username, password));
+    console.log("Connected to Neo4j");
 
     let session = driver.session();
 
