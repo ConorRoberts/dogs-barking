@@ -22,6 +22,26 @@ export const handler = async (event: APIGatewayEvent) => {
     const { stage } = event.requestContext;
     const secrets = new SecretsManager({});
 
+    const { SecretString: redisCredentials } = await secrets.getSecretValue({
+      SecretId: `development/dogs-barking/redis`,
+    });
+    const { host: redisHost } = JSON.parse(redisCredentials ?? "{}");
+    const redis = createClient({ url: `redis://${redisHost}` });
+    await redis.connect();
+    try {
+      const redisData = await redis.get(programId);
+
+      if (!redisData) throw new Error("No redis data");
+
+      console.log("got redis data");
+      console.log(redisData);
+      return redisData;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      await redis.quit();
+    }
+
     // Get Neo4j credentials
     const { SecretString: neo4jCredentials } = await secrets.getSecretValue({
       SecretId: `${stage}/dogsbarking/neo4j`,
@@ -179,19 +199,15 @@ export const handler = async (event: APIGatewayEvent) => {
     };
 
     try {
-      const { SecretString: redisCredentials } = await secrets.getSecretValue({
-        SecretId: `development/dogs-barking/redis`,
-      });
-      const { host: redisHost } = JSON.parse(redisCredentials ?? "{}");
-      const redis = createClient({ url: `redis://${redisHost}` });
       await redis.connect();
 
       await redis.set(programId, JSON.stringify(data));
-      const redisData = await redis.get(programId);
-      console.log(redisData);
-      await redis.quit();
+
+      console.log("put redis data");
     } catch (error) {
       console.error(error);
+    } finally {
+      await redis.quit();
     }
 
     return data;
