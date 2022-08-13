@@ -7,7 +7,7 @@ import Program from "@typedefs/Program";
 import School from "@typedefs/School";
 import CourseQueryApiResponse from "@typedefs/CourseQueryAPIResponse";
 import CatalogCourse from "@components/CatalogCourse";
-import { Button, Input, Select } from "@components/form";
+import { Button, Input, Select, Option } from "@components/form";
 import { CATALOG_COMPARATOR_OPTIONS, CATALOG_DEFAULT_FILTERS, CATALOG_SELECTION_OPTIONS } from "@config/config";
 import { useDispatch, useSelector } from "react-redux";
 import { addFilter, CatalogState, removeFilter } from "@redux/catalog";
@@ -37,21 +37,25 @@ const Page = () => {
   const [currentFilterValue, setCurrentFilterValue] = useState("");
   const [comparatorValue, setComparatorValue] = useState("");
 
-  const validateUserInput = (filterValue:string, userInput: string, searchType:string) => {
-    if (searchType === "course") { // validate course fields
+  console.log(currentFilterKey);
+
+  const validateUserInput = (filterValue: string, userInput: string, searchType: string) => {
+    if (searchType === "course") {
+      // validate course fields
       return validateUserCourseInput(filterValue, userInput);
     }
-    if (searchType === "program") { // validate program fields
+    if (searchType === "program") {
+      // validate program fields
       return validateUserProgramInput(filterValue, userInput);
     }
-    if (searchType === "school") { // validate school fields
+    if (searchType === "school") {
+      // validate school fields
       return validateUserSchoolInput(filterValue, userInput);
     }
     return false;
   };
 
-  const addNewFilter = (currentFilterKey:string, currentFilterValue:string) => {
-
+  const addNewFilter = (currentFilterKey: string, currentFilterValue: string) => {
     if (!validateUserInput(currentFilterKey, currentFilterValue, searchType)) {
       alert("Invalid input detected... please try again");
       return;
@@ -87,29 +91,31 @@ const Page = () => {
         try {
           const { data } = await axios.get<ProgramQueryApiResponse>("/api/school", {
             params: {
-              pageSize: 50, 
-              pageNum: page, 
-              sortDir: "asc", 
-              ...Object.fromEntries(filters)
-            }
+              pageSize: 50,
+              pageNum: page,
+              sortDir: "asc",
+              ...Object.fromEntries(filters),
+            },
           });
-          setPrograms(data[0].programs.sort((a,b) => a.name.localeCompare(b.name)));
-          setTotals((prev) => ({...prev, program: data[0].programs.length}));
+          setPrograms(data[0].programs.sort((a, b) => a.name.localeCompare(b.name)));
+          setTotals((prev) => ({ ...prev, program: data[0].programs.length }));
         } catch (err) {
           setPrograms([]);
         }
-      } else if (searchType === "school") { // TODO: implement query for schools
+      } else if (searchType === "school") {
+        // TODO: implement query for schools
         try {
-          const { data } = await axios.get<SchoolQueryApiResponse>("/api/school", { //TODO: change this endpoint to get schools
+          const { data } = await axios.get<SchoolQueryApiResponse>("/api/school", {
+            //TODO: change this endpoint to get schools
             params: {
-              pageSize: 50, 
-              pageNum: page, 
-              sortDir: "asc", 
-              ...Object.fromEntries(filters)
-            }
+              pageSize: 50,
+              pageNum: page,
+              sortDir: "asc",
+              ...Object.fromEntries(filters),
+            },
           });
           setSchools(data.schools.sort((a, b) => a.name.localeCompare(b.name)));
-          setTotals((prev) => ({...prev, school: data[0].total}));
+          setTotals((prev) => ({ ...prev, school: data[0].total }));
         } catch (err) {
           setSchools([]);
         }
@@ -135,46 +141,48 @@ const Page = () => {
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-1">
               <div className="flex flex-col pb-6 w-40">
-                <label className="pl-1 text-gray-800 underline">Query</label>
+                <label className="pl-1 text-gray-800">Query</label>
                 <Select value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                  <option value="" disabled>
-                    None
-                  </option>
-                  {CATALOG_SELECTION_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map((e, index) => (
-                    <option key={`catalog selection type key ${index}`} value={e} className="capitalize">
-                      {e}
-                    </option>
-                  ))}
+                  <Option value="" disabled label="None" />
+                  {CATALOG_SELECTION_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map(
+                    (e, index) => (
+                      <option key={`catalog filter key option ${index}`} value={e}>
+                        {e}
+                      </option>
+                    )
+                  )}
                 </Select>
               </div>
               <div className="flex flex-col pb-6 w-48">
-                <label className="pl-1 text-gray-800 underline">Filter Type</label>
+                <label className="pl-1 text-gray-800">Filter Type</label>
                 <Select value={currentFilterKey} onChange={(e) => setCurrentFilterKey(e.target.value)}>
-                  <option value="" disabled>
-                    None
-                  </option>
-                  {CATALOG_DEFAULT_FILTERS[searchType].filter((e) => filters.every(([filter]) => filter !== e)).map((e, index) => (
-                    <option key={`catalog filter key option ${index}`} value={e} className="capitalize">
-                      {e}
-                    </option>
-                  ))}
+                  <Option value="" disabled label="None" />
+                  {CATALOG_DEFAULT_FILTERS[searchType]
+                    .filter((e) => filters.every(([filter]) => filter !== e))
+                    .map((e, index) => (
+                      <option key={`catalog filter type option ${index}`} value={e}>
+                        {e}
+                      </option>
+                    ))}
                 </Select>
               </div>
-              {currentFilterKey === "level" && 
+              {currentFilterKey === "level" && (
                 <div className="flex flex-col pb-6 w-50">
-                  <label className="pl-1 text-gray-800 underline">Comparison</label>
+                  <label className="pl-1 text-gray-800">Comparison</label>
                   <Select value={comparatorValue} onChange={(e) => setComparatorValue(e.target.value)}>
                     <option value="" disabled>
                       None
                     </option>
-                    {CATALOG_COMPARATOR_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map((e, index) => (
-                      <option key={`catalog filter key option ${index}`} value={e} className="capitalize">
-                        {e}
-                      </option>
-                    ))}
+                    {CATALOG_COMPARATOR_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map(
+                      (e, index) => (
+                        <option key={`catalog filter key option ${index}`} value={e}>
+                          {e}
+                        </option>
+                      )
+                    )}
                   </Select>
                 </div>
-              }
+              )}
               <Input
                 className="bg-white dark:bg-gray-700 border border-gray-300"
                 onChange={(e) => setCurrentFilterValue(e.target.value)}
@@ -211,9 +219,24 @@ const Page = () => {
               ))}
             </div>
           </div>
-          {searchType === "course" && <p> Showing {50 * page} - {50 * page + 50} of {totals.course} results </p>}
-          {searchType === "program" && <p> Showing {50 * page} - {50 * page + 50} of {totals.program} results </p>}
-          {searchType === "school" && <p> Showing {50 * page} - {50 * page + 50} of {totals.school} results </p>}
+          {searchType === "course" && (
+            <p>
+              {" "}
+              Showing {50 * page} - {50 * page + 50} of {totals.course} results{" "}
+            </p>
+          )}
+          {searchType === "program" && (
+            <p>
+              {" "}
+              Showing {50 * page} - {50 * page + 50} of {totals.program} results{" "}
+            </p>
+          )}
+          {searchType === "school" && (
+            <p>
+              {" "}
+              Showing {50 * page} - {50 * page + 50} of {totals.school} results{" "}
+            </p>
+          )}
           <div className="flex gap-2 items-center justify-end">
             <Button variant="outline" onClick={() => setPage(page - 1 < 0 ? 0 : page - 1)}>
               Previous
@@ -222,36 +245,33 @@ const Page = () => {
               Next
             </Button>
           </div>
-          {searchType === "course" &&
+          {searchType === "course" && (
             <ul className="scrollbar scrollbar-track-y-transparent">
               {courses
                 ?.sort((a, b) => a.code.localeCompare(b.code))
                 .map((course) => (
                   <CatalogCourse key={course.id} course={course} />
-                ))
-              }
+                ))}
             </ul>
-          }
-          {searchType === "program" &&
+          )}
+          {searchType === "program" && (
             <ul className="scrollbar scrollbar-track-y-transparent">
               {programs
                 ?.sort((a, b) => a.name.localeCompare(b.name))
                 .map((program) => (
                   <CatalogProgram key={program.id} program={program} />
-                ))
-              }
+                ))}
             </ul>
-          }
-          {searchType === "school" &&
+          )}
+          {searchType === "school" && (
             <ul className="scrollbar scrollbar-track-y-transparent">
               {schools
                 ?.sort((a, b) => a.name.localeCompare(b.name))
                 .map((school) => (
                   <CatalogSchool key={school.id} school={school} />
-                ))
-              }
+                ))}
             </ul>
-          }
+          )}
         </div>
       )}
     </div>

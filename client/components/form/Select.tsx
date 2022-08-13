@@ -32,13 +32,15 @@ const Select = ({ children, ...props }: SelectProps) => {
         {...props}
         onClick={onClick}
         onBlur={onBlur}
-        className={`w-full ${styles.default} ${overrides} flex-1 py-1 px-1`}>
+        className={`w-full ${styles.default} ${overrides} flex-1 py-1 px-1`}
+      >
         {children}
       </select>
       <div
         className={`absolute right-2 top-1/2 transform -translate-y-1/2 transition-transform duration-75 ${
           open && "rotate-180"
-        }`}>
+        }`}
+      >
         <ArrowDown className="text-lg" />
       </div>
     </div>
