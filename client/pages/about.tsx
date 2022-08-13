@@ -23,13 +23,6 @@ const Page = () => {
           role="UI/UX Designer"
           linkedinUrl="https://www.linkedin.com/in/josh-ryan-macadangdang-60662b1ba/"
         />
-        <CreatorCard
-          image={"/creators/Ben.jpg"}
-          name="Ben Carlson"
-          role="Full-Stack Developer"
-          githubUrl="https://github.com/BCarlson1512"
-          linkedinUrl="https://www.linkedin.com/in/bencarlson1512/"
-        />
       </div>
     </div>
   );

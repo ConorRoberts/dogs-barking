@@ -8,7 +8,7 @@ import School from "@typedefs/School";
 import CourseQueryApiResponse from "@typedefs/CourseQueryAPIResponse";
 import CatalogCourse from "@components/CatalogCourse";
 import { Button, Input, Select } from "@components/form";
-import { CATALOG_FILTER_OPTIONS, CATALOG_SELECTION_OPTIONS } from "@config/config";
+import { CATALOG_COMPARATOR_OPTIONS, CATALOG_DEFAULT_FILTERS, CATALOG_SELECTION_OPTIONS } from "@config/config";
 import { useDispatch, useSelector } from "react-redux";
 import { addFilter, CatalogState, removeFilter } from "@redux/catalog";
 import { RootState } from "@redux/store";
@@ -16,6 +16,10 @@ import ProgramQueryApiResponse from "@typedefs/ProgramQueryApiResponse";
 import SchoolQueryApiResponse from "@typedefs/SchoolQueryApiResponse";
 import CatalogProgram from "@components/CatalogProgram";
 import CatalogSchool from "@components/CatalogSchool";
+import validateUserSchoolInput from "@utils/catalog/validateUserSchoolInput";
+import validateUserProgramInput from "@utils/catalog/validateUserProgramInput";
+import validateUserCourseInput from "@utils/catalog/validateUserCourseInput";
+import setFilterPlaceHolder from "@utils/catalog/setFilterPlaceholder";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
@@ -31,50 +35,25 @@ const Page = () => {
   const { filters } = useSelector<RootState, CatalogState>((state) => state.catalog);
   const [currentFilterKey, setCurrentFilterKey] = useState("");
   const [currentFilterValue, setCurrentFilterValue] = useState("");
+  const [comparatorValue, setComparatorValue] = useState("");
 
-  const setFilterPlaceHolder = (placeholderValue:string) => {
-    switch (placeholderValue) {
-      case "code":
-        return "Enter a course code, valid formats: CIS1300 ENGG1500 PSYC2000 HROB2010";
-      case "number":
-        return "Enter a course number, can range from 0-9999";
-      case "name":
-        return "Enter a course name, ie: Taxation or Into to financial accounting";
-      case "description":
-        return "Enter keyword(s)";
-      default:
-        return "Enter a search value";
+  const validateUserInput = (filterValue:string, userInput: string, searchType:string) => {
+    if (searchType === "course") { // validate course fields
+      return validateUserCourseInput(filterValue, userInput);
     }
-  };
-
-  const validateCourseCode = (courseCode:string) => { // validates a course code
-    const courseCodeRegex = /^[A-Z]{3,4}(\d{4})$/;
-    const courseNumber = courseCodeRegex.test(courseCode) ? courseCodeRegex.exec(courseCode)[1] : undefined;
-    return courseCodeRegex.test(courseCode) && parseInt(courseNumber) >= 1000 && parseInt(courseNumber) <= 9999;
-  };
-
-  const validateUserInput = (filterValue:string, userInput: any) => { // special validation for specific input types, will be added onto later
-    switch (filterValue) {
-      case "code":
-        return validateCourseCode(userInput);
-      case "number":
-        return /^\d+$/.test(userInput) && parseInt(userInput) >= 0 && parseInt(userInput) <= 9999;
-      default:
-        return true;
+    if (searchType === "program") { // validate program fields
+      return validateUserProgramInput(filterValue, userInput);
     }
+    if (searchType === "school") { // validate school fields
+      return validateUserSchoolInput(filterValue, userInput);
+    }
+    return false;
   };
 
-  const addNewFilter = (currentFilterKey:any, currentFilterValue:any) => {
+  const addNewFilter = (currentFilterKey:string, currentFilterValue:string) => {
 
-    if (!validateUserInput(currentFilterKey, currentFilterValue)) {
-      switch(currentFilterKey) {
-        case "code":
-          alert("Invalid course code entered... Please enter a course code in the form: CIS1300 or ENGG1500");
-          break;
-        case "number":
-          alert("Input is not a number or out of bounds, please enter a number between 0 and 9999");
-          break;
-      }
+    if (!validateUserInput(currentFilterKey, currentFilterValue, searchType)) {
+      alert("Invalid input detected... please try again");
       return;
     }
 
@@ -168,24 +147,39 @@ const Page = () => {
                   ))}
                 </Select>
               </div>
-              <div className="flex flex-col pb-6">
+              <div className="flex flex-col pb-6 w-48">
                 <label className="pl-1 text-gray-800 underline">Filter Type</label>
                 <Select value={currentFilterKey} onChange={(e) => setCurrentFilterKey(e.target.value)}>
                   <option value="" disabled>
                     None
                   </option>
-                  {CATALOG_FILTER_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map((e, index) => (
+                  {CATALOG_DEFAULT_FILTERS[searchType].filter((e) => filters.every(([filter]) => filter !== e)).map((e, index) => (
                     <option key={`catalog filter key option ${index}`} value={e} className="capitalize">
                       {e}
                     </option>
                   ))}
                 </Select>
               </div>
+              {currentFilterKey === "level" && 
+                <div className="flex flex-col pb-6 w-50">
+                  <label className="pl-1 text-gray-800 underline">Comparison</label>
+                  <Select value={comparatorValue} onChange={(e) => setComparatorValue(e.target.value)}>
+                    <option value="" disabled>
+                      None
+                    </option>
+                    {CATALOG_COMPARATOR_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map((e, index) => (
+                      <option key={`catalog filter key option ${index}`} value={e} className="capitalize">
+                        {e}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              }
               <Input
                 className="bg-white dark:bg-gray-700 border border-gray-300"
                 onChange={(e) => setCurrentFilterValue(e.target.value)}
                 value={currentFilterValue}
-                placeholder={setFilterPlaceHolder(currentFilterKey)}
+                placeholder={setFilterPlaceHolder(searchType, currentFilterKey)}
               />
               <PlusIcon
                 size={25}
