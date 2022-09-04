@@ -12,14 +12,9 @@ const App = ({ Component, pageProps }) => {
   return (
     <Authenticator.Provider>
       <Provider store={store}>
-        <div
-          className="bg-gray-100 dark:bg-gray-900 text-black dark:text-white min-h-screen md:pt-24 pb-24 md:pb-0 relative flex flex-col"
-          id="app"
-        >
-          <Navigation />
-          <Component {...pageProps} />
-        </div>
-      </Provider> 
+        <Navigation />
+        <Component {...pageProps} />
+      </Provider>
     </Authenticator.Provider>
   );
 };

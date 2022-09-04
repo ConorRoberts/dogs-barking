@@ -22,7 +22,10 @@ class MyDocument extends Document {
 
           {/* End FONTS */}
         </Head>
-        <body>
+        <body
+          className="bg-gray-100 dark:bg-gray-900 text-black dark:text-white min-h-screen md:pt-24 pb-24 md:pb-0 relative flex flex-col overflow-y-auto"
+          id="app"
+        >
           <Main />
           <NextScript />
         </body>
