@@ -21,37 +21,33 @@
   p {
     @apply text;
   }
+}
 
+@layer components{
   .small-screen-nav-button {
     @apply pt-2 pb-6 flex flex-col items-center gap-1 text-sm primary-hover font-medium primary-hover px-4;
   }
-
   .small-screen-nav-button-icon {
     @apply w-7 h-7;
   }
-
   .big-screen-nav-button {
     @apply py-2 flex flex-col items-center gap-1 primary-hover font-medium px-2;
   }
-
-  .primary-hover {
-    @apply text-black hover:text-gray-700 transition  dark:text-white dark:hover:text-gray-300 cursor-pointer;
-  }
-
-  .background-hover {
-    @apply hover:bg-gray-100 transition dark:hover:bg-gray-500 cursor-pointer rounded-sm;
-  }
-
   .nav-drawer-button {
     @apply background-hover flex items-center gap-4 py-3 px-6;
   }
-
   .form-label-group {
     @apply flex justify-between gap-2 mb-2 items-center;
   }
 }
 
 @layer utilities {
+  .primary-hover {
+    @apply text-black hover:text-gray-700 transition  dark:text-white dark:hover:text-gray-300 cursor-pointer;
+  }
+  .background-hover {
+    @apply hover:bg-gray-100 transition dark:hover:bg-gray-500 cursor-pointer rounded-sm;
+  }
   .shadow-center-sm {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   }

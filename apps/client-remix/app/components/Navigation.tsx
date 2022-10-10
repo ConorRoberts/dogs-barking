@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "@remix-run/react";
-import { Drawer } from "@conorroberts/beluga";
+import { Button, Drawer } from "@conorroberts/beluga";
 import {
   Home,
   Menu,
@@ -33,7 +33,7 @@ const Navigation = () => {
 
   return (
     <div>
-      <Drawer onOpenChange={setMenuOpen} open={menuOpen}>
+      {/* <Drawer onOpenChange={setMenuOpen} open={menuOpen}>
         <div className="flex flex-col h-full">
           <Link to="/catalog">
             <div className="nav-drawer-button md:hidden">
@@ -48,7 +48,7 @@ const Navigation = () => {
                 <p>Sign Out</p>
               </div>
             )}
-            {/* {darkMode ? (
+            {darkMode ? (
                 <div className="nav-drawer-button" onClick={() => setDarkMode(!darkMode)}>
                   <Sun size={20} />
                   <p>Light Mode</p>
@@ -58,33 +58,27 @@ const Navigation = () => {
                   <Moon size={20} />
                   <p>Dark Mode</p>
                 </div>
-              )} */}
+              )}
           </div>
         </div>
-      </Drawer>
+      </Drawer> */}
 
       {/* Bottom Navigation */}
       <div className="md:hidden">
         <div className="fixed bottom-0 left-0 right-0 dark:border-t shadow-center-md dark:border-gray-600 flex justify-evenly items-center dark:bg-gray-900 bg-white z-30 pb-4">
-          <Link to="/">
-            <a className="small-screen-nav-button">
-              <Home size={25} />
-            </a>
+          <Link to="/" className="small-screen-nav-button">
+            <Home size={25} />
           </Link>
           {/* <div className="small-screen-nav-button">
             <SearchIcon size={25} onClick={() => dispatch(setOpen(true))} />
           </div> */}
           {user ? (
-            <Link to="/profile">
-              <a className="small-screen-nav-button">
-                <PersonIcon size={25} />
-              </a>
+            <Link to="/profile" className="small-screen-nav-button">
+              <PersonIcon size={25} />
             </Link>
           ) : (
-            <Link to="/auth/sign-in">
-              <a className="small-screen-nav-button">
-                <Login size={25} />
-              </a>
+            <Link to="/auth/sign-in" className="small-screen-nav-button">
+              <Login size={25} />
             </Link>
           )}
           <div className="small-screen-nav-button" onClick={() => setMenuOpen(true)}>
@@ -97,28 +91,24 @@ const Navigation = () => {
       <div className="md:flex z-30 justify-start px-6 gap-6 items-center fixed top-0 left-0 right-0 py-6 bg-white backdrop-opacity-[55%] backdrop-filter backdrop-blur-sm dark:bg-gray-900 dark:bg-opacity-90 rounded-xl">
         <div className="cursor-pointer primary-hover" onClick={() => setMenuOpen(true)}>
           <Menu size={20} />
+          <p>{menuOpen ? "true" : "false"}</p>
         </div>
-        <Link to="/">
-          <a className="big-screen-nav-button">Home</a>
+        <Button color="blue" role="button" onClick={() => console.log("stinky poopy caca")}></Button>
+        <Link to="/" className="big-screen-nav-button">
+          Home
         </Link>
         {/* {user && (
           <Link to="planner">
             <a className="big-screen-nav-button">Degree Planner</a>
           </Link>
         )} */}
-        <Link to="/catalog">
-          <a className="big-screen-nav-button">Catalog</a>
-        </Link>
-        <Link to="/about">
-          <a className="big-screen-nav-button">About</a>
-        </Link>
-        <Link to="/feedback">
-          <a className="big-screen-nav-button">Feedback</a>
+        <Link to="/catalog" className="big-screen-nav-button">
+          Catalog
         </Link>
         {/* <SearchIcon size={25} className="primary-hover ml-auto" onClick={() => dispatch(setOpen(true))} /> */}
         {user ? (
-          <Link to="/profile">
-            <a className="big-screen-nav-button ">Profile</a>
+          <Link to="/profile" className="big-screen-nav-button">
+            Profile
           </Link>
         ) : (
           <div onClick={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })}>

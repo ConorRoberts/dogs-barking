@@ -64,16 +64,14 @@ const App = () => {
         <Links />
       </head>
       <body className="relative">
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
         <Authenticator.Provider>
           <QueryClientProvider client={queryClient}>
-            <header>
-              <Navigation />
-            </header>
+            <header><Navigation /></header>
             <main>
               <Outlet />
-              <ScrollRestoration />
-              <Scripts />
-              <LiveReload />
             </main>
           </QueryClientProvider>
         </Authenticator.Provider>
