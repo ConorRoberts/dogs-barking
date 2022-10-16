@@ -1,9 +1,9 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { PlannerSemesterData } from "@typedefs/DegreePlan";
-import getToken from "@utils/getToken";
+import { PlannerSemesterData } from "~/types/DegreePlan";
+import getToken from "~/utils/getToken";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
-import { Button, Input, Modal } from "./form";
+import { Button, Input, Modal } from "@conorroberts/beluga";
 
 interface Props {
   open: boolean;
@@ -15,7 +15,7 @@ const RequestRegistrationModal = ({ open, onClose, semester }: Props) => {
   const { user } = useAuthenticator();
 
   return (
-    <Modal onClose={onClose} open={open} className="max-w-lg">
+    <Modal onOpenChange={onClose} open={open}>
       <h3 className="text-center">Request Automated Registration</h3>
       <Formik
         initialValues={{

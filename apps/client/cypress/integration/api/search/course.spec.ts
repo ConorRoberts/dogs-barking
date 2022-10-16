@@ -1,4 +1,4 @@
-import Course from "@typedefs/Course";
+import Course from "~/types/Course";
 
 describe("Test /api/search/course", () => {
   it("Should return courses by course code", () => {

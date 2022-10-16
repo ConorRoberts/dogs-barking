@@ -1,7 +1,7 @@
-import Course from "@typedefs/Course";
-import CreditRequirementData from "@typedefs/CreditRequirementData";
-import OrBlockData from "@typedefs/OrBlockData";
-import Requirement from "@typedefs/Requirement";
+import Course from "~/types/Course";
+import CreditRequirementData from "~/types/CreditRequirementData";
+import OrBlockData from "~/types/OrBlockData";
+import Requirement from "~/types/Requirement";
 
 /**
  * @param requirement The requirement in question

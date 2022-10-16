@@ -1,19 +1,16 @@
-import LoadingScreen from "@components/LoadingScreen";
+import LoadingScreen from "~/components/LoadingScreen";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { LoadingIcon, PlusIcon } from "@components/Icons";
+import { LoadingIcon, PlusIcon } from "~/components/Icons";
 import axios from "axios";
 import { groupBy } from "lodash";
-import PlannerYear from "@components/PlannerYear";
-import { PlannerState, setPlan } from "@redux/planner";
-import PlannerSidebar from "@components/PlannerSidebar";
-import MetaData from "@components/MetaData";
-import Modal from "@components/form/Modal";
-import Requirement from "@typedefs/Requirement";
-import getToken from "@utils/getToken";
+import PlannerYear from "~/components/PlannerYear";
+import PlannerSidebar from "~/components/PlannerSidebar";
+import MetaData from "~/components/MetaData";
+import Requirement from "~/types/Requirement";
+import getToken from "~/utils/getToken";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { RootState } from "@redux/store";
 
 const Page = () => {
   const { user } = useAuthenticator();
@@ -23,7 +20,7 @@ const Page = () => {
   const [showModal, setShowModal] = useState(false);
   const [groupedSemesters, setGroupedSemesters] = useState([]);
   const [planLoading, setPlanLoading] = useState(false);
-  const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
+  // const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const dispatch = useDispatch();
 
   // Add a semester to the selected plan
@@ -36,7 +33,7 @@ const Page = () => {
       );
 
       // Update our local state without refetching
-      dispatch(setPlan({ ...plan, semesters: [...plan.semesters, data] }));
+      // dispatch(setPlan({ ...plan, semesters: [...plan.semesters, data] }));
     } catch (error) {
       console.error(error);
     }
@@ -76,7 +73,7 @@ const Page = () => {
       const { data } = await axios.get(`/api/degree-plan/${selectedPlanId}`, {
         headers: { Authorization: `Bearer ${getToken(user)}` },
       });
-      dispatch(setPlan(data));
+      // dispatch(setPlan(data));
     } catch (error) {
       console.error(error);
     }
@@ -97,11 +94,11 @@ const Page = () => {
     fetchPlanData();
   }, [fetchPlanData, selectedPlanId]);
 
-  useEffect(() => {
-    if (plan) {
-      setGroupedSemesters(Object.entries(groupBy(plan?.semesters, "year")));
-    }
-  }, [plan]);
+  // useEffect(() => {
+  //   if (plan) {
+  //     setGroupedSemesters(Object.entries(groupBy(plan?.semesters, "year")));
+  //   }
+  // }, [plan]);
 
   // const plannedCourses = plan?.semesters
   //   ?.map((e) => e.courses)

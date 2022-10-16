@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import Head from "next/head";
-import { APP_NAME } from "@config/config";
+import { APP_NAME } from "~/config/config";
 
 export interface MetaDataProps {
   title: string;

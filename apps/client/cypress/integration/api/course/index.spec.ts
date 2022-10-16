@@ -1,5 +1,5 @@
 import courseSchema from "@schema/courseSchema";
-import Course from "@typedefs/Course";
+import Course from "~/types/Course";
 
 describe("Test /api/course", () => {
   // TODO

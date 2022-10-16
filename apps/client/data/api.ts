@@ -1,4 +1,4 @@
-import ApiRoute from "@typedefs/ApiRoute";
+import ApiRoute from "~/types/ApiRoute";
 
 const routes: ApiRoute[] = [
   {

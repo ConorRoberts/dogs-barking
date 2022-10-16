@@ -1,5 +1,5 @@
-import CreatorCard from "@components/CreatorCard";
-import MetaData from "@components/MetaData";
+import CreatorCard from "~/components/CreatorCard";
+import MetaData from "~/components/MetaData";
 
 const Page = () => {
   return (

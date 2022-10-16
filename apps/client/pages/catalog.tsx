@@ -1,25 +1,17 @@
-import MetaData from "@components/MetaData";
+import MetaData from "~/components/MetaData";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { CloseIcon, LoadingIcon, PlusIcon } from "@components/Icons";
-import Course from "@typedefs/Course";
-import Program from "@typedefs/Program";
-import School from "@typedefs/School";
-import CourseQueryApiResponse from "@typedefs/CourseQueryAPIResponse";
-import CatalogCourse from "@components/CatalogCourse";
-import { Button, Input, Select, Option } from "@components/form";
-import { CATALOG_COMPARATOR_OPTIONS, CATALOG_DEFAULT_FILTERS, CATALOG_SELECTION_OPTIONS } from "@config/config";
-import { useDispatch, useSelector } from "react-redux";
-import { addFilter, CatalogState, removeFilter } from "@redux/catalog";
-import { RootState } from "@redux/store";
-import ProgramQueryApiResponse from "@typedefs/ProgramQueryApiResponse";
-import SchoolQueryApiResponse from "@typedefs/SchoolQueryApiResponse";
-import CatalogProgram from "@components/CatalogProgram";
-import CatalogSchool from "@components/CatalogSchool";
-import validateUserSchoolInput from "@utils/catalog/validateUserSchoolInput";
-import validateUserProgramInput from "@utils/catalog/validateUserProgramInput";
-import validateUserCourseInput from "@utils/catalog/validateUserCourseInput";
-import setFilterPlaceHolder from "@utils/catalog/setFilterPlaceholder";
+import { CloseIcon, LoadingIcon, PlusIcon } from "~/components/Icons";
+import Course from "~/types/Course";
+import Program from "~/types/Program";
+import School from "~/types/School";
+import CourseQueryApiResponse from "~/types/CourseQueryAPIResponse";
+import CatalogCourse from "~/components/catalog/CatalogCourse";
+import { Button, Input, Select, SelectOption } from "@conorroberts/beluga";
+import ProgramQueryApiResponse from "~/types/ProgramQueryApiResponse";
+import SchoolQueryApiResponse from "~/types/SchoolQueryApiResponse";
+import CatalogProgram from "~/components/catalog/CatalogProgram";
+import CatalogSchool from "~/components/catalog/CatalogSchool";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
@@ -32,40 +24,38 @@ const Page = () => {
   const [page, setPage] = useState(0);
   const [searchType, setSearchType] = useState("course");
 
-  const { filters } = useSelector<RootState, CatalogState>((state) => state.catalog);
+  // const { filters } = useSelector<RootState, CatalogState>((state) => state.catalog);
   const [currentFilterKey, setCurrentFilterKey] = useState("");
   const [currentFilterValue, setCurrentFilterValue] = useState("");
   const [comparatorValue, setComparatorValue] = useState("");
 
   console.log(currentFilterKey);
 
-  const validateUserInput = (filterValue: string, userInput: string, searchType: string) => {
-    if (searchType === "course") {
-      // validate course fields
-      return validateUserCourseInput(filterValue, userInput);
-    }
-    if (searchType === "program") {
-      // validate program fields
-      return validateUserProgramInput(filterValue, userInput);
-    }
-    if (searchType === "school") {
-      // validate school fields
-      return validateUserSchoolInput(filterValue, userInput);
-    }
-    return false;
-  };
+  // const validateUserInput = (filterValue: string, userInput: string, searchType: string) => {
+  //   if (searchType === "course") {
+  //     // validate course fields
+  //     return validateUserCourseInput(filterValue, userInput);
+  //   }
+  //   if (searchType === "program") {
+  //     // validate program fields
+  //     return validateUserProgramInput(filterValue, userInput);
+  //   }
+  //   if (searchType === "school") {
+  //     // validate school fields
+  //     return validateUserSchoolInput(filterValue, userInput);
+  //   }
+  //   return false;
+  // };
 
   const addNewFilter = (currentFilterKey: string, currentFilterValue: string) => {
-    if (!validateUserInput(currentFilterKey, currentFilterValue, searchType)) {
-      alert("Invalid input detected... please try again");
-      return;
-    }
+    // if (!validateUserInput(currentFilterKey, currentFilterValue, searchType)) {
+    //   alert("Invalid input detected... please try again");
+    //   return;
+    // }
 
     setCurrentFilterValue("");
-    dispatch(addFilter([currentFilterKey, currentFilterValue]));
+    // dispatch(addFilter([currentFilterKey, currentFilterValue]));
   };
-
-  const dispatch = useDispatch();
 
   const submitQuery = useCallback(
     async (e?: FormEvent) => {
@@ -74,31 +64,31 @@ const Page = () => {
 
       if (searchType === "course") {
         try {
-          const { data } = await axios.get<CourseQueryApiResponse>("/api/course", {
-            params: {
-              pageSize: 50,
-              pageNum: page,
-              sortDir: "asc",
-              ...Object.fromEntries(filters),
-            },
-          });
-          setCourses(data.courses.sort((a, b) => a.code.localeCompare(b.code)));
-          setTotals((prev) => ({ ...prev, course: data.total }));
+          // const { data } = await axios.get<CourseQueryApiResponse>("/api/course", {
+          //   params: {
+          //     pageSize: 50,
+          //     pageNum: page,
+          //     sortDir: "asc",
+          //     ...Object.fromEntries(filters),
+          //   },
+          // });
+          // setCourses(data.courses.sort((a, b) => a.code.localeCompare(b.code)));
+          // setTotals((prev) => ({ ...prev, course: data.total }));
         } catch (error) {
           setCourses([]);
         }
       } else if (searchType === "program") {
         try {
-          const { data } = await axios.get<ProgramQueryApiResponse>("/api/school", {
-            params: {
-              pageSize: 50,
-              pageNum: page,
-              sortDir: "asc",
-              ...Object.fromEntries(filters),
-            },
-          });
-          setPrograms(data[0].programs.sort((a, b) => a.name.localeCompare(b.name)));
-          setTotals((prev) => ({ ...prev, program: data[0].programs.length }));
+          // const { data } = await axios.get<ProgramQueryApiResponse>("/api/school", {
+          //   params: {
+          //     pageSize: 50,
+          //     pageNum: page,
+          //     sortDir: "asc",
+          //     ...Object.fromEntries(filters),
+          //   },
+          // });
+          // setPrograms(data[0].programs.sort((a, b) => a.name.localeCompare(b.name)));
+          // setTotals((prev) => ({ ...prev, program: data[0].programs.length }));
         } catch (err) {
           setPrograms([]);
         }
@@ -111,7 +101,7 @@ const Page = () => {
               pageSize: 50,
               pageNum: page,
               sortDir: "asc",
-              ...Object.fromEntries(filters),
+              // ...Object.fromEntries(filters),
             },
           });
           setSchools(data.schools.sort((a, b) => a.name.localeCompare(b.name)));
@@ -122,7 +112,7 @@ const Page = () => {
       }
       setLoading(false);
     },
-    [page, filters, searchType]
+    [page, searchType]
   );
 
   useEffect(() => {
@@ -142,52 +132,52 @@ const Page = () => {
             <div className="flex items-center gap-1">
               <div className="flex flex-col pb-6 w-40">
                 <label className="pl-1 text-gray-800">Query</label>
-                <Select value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-                  <Option value="" disabled label="None" />
-                  {CATALOG_SELECTION_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map(
+                {/* <Select value={searchType} onChange={(e) => setSearchType(e.target.value)}> */}
+                {/* <Option value="" disabled label="None" /> */}
+                {/* {CATALOG_SELECTION_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map(
                     (e, index) => (
                       <option key={`catalog filter key option ${index}`} value={e}>
                         {e}
                       </option>
                     )
-                  )}
-                </Select>
+                  )} */}
+                {/* </Select> */}
               </div>
               <div className="flex flex-col pb-6 w-48">
                 <label className="pl-1 text-gray-800">Filter Type</label>
-                <Select value={currentFilterKey} onChange={(e) => setCurrentFilterKey(e.target.value)}>
-                  <Option value="" disabled label="None" />
-                  {CATALOG_DEFAULT_FILTERS[searchType]
+                {/* <Select value={currentFilterKey} onChange={(e) => setCurrentFilterKey(e.target.value)}> */}
+                {/* <Option value="" disabled label="None" /> */}
+                {/* {CATALOG_DEFAULT_FILTERS[searchType]
                     .filter((e) => filters.every(([filter]) => filter !== e))
                     .map((e, index) => (
                       <option key={`catalog filter type option ${index}`} value={e}>
                         {e}
                       </option>
-                    ))}
-                </Select>
+                    ))} */}
+                {/* </Select> */}
               </div>
               {currentFilterKey === "level" && (
                 <div className="flex flex-col pb-6 w-50">
                   <label className="pl-1 text-gray-800">Comparison</label>
-                  <Select value={comparatorValue} onChange={(e) => setComparatorValue(e.target.value)}>
+                  {/* <Select value={comparatorValue} onChange={(e) => setComparatorValue(e.target.value)}>
                     <option value="" disabled>
                       None
-                    </option>
-                    {CATALOG_COMPARATOR_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map(
+                    </option> */}
+                  {/* {CATALOG_COMPARATOR_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map(
                       (e, index) => (
                         <option key={`catalog filter key option ${index}`} value={e}>
                           {e}
                         </option>
                       )
-                    )}
-                  </Select>
+                    )} */}
+                  {/* </Select> */}
                 </div>
               )}
               <Input
                 className="bg-white dark:bg-gray-700 border border-gray-300"
                 onChange={(e) => setCurrentFilterValue(e.target.value)}
                 value={currentFilterValue}
-                placeholder={setFilterPlaceHolder(searchType, currentFilterKey)}
+                // placeholder={setFilterPlaceHolder(searchType, currentFilterKey)}
               />
               <PlusIcon
                 size={25}
@@ -197,7 +187,7 @@ const Page = () => {
             </div>
 
             <div className="flex gap-4 items-center flex-wrap">
-              {filters.map(([key, val], index) => (
+              {/* {filters.map(([key, val], index) => (
                 <div
                   className="rounded-full capitalize flex overflow-hidden items-center group shadow-md"
                   key={`catalog filter ${index}`}
@@ -216,7 +206,7 @@ const Page = () => {
                     {val}
                   </p>
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
           {searchType === "course" && (
@@ -238,12 +228,12 @@ const Page = () => {
             </p>
           )}
           <div className="flex gap-2 items-center justify-end">
-            <Button variant="outline" onClick={() => setPage(page - 1 < 0 ? 0 : page - 1)}>
+            {/* <Button variant="outline" onClick={() => setPage(page - 1 < 0 ? 0 : page - 1)}>
               Previous
             </Button>
             <Button variant="outline" onClick={() => setPage(page + 1)}>
               Next
-            </Button>
+            </Button> */}
           </div>
           {searchType === "course" && (
             <ul className="scrollbar scrollbar-track-y-transparent">

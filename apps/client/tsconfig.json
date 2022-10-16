@@ -2,15 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@components/*": ["components/*"],
-      "@utils/*": ["utils/*"],
-      "@config/*": ["config/*"],
-      "@typedefs/*": ["types/*"],
-      "@hooks/*": ["hooks/*"],
-      "@data/*": ["data/*"],
-      "@redux/*": ["redux/*"],
-      "@schema/*": ["schema/*"],
-      "@pages/*": ["pages/*"]
+      "~/*": ["./*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

@@ -5,7 +5,7 @@ module.exports = {
   testEnvironment: "jsdom",
   setupFiles: ["<rootDir>/tests/dotenv-config.ts"],
   moduleNameMapper: {
-    "@utils/(.*)": "<rootDir>/utils/$1",
+    "~/utils/(.*)": "<rootDir>/utils/$1",
     "@config/(.*)": "<rootDir>/config/$1",
     "@schema/(.*)": "<rootDir>/schema/$1",
     "@pages/(.*)": "<rootDir>/pages/$1",

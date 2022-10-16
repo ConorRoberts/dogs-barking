@@ -13,5 +13,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("ps-scrollbar-tailwind")],
+  corePlugins: {
+    preflight: false,
+  },
+  plugins: [],
 };

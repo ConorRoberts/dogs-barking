@@ -1,18 +1,19 @@
-/* eslint-disable require-await */
-const withPWA = require("next-pwa");
-const runtimeCaching = require("next-pwa/cache");
-
-const live = process.env.NODE_ENV === "production";
-const mode = live ? "prod" : "dev";
+const pwa = require("next-pwa");
+const prod = process.env.NODE_ENV === "production";
+const mode = prod ? "prod" : "dev";
 
 const API_URL = `https://api.dogs-barking.ca/${mode}`;
 
-module.exports = withPWA({
-  pwa: {
-    disable: live ? false : true,
-    dest: "public",
-    runtimeCaching,
-  },
+const withPwa = pwa({
+  disable: !prod,
+});
+
+/* eslint-disable require-await */
+/**
+ * @type {import('next').NextConfig}
+ */
+const nextConfig = withPwa({
+  reactStrictMode: true,
   images: {
     domains: ["i.imgur.com"],
   },
@@ -23,3 +24,6 @@ module.exports = withPWA({
     },
   ],
 });
+
+module.exports = nextConfig;
+

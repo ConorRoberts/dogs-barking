@@ -1,4 +1,4 @@
-import Requirement from "@typedefs/Requirement";
+import Requirement from "~/types/Requirement";
 import RequirementCard from "./RequirementCard";
 
 interface Props {

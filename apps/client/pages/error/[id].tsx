@@ -1,6 +1,5 @@
-import React from "react";
-import MetaData from "@components/MetaData";
-import { NextApiRequest } from "next";
+import MetaData from "~/components/MetaData";
+import { GetServerSideProps } from "next";
 
 const errors = {
   404: {
@@ -29,8 +28,8 @@ const Error = ({ id = "" }) => {
   );
 };
 
-export const getServerSideProps = (req: NextApiRequest) => {
-  const { id } = req.query;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { id } = context.query;
 
   return { props: { id } };
 };

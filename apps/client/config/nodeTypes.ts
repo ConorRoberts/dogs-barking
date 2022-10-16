@@ -1,8 +1,8 @@
-import CourseNode from "@components/CourseNode";
-import OrBlockNode from "@components/OrBlockNode";
-import CreditRequirementNode from "@components/CreditRequirementNode";
-import AndBlockNode from "@components/AndBlockNode";
-import ProgramNode from "@components/ProgramNode";
+import CourseNode from "~/components/graph/nodes/CourseNode";
+import OrBlockNode from "~/components/graph/nodes/OrBlockNode";
+import CreditRequirementNode from "~/components/graph/nodes/CreditRequirementNode";
+import AndBlockNode from "~/components/graph/nodes/AndBlockNode";
+import ProgramNode from "~/components/graph/nodes/ProgramNode";
 
 const nodeTypes = {
   Course: CourseNode,

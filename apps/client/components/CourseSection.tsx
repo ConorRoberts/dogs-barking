@@ -1,5 +1,5 @@
-import Meeting from "@typedefs/Meeting";
-import Section from "@typedefs/Section";
+import Meeting from "~/types/Meeting";
+import Section from "~/types/Section";
 import { CheckIcon } from "./Icons";
 
 interface Props {

@@ -1,4 +1,4 @@
-import Course from "@typedefs/Course";
+import Course from "~/types/Course";
 
 /**
  * Grabs a unique colour for a node based on the course code

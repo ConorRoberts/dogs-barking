@@ -1,13 +1,13 @@
-import CourseGraph from "@components/CourseGraph";
-import { Button } from "@components/form";
-import { GraphIcon } from "@components/Icons";
-import MetaData from "@components/MetaData";
-import RequirementsList from "@components/RequirementsList";
-import { API_URL } from "@config/config";
-import Course from "@typedefs/Course";
-import Program from "@typedefs/Program";
-import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
-import { NextPageContext } from "next";
+import CourseGraph from "~/components/graph/CourseGraph";
+import { Button } from "~/components/form";
+import { GraphIcon } from "~/components/Icons";
+import MetaData from "~/components/MetaData";
+import RequirementsList from "~/components/RequirementsList";
+import { API_URL } from "~/config/config";
+import Course from "~/types/Course";
+import Program from "~/types/Program";
+import createPrerequisiteGraph from "~/utils/createPrerequisiteGraph";
+import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useState } from "react";
 import { Edge, Node } from "react-flow-renderer";
@@ -57,7 +57,7 @@ const Page = ({ program, majorGraph, minorGraph }: PageProps) => {
   );
 };
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const programId = context.query.programId as string;
 
   const data = await fetch(`${API_URL}/program/${programId}`, { method: "GET" });

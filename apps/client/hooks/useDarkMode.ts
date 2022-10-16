@@ -1,4 +1,4 @@
-import toggleDarkMode from "@utils/toggleDarkMode";
+import toggleDarkMode from "~/utils/toggleDarkMode";
 import { useState, useEffect, SetStateAction, Dispatch } from "react";
 
 /**

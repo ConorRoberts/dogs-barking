@@ -1,11 +1,11 @@
-import RatingData from "@typedefs/RatingData";
+import RatingData from "~/types/RatingData";
 import axios from "axios";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { Loading, RadioButtonEmptyIcon, RadioButtonFilledIcon } from "./Icons";
 import { motion } from "framer-motion";
-import { Toast } from "./form";
+import { Toast } from "@conorroberts/beluga";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import getToken from "@utils/getToken";
+import getToken from "~/utils/getToken";
 
 interface RatingProps {
   courseId: string;
@@ -18,7 +18,7 @@ interface RatingProps {
   labelHigh?: string;
 }
 
-const Rating = ({
+const Rating: FC<RatingProps> = ({
   courseId,
   ratingType,
   initialRating,
@@ -27,7 +27,7 @@ const Rating = ({
   tooltip,
   labelLow,
   labelHigh,
-}: RatingProps) => {
+}) => {
   const [mouseIndex, setMouseIndex] = useState(-1);
   const [rating, setRating] = useState(initialRating);
   const [ratingSubmissionError, setRatingSubmissionError] = useState("");
@@ -115,7 +115,9 @@ const Rating = ({
         </motion.div>
       )}
       <p className="dark:text-gray-400 text-gray-600 text-center text-xs">{tooltip}</p>
-      <Toast open={ratingSubmissionError.length > 0} type="failure" text={ratingSubmissionError} />
+      <Toast open={ratingSubmissionError.length > 0} variant="error">
+        <p>{ratingSubmissionError}</p>
+      </Toast>
     </div>
   );
 };

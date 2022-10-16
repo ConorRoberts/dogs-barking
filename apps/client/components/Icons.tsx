@@ -14,8 +14,8 @@ export {
 export { FaRandom as Random, FaGraduationCap as PlannerIcon, FaGithub as GitHubIcon } from "react-icons/fa";
 export { GiHamburgerMenu as Menu, GiNodular as GraphIcon } from "react-icons/gi";
 export {
-  MdLogin as Login,
-  MdLogout as Logout,
+  MdLogin as SignInIcon,
+  MdLogout as SignOutIcon,
   MdOutlineDarkMode as Moon,
   MdOutlineLightMode as Sun,
   MdFilterList as Filter,

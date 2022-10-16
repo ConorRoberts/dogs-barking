@@ -1,7 +1,6 @@
 import { APIGatewayEvent, APIGatewayProxyEventPathParameters } from "aws-lambda";
 import neo4j from "neo4j-driver";
 import { SecretsManager } from "@aws-sdk/client-secrets-manager";
-import { createClient } from "redis";
 
 interface PathParameters extends APIGatewayProxyEventPathParameters {
   programId: string;
@@ -21,27 +20,7 @@ export const handler = async (event: APIGatewayEvent) => {
 
     const { stage } = event.requestContext;
     const secrets = new SecretsManager({});
-
-    const { SecretString: redisCredentials } = await secrets.getSecretValue({
-      SecretId: `development/dogs-barking/redis`,
-    });
-    const { host: redisHost } = JSON.parse(redisCredentials ?? "{}");
-    const redis = createClient({ url: `redis://${redisHost}` });
-    await redis.connect();
-    try {
-      const redisData = await redis.get(programId);
-
-      if (!redisData) throw new Error("No redis data");
-
-      console.log("got redis data");
-      console.log(redisData);
-      return redisData;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      await redis.quit();
-    }
-
+    
     // Get Neo4j credentials
     const { SecretString: neo4jCredentials } = await secrets.getSecretValue({
       SecretId: `${stage}/dogsbarking/neo4j`,
@@ -197,18 +176,6 @@ export const handler = async (event: APIGatewayEvent) => {
         .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
         .filter((e) => e !== undefined && e !== null),
     };
-
-    try {
-      await redis.connect();
-
-      await redis.set(programId, JSON.stringify(data));
-
-      console.log("put redis data");
-    } catch (error) {
-      console.error(error);
-    } finally {
-      await redis.quit();
-    }
 
     return data;
   } catch (error) {

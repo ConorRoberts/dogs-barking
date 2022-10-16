@@ -1,6 +1,6 @@
-import Course from "@typedefs/Course";
-import Program from "@typedefs/Program";
-import Requirement from "@typedefs/Requirement";
+import Course from "~/types/Course";
+import Program from "~/types/Program";
+import Requirement from "~/types/Requirement";
 import { Edge, Node } from "react-flow-renderer";
 import formatNodes from "./formatNodes";
 
@@ -15,7 +15,7 @@ interface Config {
  */
 const createPrerequisiteGraph = (origin: Course | Program, requirements: Requirement[], config?: Config) => {
   const nodes: (Node | Edge)[] = [
-    {
+    { 
       id: origin.id,
       position: { x: 0, y: 0 },
       type: config?.type ?? "Course",

@@ -13,6 +13,7 @@ interface PathParameters extends APIGatewayProxyEventPathParameters {
  */
 export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2<School>> => {
   const { stage } = event.requestContext;
+  const { schoolId } = event.pathParameters as PathParameters;
   const secrets = new SecretsManager({});
 
   // Get Neo4j credentials
@@ -24,15 +25,13 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
   try {
     console.log(event);
 
-    const { schoolId } = event.pathParameters as PathParameters;
-
     const session = driver.session();
     const { records } = await session.run(
       `
-    MATCH (school:School {id: $schoolId}) 
-  
-    RETURN properties(school) as school
-    `,
+      MATCH (school:School {id: $schoolId}) 
+      
+      RETURN properties(school) as school
+      `,
       { schoolId }
     );
     await session.close();

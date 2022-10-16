@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript, DocumentContext } from "next/document";
 
-class MyDocument extends Document {
+class CustomDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx);
     return { ...initialProps };
@@ -22,10 +22,7 @@ class MyDocument extends Document {
 
           {/* End FONTS */}
         </Head>
-        <body
-          className="bg-gray-100 dark:bg-gray-900 text-black dark:text-white min-h-screen md:pt-24 pb-24 md:pb-0 relative flex flex-col overflow-y-auto"
-          id="app"
-        >
+        <body className="bg-gray-100 dark:bg-gray-900 text-black dark:text-white min-h-screen md:pt-24 pb-24 md:pb-0 relative flex flex-col overflow-y-auto">
           <Main />
           <NextScript />
         </body>
@@ -34,4 +31,4 @@ class MyDocument extends Document {
   }
 }
 
-export default MyDocument;
+export default CustomDocument;

@@ -1,67 +1,36 @@
-import useSearch from "@hooks/useSearch";
-import { SearchState, setOpen, setText } from "@redux/search";
-import { RootState } from "@redux/store";
-import Course from "@typedefs/Course";
-import Program from "@typedefs/Program";
+import useSearch from "~/hooks/useSearch";
+import Course from "~/types/Course";
+import Program from "~/types/Program";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Button, Input, Modal } from "./form";
+import { useEffect } from "react";
+import { Button, Input, Modal } from "@conorroberts/beluga";
 import { LoadingIcon } from "./Icons";
+import useSearchModalStore from "~/store/searchModalStore";
 
 const SearchModal = () => {
-  const [searchType, setSearchType] = useState<"course" | "program">("course");
-  const { open, text } = useSelector<RootState, SearchState>((state) => state.search);
-  const { results, loading } = useSearch(text, { type: searchType });
-  const inputRef = useRef<HTMLInputElement>(null);
-  const dispatch = useDispatch();
-  const router = useRouter();
+  const { open, text, setOpen, setText, toggleOpen, type, setType } = useSearchModalStore((state) => state);
+  const { data: results = [], isLoading: loading } = useSearch(text, { type });
 
   useEffect(() => {
-    const toggleOpen = (e: globalThis.KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        dispatch(setOpen(false));
-      }
-
-      if (e.key === "k" && e.ctrlKey) {
-        e.preventDefault();
-        dispatch(setOpen(!open));
-      }
-
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
-    };
-
     window.addEventListener("keydown", toggleOpen);
 
     return () => {
       window.removeEventListener("keydown", toggleOpen);
     };
-  }, [open, dispatch]);
-
-  useEffect(() => {
-    dispatch(setText(""));
-  }, [open, dispatch]);
-
-  useEffect(() => {
-    dispatch(setOpen(false));
-  }, [router.asPath, dispatch]);
+  }, [toggleOpen]);
 
   return (
-    <Modal onClose={() => dispatch(setOpen(false))} className={"max-w-xl"} open={open}>
+    <Modal onOpenChange={setOpen} open={open} position="top">
       <div className="relative mx-auto max-w-xl w-full flex flex-col gap-2" id="search-modal">
         <div className={`flex gap-4 items-center shadow-md dark:bg-gray-800 bg-white px-4 overflow-hidden rounded-md`}>
           <Input
-            onChange={(e) => dispatch(setText(e.target.value))}
+            onChange={(e) => setText(e.target.value)}
             value={text}
-            placeholder={searchType === "course" ? "Course code" : "Program code"}
+            placeholder={type === "course" ? "Course code" : "Program code"}
             className={`py-3 text-lg w-full dark:bg-gray-800`}
             variant="blank"
             autoComplete="off"
-            ref={inputRef}
+            autoFocus
           />
           {loading && (
             <div>
@@ -70,20 +39,29 @@ const SearchModal = () => {
           )}
         </div>
         <div className="relative mx-auto max-w-xs w-full grid grid-cols-2 gap-2">
-          <Button onClick={() => setSearchType("course")} variant={searchType === "course" ? "default" : "outline"}>
+          <Button
+            onClick={() => setType("course")}
+            variant={type === "course" ? "filled" : "outlined"}
+            color={type === "course" ? "blue" : "gray"}
+          >
             Course
           </Button>
-          <Button onClick={() => setSearchType("program")} variant={searchType === "program" ? "default" : "outline"}>
+          <Button
+            onClick={() => setType("program")}
+            variant={type === "program" ? "filled" : "outlined"}
+            color={type === "program" ? "blue" : "gray"}
+          >
             Program
           </Button>
         </div>
         <div className="dark:bg-gray-800">
           {results.map((e) => (
-            <Link href={`/${searchType}/${e.id}`} key={e.id} passHref>
+            <Link href={`/${type}/${e.id}`} key={e.id} passHref>
               <a
                 className="px-4 py-0.5 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-white dark:hover:bg-gray-900 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16"
-                id={`search-modal-result-${searchType === "course" ? (e as Course).code : (e as Program).short}`}>
-                <p>{searchType === "course" ? (e as Course).code : (e as Program).short}</p>
+                id={`search-modal-result-${type === "course" ? (e as Course).code : (e as Program).short}`}
+              >
+                <p>{type === "course" ? (e as Course).code : (e as Program).short}</p>
                 <p className="truncate">{e.name}</p>
               </a>
             </Link>

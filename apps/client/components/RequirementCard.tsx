@@ -1,10 +1,10 @@
-import Course from "@typedefs/Course";
-import Requirement from "@typedefs/Requirement";
-import OrBlockData from "@typedefs/OrBlockData";
+import Course from "~/types/Course";
+import Requirement from "~/types/Requirement";
+import OrBlockData from "~/types/OrBlockData";
 import { CancelIcon, CheckIcon, LinkIcon } from "./Icons";
 import Link from "next/link";
-import CreditRequirementData from "@typedefs/CreditRequirementData";
-import isRequirementMet from "@utils/isRequirementMet";
+import CreditRequirementData from "~/types/CreditRequirementData";
+import isRequirementMet from "~/utils/isRequirementMet";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
 interface Props {

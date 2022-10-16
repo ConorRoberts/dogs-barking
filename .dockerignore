@@ -1,0 +1,8 @@
+**/node_modules
+**/yarn.lock
+**/.parcel-cache
+**/dist
+**/.env*
+packages/prisma
+packages/zod
+packages/pg-utils

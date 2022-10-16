@@ -1,6 +1,6 @@
-import MetaData from "@components/MetaData";
-import { API_URL, GOOGLE_MAPS_API_KEY } from "@config/config";
-import School from "@typedefs/School";
+import MetaData from "~/components/MetaData";
+import { API_URL, GOOGLE_MAPS_API_KEY } from "~/config/config";
+import School from "~/types/School";
 import { NextPageContext } from "next";
 
 interface Props {
@@ -20,7 +20,6 @@ const Page = ({ school }: Props) => {
       <div className="grid md:grid-cols-2 gap-8">
         <iframe
           loading="lazy"
-          allowFullScreen
           className="rounded-md overflow-hidden w-full h-[400px]"
           referrerPolicy="no-referrer-when-downgrade"
           src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}

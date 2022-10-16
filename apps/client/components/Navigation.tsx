@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Drawer } from "@components/form";
+import { Drawer } from "~/components/form";
 import {
   Home,
   Menu,
@@ -9,17 +9,13 @@ import {
   PersonIcon,
   Login,
   Logout,
-  // PlannerIcon,
   CatalogIcon,
   SearchIcon,
   AboutIcon,
-  FeedbackIcon,
-} from "@components/Icons";
+} from "~/components/Icons";
 import { useRouter } from "next/router";
-import useDarkMode from "@hooks/useDarkMode";
-import { useDispatch } from "react-redux";
+import useDarkMode from "~/hooks/useDarkMode";
 import SearchModal from "./SearchModal";
-import { setOpen } from "@redux/search";
 import { Auth } from "aws-amplify";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 import { useAuthenticator } from "@aws-amplify/ui-react";
@@ -27,9 +23,8 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useDarkMode();
-  const router = useRouter();
-  const dispatch = useDispatch();
   const { user, signOut } = useAuthenticator();
+  const router = useRouter();
 
   useEffect(() => {
     setMenuOpen(false);
@@ -40,14 +35,6 @@ const Navigation = () => {
       {menuOpen && (
         <Drawer onClose={() => setMenuOpen(false)}>
           <div className="flex flex-col h-full">
-            {/* {user && (
-              <Link href="/planner" passHref>
-                <div className="nav-drawer-button md:hidden">
-                  <PlannerIcon size={20} />
-                  <p>Degree Planner</p>
-                </div>
-              </Link>
-            )} */}
             <Link href="/catalog" passHref>
               <div className="nav-drawer-button md:hidden">
                 <CatalogIcon size={20} />
@@ -58,12 +45,6 @@ const Navigation = () => {
               <div className="nav-drawer-button md:hidden">
                 <AboutIcon size={20} />
                 <p>About</p>
-              </div>
-            </Link>
-            <Link href="/feedback" passHref>
-              <div className="nav-drawer-button md:hidden">
-                <FeedbackIcon size={20} />
-                <p>Feedback</p>
               </div>
             </Link>
             <div className="mt-auto">

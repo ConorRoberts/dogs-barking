@@ -1,4 +1,4 @@
-import { ApiMethod } from "@typedefs/ApiRoute";
+import { ApiMethod } from "~/types/ApiRoute";
 
 const methodColours = {
   GET: "bg-green-500",

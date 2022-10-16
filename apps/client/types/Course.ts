@@ -1,4 +1,4 @@
-import School from "@typedefs/School";
+import School from "~/types/School";
 import RatingData from "./RatingData";
 import Requirement from "./Requirement";
 

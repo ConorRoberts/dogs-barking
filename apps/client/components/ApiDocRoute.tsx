@@ -1,6 +1,6 @@
 import React from "react";
-import ApiRoute from "@typedefs/ApiRoute";
-import ApiDocMethod from "@components/ApiDocMethod";
+import ApiRoute from "~/types/ApiRoute";
+import ApiDocMethod from "~/components/ApiDocMethod";
 
 /**
  * Represents a route within the api docs

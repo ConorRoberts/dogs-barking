@@ -1,51 +1,26 @@
-import Course from "@typedefs/Course";
-import { NextPageContext } from "next";
+import Course from "~/types/Course";
+import { GetServerSideProps, NextPage } from "next";
 import { Node, Edge } from "react-flow-renderer";
-import createPrerequisiteGraph from "@utils/createPrerequisiteGraph";
-import Rating from "@components/Rating";
+import createPrerequisiteGraph from "~/utils/createPrerequisiteGraph";
+import Rating from "~/components/Rating";
 import Link from "next/link";
-import MetaData from "@components/MetaData";
-import { API_URL } from "@config/config";
-import courseSchema from "@schema/courseSchema";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import LoadingScreen from "@components/LoadingScreen";
-import RequirementsList from "@components/RequirementsList";
-import axios from "axios";
-import CourseSection from "@components/CourseSection";
-import { LoadingIcon } from "@components/Icons";
+import MetaData from "~/components/MetaData";
+import { API_URL } from "~/config/config";
+import courseSchema from "~/schema/courseSchema";
+import { useState } from "react";
+import RequirementsList from "~/components/RequirementsList";
+import CourseSection from "~/components/CourseSection";
+import Section from "~/types/Section";
 
 interface PageProps {
   course: Course;
   nodes: Node<Course>[];
   edges: Edge[];
+  sections: Section[];
 }
 
-const Page = ({ course }: PageProps) => {
-  const router = useRouter();
+const Page: NextPage<PageProps> = ({ course, sections }) => {
   const [ratingCount, setRatingCount] = useState(course.rating.count);
-  const [sections, setSections] = useState([]);
-  const [sectionsLoading, setSectionsLoading] = useState(false);
-
-  useEffect(() => {
-    if (!course) router.push("/error/404");
-  }, [router, course]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        setSectionsLoading(true);
-        const { data } = await axios.get(`/api/course/${course.id}/section`);
-        setSections(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setSectionsLoading(false);
-      }
-    })();
-  }, [course.id]);
-
-  if (!course) return <LoadingScreen />;
 
   return (
     <div className="mx-auto max-w-4xl w-full flex flex-col gap-8 p-4">
@@ -123,7 +98,6 @@ const Page = ({ course }: PageProps) => {
             Here are the current offerings for {course.code}
           </p>
 
-          {sectionsLoading && <LoadingIcon className="animate-spin mx-auto" size={25} />}
           <div className="grid gap-2 sm:grid-cols-2">
             {sections.map((section, index) => (
               <CourseSection section={section} key={`${course.id} section ${index}`} />
@@ -135,18 +109,19 @@ const Page = ({ course }: PageProps) => {
   );
 };
 
-export const getServerSideProps = async (context: NextPageContext) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const id = context.query.id as string;
-  const data = await fetch(`${API_URL}/course/${id}`, { method: "GET" });
-  const course: Course = await data.json();
+  const course: Course = await fetch(`${API_URL}/course/${id}`, { method: "GET" }).then((res) => res.json());
+  const sections: Section[] = await fetch(`${API_URL}/course/${id}/section`, { method: "GET" }).then((res) =>
+    res.json()
+  );
 
   // We couldn't find course or course isn't a valid course
   if (!courseSchema.isValidSync(course)) {
     return {
-      props: {
-        course: null,
-        nodes: [],
-        edges: [],
+      redirect: {
+        destination: "/error/404",
+        permanent: false,
       },
     };
   }
@@ -158,6 +133,7 @@ export const getServerSideProps = async (context: NextPageContext) => {
       course,
       nodes,
       edges,
+      sections,
     },
   };
 };

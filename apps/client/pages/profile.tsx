@@ -1,17 +1,17 @@
-import { Button, CustomErrorMessage, Input, Select } from "@components/form";
-import { LoadingIcon } from "@components/Icons";
-import School from "@typedefs/School";
+import { Button, CustomErrorMessage, Input, Select } from "~/components/form";
+import { LoadingIcon } from "~/components/Icons";
+import School from "~/types/School";
 import axios from "axios";
 import { ErrorMessage, Form, Formik } from "formik";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { API_URL } from "@config/config";
-import Course from "@typedefs/Course";
-import useSearch from "@hooks/useSearch";
-import Toast from "@components/form/Toast";
-import User from "@typedefs/User";
-import MetaData from "@components/MetaData";
-import getToken from "@utils/getToken";
+import { API_URL } from "~/config/config";
+import Course from "~/types/Course";
+import useSearch from "~/hooks/useSearch";
+import Toast from "~/components/form/Toast";
+import User from "~/types/User";
+import MetaData from "~/components/MetaData";
+import getToken from "~/utils/getToken";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
 interface PageProps {
