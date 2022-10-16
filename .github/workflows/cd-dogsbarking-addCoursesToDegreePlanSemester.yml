@@ -8,6 +8,7 @@ on:
       - "api/dogsbarking-addCoursesToDegreePlanSemester/**"
       - ".github/workflows/cd-dogsbarking-addCoursesToDegreePlanSemester.yml"
       - ".github/workflows/cd-lambda-default.yml"
+      - "docker/api/Dockerfile"
 
 jobs:
   deploy:

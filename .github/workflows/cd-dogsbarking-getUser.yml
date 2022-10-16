@@ -8,6 +8,7 @@ on:
       - "api/dogsbarking-getUser/**"
       - ".github/workflows/cd-dogsbarking-getUser.yml"
       - ".github/workflows/cd-lambda-default.yml"
+      - "docker/api/Dockerfile"
 
 jobs:
   deploy:

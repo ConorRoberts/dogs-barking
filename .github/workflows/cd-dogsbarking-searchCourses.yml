@@ -8,6 +8,7 @@ on:
       - "api/dogsbarking-searchCourses/**"
       - ".github/workflows/cd-dogsbarking-searchCourses.yml"
       - ".github/workflows/cd-lambda-default.yml"
+      - "docker/api/Dockerfile"
 
 jobs:
   deploy:

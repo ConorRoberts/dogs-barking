@@ -8,6 +8,7 @@ on:
       - "api/dogsbarking-updatePlannerSemester/**"
       - ".github/workflows/cd-dogsbarking-updatePlannerSemester.yml"
       - ".github/workflows/cd-lambda-default.yml"
+      - "docker/api/Dockerfile"
 
 jobs:
   deploy:
