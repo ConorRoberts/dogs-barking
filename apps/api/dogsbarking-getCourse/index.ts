@@ -1,7 +1,7 @@
-import neo4j from "neo4j-driver";
 import { APIGatewayEvent, APIGatewayProxyEventPathParameters, APIGatewayProxyResultV2 } from "aws-lambda";
 import Course from "@dogs-barking/common/Course";
-import { SecretsManager } from "@aws-sdk/client-secrets-manager";
+import { getNeo4jDriver } from "@dogs-barking/common";
+import { Course } from "@dogs-barking/common/dist/types";
 
 /**
  * @method GET
@@ -13,14 +13,7 @@ interface PathParameters extends APIGatewayProxyEventPathParameters {
 
 export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2> => {
   const { stage } = event.requestContext;
-  const secrets = new SecretsManager({});
-
-  // Get Neo4j credentials
-  const { SecretString: neo4jCredentials } = await secrets.getSecretValue({
-    SecretId: `${stage}/dogsbarking/neo4j`,
-  });
-  const { host, username, password } = JSON.parse(neo4jCredentials ?? "{}");
-  const driver = neo4j.driver(`neo4j://${host}`, neo4j.auth.basic(username, password));
+  const driver = await getNeo4jDriver(stage);
 
   try {
     console.log(event);
@@ -42,7 +35,7 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
         return 
             properties(course) as course,
             properties(school) as school,
-            [n in nodes(path) | {data: properties(n), label: labels(n)[0]}] as requirements,
+            [n in nodes(path) |n{id: properties(n).id label: labels(n)[0]}] as requirements,
             avg(rating.difficulty) as difficulty,
             avg(rating.timeSpent) as timeSpent,
             avg(rating.usefulness) as usefulness,
@@ -51,7 +44,7 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
       { courseId }
     );
 
-    console.log(records[0].get("course"));
+    // console.log(records[0].get("course"));
 
     await session.close();
     await driver.close();
