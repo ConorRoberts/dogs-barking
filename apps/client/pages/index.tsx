@@ -17,7 +17,7 @@ const Page = () => {
       </div>
       <div className="flex flex-col gap-4">
         <div
-          className="bg-white dark:bg-gray-800 rounded-md overflow-hidden px-6 py-2 shadow-md mx-auto w-80 text-lg font-medium flex items-center gap-4 cursor-pointer hover:dark:bg-gray-700 hover:bg-gray-100 transition"
+          className="bg-white dark:bg-gray-800 rounded-md overflow-hidden px-6 py-2 shadow-center mx-auto w-80 text-lg font-medium flex items-center gap-4 cursor-pointer hover:dark:bg-gray-700 hover:bg-gray-100 transition"
           id="home-search-button"
           onClick={() => setOpen(true)}
         >
@@ -29,14 +29,14 @@ const Page = () => {
 
       <div>
         <div className="flex gap-4 flex-wrap justify-center">
-          <div className="bg-white dark:bg-gray-800 shadow-md rounded-md py-12 px-4 flex flex-col gap-4 w-80">
+          <div className="bg-white dark:bg-gray-800 shadow-center rounded-md py-12 px-4 flex flex-col gap-4 w-80">
             <SearchIcon size={60} className="text-gray-600 dark:text-gray-100 mx-auto" />
             <div>
               <h3 className="text-center text-xl">Find Information</h3>
               <p className="text-center">Find information about courses and programs at The University of Guelph</p>
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 shadow-md rounded-md py-12 px-4 flex flex-col gap-4 w-80">
+          <div className="bg-white dark:bg-gray-800 shadow-center rounded-md py-12 px-4 flex flex-col gap-4 w-80">
             <PlannerIcon size={60} className="text-gray-600 dark:text-gray-100 mx-auto" />
             <div>
               <h3 className="text-center text-xl">Plan Your Degree</h3>
@@ -45,7 +45,7 @@ const Page = () => {
               </p>
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 shadow-md rounded-md py-12 px-4 flex flex-col gap-4 w-80">
+          <div className="bg-white dark:bg-gray-800 shadow-center rounded-md py-12 px-4 flex flex-col gap-4 w-80">
             <EmptyStarIcon size={60} className="text-gray-600 dark:text-gray-100 mx-auto" />
             <div>
               <h3 className="text-center text-xl">Give Feedback</h3>
