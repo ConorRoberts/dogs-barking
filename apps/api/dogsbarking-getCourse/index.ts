@@ -24,13 +24,15 @@ const recordsSchema = z.object({
     z.array(
       z.object({
         data: courseSchema
-          .omit({ updatedAt: true, requirements: true })
+          .omit({ requirements: true })
           .extend({ updatedAt: z.object({ low: z.number(), high: z.number() }) }),
         label: z.string(),
       })
     )
   ),
-  course: courseSchema,
+  course: courseSchema
+    .omit({ requirements: true })
+    .extend({ updatedAt: z.object({ low: z.number(), high: z.number() }) }),
 });
 
 /**
@@ -147,6 +149,7 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
         nodes: Object.fromEntries(nodeList),
         course: {
           ...course,
+          updatedAt: course.updatedAt.low,
           school,
           label: "Course",
           requirements: nodeList.get(courseId)?.requirements ?? [],
