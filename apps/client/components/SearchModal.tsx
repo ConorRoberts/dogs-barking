@@ -1,11 +1,9 @@
 import useSearch from "~/hooks/useSearch";
-import Course from "~/types/Course";
-import Program from "~/types/Program";
-import Link from "next/link";
 import { useEffect } from "react";
 import { Button, Input, Modal } from "@conorroberts/beluga";
 import { LoadingIcon } from "./Icons";
 import useSearchModalStore from "~/store/searchModalStore";
+import SearchModalSearchResult from "./SearchModalSearchResult";
 
 const SearchModal = () => {
   const { open, text, setOpen, setText, toggleOpen, type, setType } = useSearchModalStore((state) => state);
@@ -38,7 +36,7 @@ const SearchModal = () => {
             </div>
           )}
         </div>
-        <div className="relative mx-auto max-w-xs w-full grid grid-cols-2 gap-2">
+        <div className="relative mx-auto max-w-xs w-full grid grid-cols-2 gap-2 text-center">
           <Button
             onClick={() => setType("course")}
             variant={type === "course" ? "filled" : "outlined"}
@@ -54,17 +52,9 @@ const SearchModal = () => {
             Program
           </Button>
         </div>
-        <div className="dark:bg-gray-800">
+        <div className="dark:bg-gray-800 rounded overflow-hidden">
           {results.map((e) => (
-            <Link href={`/${type}/${e.id}`} key={e.id} passHref>
-              <a
-                className="px-4 py-0.5 hover:text-gray-500 dark:hover:text-gray-300 hover:bg-white dark:hover:bg-gray-900 transition-all cursor-pointer duration-75 text-lg flex justify-between gap-8 sm:gap-16"
-                id={`search-modal-result-${type === "course" ? (e as Course).code : (e as Program).short}`}
-              >
-                <p>{type === "course" ? (e as Course).code : (e as Program).short}</p>
-                <p className="truncate">{e.name}</p>
-              </a>
-            </Link>
+            <SearchModalSearchResult data={e} type={type} key={e.id} />
           ))}
         </div>
       </div>
