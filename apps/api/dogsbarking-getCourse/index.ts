@@ -53,10 +53,22 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
       course,
     } = z
       .object({
-        difficulty: z.number(),
-        timeSpent: z.number(),
-        usefulness: z.number(),
-        ratingCount: z.number(),
+        difficulty: z
+          .number()
+          .nullable()
+          .transform((val) => (val === null ? 0 : val)),
+        timeSpent: z
+          .number()
+          .nullable()
+          .transform((val) => (val === null ? 0 : val)),
+        usefulness: z
+          .number()
+          .nullable()
+          .transform((val) => (val === null ? 0 : val)),
+        ratingCount: z
+          .number()
+          .nullable()
+          .transform((val) => (val === null ? 0 : val)),
         school: z.record(z.string(), z.string()),
         requirements: z.array(z.array(z.object({ data: z.record(z.string(), z.string()), label: z.string() }))),
         course: courseSchema,
@@ -126,10 +138,10 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
         label: "Course",
         requirements: nodeList.get(courseId)?.requirements ?? [],
         rating: {
-          difficulty: difficulty ?? 0,
-          usefulness: usefulness ?? 0,
-          timeSpent: timeSpent ?? 0,
-          count: ratingCount ?? 0,
+          difficulty,
+          usefulness,
+          timeSpent,
+          count: ratingCount,
         },
       },
     };
