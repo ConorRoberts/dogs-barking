@@ -128,7 +128,7 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
           }
 
           // If we're at least past the first course, and we do have a previous element, add the current element to the previous element's requirements
-          if (index > 1 && previous && nodeList.has(previous.id)) {
+          if (index > 0 && previous && nodeList.has(previous.id)) {
             const previousElementInList = nodeList.get(previous.id);
             if (previousElementInList) {
               // Add the node's ID to the previous element's requirements
