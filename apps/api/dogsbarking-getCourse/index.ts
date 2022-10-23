@@ -69,7 +69,7 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
             toFloatOrNull(avg(rating.difficulty)) as difficulty,
             toFloatOrNull(avg(rating.timeSpent)) as timeSpent,
             toFloatOrNull(avg(rating.usefulness)) as usefulness,
-            toIntegerOrNull(count(rating)) as ratingCount
+            toFloatOrNull(count(rating)) as ratingCount
       `,
       { courseId }
     );
