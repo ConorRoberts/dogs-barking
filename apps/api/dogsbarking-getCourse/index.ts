@@ -96,7 +96,7 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
 
     // This isn't the full type for all nodes we expect to use, however this represents all of the
     // properties we intend to use to create our response object
-    type GenericNode = { id: string; requirements: string[]; label: string };
+    type GenericNode = { id: string; requirements: string[]; label: string; updatedAt: number };
 
     // The list of unique nodes contained in the requirements of our course
     const nodeList = new Map<string, GenericNode>();
@@ -111,13 +111,14 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
         const currentNode: GenericNode = {
           ...e.data,
           id: e.data.id,
+          updatedAt: e.data.updatedAt?.low,
           label: e.label,
           requirements: [],
         };
 
         // Are we missing this entry in our list AND is this entry not our main course?
         // If so, create it
-        if (!nodeList.has(currentNode.id) && currentNode.id !== course.id) {
+        if (!nodeList.has(currentNode.id)) {
           nodeList.set(currentNode.id, currentNode);
         }
 
