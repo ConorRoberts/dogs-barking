@@ -1,5 +1,5 @@
 import CourseGraph from "~/components/graph/CourseGraph";
-import { Button } from "~/components/form";
+import { Button } from "@conorroberts/beluga";
 import { GraphIcon } from "~/components/Icons";
 import MetaData from "~/components/MetaData";
 import RequirementsList from "~/components/RequirementsList";
@@ -39,19 +39,19 @@ const Page = ({ program, majorGraph, minorGraph }: PageProps) => {
       <div>
         <div className="flex gap-2 items-center">
           <h2 className="mb-2 text-center">Requirements</h2>
-          <Button variant="outline" onClick={() => setViewType(viewType === "default" ? "graph" : "default")}>
+          <Button variant="outlined" onClick={() => setViewType(viewType === "default" ? "graph" : "default")}>
             <GraphIcon size={25} />
             <p className="sm:block hidden">View Graph</p>
           </Button>
         </div>
-        {viewType === "default" && program.major.length > 0 && <RequirementsList requirements={program.major} />}
+        {/* {viewType === "default" && program.major.length > 0 && <RequirementsList requirements={program.major} />}
         {viewType === "graph" && program.major.length > 0 && (
           <CourseGraph nodes={majorGraph.nodes} edges={majorGraph.edges} />
         )}
         {viewType === "default" && program.minor.length > 0 && <RequirementsList requirements={program.minor} />}
         {viewType === "graph" && program.minor.length > 0 && (
           <CourseGraph nodes={minorGraph.nodes} edges={minorGraph.edges} />
-        )}
+        )} */}
       </div>
     </div>
   );
@@ -63,23 +63,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const data = await fetch(`${API_URL}/program/${programId}`, { method: "GET" });
   const program = (await data.json()) as Program;
 
-  const { nodes: majorNodes, edges: majorEdges } = createPrerequisiteGraph(program, program.major, {
-    type: "Program",
-  });
-  const { nodes: minorNodes, edges: minorEdges } = createPrerequisiteGraph(program, program.minor, {
-    type: "Program",
-  });
+  // const { nodes: majorNodes, edges: majorEdges } = createPrerequisiteGraph(program, program.major, {
+  //   type: "Program",
+  // });
+  // const { nodes: minorNodes, edges: minorEdges } = createPrerequisiteGraph(program, program.minor, {
+  //   type: "Program",
+  // });
 
   return {
     props: {
       program,
       majorGraph: {
-        nodes: majorNodes,
-        edges: majorEdges,
+        nodes: [],
+        edges: [],
       },
       minorGraph: {
-        nodes: minorNodes,
-        edges: minorEdges,
+        nodes: [],
+        edges: [],
       },
     },
   };

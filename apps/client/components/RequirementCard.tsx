@@ -1,19 +1,20 @@
 import Course from "~/types/Course";
 import Requirement from "~/types/Requirement";
 import OrBlockData from "~/types/OrBlockData";
-import { CancelIcon, CheckIcon, LinkIcon } from "./Icons";
+import { LinkIcon } from "./Icons";
 import Link from "next/link";
 import CreditRequirementData from "~/types/CreditRequirementData";
-import isRequirementMet from "~/utils/isRequirementMet";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+// import isRequirementMet from "~/utils/isRequirementMet";
+// import { useAuthenticator } from "@aws-amplify/ui-react";
 
 interface Props {
-  requirement: Requirement;
+  data: Requirement;
+  requirements: Record<string, Requirement>;
 }
 
-const RequirementCard = ({ requirement }: Props) => {
-  const { user } = useAuthenticator();
-  const { label, id } = requirement;
+const RequirementCard = ({ data, requirements }: Props) => {
+  // const { user } = useAuthenticator();
+  const { label, id } = data;
 
   // const taken = isRequirementMet(requirement, user?.takenCourses);
 
@@ -25,26 +26,22 @@ const RequirementCard = ({ requirement }: Props) => {
             <Link href={`/course/${id}`} passHref>
               <a className="flex gap-1 items-center primary-hover">
                 <LinkIcon size={18} />
-                <p className="font-medium">{(requirement as Course).code}</p>
+                <p className="font-medium">{(data as Course).code}</p>
               </a>
             </Link>
           )}
-          {label === "OrBlock" && (
-            <p className="font-medium">{`Complete ${(requirement as OrBlockData).target} of:`}</p>
-          )}
+          {label === "OrBlock" && <p className="font-medium">{`Complete ${(data as OrBlockData).target} of:`}</p>}
           {label === "CreditRequirement" && (
-            <p className="font-medium">{`Acquire ${(requirement as CreditRequirementData).value.toFixed(
-              2
-            )} credits`}</p>
+            <p className="font-medium">{`Acquire ${(data as CreditRequirementData).value.toFixed(2)} credits`}</p>
           )}
         </div>
         {label === "OrBlock" && (
           <div className="grid grid-cols-2 gap-1 items-centerD">
-            {(requirement as OrBlockData).requirements.map((e: Course) => (
-              <Link href={`/course/${e.id}`} key={`${id}-requirementcard-${e.id}`} passHref>
+            {(data as OrBlockData).requirements.map((e: string) => (
+              <Link href={`/course/${e}`} key={`${id}-requirementcard-${e}`} passHref>
                 <a className="flex gap-1 items-center primary-hover">
                   <LinkIcon size={18} />
-                  <p className="p-1">{e.code}</p>
+                  <p className="p-1">{(requirements[e] as Course).code}</p>
                 </a>
               </Link>
             ))}

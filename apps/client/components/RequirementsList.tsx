@@ -1,15 +1,21 @@
+import Course from "~/types/Course";
 import Requirement from "~/types/Requirement";
 import RequirementCard from "./RequirementCard";
 
 interface Props {
-  requirements: Requirement[];
+  originId: string;
+  requirements: Record<string, Requirement>;
 }
 
-const RequirementsList = ({ requirements }: Props) => {
+const RequirementsList = ({ requirements, originId }: Props) => {
+  const originNode = requirements[originId] as Course;
+
+  if (!originNode) return null;
+
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-      {requirements.map((e, index) => (
-        <RequirementCard requirement={e} key={`requirement-list-${index}`} />
+      {originNode.requirements.map((e, index) => (
+        <RequirementCard data={requirements[e]} requirements={requirements} key={`requirement-list-${index}`} />
       ))}
     </div>
   );

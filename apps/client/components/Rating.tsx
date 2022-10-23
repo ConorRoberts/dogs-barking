@@ -5,7 +5,7 @@ import { Loading, RadioButtonEmptyIcon, RadioButtonFilledIcon } from "./Icons";
 import { motion } from "framer-motion";
 import { Toast } from "@conorroberts/beluga";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import getToken from "~/utils/getToken";
+import { useMutation } from "@tanstack/react-query";
 
 interface RatingProps {
   courseId: string;
@@ -35,7 +35,7 @@ const Rating: FC<RatingProps> = ({
   const [updateLoading, setUpdateLoading] = useState(false);
 
   // Update rating on backend
-  const submitRating = async ({ ratingValue }: { ratingValue: number }) => {
+  const { mutate: submitRating } = useMutation(async ({ ratingValue }: { ratingValue: number }) => {
     // Do we already have some error that we're waiting to timeout?
     // This stops overriding the timer on the error message.
     if (ratingSubmissionError.length > 0) {
@@ -59,19 +59,11 @@ const Rating: FC<RatingProps> = ({
       setMouseIndex(-1);
       setUpdateLoading(true);
 
-      const { data } = await axios.post<RatingData>(
-        `/api/course/${courseId}/rating`,
-        {
-          courseId,
-          ratingValue,
-          ratingType,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${getToken(user)}`,
-          },
-        }
-      );
+      const { data } = await axios.post<RatingData>(`/api/course/${courseId}/rating`, {
+        courseId,
+        ratingValue,
+        ratingType,
+      });
 
       setRating(data[ratingType]);
 
@@ -81,7 +73,7 @@ const Rating: FC<RatingProps> = ({
     } finally {
       setUpdateLoading(false);
     }
-  };
+  });
 
   return (
     <div className="flex flex-col items-center gap-2 min-w-max">

@@ -13,7 +13,7 @@ interface Config {
  * @param nodeId
  * @returns
  */
-const createPrerequisiteGraph = (origin: Course | Program, requirements: Requirement[], config?: Config) => {
+const createPrerequisiteGraph = (origin: Course | Program, requirements: Record<string,Requirement>, config?: Config) => {
   const nodes: (Node | Edge)[] = [
     { 
       id: origin.id,
@@ -50,7 +50,7 @@ const createPrerequisiteGraph = (origin: Course | Program, requirements: Require
       });
     };
 
-    populate(origin, requirements);
+    // populate(origin, origin.requirements);
 
     return formatNodes(nodes);
   } catch (error) {

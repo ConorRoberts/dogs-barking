@@ -1,6 +1,5 @@
 import School from "~/types/School";
 import RatingData from "./RatingData";
-import Requirement from "./Requirement";
 
 type Course = {
   id: string;
@@ -11,7 +10,7 @@ type Course = {
   description: string;
   credits: number;
   school?: School;
-  requirements: Requirement[];
+  requirements: string[];
   rating: RatingData;
   label?: "Course";
   taken?: boolean;

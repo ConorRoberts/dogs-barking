@@ -1,7 +1,5 @@
 import Course from "~/types/Course";
 import { GetServerSideProps, NextPage } from "next";
-import { Node, Edge } from "react-flow-renderer";
-import createPrerequisiteGraph from "~/utils/createPrerequisiteGraph";
 import Rating from "~/components/Rating";
 import Link from "next/link";
 import MetaData from "~/components/MetaData";
@@ -11,15 +9,15 @@ import { useState } from "react";
 import RequirementsList from "~/components/RequirementsList";
 import CourseSection from "~/components/CourseSection";
 import Section from "~/types/Section";
+import Requirement from "~/types/Requirement";
 
 interface PageProps {
   course: Course;
-  nodes: Node<Course>[];
-  edges: Edge[];
   sections: Section[];
+  requirements: Record<string, Requirement>;
 }
 
-const Page: NextPage<PageProps> = ({ course, sections }) => {
+const Page: NextPage<PageProps> = ({ course, sections, requirements }) => {
   const [ratingCount, setRatingCount] = useState(course.rating.count);
 
   return (
@@ -85,10 +83,10 @@ const Page: NextPage<PageProps> = ({ course, sections }) => {
         </p>
       )}
 
-      {course.requirements.filter((e) => e.label !== "AndBlock").length > 0 && (
+      {course.requirements.length > 0 && (
         <>
           <h2 className="text-center">Requirements</h2>
-          <RequirementsList requirements={course.requirements.filter((e) => e.label !== "AndBlock")} />
+          <RequirementsList requirements={requirements} originId={course.id} />
         </>
       )}
       {sections.length > 0 && (
@@ -111,7 +109,10 @@ const Page: NextPage<PageProps> = ({ course, sections }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id = context.query.id as string;
-  const course: Course = await fetch(`${API_URL}/course/${id}`, { method: "GET" }).then((res) => res.json());
+  const { course, nodes: requirements }: { course: Course; nodes: Record<string, Requirement> } = await fetch(
+    `${API_URL}/course/${id}`,
+    { method: "GET" }
+  ).then((res) => res.json());
   const sections: Section[] = await fetch(`${API_URL}/course/${id}/section`, { method: "GET" }).then((res) =>
     res.json()
   );
@@ -126,14 +127,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const { nodes, edges } = createPrerequisiteGraph(course, course.requirements);
+  // const { nodes, edges } = createPrerequisiteGraph(course, flatNodeList);
 
   return {
     props: {
       course,
-      nodes,
-      edges,
       sections,
+      requirements,
     },
   };
 };
