@@ -36,10 +36,7 @@ export const handler: APIGatewayProxyHandlerV2<unknown> = async (event) => {
         MATCH(program:Program {id: $programId})
         MATCH (school:School)-[:OFFERS]->(program)
 
-        WITH program, school
         OPTIONAL MATCH major=(program)-[:REQUIRES|MAJOR_REQUIRES*]->(prereq)
-
-        WITH program, school, collect(major) as majors
         OPTIONAL MATCH minor=(program)-[:REQUIRES|MINOR_REQUIRES*]->(prereq)
 
         return 
