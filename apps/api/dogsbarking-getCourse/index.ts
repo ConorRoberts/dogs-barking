@@ -2,6 +2,37 @@ import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { courseSchema, getNeo4jDriver } from "@dogs-barking/common";
 import { z } from "zod";
 
+const recordsSchema = z.object({
+  difficulty: z
+    .number()
+    .nullable()
+    .transform((val) => (val === null ? 0 : val)),
+  timeSpent: z
+    .number()
+    .nullable()
+    .transform((val) => (val === null ? 0 : val)),
+  usefulness: z
+    .number()
+    .nullable()
+    .transform((val) => (val === null ? 0 : val)),
+  ratingCount: z
+    .number()
+    .nullable()
+    .transform((val) => (val === null ? 0 : val)),
+  school: z.record(z.string(), z.string()),
+  requirements: z.array(
+    z.array(
+      z.object({
+        data: courseSchema
+          .omit({ updatedAt: true, requirements: true })
+          .extend({ updatedAt: z.object({ low: z.number(), high: z.number() }) }),
+        label: z.string(),
+      })
+    )
+  ),
+  course: courseSchema,
+});
+
 /**
  * @method GET
  * @description Gets the course with the given id
@@ -41,6 +72,8 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
       { courseId }
     );
 
+    console.info(JSON.stringify(records));
+
     await session.close();
 
     const {
@@ -51,37 +84,15 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
       ratingCount,
       requirements = [],
       course,
-    } = z
-      .object({
-        difficulty: z
-          .number()
-          .nullable()
-          .transform((val) => (val === null ? 0 : val)),
-        timeSpent: z
-          .number()
-          .nullable()
-          .transform((val) => (val === null ? 0 : val)),
-        usefulness: z
-          .number()
-          .nullable()
-          .transform((val) => (val === null ? 0 : val)),
-        ratingCount: z
-          .number()
-          .nullable()
-          .transform((val) => (val === null ? 0 : val)),
-        school: z.record(z.string(), z.string()),
-        requirements: z.array(z.array(z.object({ data: z.record(z.string(), z.string()), label: z.string() }))),
-        course: courseSchema,
-      })
-      .parse({
-        difficulty: records[0].get("difficulty"),
-        timeSpent: records[0].get("timeSpent"),
-        usefulness: records[0].get("usefulness"),
-        ratingCount: records[0].get("ratingCount"),
-        school: records[0].get("school"),
-        requirements: records[0].get("requirements"),
-        course: records[0].get("course"),
-      });
+    } = recordsSchema.parse({
+      difficulty: records[0].get("difficulty"),
+      timeSpent: records[0].get("timeSpent"),
+      usefulness: records[0].get("usefulness"),
+      ratingCount: records[0].get("ratingCount"),
+      school: records[0].get("school"),
+      requirements: records[0].get("requirements"),
+      course: records[0].get("course"),
+    });
 
     // This isn't the full type for all nodes we expect to use, however this represents all of the
     // properties we intend to use to create our response object
@@ -131,22 +142,25 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
     }
 
     return {
-      nodes: Object.fromEntries(nodeList),
-      course: {
-        ...course,
-        school,
-        label: "Course",
-        requirements: nodeList.get(courseId)?.requirements ?? [],
-        rating: {
-          difficulty,
-          usefulness,
-          timeSpent,
-          count: ratingCount,
+      statusCode: 200,
+      body: JSON.stringify({
+        nodes: Object.fromEntries(nodeList),
+        course: {
+          ...course,
+          school,
+          label: "Course",
+          requirements: nodeList.get(courseId)?.requirements ?? [],
+          rating: {
+            difficulty,
+            usefulness,
+            timeSpent,
+            count: ratingCount,
+          },
         },
-      },
+      }),
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw error;
   } finally {
     await driver.close();

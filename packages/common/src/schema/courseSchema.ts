@@ -13,6 +13,7 @@ const courseSchema = z.object({
   requirements: z.array(z.string()),
   label: z.string().optional().default("Course"),
   taken: z.boolean().optional().default(false),
+  updatedAt: z.number(),
   rating: z.object({
     difficulty: z.number().optional().default(0),
     timeSpent: z.number().optional().default(0),
