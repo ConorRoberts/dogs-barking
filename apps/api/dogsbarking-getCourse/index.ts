@@ -1,7 +1,6 @@
-import { APIGatewayEvent, APIGatewayProxyEventPathParameters, APIGatewayProxyResultV2 } from "aws-lambda";
+import { APIGatewayProxyEventPathParameters, APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { courseSchema, getNeo4jDriver } from "@dogs-barking/common";
 import { z } from "zod";
-import Course from "@dogs-barking/common/Course";
 
 /**
  * @method GET
@@ -11,7 +10,7 @@ interface PathParameters extends APIGatewayProxyEventPathParameters {
   courseId: string;
 }
 
-export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2> => {
+export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
   const { stage } = event.requestContext;
   const driver = await getNeo4jDriver(stage);
 
@@ -80,15 +79,20 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
         course: records[0].get("course"),
       });
 
+    // This isn't the full type for all nodes we expect to use, however this represents all of the
+    // properties we intend to use to create our response object
     type GenericNode = { id: string; requirements: string[]; label: string };
-    const courseList = new Map<string, GenericNode>();
+
+    // The list of unique nodes contained in the requirements of our course
+    const nodeList = new Map<string, GenericNode>();
 
     for (const list of requirements) {
       // The previous element when iterating over the list
+      // We track this so that we can assign child requirements to their parent
       let previous: GenericNode | undefined;
 
       list.forEach((e, index) => {
-        // Format the current element how we want to
+        // Format the current element to adhere to our schema
         const currentNode: GenericNode = {
           ...e.data,
           id: e.data.id,
@@ -102,14 +106,15 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
         if (index !== 0) {
           // Are we missing this entry in our list?
           // If so, create it
-          if (courseList.has(currentNode.id)) {
-            courseList.set(currentNode.id, currentNode);
+          if (nodeList.has(currentNode.id)) {
+            nodeList.set(currentNode.id, currentNode);
           }
 
           // If we're at least past the first course, and we do have a previous element, add the current element to the previous element's requirements
-          if (index > 1 && previous && courseList.has(previous.id)) {
-            const previousElementInList = courseList.get(previous.id);
+          if (index > 1 && previous && nodeList.has(previous.id)) {
+            const previousElementInList = nodeList.get(previous.id);
             if (previousElementInList) {
+              // Add the node's ID to the previous element's requirements
               previousElementInList.requirements = [
                 ...new Set([...previousElementInList.requirements, currentNode.id]),
               ];
@@ -121,33 +126,19 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
       });
     }
 
-    // const fillTree = (id: string) => {
-    //   const node = requirements[id];
-
-    //   if (!node) return null;
-
-    //   return {
-    //     ...node,
-    //     requirements:
-    //       node?.requirements
-    //         ?.map((e: string) => fillTree(e))
-    //         .filter((e: Course | null) => e !== undefined && e !== null) ?? [],
-    //   };
-    // };
-
     return {
-      ...course,
-      school,
-      label: "Course",
-      requirements: records
-        .map((e) => fillTree(e.get("requirements")?.length > 1 ? e.get("requirements")[1]?.data?.id : null))
-        .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
-        .filter((e) => e !== undefined && e !== null),
-      rating: {
-        difficulty: difficulty ?? 0,
-        usefulness: usefulness ?? 0,
-        timeSpent: timeSpent ?? 0,
-        count: ratingCount ?? 0,
+      nodes: Object.fromEntries(nodeList),
+      course: {
+        ...course,
+        school,
+        label: "Course",
+        requirements: nodeList.get(courseId)?.requirements ?? [],
+        rating: {
+          difficulty: difficulty ?? 0,
+          usefulness: usefulness ?? 0,
+          timeSpent: timeSpent ?? 0,
+          count: ratingCount ?? 0,
+        },
       },
     };
   } catch (error) {
