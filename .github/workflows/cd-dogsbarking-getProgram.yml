@@ -5,7 +5,7 @@ on:
     branches:
       - dev
     paths:
-      - "api/dogsbarking-getProgram/**"
+      - "apps/api/dogsbarking-getProgram/**"
       - ".github/workflows/cd-dogsbarking-getProgram.yml"
       - ".github/workflows/cd-lambda-default.yml"
       - "docker/api/Dockerfile"
