@@ -23,9 +23,7 @@ const recordsSchema = z.object({
   requirements: z.array(
     z.array(
       z.object({
-        data: courseSchema
-          .omit({ requirements: true, rating: true })
-          .extend({ updatedAt: z.object({ low: z.number(), high: z.number() }) }),
+        data: z.record(z.string(), z.any()),
         label: z.string(),
       })
     )
@@ -117,9 +115,9 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
           requirements: [],
         };
 
-        // Are we missing this entry in our list?
+        // Are we missing this entry in our list AND is this entry not our main course?
         // If so, create it
-        if (!nodeList.has(currentNode.id)) {
+        if (!nodeList.has(currentNode.id) && currentNode.id !== course.id) {
           nodeList.set(currentNode.id, currentNode);
         }
 
