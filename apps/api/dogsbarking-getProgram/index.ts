@@ -51,7 +51,10 @@ export const handler: APIGatewayProxyHandlerV2<unknown> = async (event) => {
 
     const { major, minor, program, school } = recordsSchema.parse(records[0].toObject());
 
-    console.log(JSON.stringify(records));
+    console.info(major);
+    console.info(minor);
+    console.info(program);
+    console.info(school);
 
     // This isn't the full type for all nodes we expect to use, however this represents all of the
     // properties we intend to use to create our response object
