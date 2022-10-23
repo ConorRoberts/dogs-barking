@@ -107,11 +107,14 @@ export const handler: APIGatewayProxyHandlerV2<unknown> = async (event) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        ...program,
-        school,
-        label: "Program",
-        major: nodeList.get(`${programId}-major`)?.requirements ?? [],
-        minor: nodeList.get(`${programId}-minor`)?.requirements ?? [],
+        program: {
+          ...program,
+          school,
+          label: "Program",
+          major: nodeList.get(`${programId}-major`)?.requirements ?? [],
+          minor: nodeList.get(`${programId}-minor`)?.requirements ?? [],
+        },
+        nodes: Object.fromEntries(nodeList),
       }),
     };
   } catch (error) {
