@@ -104,6 +104,14 @@ export const handler: APIGatewayProxyHandlerV2<unknown> = async (event) => {
       }
     }
 
+    // Extract the program from the list of nodes
+    // We do this so that we aren't returning duplicate data
+    const majorRequirements = nodeList.get(`${programId}-major`)?.requirements ?? [];
+    const minorRequirements = nodeList.get(`${programId}-minor`)?.requirements ?? [];
+
+    nodeList.delete(`${programId}-major`);
+    nodeList.delete(`${programId}-minor`);
+
     return {
       statusCode: 200,
       body: JSON.stringify({
@@ -111,8 +119,8 @@ export const handler: APIGatewayProxyHandlerV2<unknown> = async (event) => {
           ...program,
           school,
           label: "Program",
-          major: nodeList.get(`${programId}-major`)?.requirements ?? [],
-          minor: nodeList.get(`${programId}-minor`)?.requirements ?? [],
+          major: majorRequirements,
+          minor: minorRequirements,
         },
         nodes: Object.fromEntries(nodeList),
       }),
