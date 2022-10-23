@@ -119,10 +119,10 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
 
         // Are we missing this entry in our list?
         // If so, create it
-        if (nodeList.has(currentNode.id)) {
+        if (!nodeList.has(currentNode.id)) {
           nodeList.set(currentNode.id, currentNode);
         }
-        
+
         // If we're at least past the first node, and we do have a previous element, add the current element to the previous element's requirements
         // Why do this? Because the first element is always going to be the course
         // Each of these lists represents a path, and the course will always be our starting point of the path
