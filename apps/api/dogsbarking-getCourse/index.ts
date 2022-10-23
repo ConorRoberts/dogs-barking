@@ -24,14 +24,14 @@ const recordsSchema = z.object({
     z.array(
       z.object({
         data: courseSchema
-          .omit({ requirements: true })
+          .omit({ requirements: true, rating: true })
           .extend({ updatedAt: z.object({ low: z.number(), high: z.number() }) }),
         label: z.string(),
       })
     )
   ),
   course: courseSchema
-    .omit({ requirements: true })
+    .omit({ requirements: true, rating: true })
     .extend({ updatedAt: z.object({ low: z.number(), high: z.number() }) }),
 });
 
