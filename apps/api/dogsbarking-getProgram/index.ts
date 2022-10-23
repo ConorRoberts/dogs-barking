@@ -74,20 +74,16 @@ export const handler: APIGatewayProxyHandlerV2<unknown> = async (event) => {
           // Format the current element to adhere to our schema
           const currentNode: GenericNode = {
             ...e.data,
-            id: e.data.id,
+            id: e.data.id === programId ? `${programId}-${programType}` : e.data.id,
             updatedAt: e.data.updatedAt?.low,
             label: e.label,
             requirements: [],
           };
 
-          // Are we missing this entry in our list AND is this entry not our main node?
+          // Are we missing this entry in our list?
           // If so, create it
           if (!nodeList.has(currentNode.id)) {
-            if (currentNode.id !== programId) {
-              nodeList.set(currentNode.id, currentNode);
-            } else {
-              nodeList.set(`${programId}-${programType}`, currentNode);
-            }
+            nodeList.set(currentNode.id, currentNode);
           }
 
           // If we're at least past the first node, and we do have a previous element, add the current element to the previous element's requirements
