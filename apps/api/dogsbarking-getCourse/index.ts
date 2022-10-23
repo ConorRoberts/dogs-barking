@@ -117,25 +117,20 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
           requirements: [],
         };
 
-        // If this is the first element, skip it
+        // Are we missing this entry in our list?
+        // If so, create it
+        if (nodeList.has(currentNode.id)) {
+          nodeList.set(currentNode.id, currentNode);
+        }
+        
+        // If we're at least past the first node, and we do have a previous element, add the current element to the previous element's requirements
         // Why do this? Because the first element is always going to be the course
         // Each of these lists represents a path, and the course will always be our starting point of the path
-        if (index !== 0) {
-          // Are we missing this entry in our list?
-          // If so, create it
-          if (nodeList.has(currentNode.id)) {
-            nodeList.set(currentNode.id, currentNode);
-          }
-
-          // If we're at least past the first course, and we do have a previous element, add the current element to the previous element's requirements
-          if (index > 0 && previous && nodeList.has(previous.id)) {
-            const previousElementInList = nodeList.get(previous.id);
-            if (previousElementInList) {
-              // Add the node's ID to the previous element's requirements
-              previousElementInList.requirements = [
-                ...new Set([...previousElementInList.requirements, currentNode.id]),
-              ];
-            }
+        if (index > 0 && previous && nodeList.has(previous.id)) {
+          const previousElementInList = nodeList.get(previous.id);
+          if (previousElementInList) {
+            // Add the node's ID to the previous element's requirements
+            previousElementInList.requirements = [...new Set([...previousElementInList.requirements, currentNode.id])];
           }
         }
 
