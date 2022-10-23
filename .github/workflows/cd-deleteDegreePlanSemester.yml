@@ -8,6 +8,7 @@ on:
       - "api/dogsbarking-deleteDegreePlanSemester/**"
       - ".github/workflows/cd-dogsbarking-deleteDegreePlanSemester.yml"
       - ".github/workflows/cd-lambda-default.yml"
+      - "docker/api/Dockerfile"
 
 jobs:
   deploy:

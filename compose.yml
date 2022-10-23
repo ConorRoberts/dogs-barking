@@ -1,0 +1,175 @@
+version: "3.9"
+
+services:
+  dogsbarking-addCoursesToDegreePlanSemester:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-addCoursesToDegreePlanSemester
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-addCoursesToDegreePlanSemester
+  dogsbarking-addSectionsToDegreePlanSemester:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-addSectionsToDegreePlanSemester
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-addSectionsToDegreePlanSemester
+  dogsbarking-createDegreePlan:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-createDegreePlan
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-createDegreePlan
+  dogsbarking-createDegreePlanSemester:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-createDegreePlanSemester
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-createDegreePlanSemester
+  dogsbarking-deleteDegreePlanSemester:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-deleteDegreePlanSemester
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-deleteDegreePlanSemester
+  dogsbarking-executeCourseQuery:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-executeCourseQuery
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-executeCourseQuery
+  dogsbarking-executeProgramQuery:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-executeProgramQuery
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-executeProgramQuery
+  dogsbarking-getAllSchools:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-getAllSchools
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-getAllSchools
+  dogsbarking-getCourse:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-getCourse
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-getCourse
+
+  dogsbarking-getCourseSections:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-getCourseSections
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-getCourseSections
+  dogsbarking-getDegreePlan:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-getDegreePlan
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-getDegreePlan
+  dogsbarking-getDegreePlanSemester:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-getDegreePlanSemester
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-getDegreePlanSemester
+  dogsbarking-getProgram:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-getProgram
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-getProgram
+  dogsbarking-getSchool:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-getSchool
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-getSchool
+  dogsbarking-getUser:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-getUser
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-getUser
+
+  dogsbarking-getUserDegreePlans:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-getUserDegreePlans
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-getUserDegreePlans
+
+  dogsbarking-removeCourseFromDegreePlanSemester:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-removeCourseFromDegreePlanSemester
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-removeCourseFromDegreePlanSemester
+
+  dogsbarking-searchCourses:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-searchCourses
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-searchCourses
+  dogsbarking-searchPrograms:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-searchPrograms
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-searchPrograms
+  dogsbarking-sendFeedback:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-sendFeedback
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-sendFeedback
+  dogsbarking-setupUser:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-setupUser
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-setupUser
+  dogsbarking-updateCourseRating:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-updateCourseRating
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-updateCourseRating
+  dogsbarking-updatePlannerSemester:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-updatePlannerSemester
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-updatePlannerSemester
+  dogsbarking-updateUser:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+      args:
+        dir: ./apps/api/dogsbarking-updateUser
+    image: 356466505463.dkr.ecr.us-east-1.amazonaws.com/conorroberts:dogsbarking-updateUser

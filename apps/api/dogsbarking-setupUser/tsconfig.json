@@ -1,0 +1,5 @@
+{
+  "extends": "@dogs-barking/config/tsconfig/lambda.json",
+  "include": ["."],
+  "exclude": ["dist", "build", "node_modules"]
+}
