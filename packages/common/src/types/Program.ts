@@ -1,4 +1,3 @@
-import Requirement from "./Requirement";
 import School from "./School";
 
 type Program = {
@@ -6,8 +5,8 @@ type Program = {
   name: string;
   id: string;
   short: string;
-  major?: Requirement[];
-  minor?: Requirement[];
+  major?: string[];
+  minor?: string[];
   school?: School;
 };
 

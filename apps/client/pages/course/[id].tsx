@@ -107,12 +107,17 @@ const Page: NextPage<PageProps> = ({ course, sections, requirements }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const id = context.query.id as string;
+export const getServerSideProps: GetServerSideProps = async ({ res, query }) => {
+  // Cache
+  res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=3600");
+
+  const id = query.id as string;
+
   const { course, nodes: requirements }: { course: Course; nodes: Record<string, Requirement> } = await fetch(
     `${API_URL}/course/${id}`,
     { method: "GET" }
   ).then((res) => res.json());
+
   const sections: Section[] = await fetch(`${API_URL}/course/${id}/section`, { method: "GET" }).then((res) =>
     res.json()
   );
