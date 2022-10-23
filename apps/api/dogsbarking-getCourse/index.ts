@@ -1,4 +1,4 @@
-import { APIGatewayProxyEventPathParameters, APIGatewayProxyHandlerV2 } from "aws-lambda";
+import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { courseSchema, getNeo4jDriver } from "@dogs-barking/common";
 import { z } from "zod";
 
@@ -6,20 +6,13 @@ import { z } from "zod";
  * @method GET
  * @description Gets the course with the given id
  */
-interface PathParameters extends APIGatewayProxyEventPathParameters {
-  courseId: string;
-}
-
 export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
+  console.log(event);
   const { stage } = event.requestContext;
   const driver = await getNeo4jDriver(stage);
 
   try {
-    console.log(event);
-
-    const { courseId } = event.pathParameters as PathParameters;
-
-    if (courseId === undefined || typeof courseId !== "string") throw new Error("Invalid courseId");
+    const { courseId } = z.object({ courseId: z.string() }).parse(event.pathParameters);
 
     const session = driver.session();
 
@@ -40,16 +33,15 @@ export const handler: APIGatewayProxyHandlerV2<object> = async (event) => {
                 label: labels(n)[0]
               }
             ]) as requirements,
-            toFloataOrNull(avg(rating.difficulty)) as difficulty,
-            toFloataOrNull(avg(rating.timeSpent)) as timeSpent,
-            toFloataOrNull(avg(rating.usefulness)) as usefulness,
+            toFloatOrNull(avg(rating.difficulty)) as difficulty,
+            toFloatOrNull(avg(rating.timeSpent)) as timeSpent,
+            toFloatOrNull(avg(rating.usefulness)) as usefulness,
             toIntegerOrNull(count(rating)) as ratingCount
       `,
       { courseId }
     );
 
     await session.close();
-    await driver.close();
 
     const {
       school,
