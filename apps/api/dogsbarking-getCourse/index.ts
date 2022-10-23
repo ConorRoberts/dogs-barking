@@ -1,7 +1,7 @@
 import { APIGatewayEvent, APIGatewayProxyEventPathParameters, APIGatewayProxyResultV2 } from "aws-lambda";
+import { courseSchema, getNeo4jDriver } from "@dogs-barking/common";
+import { z } from "zod";
 import Course from "@dogs-barking/common/Course";
-import { getNeo4jDriver } from "@dogs-barking/common";
-import { Course } from "@dogs-barking/common/dist/types";
 
 /**
  * @method GET
@@ -35,80 +35,119 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
         return 
             properties(course) as course,
             properties(school) as school,
-            [n in nodes(path) |n{id: properties(n).id label: labels(n)[0]}] as requirements,
-            avg(rating.difficulty) as difficulty,
-            avg(rating.timeSpent) as timeSpent,
-            avg(rating.usefulness) as usefulness,
-            count(rating) as ratingCount
+            collect([n in nodes(path) | 
+              {
+                data: properties(n),
+                label: labels(n)[0]
+              }
+            ]) as requirements,
+            toFloataOrNull(avg(rating.difficulty)) as difficulty,
+            toFloataOrNull(avg(rating.timeSpent)) as timeSpent,
+            toFloataOrNull(avg(rating.usefulness)) as usefulness,
+            toIntegerOrNull(count(rating)) as ratingCount
       `,
       { courseId }
     );
 
-    // console.log(records[0].get("course"));
-
     await session.close();
     await driver.close();
 
-    // This is to store the requirement tree. Object format is fastest for retrieval and duplicate prevention.
-    const requirements: any = {};
+    const {
+      school,
+      difficulty,
+      timeSpent,
+      usefulness,
+      ratingCount,
+      requirements = [],
+      course,
+    } = z
+      .object({
+        difficulty: z.number(),
+        timeSpent: z.number(),
+        usefulness: z.number(),
+        ratingCount: z.number(),
+        school: z.record(z.string(), z.string()),
+        requirements: z.array(z.array(z.object({ data: z.record(z.string(), z.string()), label: z.string() }))),
+        course: courseSchema,
+      })
+      .parse({
+        difficulty: records[0].get("difficulty"),
+        timeSpent: records[0].get("timeSpent"),
+        usefulness: records[0].get("usefulness"),
+        ratingCount: records[0].get("ratingCount"),
+        school: records[0].get("school"),
+        requirements: records[0].get("requirements"),
+        course: records[0].get("course"),
+      });
 
-    if (records[0]?.get("requirements") !== null) {
-      records
-        .map((e) => e.get("requirements"))
-        .forEach((list: any[]) => {
-          let previous: Course | undefined;
-          list.forEach((e, index) => {
-            const formatted: Course = {
-              ...e.data,
-              label: e.label,
-              requirements: [],
-            };
+    type GenericNode = { id: string; requirements: string[]; label: string };
+    const courseList = new Map<string, GenericNode>();
 
-            // If this is the first element, skip it
-            if (index !== 0) {
-              // Are we missing this entry in our list?
-              if (requirements[formatted.id] === undefined) requirements[formatted.id] = formatted;
+    for (const list of requirements) {
+      // The previous element when iterating over the list
+      let previous: GenericNode | undefined;
 
-              if (index > 1 && previous)
-                requirements[previous.id].requirements = [
-                  ...new Set([...requirements[previous.id].requirements, formatted.id]),
-                ];
+      list.forEach((e, index) => {
+        // Format the current element how we want to
+        const currentNode: GenericNode = {
+          ...e.data,
+          id: e.data.id,
+          label: e.label,
+          requirements: [],
+        };
+
+        // If this is the first element, skip it
+        // Why do this? Because the first element is always going to be the course
+        // Each of these lists represents a path, and the course will always be our starting point of the path
+        if (index !== 0) {
+          // Are we missing this entry in our list?
+          // If so, create it
+          if (courseList.has(currentNode.id)) {
+            courseList.set(currentNode.id, currentNode);
+          }
+
+          // If we're at least past the first course, and we do have a previous element, add the current element to the previous element's requirements
+          if (index > 1 && previous && courseList.has(previous.id)) {
+            const previousElementInList = courseList.get(previous.id);
+            if (previousElementInList) {
+              previousElementInList.requirements = [
+                ...new Set([...previousElementInList.requirements, currentNode.id]),
+              ];
             }
+          }
+        }
 
-            previous = formatted;
-          });
-        });
+        previous = currentNode;
+      });
     }
 
-    console.log(requirements);
+    // const fillTree = (id: string) => {
+    //   const node = requirements[id];
 
-    const fillTree = (id: string) => {
-      const node = requirements[id];
+    //   if (!node) return null;
 
-      if (!node) return null;
-
-      return {
-        ...node,
-        requirements:
-          node?.requirements
-            ?.map((e: string) => fillTree(e))
-            .filter((e: Course | null) => e !== undefined && e !== null) ?? [],
-      };
-    };
+    //   return {
+    //     ...node,
+    //     requirements:
+    //       node?.requirements
+    //         ?.map((e: string) => fillTree(e))
+    //         .filter((e: Course | null) => e !== undefined && e !== null) ?? [],
+    //   };
+    // };
 
     return {
-      ...records[0].get("course"),
-      school: records[0].get("school"),
+      ...course,
+      school,
       label: "Course",
       requirements: records
         .map((e) => fillTree(e.get("requirements")?.length > 1 ? e.get("requirements")[1]?.data?.id : null))
         .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
         .filter((e) => e !== undefined && e !== null),
       rating: {
-        difficulty: records[0].get("difficulty") ?? 0,
-        usefulness: records[0].get("usefulness") ?? 0,
-        timeSpent: records[0].get("timeSpent") ?? 0,
-        count: records[0].get("ratingCount")?.low ?? 0,
+        difficulty: difficulty ?? 0,
+        usefulness: usefulness ?? 0,
+        timeSpent: timeSpent ?? 0,
+        count: ratingCount ?? 0,
       },
     };
   } catch (error) {

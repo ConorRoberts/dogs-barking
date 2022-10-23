@@ -1,4 +1,5 @@
 import { Menu } from "../Icons";
+import DarkModeButton from "./DarkModeButton";
 import TopNavigationLink from "./TopNavigationLink";
 
 interface Props {
@@ -12,6 +13,9 @@ const TopNavigation = ({ setDrawerOpen }: Props) => {
         <Menu size={20} />
       </div>
       <TopNavigationLink href="/" text="Home" />
+      <span className="ml-auto">
+        <DarkModeButton />
+      </span>
     </div>
   );
 };

@@ -25,6 +25,7 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.137.0",
-    "neo4j-driver": "^5.1.0"
+    "neo4j-driver": "^5.1.0",
+    "zod": "^3.19.1"
   }
 }
