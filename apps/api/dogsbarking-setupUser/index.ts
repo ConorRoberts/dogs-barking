@@ -10,7 +10,7 @@ export const handler: PostConfirmationTriggerHandler = async (event, _context, c
 
   const userData = {
     id: event.request.userAttributes.sub,
-    name: event.request.userAttributes.name,
+    name: event.request.userAttributes.name ?? "",
     email: event.request.userAttributes.email,
     roles: ["user"],
   };
