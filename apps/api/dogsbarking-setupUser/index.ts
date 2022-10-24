@@ -42,7 +42,7 @@ export const handler: PostConfirmationTriggerHandler = async (event, _context, c
     return callback(null, event);
   } catch (error) {
     console.error(error);
-    throw error;
+    return callback(error as Error, event);
   } finally {
     await driver.close();
   }
