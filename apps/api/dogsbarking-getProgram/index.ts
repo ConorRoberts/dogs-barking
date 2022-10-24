@@ -117,6 +117,7 @@ export const handler: APIGatewayProxyHandlerV2<unknown> = async (event) => {
       body: JSON.stringify({
         program: {
           ...program,
+          updatedAt: Number(program.updatedAt.low),
           school,
           label: "Program",
           major: majorRequirements,

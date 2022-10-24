@@ -37,7 +37,7 @@ const SearchModal = () => {
           )}
         </div>
         <div className="relative mx-auto max-w-xs w-full grid grid-cols-2 gap-2 text-center">
-          {/* <Button
+          <Button
             onClick={() => setType("course")}
             variant={type === "course" ? "filled" : "outlined"}
             color={type === "course" ? "blue" : "gray"}
@@ -50,7 +50,7 @@ const SearchModal = () => {
             color={type === "program" ? "blue" : "gray"}
           >
             Program
-          </Button> */}
+          </Button>
         </div>
         <div className="dark:bg-gray-800 rounded overflow-hidden">
           {results.map((e) => (

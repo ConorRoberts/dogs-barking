@@ -8,13 +8,13 @@ import CreditRequirementData from "~/types/CreditRequirementData";
 // import { useAuthenticator } from "@aws-amplify/ui-react";
 
 interface Props {
-  data: Requirement;
-  requirements: Record<string, Requirement>;
+  requirement: Requirement;
+  nodes: Record<string, Requirement>;
 }
 
-const RequirementCard = ({ data, requirements }: Props) => {
+const RequirementCard = ({ nodes, requirement }: Props) => {
   // const { user } = useAuthenticator();
-  const { label, id } = data;
+  const { label, id } = requirement;
 
   // const taken = isRequirementMet(requirement, user?.takenCourses);
 
@@ -26,26 +26,33 @@ const RequirementCard = ({ data, requirements }: Props) => {
             <Link href={`/course/${id}`} passHref>
               <a className="flex gap-1 items-center primary-hover">
                 <LinkIcon size={18} />
-                <p className="font-medium">{(data as Course).code}</p>
+                <p className="font-medium">{(requirement as Course).code}</p>
               </a>
             </Link>
           )}
-          {label === "OrBlock" && <p className="font-medium">{`Complete ${(data as OrBlockData).target} of:`}</p>}
+          {label === "OrBlock" && (
+            <p className="font-medium">{`Complete ${(requirement as OrBlockData).target} of:`}</p>
+          )}
           {label === "CreditRequirement" && (
-            <p className="font-medium">{`Acquire ${(data as CreditRequirementData).value.toFixed(2)} credits`}</p>
+            <p className="font-medium">{`Acquire ${(requirement as CreditRequirementData).value.toFixed(
+              2
+            )} credits`}</p>
           )}
         </div>
         {label === "OrBlock" && (
-          <div className="grid grid-cols-2 gap-1 items-centerD">
-            {(data as OrBlockData).requirements.map((e: string) => (
-              <Link href={`/course/${e}`} key={`${id}-requirementcard-${e}`} passHref>
-                <a className="flex gap-1 items-center primary-hover">
-                  <LinkIcon size={18} />
-                  <p className="p-1">{(requirements[e] as Course).code}</p>
-                </a>
-              </Link>
-            ))}
-          </div>
+          <>
+            {(requirement as OrBlockData).requirements.length === 0 && <p>{requirement.note}</p>}
+            <div className="grid grid-cols-2 gap-1 items-centerD">
+              {(requirement as OrBlockData).requirements.map((e: string) => (
+                <Link href={`/course/${e}`} key={`${id}-requirementcard-${e}`} passHref>
+                  <a className="flex gap-1 items-center primary-hover">
+                    <LinkIcon size={18} />
+                    <p className="p-1">{(nodes[e] as Course).code}</p>
+                  </a>
+                </Link>
+              ))}
+            </div>
+          </>
         )}
       </div>
       {/* {user && (

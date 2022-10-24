@@ -7,13 +7,15 @@ import { API_URL } from "~/config/config";
 import Course from "~/types/Course";
 import Program from "~/types/Program";
 import createPrerequisiteGraph from "~/utils/createPrerequisiteGraph";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import { useState } from "react";
 import { Edge, Node } from "react-flow-renderer";
+import Requirement from "~/types/Requirement";
 
 interface PageProps {
   program: Program;
+  nodes: Record<string, Requirement>;
   majorGraph: {
     nodes: Node<Course>[];
     edges: Edge[];
@@ -24,7 +26,8 @@ interface PageProps {
   };
 }
 
-const Page = ({ program, majorGraph, minorGraph }: PageProps) => {
+const Page:NextPage<PageProps> = ({ program, nodes }) => {
+  console.log(program);
   const [viewType, setViewType] = useState<"default" | "graph">("default");
   return (
     <div className="mx-auto max-w-5xl w-full flex flex-col gap-16">
@@ -44,6 +47,7 @@ const Page = ({ program, majorGraph, minorGraph }: PageProps) => {
             <p className="sm:block hidden">View Graph</p>
           </Button>
         </div>
+        <RequirementsList nodes={nodes} requirements={program.major} />
         {/* {viewType === "default" && program.major.length > 0 && <RequirementsList requirements={program.major} />}
         {viewType === "graph" && program.major.length > 0 && (
           <CourseGraph nodes={majorGraph.nodes} edges={majorGraph.edges} />
@@ -60,8 +64,9 @@ const Page = ({ program, majorGraph, minorGraph }: PageProps) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const programId = context.query.programId as string;
 
-  const data = await fetch(`${API_URL}/program/${programId}`, { method: "GET" });
-  const program = (await data.json()) as Program;
+  const { program, nodes }: { program: Program; nodes: Record<string, Requirement> } = await (
+    await fetch(`${API_URL}/program/${programId}`, { method: "GET" })
+  ).json();
 
   // const { nodes: majorNodes, edges: majorEdges } = createPrerequisiteGraph(program, program.major, {
   //   type: "Program",
@@ -73,6 +78,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       program,
+      nodes,
       majorGraph: {
         nodes: [],
         edges: [],
