@@ -5,7 +5,7 @@ import { getNeo4jDriver } from "@dogs-barking/common";
  * @method POST
  * @description Creates metadata for a Cognito user within Neo4j
  */
-export const handler: PostConfirmationTriggerHandler = async (event) => {
+export const handler: PostConfirmationTriggerHandler = async (event, _context, callback) => {
   console.log(JSON.stringify(event));
 
   const userData = {
@@ -20,7 +20,7 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
   try {
     const session = driver.session();
 
-    const { records } = await session.run(
+    await session.run(
       `
         MERGE (user: User {
             id: $id,
@@ -38,9 +38,8 @@ export const handler: PostConfirmationTriggerHandler = async (event) => {
     );
 
     await session.close();
-    await driver.close();
 
-    return records[0].toObject().user;
+    return callback(null, event);
   } catch (error) {
     console.error(error);
     throw error;
