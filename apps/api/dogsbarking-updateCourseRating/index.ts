@@ -1,8 +1,7 @@
-import neo4j from "neo4j-driver";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { v4 } from "uuid";
 import { APIGatewayEvent } from "aws-lambda";
-import { SecretsManager } from "@aws-sdk/client-secrets-manager";
+import { getNeo4jDriver } from "@dogs-barking/common";
 
 /**
  * @method POST
@@ -19,14 +18,7 @@ export const handler = async (event: APIGatewayEvent) => {
   const { sub } = jwt.decode(authorization.replace("Bearer ", "")) as JwtPayload;
 
   const { stage } = event.requestContext;
-  const secrets = new SecretsManager({});
-
-  // Get Neo4j credentials
-  const { SecretString: neo4jCredentials } = await secrets.getSecretValue({
-    SecretId: `${stage}/dogsbarking/neo4j`,
-  });
-  const { host, username, password } = JSON.parse(neo4jCredentials ?? "{}");
-  const driver = neo4j.driver(`neo4j://${host}`, neo4j.auth.basic(username, password));
+  const driver = await getNeo4jDriver(stage);
   const ratingTypes = ["difficulty", "timeSpent", "usefulness"];
 
   if (!ratingTypes.includes(ratingType)) throw new Error("Invalid rating type");

@@ -31,10 +31,11 @@ const Page: NextPage<PageProps> = ({ course, sections, nodes }) => {
         <h1 className="text-center mb-1">{course.name}</h1>
         <h2 className="subheading text-center">{course.code}</h2>
         <div className="flex justify-center">
-          <Link passHref href={`/school/${course.school.id}`}>
-            <a className="text-gray-400">{course.school.name}</a>
+          <Link className="text-gray-400" href={`/school/${course.school.id}`}>
+            {course.school.name}
           </Link>
         </div>
+        
       </div>
       <div className="flex flex-col gap-4">
         <p>{course.description}</p>

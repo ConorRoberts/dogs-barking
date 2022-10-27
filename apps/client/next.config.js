@@ -13,6 +13,7 @@ const withPwa = pwa({
  * @type {import('next').NextConfig}
  */
 const nextConfig = withPwa({
+  experimental: { appDir: true },
   reactStrictMode: true,
   images: {
     domains: ["i.imgur.com"],
@@ -26,4 +27,3 @@ const nextConfig = withPwa({
 });
 
 module.exports = nextConfig;
-

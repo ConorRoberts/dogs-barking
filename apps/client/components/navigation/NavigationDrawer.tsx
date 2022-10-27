@@ -1,8 +1,9 @@
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
-import { useAuthenticator } from "@aws-amplify/ui-react";
-import { Auth } from "aws-amplify";
+import { Amplify, Auth } from "aws-amplify";
 import { Drawer } from "@conorroberts/beluga";
 import { SignInIcon, SignOutIcon } from "~/components/Icons";
+import { use } from "react";
+import amplifyConfig from "~/config/amplify";
 
 interface Props {
   setOpen: (value: boolean) => void;
@@ -10,7 +11,18 @@ interface Props {
 }
 
 const NavigationDrawer = ({ setOpen, open }: Props) => {
-  const { user, signOut } = useAuthenticator();
+  const user = use(
+    (async () => {
+      try {
+        Amplify.configure(amplifyConfig);
+        return await Auth.currentAuthenticatedUser();
+      } catch (error) {
+        return null;
+      }
+    })()
+  );
+
+  console.log(user);
 
   const signIn = async () => {
     await Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google });
@@ -31,7 +43,7 @@ const NavigationDrawer = ({ setOpen, open }: Props) => {
         )}
         {user && (
           <>
-            <div className="nav-drawer-button" onClick={() => signOut()}>
+            <div className="nav-drawer-button" onClick={() => Auth.signOut()}>
               <SignOutIcon size={20} />
               <p>Sign Out</p>
             </div>

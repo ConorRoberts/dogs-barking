@@ -1,3 +1,5 @@
+"use client";
+
 import { Menu } from "../Icons";
 import DarkModeButton from "./DarkModeButton";
 import TopNavigationLink from "./TopNavigationLink";
@@ -14,7 +16,8 @@ const TopNavigation = ({ setDrawerOpen }: Props) => {
       </div>
       <TopNavigationLink href="/" text="Home" />
       <span className="ml-auto">
-        <DarkModeButton />
+        {" "}
+        <DarkModeButton />{" "}
       </span>
     </div>
   );

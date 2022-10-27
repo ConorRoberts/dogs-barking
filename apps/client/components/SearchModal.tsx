@@ -1,13 +1,30 @@
+"use client";
+
 import useSearch from "~/hooks/useSearch";
-import { useEffect } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import { Button, Input, Modal } from "@conorroberts/beluga";
 import { LoadingIcon } from "./Icons";
 import useSearchModalStore from "~/store/searchModalStore";
 import SearchModalSearchResult from "./SearchModalSearchResult";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const SearchModal = () => {
-  const { open, text, setOpen, setText, toggleOpen, type, setType } = useSearchModalStore((state) => state);
-  const { data: results = [], isLoading: loading } = useSearch(text, { type });
+  // const { open, text, setOpen, setText, toggleOpen, type, setType } = useSearchModalStore((state) => state);
+  const searchParams = useSearchParams();
+
+  const router = useRouter();
+  const open = searchParams.get("searchModalOpen") === "true";
+  const setOpen = useCallback(
+    (open) => {
+      router.push(`/?searchModalOpen=${open ? "true" : "false"}`);
+    },
+    [router]
+  );
+
+  const [text, setText] = useState("");
+  const [type, setType] = useState<"course" | "program">("course");
+  const data = use(useSearch(text, { type }));
+  const toggleOpen = useCallback(() => setOpen((prev) => !prev), []);
 
   useEffect(() => {
     window.addEventListener("keydown", toggleOpen);
@@ -30,11 +47,11 @@ const SearchModal = () => {
             autoComplete="off"
             autoFocus
           />
-          {loading && (
+          {/* {loading && (
             <div>
               <LoadingIcon size={20} className="animate-spin" />
             </div>
-          )}
+          )} */}
         </div>
         <div className="relative mx-auto max-w-xs w-full grid grid-cols-2 gap-2 text-center">
           <Button
@@ -53,7 +70,7 @@ const SearchModal = () => {
           </Button>
         </div>
         <div className="dark:bg-gray-800 rounded overflow-hidden">
-          {results.map((e) => (
+          {data.map((e) => (
             <SearchModalSearchResult data={e} type={type} key={e.id} />
           ))}
         </div>

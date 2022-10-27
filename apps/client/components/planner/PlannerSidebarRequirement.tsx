@@ -49,7 +49,7 @@ const PlannerSidebarRequirement = ({ requirement }: Props) => {
         {label === "OrBlock" && (
           <div className="grid grid-cols-2 gap-1 items-center">
             {(requirement as OrBlockData).requirements.map((e: Course) => (
-              <Link href={`/course/${e.id}`} key={`${id}-requirementcard-${e.id}`} passHref>
+              <Link href={`/course/${e.id}`} key={`${id}-requirementcard-${e.id}`}>
                 <div className="flex gap-1 items-center primary-hover">
                   <LinkIcon size={18} />
                   <p className="p-1">{e.code}</p>
