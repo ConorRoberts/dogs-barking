@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { PlusIcon } from "./Icons";
+import { PlusIcon } from "~/components/Icons";
 import { CatalogState, setCatalogType, setPageState, setFilters, resetFilters } from "@redux/catalog";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Input, Select } from "./form";
+import { Button, Input, Select } from "@conorroberts/beluga";
 
 const validFilters = {
   courses: [
@@ -46,17 +46,17 @@ const CatalogFilter = ({ handleSubmit }) => {
   return (
     <form className="flex flex-col gap-8">
       <div className="grid grid-cols-2 gap-4">
-        <Button variant={type === "courses" ? "default" : "outline"} onClick={() => toggleType("courses")}>
+        <Button variant={type === "courses" ? "text" : "outlined"} onClick={() => toggleType("courses")}>
           Courses
         </Button>
-        <Button variant={type === "programs" ? "default" : "outline"} onClick={() => toggleType("programs")}>
+        <Button variant={type === "programs" ? "text" : "outlined"} onClick={() => toggleType("programs")}>
           Programs
         </Button>
       </div>
       <div className="grid grid-cols-3 gap-4">
         <div>
           <p className="mb-1">Sort Key</p>
-          <Select onChange={(e) => dispatch(setPageState({ sortKey: e.target.value }))} value={pageState.sortKey}>
+          <Select onValueChange={(sortKey) => dispatch(setPageState({ sortKey }))} value={pageState.sortKey}>
             {validFilters[type].map(({ key, label }) => (
               <option value={key} key={`sort-key-${key}`}>
                 {label}
@@ -66,14 +66,14 @@ const CatalogFilter = ({ handleSubmit }) => {
         </div>
         <div>
           <p className="mb-1">Sort Direction</p>
-          <Select onChange={(e) => dispatch(setPageState({ sortDir: e.target.value }))} value={pageState.sortDir}>
+          <Select onValueChange={(sortDir) => dispatch(setPageState({ sortDir }))} value={pageState.sortDir}>
             <option value="asc">Asc</option>
             <option value="desc">Desc</option>
           </Select>
         </div>
         <div>
           <p className="mb-1">Items Per Page</p>
-          <Select onChange={(e) => dispatch(setPageState({ pageSize: e.target.value }))} value={pageState.pageSize}>
+          <Select onValueChange={(pageSize) => dispatch(setPageState({ pageSize }))} value={pageState.pageSize}>
             <option value={50}>50</option>
             <option value={100}>100</option>
             <option value={150}>150</option>
@@ -93,7 +93,7 @@ const CatalogFilter = ({ handleSubmit }) => {
         <div className="flex gap-4 flex-col">
           <div>
             <p>Filter key</p>
-            <Select value={filterKey} onChange={(e) => setFilterKey(e.target.value)}>
+            <Select value={filterKey} onValueChange={(value) => setFilterKey(value)}>
               {validFilters[type].map(({ key, label }) => (
                 <option value={key} key={`option-${key}`}>
                   {label}
@@ -128,7 +128,7 @@ const CatalogFilter = ({ handleSubmit }) => {
         <Button onClick={handleSubmit} type="submit">
           Submit
         </Button>
-        <Button onClick={clearFilters} variant="outline">
+        <Button onClick={clearFilters} variant="outlined">
           Clear
         </Button>
       </div>

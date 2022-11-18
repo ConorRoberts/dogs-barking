@@ -2,14 +2,16 @@ import Requirement from "~/types/Requirement";
 import RequirementCard from "./RequirementCard";
 
 interface Props {
-  requirements: Requirement[];
+  requirements: string[];
+  nodes: Record<string, Requirement>;
 }
 
-const RequirementsList = ({ requirements }: Props) => {
+const RequirementsList = ({ requirements, nodes }: Props) => {
+
   return (
     <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
       {requirements.map((e, index) => (
-        <RequirementCard requirement={e} key={`requirement-list-${index}`} />
+        <RequirementCard requirement={nodes[e]} nodes={nodes} key={`requirement-list-${index}`} />
       ))}
     </div>
   );

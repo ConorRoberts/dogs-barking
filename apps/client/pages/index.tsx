@@ -3,6 +3,7 @@ import MetaData from "~/components/MetaData";
 import { APP_NAME } from "~/config/config";
 import Image from "next/image";
 import useSearchModalStore from "~/store/searchModalStore";
+import FeatureGridItem from "~/components/home/FeatureGridItem";
 
 const Page = () => {
   const { setOpen } = useSearchModalStore(({ setOpen }) => ({ setOpen }));
@@ -17,7 +18,7 @@ const Page = () => {
       </div>
       <div className="flex flex-col gap-4">
         <div
-          className="bg-white dark:bg-gray-800 rounded-md overflow-hidden px-6 py-2 shadow-md mx-auto w-80 text-lg font-medium flex items-center gap-4 cursor-pointer hover:dark:bg-gray-700 hover:bg-gray-100 transition"
+          className="bg-white dark:bg-gray-800 rounded-md overflow-hidden px-6 py-2 shadow-center mx-auto w-80 text-lg font-medium flex items-center gap-4 cursor-pointer hover:dark:bg-gray-700 hover:bg-gray-100 transition"
           id="home-search-button"
           onClick={() => setOpen(true)}
         >
@@ -29,14 +30,14 @@ const Page = () => {
 
       <div>
         <div className="flex gap-4 flex-wrap justify-center">
-          <div className="bg-white dark:bg-gray-800 shadow-md rounded-md py-12 px-4 flex flex-col gap-4 w-80">
+          <FeatureGridItem>
             <SearchIcon size={60} className="text-gray-600 dark:text-gray-100 mx-auto" />
             <div>
               <h3 className="text-center text-xl">Find Information</h3>
               <p className="text-center">Find information about courses and programs at The University of Guelph</p>
             </div>
-          </div>
-          <div className="bg-white dark:bg-gray-800 shadow-md rounded-md py-12 px-4 flex flex-col gap-4 w-80">
+          </FeatureGridItem>
+          <FeatureGridItem>
             <PlannerIcon size={60} className="text-gray-600 dark:text-gray-100 mx-auto" />
             <div>
               <h3 className="text-center text-xl">Plan Your Degree</h3>
@@ -44,14 +45,14 @@ const Page = () => {
                 Plan your degree and our website will let you know if it meets the requirements for your major or minor
               </p>
             </div>
-          </div>
-          <div className="bg-white dark:bg-gray-800 shadow-md rounded-md py-12 px-4 flex flex-col gap-4 w-80">
+          </FeatureGridItem>
+          <FeatureGridItem>
             <EmptyStarIcon size={60} className="text-gray-600 dark:text-gray-100 mx-auto" />
             <div>
               <h3 className="text-center text-xl">Give Feedback</h3>
               <p className="text-center">Rate courses on a number of metrics to give other students insight</p>
             </div>
-          </div>
+          </FeatureGridItem>
         </div>
       </div>
     </div>

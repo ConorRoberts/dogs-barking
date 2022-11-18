@@ -1,186 +1,136 @@
-import { APIGatewayEvent, APIGatewayProxyEventPathParameters } from "aws-lambda";
-import neo4j from "neo4j-driver";
-import { SecretsManager } from "@aws-sdk/client-secrets-manager";
+import { APIGatewayProxyHandlerV2 } from "aws-lambda";
+import { z } from "zod";
+import { getNeo4jDriver, programSchema, schoolSchema } from "@dogs-barking/common";
 
-interface PathParameters extends APIGatewayProxyEventPathParameters {
-  programId: string;
-}
+const requirementSchema = z.array(
+  z.array(
+    z.object({
+      data: z.record(z.string(), z.any()),
+      label: z.string(),
+    })
+  )
+);
+
+const recordsSchema = z.object({
+  school: schoolSchema,
+  major: requirementSchema,
+  minor: requirementSchema,
+  program: programSchema.extend({ updatedAt: z.object({ low: z.number(), high: z.number() }) }),
+});
 
 /**
  * @method GET
  * @description Gets program with the given ID
  */
-export const handler = async (event: APIGatewayEvent) => {
+export const handler: APIGatewayProxyHandlerV2<unknown> = async (event) => {
   console.log(event);
+  const { stage } = event.requestContext;
+  const driver = await getNeo4jDriver(stage);
   try {
-    // const body = JSON.parse(event.body ?? "{}");
-    // const query = event.queryStringParameters;
-    const { programId } = event.pathParameters as PathParameters;
-    // const headers = event.headers;
+    const { programId } = z.object({ programId: z.string() }).parse(event.pathParameters);
 
-    const { stage } = event.requestContext;
-    const secrets = new SecretsManager({});
-    
-    // Get Neo4j credentials
-    const { SecretString: neo4jCredentials } = await secrets.getSecretValue({
-      SecretId: `${stage}/dogsbarking/neo4j`,
-    });
-    console.log("Got secrets");
-    const { host, username, password } = JSON.parse(neo4jCredentials ?? "{}");
-    const driver = neo4j.driver(`neo4j://${host}`, neo4j.auth.basic(username, password));
-    console.log("Connected to Neo4j");
-
-    let session = driver.session();
+    const session = driver.session();
 
     const { records } = await session.run(
       `
         MATCH(program:Program {id: $programId})
-        OPTIONAL MATCH major=(program)-[:REQUIRES|MAJOR_REQUIRES*]->(prereq)
-
         MATCH (school:School)-[:OFFERS]->(program)
+
+        OPTIONAL MATCH major=(program)-[:REQUIRES|MAJOR_REQUIRES*]->(prereq)
+        OPTIONAL MATCH minor=(program)-[:REQUIRES|MINOR_REQUIRES*]->(prereq)
 
         return 
             properties(program) as program,
             properties(school) as school,
-            [n in nodes(major) | {data: properties(n), label: labels(n)[0]}] as major
+            collect([n in nodes(major) | {data: properties(n), label: labels(n)[0]}]) as major,
+            collect([n in nodes(minor) | {data: properties(n), label: labels(n)[0]}]) as minor
       `,
       { programId }
     );
     await session.close();
 
-    session = driver.session();
-    const { records: minorRecords } = await session.run(
-      `
-      MATCH(program:Program {id: $programId})
-      OPTIONAL MATCH minor=(program)-[:REQUIRES|MINOR_REQUIRES*]->(prereq)
+    const { major, minor, program, school } = recordsSchema.parse(records[0].toObject());
 
-      RETURN
-        [n in nodes(minor) | {data: properties(n), label: labels(n)[0]}] as minor
-    `,
-      { programId }
-    );
-    await session.close();
+    console.info(major);
+    console.info(minor);
+    console.info(program);
+    console.info(school);
 
-    await driver.close();
+    // This isn't the full type for all nodes we expect to use, however this represents all of the
+    // properties we intend to use to create our response object
+    type GenericNode = { id: string; requirements: string[]; label: string; updatedAt: number };
 
-    console.log(records);
+    // The list of unique nodes contained in the requirements of our program
+    const nodeList = new Map<string, GenericNode>();
 
-    // This is to store the requirement tree. Object format is fastest for retrieval and duplicate prevention.
-    const major = {};
+    for (const programType of ["major", "minor"]) {
+      const tmp: Record<string, any[][]> = { major, minor };
+      for (const list of tmp[programType]) {
+        // The previous element when iterating over the list
+        // We track this so that we can assign child requirements to their parent
+        let previous: GenericNode | undefined;
 
-    if (records[0]?.get("major") !== null) {
-      records
-        .map((e) => e.get("major"))
-        .forEach((list) => {
-          let previous;
-          list.forEach((e, index) => {
-            const formatted = {
-              ...e.data,
-              label: e.label,
-              requirements: [],
-            };
+        list.forEach((e, index) => {
+          // Format the current element to adhere to our schema
+          const currentNode: GenericNode = {
+            ...e.data,
+            id: e.data.id === programId ? `${programId}-${programType}` : e.data.id,
+            updatedAt: e.data.updatedAt?.low,
+            label: e.label,
+            requirements: [],
+          };
 
-            if (formatted.updatedAt !== undefined) {
-              formatted.updatedAt = formatted.updatedAt.low;
+          // Are we missing this entry in our list?
+          // If so, create it
+          if (!nodeList.has(currentNode.id)) {
+            nodeList.set(currentNode.id, currentNode);
+          }
+
+          // If we're at least past the first node, and we do have a previous element, add the current element to the previous element's requirements
+          // Why do this? Because the first element is always going to be the program
+          // Each of these lists represents a path, and the course will always be our starting point of the path
+          if (index > 0 && previous && nodeList.has(previous.id)) {
+            const previousElementInList = nodeList.get(previous.id);
+            if (previousElementInList) {
+              // Add the node's ID to the previous element's requirements
+              previousElementInList.requirements = [
+                ...new Set([...previousElementInList.requirements, currentNode.id]),
+              ];
             }
+          }
 
-            if (formatted.target !== undefined) {
-              formatted.target = formatted.target.low;
-            }
-
-            // If this is the first element, skip it
-            if (index !== 0) {
-              // Are we missing this entry in our list?
-              if (major[formatted.id] === undefined) major[formatted.id] = formatted;
-
-              if (index > 1 && previous)
-                major[previous.id].requirements = [...new Set([...major[previous.id].requirements, formatted.id])];
-            }
-
-            previous = formatted;
-          });
+          previous = currentNode;
         });
+      }
     }
 
-    const minor = {};
-    if (minorRecords[0]?.get("minor") !== null) {
-      minorRecords
-        .map((e) => e.get("minor"))
-        .forEach((list) => {
-          let previous;
-          list.forEach((e, index) => {
-            const formatted = {
-              ...e.data,
-              label: e.label,
-              requirements: [],
-            };
+    // Extract the program from the list of nodes
+    // We do this so that we aren't returning duplicate data
+    const majorRequirements = nodeList.get(`${programId}-major`)?.requirements ?? [];
+    const minorRequirements = nodeList.get(`${programId}-minor`)?.requirements ?? [];
 
-            if (formatted.target !== undefined) {
-              formatted.target = formatted.target.low;
-            }
-            if (formatted.updatedAt !== undefined) {
-              formatted.updatedAt = formatted.updatedAt.low;
-            }
+    nodeList.delete(`${programId}-major`);
+    nodeList.delete(`${programId}-minor`);
 
-            // If this is the first element, skip it
-            if (index !== 0) {
-              // Are we missing this entry in our list?
-              if (minor[formatted.id] === undefined) minor[formatted.id] = formatted;
-
-              if (index > 1 && previous)
-                minor[previous.id].requirements = [...new Set([...minor[previous.id].requirements, formatted.id])];
-            }
-
-            previous = formatted;
-          });
-        });
-    }
-
-    console.log(major);
-    console.log(minor);
-
-    const fillMajorTree = (id) => {
-      const node = major[id];
-
-      if (!node) return null;
-
-      return {
-        ...node,
-        requirements:
-          node?.requirements?.map((e) => fillMajorTree(e)).filter((e) => e !== undefined && e !== null) ?? [],
-      };
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        program: {
+          ...program,
+          updatedAt: Number(program.updatedAt.low),
+          school,
+          label: "Program",
+          major: majorRequirements,
+          minor: minorRequirements,
+        },
+        nodes: Object.fromEntries(nodeList),
+      }),
     };
-
-    const fillMinorTree = (id) => {
-      const node = minor[id];
-
-      if (!node) return null;
-
-      return {
-        ...node,
-        requirements:
-          node?.requirements?.map((e) => fillMinorTree(e)).filter((e) => e !== undefined && e !== null) ?? [],
-      };
-    };
-
-    const data = {
-      ...records[0].get("program"),
-      school: records[0].get("school"),
-      label: "Program",
-      major: records
-        .map((e) => fillMajorTree(e.get("major")?.length > 1 ? e.get("major")[1]?.data?.id : null))
-        .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
-        .filter((e) => e !== undefined && e !== null),
-      minor: minorRecords
-        .map((e) => fillMinorTree(e.get("minor")?.length > 1 ? e.get("minor")[1]?.data?.id : null))
-        .map((e, index, arr) => (arr.findIndex((e2) => e2?.id === e?.id) === index ? e : null))
-        .filter((e) => e !== undefined && e !== null),
-    };
-
-    return data;
   } catch (error) {
     console.error(error);
 
     return error;
+  } finally {
+    await driver.close();
   }
 };

@@ -1,7 +1,7 @@
 import Program from "~/types/Program";
 import Course from "~/types/Course";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export interface UseCourseSearchParams {
   courseId: string;
@@ -17,16 +17,24 @@ interface Config {
  */
 const useSearch = (query: string, config?: Config) => {
   const { type = "course" } = config ?? {};
+  const queryClient = useQueryClient();
 
-  return useQuery(["search", type, query], async () => {
-    if (query.length === 0) {
-      return [];
-    }
+  return useQuery(
+    ["search", type, query],
+    async ({ signal }) => {
+      // Cancel any existing queries because we are about to make a new one
+      await queryClient.cancelQueries(["search", type]);
 
-    const { data } = await axios.get<(Course | Program)[]>(`/api/search/${type}?query=${query}`);
+      if (query.length === 0) {
+        return [];
+      }
 
-    return data;
-  });
+      const { data } = await axios.get<(Course | Program)[]>(`/api/search/${type}?query=${query}`, { signal });
+
+      return data;
+    },
+    {}
+  );
 };
 
 export default useSearch;

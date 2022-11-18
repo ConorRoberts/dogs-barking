@@ -43,7 +43,7 @@ const App = ({ Component, pageProps }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Authenticator.Provider>
-        <div className="flex flex-col bg-gray-100 dark:bg-gray-900 text-black dark:text-white min-h-screen md:pt-[70px] pb-24 md:pb-2 relative px-2 pt-2">
+        <div className="flex flex-col bg-white dark:bg-gray-900 text-black dark:text-white min-h-screen md:pt-[70px] pb-24 md:pb-2 relative px-2 pt-2">
           <TopNavigation setDrawerOpen={setDrawerOpen} />
           {loading ? <LoadingScreen /> : <Component {...pageProps} />}
           {drawerOpen && <NavigationDrawer setOpen={setDrawerOpen} open={drawerOpen} />}

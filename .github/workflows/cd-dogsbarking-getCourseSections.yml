@@ -5,9 +5,10 @@ on:
     branches:
       - dev
     paths:
-      - "api/dogsbarking-getCourseSections/**"
+      - "apps/api/dogsbarking-getCourseSections/**"
       - ".github/workflows/cd-dogsbarking-getCourseSections.yml"
       - ".github/workflows/cd-lambda-default.yml"
+      - "docker/api/Dockerfile"
 
 jobs:
   deploy:

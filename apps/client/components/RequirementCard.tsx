@@ -1,18 +1,19 @@
 import Course from "~/types/Course";
 import Requirement from "~/types/Requirement";
 import OrBlockData from "~/types/OrBlockData";
-import { CancelIcon, CheckIcon, LinkIcon } from "./Icons";
+import { LinkIcon } from "./Icons";
 import Link from "next/link";
 import CreditRequirementData from "~/types/CreditRequirementData";
-import isRequirementMet from "~/utils/isRequirementMet";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+// import isRequirementMet from "~/utils/isRequirementMet";
+// import { useAuthenticator } from "@aws-amplify/ui-react";
 
 interface Props {
   requirement: Requirement;
+  nodes: Record<string, Requirement>;
 }
 
-const RequirementCard = ({ requirement }: Props) => {
-  const { user } = useAuthenticator();
+const RequirementCard = ({ nodes, requirement }: Props) => {
+  // const { user } = useAuthenticator();
   const { label, id } = requirement;
 
   // const taken = isRequirementMet(requirement, user?.takenCourses);
@@ -39,16 +40,19 @@ const RequirementCard = ({ requirement }: Props) => {
           )}
         </div>
         {label === "OrBlock" && (
-          <div className="grid grid-cols-2 gap-1 items-centerD">
-            {(requirement as OrBlockData).requirements.map((e: Course) => (
-              <Link href={`/course/${e.id}`} key={`${id}-requirementcard-${e.id}`} passHref>
-                <a className="flex gap-1 items-center primary-hover">
-                  <LinkIcon size={18} />
-                  <p className="p-1">{e.code}</p>
-                </a>
-              </Link>
-            ))}
-          </div>
+          <>
+            {(requirement as OrBlockData).requirements.length === 0 && <p>{requirement.note}</p>}
+            <div className="grid grid-cols-2 gap-1 items-centerD">
+              {(requirement as OrBlockData).requirements.map((e: string) => (
+                <Link href={`/course/${e}`} key={`${id}-requirementcard-${e}`} passHref>
+                  <a className="flex gap-1 items-center primary-hover">
+                    <LinkIcon size={18} />
+                    <p className="p-1">{(nodes[e] as Course).code}</p>
+                  </a>
+                </Link>
+              ))}
+            </div>
+          </>
         )}
       </div>
       {/* {user && (
