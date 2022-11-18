@@ -1,6 +1,10 @@
 import { RemixBrowser } from "@remix-run/react";
 import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
+import axios from "axios";
+import { API_URL } from "./config/config";
+
+axios.defaults.baseURL = API_URL;
 
 function hydrate() {
   startTransition(() => {
