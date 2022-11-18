@@ -7,13 +7,10 @@ import NavigationDrawer from "./NavigationDrawer";
 import TopNavigation from "./TopNavigation";
 
 const Navigation = () => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
   return (
     <>
-      <NavigationDrawer setOpen={setDrawerOpen} open={drawerOpen} />
-      <TopNavigation setDrawerOpen={setDrawerOpen} />
-      <BottomNavigation setDrawerOpen={setDrawerOpen} />
+      <TopNavigation setDrawerOpen={() => null} />
+      <BottomNavigation setDrawerOpen={() => null} />
       {/* <SearchModal /> */}
     </>
   );

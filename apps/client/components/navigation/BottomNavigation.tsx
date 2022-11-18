@@ -1,3 +1,5 @@
+"use client";
+
 import BottomNavigationLink from "./BottomNavigationLink";
 import { Home, Menu, Search } from "../Icons";
 // import useSearchModalStore from "~/store/searchModalStore";

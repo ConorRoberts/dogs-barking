@@ -10,9 +10,7 @@ interface PageProps {
   children: ReactNode;
 }
 
-// configureAxios();
-
-const RootLayout: FC<PageProps> = ({ children }) => {
+const RootLayout = async ({ children }) => {
   return (
     <html>
       <head>

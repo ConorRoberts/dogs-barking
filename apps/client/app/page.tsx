@@ -1,9 +1,7 @@
 import { EmptyStarIcon, PlannerIcon, SearchIcon } from "~/components/Icons";
-import MetaData from "~/components/MetaData";
 import { APP_NAME } from "~/config/config";
 import Image from "next/image";
 import FeatureGridItem from "~/components/home/FeatureGridItem";
-import HomeSearchModalButton from "~/components/home/HomeSearchModalButton";
 
 const Page = () => {
   return (
@@ -19,9 +17,7 @@ const Page = () => {
         />
         <h1 className="flex-1 text-center">{APP_NAME}</h1>
       </div>
-      <div className="flex flex-col gap-4">
-        <HomeSearchModalButton />
-      </div>
+      <div className="flex flex-col gap-4">{/* <HomeSearchModalButton /> */}</div>
 
       <div>
         <div className="flex gap-4 flex-wrap justify-center">

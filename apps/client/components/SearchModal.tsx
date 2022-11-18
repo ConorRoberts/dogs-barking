@@ -1,30 +1,24 @@
 "use client";
 
 import useSearch from "~/hooks/useSearch";
-import { use, useCallback, useEffect, useState } from "react";
+import { FC, use, useCallback, useEffect, useState } from "react";
 import { Button, Input, Modal } from "@conorroberts/beluga";
 import { LoadingIcon } from "./Icons";
 import useSearchModalStore from "~/store/searchModalStore";
 import SearchModalSearchResult from "./SearchModalSearchResult";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const SearchModal = () => {
-  // const { open, text, setOpen, setText, toggleOpen, type, setType } = useSearchModalStore((state) => state);
-  const searchParams = useSearchParams();
-
+interface Props {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+const SearchModal: FC<Props> = ({ open, onOpenChange }) => {
   const router = useRouter();
-  const open = searchParams.get("searchModalOpen") === "true";
-  const setOpen = useCallback(
-    (open) => {
-      router.push(`/?searchModalOpen=${open ? "true" : "false"}`);
-    },
-    [router]
-  );
 
   const [text, setText] = useState("");
   const [type, setType] = useState<"course" | "program">("course");
   const data = use(useSearch(text, { type }));
-  const toggleOpen = useCallback(() => setOpen((prev) => !prev), []);
+  const toggleOpen = () => onOpenChange(!open);
 
   useEffect(() => {
     window.addEventListener("keydown", toggleOpen);
