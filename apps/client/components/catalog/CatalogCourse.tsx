@@ -14,15 +14,17 @@ const CatalogCourse = ({ course }: Props) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="dark:even:bg-gray-800">
+    <div className="dark:even:bg-gray-800 even:bg-gray-50 overflow-hidden">
       <div
-        className="flex items-center cursor-pointer dark:hover:bg-gray-700 hover:bg-gray-300 transition-colors"
-        onClick={() => setOpen(!open)}>
+        className="flex items-center cursor-pointer dark:hover:bg-gray-700 hover:bg-slate-100 transition-colors"
+        onClick={() => setOpen(!open)}
+      >
         <motion.div
           animate={{ rotate: open ? "0deg" : "-90deg" }}
           transition={{ duration: 0.1 }}
-          onClick={() => setOpen(!open)}>
-          <DropdownIcon size={40} />
+          onClick={() => setOpen(!open)}
+        >
+          <DropdownIcon size={25} />
         </motion.div>
         <p className="font-semibold flex-1 p-2">
           {code} - {course.name}
@@ -31,19 +33,19 @@ const CatalogCourse = ({ course }: Props) => {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ height: 0, overflow: "hidden", padding: "0px" }}
-            animate={{ height: "auto", overflow: "visible", padding: "8px" }}
-            exit={{ height: 0, overflow: "hidden", padding: "0px" }}
+            initial={{ height: 0, overflow: "hidden" }}
+            animate={{ height: "auto", overflow: "visible" }}
+            exit={{ height: 0, overflow: "hidden" }}
             transition={{ duration: 0.2 }}
-            className="flex flex-col gap-4">
-            <p>{course.description}</p>
+          >
+            <div className="flex flex-col gap-4 p-2">
+              <p>{course.description}</p>
 
-            <div className="mx-auto">
-              <Link href={`/course/${id}`} passHref>
-                <a>
+              <div className="mx-auto">
+                <Link href={`/course/${id}`} passHref>
                   <Button variant="outlined">View More</Button>
-                </a>
-              </Link>
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}

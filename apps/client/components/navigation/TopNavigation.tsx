@@ -13,6 +13,7 @@ const TopNavigation = ({ setDrawerOpen }: Props) => {
         <Menu size={20} />
       </div>
       <TopNavigationLink href="/" text="Home" />
+      <TopNavigationLink href="/catalog" text="Catalog" />
       <span className="ml-auto">
         <DarkModeButton />
       </span>

@@ -31,8 +31,8 @@ const Page: NextPage<PageProps> = ({ course, sections, nodes }) => {
         <h1 className="text-center mb-1">{course.name}</h1>
         <h2 className="subheading text-center">{course.code}</h2>
         <div className="flex justify-center">
-          <Link passHref href={`/school/${course.school.id}`}>
-            <a className="text-gray-400">{course.school.name}</a>
+          <Link passHref href={`/school/${course.school.id}`} className="text-gray-400">
+            {course.school.name}
           </Link>
         </div>
       </div>

@@ -12,13 +12,14 @@ import ProgramQueryApiResponse from "~/types/ProgramQueryApiResponse";
 import SchoolQueryApiResponse from "~/types/SchoolQueryApiResponse";
 import CatalogProgram from "~/components/catalog/CatalogProgram";
 import CatalogSchool from "~/components/catalog/CatalogSchool";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInView } from "react-intersection-observer";
+import { CATALOG_SELECTION_OPTIONS, CATALOG_DEFAULT_FILTERS } from "~/config/config";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
 
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [programs, setPrograms] = useState<Program[]>([]);
-  const [schools, setSchools] = useState<School[]>([]);
+  const [filters, setFilters] = useState([]);
 
   const [totals, setTotals] = useState({ course: 0, program: 0, school: 0 });
   const [page, setPage] = useState(0);
@@ -28,8 +29,6 @@ const Page = () => {
   const [currentFilterKey, setCurrentFilterKey] = useState("");
   const [currentFilterValue, setCurrentFilterValue] = useState("");
   const [comparatorValue, setComparatorValue] = useState("");
-
-  console.log(currentFilterKey);
 
   // const validateUserInput = (filterValue: string, userInput: string, searchType: string) => {
   //   if (searchType === "course") {
@@ -57,67 +56,48 @@ const Page = () => {
     // dispatch(addFilter([currentFilterKey, currentFilterValue]));
   };
 
-  const submitQuery = useCallback(
-    async (e?: FormEvent) => {
-      e?.preventDefault();
-      setLoading(true);
+  const {
+    data: coursePages,
+    isSuccess: courseQuerySuccess,
+    fetchNextPage,
+  } = useInfiniteQuery(
+    ["catalog", "courses"],
+    async ({ pageParam }) => {
+      const { data } = await axios.get<CourseQueryApiResponse>("/api/course", {
+        params: {
+          pageSize: 50,
+          pageNum: pageParam,
+          sortDir: "asc",
+          ...Object.fromEntries(filters),
+        },
+      });
 
-      if (searchType === "course") {
-        try {
-          // const { data } = await axios.get<CourseQueryApiResponse>("/api/course", {
-          //   params: {
-          //     pageSize: 50,
-          //     pageNum: page,
-          //     sortDir: "asc",
-          //     ...Object.fromEntries(filters),
-          //   },
-          // });
-          // setCourses(data.courses.sort((a, b) => a.code.localeCompare(b.code)));
-          // setTotals((prev) => ({ ...prev, course: data.total }));
-        } catch (error) {
-          setCourses([]);
-        }
-      } else if (searchType === "program") {
-        try {
-          // const { data } = await axios.get<ProgramQueryApiResponse>("/api/school", {
-          //   params: {
-          //     pageSize: 50,
-          //     pageNum: page,
-          //     sortDir: "asc",
-          //     ...Object.fromEntries(filters),
-          //   },
-          // });
-          // setPrograms(data[0].programs.sort((a, b) => a.name.localeCompare(b.name)));
-          // setTotals((prev) => ({ ...prev, program: data[0].programs.length }));
-        } catch (err) {
-          setPrograms([]);
-        }
-      } else if (searchType === "school") {
-        // TODO: implement query for schools
-        try {
-          const { data } = await axios.get<SchoolQueryApiResponse>("/api/school", {
-            //TODO: change this endpoint to get schools
-            params: {
-              pageSize: 50,
-              pageNum: page,
-              sortDir: "asc",
-              // ...Object.fromEntries(filters),
-            },
-          });
-          setSchools(data.schools.sort((a, b) => a.name.localeCompare(b.name)));
-          setTotals((prev) => ({ ...prev, school: data[0].total }));
-        } catch (err) {
-          setSchools([]);
-        }
-      }
-      setLoading(false);
+      return data.courses;
     },
-    [page, searchType]
+    { getNextPageParam: (_, allPages) => Math.round(allPages.flat().length / 50) + 1 }
   );
 
-  useEffect(() => {
-    submitQuery();
-  }, [submitQuery]);
+  // TODO implement react window here
+  const { data: programs } = useQuery(["catalog", "programs"], async () => {
+    const { data } = await axios.get<ProgramQueryApiResponse>("/api/program", {
+      params: {
+        pageSize: 50,
+        pageNum: page,
+        sortDir: "asc",
+        ...Object.fromEntries(filters),
+      },
+    });
+
+    return [];
+  });
+
+  const { ref } = useInView({
+    onChange: async (inView) => {
+      if (inView) {
+        fetchNextPage();
+      }
+    },
+  });
 
   return (
     <div className="flex flex-col gap-4 mx-auto max-w-4xl w-full p-2">
@@ -132,29 +112,21 @@ const Page = () => {
             <div className="flex items-center gap-1">
               <div className="flex flex-col pb-6 w-40">
                 <label className="pl-1 text-gray-800">Query</label>
-                {/* <Select value={searchType} onChange={(e) => setSearchType(e.target.value)}> */}
-                {/* <Option value="" disabled label="None" /> */}
-                {/* {CATALOG_SELECTION_OPTIONS.filter((e) => filters.every(([filter]) => filter !== e)).map(
-                    (e, index) => (
-                      <option key={`catalog filter key option ${index}`} value={e}>
-                        {e}
-                      </option>
-                    )
-                  )} */}
-                {/* </Select> */}
+                <Select value={searchType} onValueChange={setSearchType}>
+                  <SelectOption value="" disabled textValue="None" />
+                  <SelectOption value="course" textValue="Course" />
+                  <SelectOption value="program" textValue="Program" />
+                  <SelectOption value="school" textValue="School" />
+                </Select>
               </div>
               <div className="flex flex-col pb-6 w-48">
                 <label className="pl-1 text-gray-800">Filter Type</label>
-                {/* <Select value={currentFilterKey} onChange={(e) => setCurrentFilterKey(e.target.value)}> */}
-                {/* <Option value="" disabled label="None" /> */}
-                {/* {CATALOG_DEFAULT_FILTERS[searchType]
-                    .filter((e) => filters.every(([filter]) => filter !== e))
-                    .map((e, index) => (
-                      <option key={`catalog filter type option ${index}`} value={e}>
-                        {e}
-                      </option>
-                    ))} */}
-                {/* </Select> */}
+                <Select value={currentFilterKey} onValueChange={setCurrentFilterKey}>
+                  <SelectOption value="" disabled textValue="None" />
+                  {CATALOG_DEFAULT_FILTERS[searchType].map((e) => (
+                    <SelectOption value={e} textValue={e} key={`current filter key option ${e}`} />
+                  ))}
+                </Select>
               </div>
               {currentFilterKey === "level" && (
                 <div className="flex flex-col pb-6 w-50">
@@ -209,7 +181,7 @@ const Page = () => {
               ))} */}
             </div>
           </div>
-          {searchType === "course" && (
+          {/* {searchType === "course" && (
             <p>
               {" "}
               Showing {50 * page} - {50 * page + 50} of {totals.course} results{" "}
@@ -226,18 +198,10 @@ const Page = () => {
               {" "}
               Showing {50 * page} - {50 * page + 50} of {totals.school} results{" "}
             </p>
-          )}
-          <div className="flex gap-2 items-center justify-end">
-            {/* <Button variant="outline" onClick={() => setPage(page - 1 < 0 ? 0 : page - 1)}>
-              Previous
-            </Button>
-            <Button variant="outline" onClick={() => setPage(page + 1)}>
-              Next
-            </Button> */}
-          </div>
-          {searchType === "course" && (
+          )} */}
+          {searchType === "course" && courseQuerySuccess && (
             <ul className="scrollbar scrollbar-track-y-transparent">
-              {courses
+              {[...coursePages.pages.flat()]
                 ?.sort((a, b) => a.code.localeCompare(b.code))
                 .map((course) => (
                   <CatalogCourse key={course.id} course={course} />
@@ -253,7 +217,7 @@ const Page = () => {
                 ))}
             </ul>
           )}
-          {searchType === "school" && (
+          {/* {searchType === "school" && (
             <ul className="scrollbar scrollbar-track-y-transparent">
               {schools
                 ?.sort((a, b) => a.name.localeCompare(b.name))
@@ -261,9 +225,10 @@ const Page = () => {
                   <CatalogSchool key={school.id} school={school} />
                 ))}
             </ul>
-          )}
+          )} */}
         </div>
       )}
+      <div ref={ref}></div>
     </div>
   );
 };

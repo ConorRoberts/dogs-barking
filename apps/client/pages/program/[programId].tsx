@@ -26,16 +26,16 @@ interface PageProps {
   };
 }
 
-const Page:NextPage<PageProps> = ({ program, nodes }) => {
-  console.log(program);
+const Page: NextPage<PageProps> = ({ program, nodes }) => {
   const [viewType, setViewType] = useState<"default" | "graph">("default");
+
   return (
     <div className="mx-auto max-w-5xl w-full flex flex-col gap-16">
       <MetaData title={program.name} />
       <div className="text-center grid gap-2">
         <h1>{program.name}</h1>
-        <Link href={`/school/${program.school.id}`} passHref>
-          <a className="primary-hover">At {program.school.name}</a>
+        <Link href={`/school/${program.school.id}`} passHref className="primary-hover">
+          At {program.school.name}
         </Link>
       </div>
 
@@ -61,7 +61,10 @@ const Page:NextPage<PageProps> = ({ program, nodes }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async ({ res, ...context }) => {
+  // Cache
+  res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=3600");
+
   const programId = context.query.programId as string;
 
   const { program, nodes }: { program: Program; nodes: Record<string, Requirement> } = await (
@@ -74,6 +77,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // const { nodes: minorNodes, edges: minorEdges } = createPrerequisiteGraph(program, program.minor, {
   //   type: "Program",
   // });
+  console.log(program);
 
   return {
     props: {

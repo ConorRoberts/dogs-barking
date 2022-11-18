@@ -1,6 +1,7 @@
 import Meeting from "~/types/Meeting";
 import Section from "~/types/Section";
 import { CheckIcon } from "./Icons";
+import clsx from "clsx";
 
 interface Props {
   section: Section;
@@ -10,9 +11,10 @@ interface Props {
 const CourseSection = ({ section, selected }: Props) => {
   return (
     <div
-      className={`rounded-md p-2 flex flex-col gap-1 relative ${
+      className={clsx(
+        "rounded-md p-2 flex flex-col gap-1 relative border",
         selected ? "dark:bg-blue-900 bg-blue-100" : "dark:bg-gray-800 bg-white"
-      }`}
+      )}
     >
       {selected && (
         <div className="absolute -top-2 -right-2">
