@@ -6,7 +6,6 @@ import axios from "axios";
 import { groupBy } from "lodash";
 import MetaData from "~/components/MetaData";
 import Requirement from "~/types/Requirement";
-import getToken from "~/utils/getToken";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
 const Page = () => {
@@ -23,11 +22,7 @@ const Page = () => {
   // Add a semester to the selected plan
   const addSemester = async () => {
     try {
-      const { data } = await axios.post(
-        `/api/degree-plan/${selectedPlanId}/create-semester`,
-        {},
-        { headers: { Authorization: `Bearer ${getToken(user)}` } }
-      );
+      const { data } = await axios.post(`/api/degree-plan/${selectedPlanId}/create-semester`, {});
 
       // Update our local state without refetching
       // dispatch(setPlan({ ...plan, semesters: [...plan.semesters, data] }));
@@ -43,14 +38,12 @@ const Page = () => {
     if (!user) return;
     try {
       setPlanLoading(true);
-      const { data } = await axios.get(`/api/degree-plan/get-user-plans`, {
-        headers: { Authorization: `Bearer ${getToken(user)}` },
-      });
+      const { data } = await axios.get(`/api/degree-plan/get-user-plans`);
 
       // No plans? Create plan.
       if (data.length === 0) {
         try {
-          await axios.post(`/api/degree-plan/new`, {}, { headers: { Authorization: `Bearer ${getToken(user)}` } });
+          await axios.post(`/api/degree-plan/new`, {});
         } catch (error) {
           console.error(error);
         }
@@ -67,9 +60,7 @@ const Page = () => {
 
   const fetchPlanData = useCallback(async () => {
     try {
-      const { data } = await axios.get(`/api/degree-plan/${selectedPlanId}`, {
-        headers: { Authorization: `Bearer ${getToken(user)}` },
-      });
+      const { data } = await axios.get(`/api/degree-plan/${selectedPlanId}`);
       // dispatch(setPlan(data));
     } catch (error) {
       console.error(error);

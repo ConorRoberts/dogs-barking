@@ -1,5 +1,4 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import getToken from "~/utils/getToken";
 import axios from "axios";
 import { useState } from "react";
 import { Button, Modal } from "@conorroberts/beluga";
@@ -18,9 +17,7 @@ const PlannerSemesterDeletePrompt = ({ open, onClose, semester, onSubmit }: Prop
   const deleteSemester = async () => {
     setDeleteLoading(true);
     try {
-      await axios.delete(`/api/degree-plan/semester/${semester}`, {
-        headers: { Authorization: `Bearer ${getToken(user)}` },
-      });
+      await axios.delete(`/api/degree-plan/semester/${semester}`);
 
       onSubmit();
       setTimeout(() => {

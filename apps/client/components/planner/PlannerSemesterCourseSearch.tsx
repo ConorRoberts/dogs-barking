@@ -4,7 +4,6 @@ import Course from "~/types/Course";
 import { PlannerSemesterData } from "~/types/DegreePlan";
 import PlannerCourseSelection from "~/types/PlannerCourseSelection";
 import Section from "~/types/Section";
-import getToken from "~/utils/getToken";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Input, Modal } from "@conorroberts/beluga";
@@ -28,15 +27,9 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
 
   const handleSubmit = async () => {
     try {
-      await axios.post(
-        `/api/degree-plan/semester/${semester.id}/section`,
-        {
-          sections: selections.map(({ section }) => section.id),
-        },
-        {
-          headers: { Authorization: `Bearer ${getToken(user)}` },
-        }
-      );
+      await axios.post(`/api/degree-plan/semester/${semester.id}/section`, {
+        sections: selections.map(({ section }) => section.id),
+      });
       setSelections([]);
 
       onSubmit();

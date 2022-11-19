@@ -7,7 +7,6 @@ import PlannerSemesterDeletePrompt from "./PlannerSemesterDeletePrompt";
 import { Button, Input, Select } from "@conorroberts/beluga";
 import { motion } from "framer-motion";
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import getToken from "~/utils/getToken";
 
 interface PlannerSemesterProps {
   data: PlannerSemesterData;
@@ -29,9 +28,7 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
   const fetchSemesterData = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get(`/api/degree-plan/semester/${id}`, {
-        headers: { Authorization: `Bearer ${getToken(user)}` },
-      });
+      const { data } = await axios.get(`/api/degree-plan/semester/${id}`);
 
       // dispatch(setPlan({ ...plan, semesters: plan.semesters.map((e) => (e.id === id ? data : e)) }));
     } catch (error) {
@@ -54,7 +51,7 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
       //   })
       // );
 
-      await axios.delete(`/api/degree-plan/semester/${id}`, { headers: { Authorization: `Bearer ${getToken(user)}` } });
+      await axios.delete(`/api/degree-plan/semester/${id}`);
     } catch (error) {
       console.error(error);
 
@@ -77,16 +74,12 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
       //   setPlan({ ...plan, semesters: plan.semesters.map((e) => (e.id === id ? { ...e, semester, year } : e)) })
       // );
 
-      const { data } = await axios.post(
-        `/api/degree-plan/semester/${id}`,
-        {
-          data: {
-            semester,
-            year,
-          },
+      const { data } = await axios.post(`/api/degree-plan/semester/${id}`, {
+        data: {
+          semester,
+          year,
         },
-        { headers: { Authorization: `Bearer ${getToken(user)}` } }
-      );
+      });
 
       // dispatch(setPlan({ ...plan, semesters: plan.semesters.map((e) => (e.id === id ? data : e)) }));
     } catch (error) {
@@ -118,9 +111,7 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
       //     ),
       //   })
       // );
-      await axios.delete(`/api/degree-plan/semester/${id}/courses/${courseId}`, {
-        headers: { Authorization: `Bearer ${getToken(user)}` },
-      });
+      await axios.delete(`/api/degree-plan/semester/${id}/courses/${courseId}`);
       await fetchSemesterData();
     } catch (error) {
       console.error(error);

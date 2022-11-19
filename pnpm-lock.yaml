@@ -896,6 +896,7 @@ importers:
 
   apps/client:
     specifiers:
+      '@aws-amplify/auth': ^5.0.3
       '@aws-amplify/ui-react': ^3.0.4
       '@conorroberts/beluga': ^1.0.42
       '@react-google-maps/api': ^2.10.3
@@ -935,6 +936,7 @@ importers:
       yup: ^0.32.11
       zustand: ^4.1.2
     dependencies:
+      '@aws-amplify/auth': 5.0.3_react-native@0.70.2
       '@aws-amplify/ui-react': 3.5.7_lsv3mnmuzpzchuljypdbv2mjmq
       '@conorroberts/beluga': 1.0.42_rj7ozvcq3uehdlnj3cbwzbi5ce
       '@react-google-maps/api': 2.13.1_biqbaboplfbrettd7655fr4n2y
@@ -1130,6 +1132,17 @@ packages:
       - react-native
     dev: false
 
+  /@aws-amplify/auth/5.0.3_react-native@0.70.2:
+    resolution: {integrity: sha512-kGrp13BXUi0vbmi8nG+1M5cwLt+t5G7xhodVzZhO3Z/f2FbTtIZgelZUyoFMr6///yiHD4XZCxt4tD+DwZDBpQ==}
+    dependencies:
+      '@aws-amplify/core': 5.0.3_react-native@0.70.2
+      amazon-cognito-identity-js: 6.0.1
+      tslib: 1.14.1
+    transitivePeerDependencies:
+      - encoding
+      - react-native
+    dev: false
+
   /@aws-amplify/cache/4.0.57_react-native@0.70.2:
     resolution: {integrity: sha512-06IvJfEVZ7vgJSB13rEipdhBnQSnA91cXGi3Sl0KeiBj7p8ir4+2xhXevkqqjdPTSP8dsuZj+orLsxBltoZcsg==}
     dependencies:
@@ -1147,6 +1160,22 @@ packages:
       '@aws-sdk/credential-provider-cognito-identity': 3.6.1_react-native@0.70.2
       '@aws-sdk/types': 3.6.1
       '@aws-sdk/util-hex-encoding': 3.6.1
+      universal-cookie: 4.0.4
+      zen-observable-ts: 0.8.19
+    transitivePeerDependencies:
+      - react-native
+    dev: false
+
+  /@aws-amplify/core/5.0.3_react-native@0.70.2:
+    resolution: {integrity: sha512-iHjWUSBUiLOmVYt4cdcAc5OR7onBgJf2SQ4PaJ1aCjmRfng8O61/UUK7Qxd9D9ijEtlx9qGB65hsSG8K3t61IA==}
+    dependencies:
+      '@aws-crypto/sha256-js': 1.2.2
+      '@aws-sdk/client-cloudwatch-logs': 3.6.1_react-native@0.70.2
+      '@aws-sdk/client-cognito-identity': 3.6.1_react-native@0.70.2
+      '@aws-sdk/credential-provider-cognito-identity': 3.6.1_react-native@0.70.2
+      '@aws-sdk/types': 3.6.1
+      '@aws-sdk/util-hex-encoding': 3.6.1
+      tslib: 1.14.1
       universal-cookie: 4.0.4
       zen-observable-ts: 0.8.19
     transitivePeerDependencies:
@@ -9446,6 +9475,18 @@ packages:
     dependencies:
       buffer: 4.9.2
       crypto-js: 4.1.1
+      fast-base64-decode: 1.0.0
+      isomorphic-unfetch: 3.1.0
+      js-cookie: 2.2.1
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /amazon-cognito-identity-js/6.0.1:
+    resolution: {integrity: sha512-j96DHquV9Jiabs+3/fuQwrSK+1WcxzmEfRuZlhajGxxUplzjt046pedCYiSkcFY+Wilun+I57iri5dXiaNDOsg==}
+    dependencies:
+      '@aws-crypto/sha256-js': 1.2.2
+      buffer: 4.9.2
       fast-base64-decode: 1.0.0
       isomorphic-unfetch: 3.1.0
       js-cookie: 2.2.1
