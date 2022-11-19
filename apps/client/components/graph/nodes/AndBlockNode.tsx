@@ -1,4 +1,4 @@
-import { Handle, Position } from "react-flow-renderer";
+import { Handle, Position } from "reactflow";
 import getNodeColour from "~/utils/getNodeColour";
 
 const AndBlockNode = (props) => {

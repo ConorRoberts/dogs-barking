@@ -1,4 +1,4 @@
-import { Edge, isNode, Node } from "react-flow-renderer";
+import { Edge, isNode, Node } from "reactflow";
 import dagre from "dagre";
 
 const formatNodes = (nodes: (Node | Edge)[]) => {

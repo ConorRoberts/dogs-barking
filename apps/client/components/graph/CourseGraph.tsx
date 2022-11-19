@@ -1,11 +1,4 @@
-import ReactFlow, {
-  Node,
-  ReactFlowProvider,
-  Background,
-  Edge,
-  useNodesState,
-  useEdgesState,
-} from "react-flow-renderer";
+import ReactFlow, { Node, ReactFlowProvider, Background, Edge, useNodesState, useEdgesState } from "reactflow";
 import nodeTypes from "~/config/nodeTypes";
 import { useEffect } from "react";
 
@@ -30,7 +23,8 @@ const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, height }: Cours
         className="relative overflow-hidden h-[600px] border border-gray-200 dark:border-gray-800 rounded-xl"
         style={{
           height: `${height ?? 600}px`,
-        }}>
+        }}
+      >
         <ReactFlowProvider>
           <ReactFlow
             nodes={nodes}
@@ -43,8 +37,9 @@ const CourseGraph = ({ nodes: initialNodes, edges: initialEdges, height }: Cours
             minZoom={0}
             maxZoom={4}
             fitView
-          />
-          <Background />
+          >
+            <Background />
+          </ReactFlow>
         </ReactFlowProvider>
       </div>
     </div>

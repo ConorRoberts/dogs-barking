@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { LoadingIcon, PlusIcon } from "~/components/Icons";
 import axios from "axios";
-import { groupBy } from "lodash";
 import MetaData from "~/components/MetaData";
 import Requirement from "~/types/Requirement";
 import { useAuthenticator } from "@aws-amplify/ui-react";
