@@ -1,5 +1,5 @@
 // import { CatalogState, setPageState } from "@redux/catalog";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
 
 const getPageIndexArray = (start: number, end: number) => {
   const length = end - start + 1;
