@@ -19,14 +19,14 @@ const isRequirementMet = (requirement: Requirement, taken: Requirement[] = []) =
     const block = requirement as OrBlockData;
     if (block?.type === "course") {
       // The user has taken target number of courses
-      return block.requirements.filter((e) => taken.some((e2) => e2.id === e.id)).length === block.target;
+      // return block.requirements.filter((e) => taken.some((e2) => e2.id === e.id)).length === block.target;
     } else if (block.type === "credit") {
       // The user has taken target number of credits
-      return (
-        block.requirements
-          .filter((e) => taken.some((e2) => e2.id === e.id))
-          .reduce((a, b: Course) => a + b.credits, 0) >= block.target
-      );
+      // return (
+      //   block.requirements
+      //     .filter((e) => taken.some((e2) => e2.id === e.id))
+      //     .reduce((a, b: Course) => a + b.credits, 0) >= block.target
+      // );
     }
   } else if (label === "CreditRequirement") {
     const block = requirement as CreditRequirementData;

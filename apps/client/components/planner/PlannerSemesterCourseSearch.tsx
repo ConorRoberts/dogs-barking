@@ -1,5 +1,5 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import useSearch from "@hooks/useSearch";
+import useSearch from "~/hooks/useSearch";
 import Course from "~/types/Course";
 import { PlannerSemesterData } from "~/types/DegreePlan";
 import PlannerCourseSelection from "~/types/PlannerCourseSelection";
@@ -7,7 +7,7 @@ import Section from "~/types/Section";
 import getToken from "~/utils/getToken";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, Input, Modal } from "./form";
+import { Button, Input, Modal } from "@conorroberts/beluga";
 import PlannerCourseSearchResult from "./PlannerCourseSearchResult";
 import PlannerCourseSearchSelections from "./PlannerCourseSearchSelections";
 
@@ -20,7 +20,7 @@ interface Props {
 
 const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Props) => {
   const [searchText, setSearchText] = useState("");
-  const { results } = useSearch(searchText);
+  // const { results } = useSearch(searchText);
   const [selections, setSelections] = useState<PlannerCourseSelection[]>([]);
   const { user } = useAuthenticator();
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -75,66 +75,66 @@ const PlannerSemesterCourseSearch = ({ open, semester, onSubmit, onClose }: Prop
     })();
   }, [selectedCourse]);
 
-  return (
-    <Modal onClose={() => onClose()} open={open} className="max-w-6xl">
-      <div className="flex flex-col gap-2">
-        <h4 className="text-center">Search</h4>
-        <Input
-          onChange={(e) => setSearchText(e.target.value)}
-          value={searchText}
-          placeholder="Search"
-          className={`py-1 text-xl font-light w-full border border-gray-300 dark:bg-gray-800 bg-white px-4 overflow-hidden rounded-md mx-auto max-w-xl`}
-          variant="blank"
-        />
-        <div className="">
-          <div>
-            {/* <p className="text-center">Search Results</p> */}
-            <div className="flex flex-col gap-1 overflow-y-auto max-h-[650px]">
-              {results.map((e) => (
-                <PlannerCourseSearchResult
-                  key={e.id}
-                  course={e as Course}
-                  selected={selections.find(({ course }) => course?.id === e.id)}
-                  selectCourse={selectCourse}
-                />
-              ))}
-            </div>
-          </div>
+  // return (
+  //   <Modal onClose={() => onClose()} open={open} className="max-w-6xl">
+  //     <div className="flex flex-col gap-2">
+  //       <h4 className="text-center">Search</h4>
+  //       <Input
+  //         onChange={(e) => setSearchText(e.target.value)}
+  //         value={searchText}
+  //         placeholder="Search"
+  //         className={`py-1 text-xl font-light w-full border border-gray-300 dark:bg-gray-800 bg-white px-4 overflow-hidden rounded-md mx-auto max-w-xl`}
+  //         variant="blank"
+  //       />
+  //       <div className="">
+  //         <div>
+  //           {/* <p className="text-center">Search Results</p> */}
+  //           <div className="flex flex-col gap-1 overflow-y-auto max-h-[650px]">
+  //             {results.map((e) => (
+  //               <PlannerCourseSearchResult
+  //                 key={e.id}
+  //                 course={e as Course}
+  //                 selected={selections.find(({ course }) => course?.id === e.id)}
+  //                 selectCourse={selectCourse}
+  //               />
+  //             ))}
+  //           </div>
+  //         </div>
 
-          {/* <div>
-            {selectedCourse && (
-              <>
-                <h2>{selectedCourse.code}</h2>
-                <p>{selectedCourse.name}</p>
-                <p>{selectedCourse.description}</p>
-                <div className="divide-y divide-gray-200">
-                  {sections.map((section) => (
-                    <div
-                      key={section.id}
-                      className="py-1 flex gap-2 dark:hover:bg-gray-700 cursor-pointer transition flex-col"
-                      onClick={() => selectSection(section)}
-                    >
-                      <CourseSection section={section} />
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-          </div> */}
+  //         {/* <div>
+  //           {selectedCourse && (
+  //             <>
+  //               <h2>{selectedCourse.code}</h2>
+  //               <p>{selectedCourse.name}</p>
+  //               <p>{selectedCourse.description}</p>
+  //               <div className="divide-y divide-gray-200">
+  //                 {sections.map((section) => (
+  //                   <div
+  //                     key={section.id}
+  //                     className="py-1 flex gap-2 dark:hover:bg-gray-700 cursor-pointer transition flex-col"
+  //                     onClick={() => selectSection(section)}
+  //                   >
+  //                     <CourseSection section={section} />
+  //                   </div>
+  //                 ))}
+  //               </div>
+  //             </>
+  //           )}
+  //         </div> */}
 
-          <div>
-            {/* <h4>Selected ({credits})</h4> */}
-            <PlannerCourseSearchSelections selections={selections} />
-          </div>
-        </div>
-        <div className="mt-auto flex justify-center">
-          <Button variant="outline" onClick={handleSubmit}>
-            Submit
-          </Button>
-        </div>
-      </div>
-    </Modal>
-  );
+  //         <div>
+  //           {/* <h4>Selected ({credits})</h4> */}
+  //           <PlannerCourseSearchSelections selections={selections} />
+  //         </div>
+  //       </div>
+  //       <div className="mt-auto flex justify-center">
+  //         <Button variant="outline" onClick={handleSubmit}>
+  //           Submit
+  //         </Button>
+  //       </div>
+  //     </div>
+  //   </Modal>
+  // );
 };
 
 export default PlannerSemesterCourseSearch;

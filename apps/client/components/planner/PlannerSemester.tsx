@@ -158,18 +158,18 @@ const PlannerSemester = ({ data }: PlannerSemesterProps) => {
           <CloseIcon size={15} />
         </div>
       )} */}
-      <PlannerSemesterDeletePrompt
+      {/* <PlannerSemesterDeletePrompt
         onClose={() => setShowDeletePrompt(false)}
         semester={id}
         open={showDeletePrompt}
         onSubmit={() => deleteSemester()}
-      />
-      <PlannerSemesterCourseSearch
+      /> */}
+      {/* <PlannerSemesterCourseSearch
         open={showCourseSelect}
         onSubmit={() => fetchSemesterData()}
         onClose={() => setShowCourseSelect(false)}
         semester={data}
-      />
+      /> */}
       {/* <RequestRegistrationModal open={showRequestModal} onClose={() => setShowRequestModal(false)} semester={data} />
       <div className="flex justify-between gap-4 items-center">
         {!editing && (

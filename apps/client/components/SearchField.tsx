@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "./form";
+import { Input } from "@conorroberts/beluga";
 
 /**
  *
