@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/nodejs:16 as build
+FROM public.ecr.aws/lambda/nodejs:18 as build
 
 ARG dir
 
