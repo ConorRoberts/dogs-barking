@@ -1,5 +1,5 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { v4 } from "uuid";
+import { nanoid } from "nanoid";
 import { APIGatewayEvent } from "aws-lambda";
 import { getNeo4jDriver } from "@dogs-barking/common";
 
@@ -50,7 +50,7 @@ export const handler = async (event: APIGatewayEvent) => {
         avg(allRatings.usefulness) as usefulness,
         count(allRatings) as ratingCount
       `,
-      { userId: sub, courseId, rating: Number(ratingValue), id: v4(), ratingType }
+      { userId: sub, courseId, rating: Number(ratingValue), id: nanoid(), ratingType }
     );
 
     await session.close();
