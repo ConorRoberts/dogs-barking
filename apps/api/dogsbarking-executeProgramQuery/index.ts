@@ -1,6 +1,6 @@
 import neo4j from "neo4j-driver";
 import { APIGatewayEvent, APIGatewayProxyEventQueryStringParameters, APIGatewayProxyResultV2 } from "aws-lambda";
-import { SecretsManager } from "@aws-sdk/client-secrets-manager";
+import { getNeo4jDriver } from "@dogs-barking/common";
 
 interface Query extends APIGatewayProxyEventQueryStringParameters {
   programCode: string;
@@ -15,63 +15,56 @@ interface Query extends APIGatewayProxyEventQueryStringParameters {
  * @description Executes a complex program query against the full program list
  */
 export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2<object>> => {
-  const secrets = new SecretsManager({});
+  console.log(event);
 
   const { stage } = event.requestContext;
-
-  // Get Neo4j credentials
-  const { SecretString: neo4jCredentials } = await secrets.getSecretValue({
-    SecretId: `${stage}/dogsbarking/neo4j`,
-  });
-  const { host, username, password } = JSON.parse(neo4jCredentials ?? "{}");
-  const driver = neo4j.driver(`neo4j://${host}`, neo4j.auth.basic(username, password));
+  const driver = await getNeo4jDriver(stage);
 
   try {
-    console.log(event);
 
     const query = event.queryStringParameters as Query;
+    const filters = [];
 
-    let str = "WHERE";
-    if (query.school?.length > 0) str += " school.abbrev = $school AND";
-    if (query.programCode?.length > 0) str += " program.id STARTS WITH $programCode AND";
-    if (query.name?.length > 0) str += ` program.name STARTS WITH $name`;
+    const { pageNum = 0, pageSize = 50, sortDir = "desc" } = query ?? {};
 
-    // Remove trailing 'WHERE' or 'AND' if any
-    const index = str.lastIndexOf(" ");
-    const lastWord = str.substring(index + 1, str.length);
-    if (lastWord === "WHERE" || lastWord === "AND") {
-      str = str.substring(0, index);
-    }
+    if (!["asc", "desc"].includes(sortDir)) throw new Error("Invalid sort direction (sortDir)");
+
+    if (query.school?.length > 0) filters.push("school.abbrev = $school");
+    if (query.programCode?.length > 0) filters.push("program.id STARTS WITH $programCode");
+    if (query.name?.length > 0) filters.push(`program.name STARTS WITH $name`);
 
     const session = driver.session();
 
     const { records } = await session.run(
       `
-        MATCH (school: School)-[:OFFERS]->(program: Program)
-  
-        ${str}
-  
-        with collect(program) as programs, count (program) as total
-        unwind programs as program
-        return properties(program), total.low as total
+        CALL{
+          MATCH (school: School)-[:OFFERS]->(program: Program)
+    
+          ${filters.length > 0 ? "WHERE " : ""}${filters.join(" AND ")}
+
+          RETURN
+            program
+        }
         
-        ${query.sortKey?.length > 0 && ["asc", "desc"].includes(query.sortDir) ? `ORDER BY $sortKey $sortDir` : ""}
-          
-        SKIP($skip)
-        LIMIT($limit)
+        WITH program
+        
+        RETURN
+            collect(properties(program))[$skip..$limit] as programs,
+            count(program) as total
       `,
       {
         ...query,
-        sortKey: `program.${query.sortKey}`,
-        limit: Number(query.pageSize),
-        skip: Number(query.pageNum) * Number(query.pageSize),
+        limit: neo4j.int(Number(pageNum) * Number(pageSize) + Number(pageSize)),
+        skip: neo4j.int(Number(pageNum) * Number(pageSize)),
       }
     );
 
     await session.close();
-    await driver.close();
 
-    return records.map((e) => ({ ...e.get("program"), total: e.get("total") }));
+    return {
+      total: records[0].get("total").low,
+      programs: records[0].get("programs"),
+    };
   } catch (error) {
     console.error(error);
     throw error;
