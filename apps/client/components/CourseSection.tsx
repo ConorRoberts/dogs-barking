@@ -12,7 +12,7 @@ const CourseSection = ({ section, selected }: Props) => {
   return (
     <div
       className={clsx(
-        "rounded-md p-2 flex flex-col gap-1 relative border",
+        "rounded-md p-2 flex flex-col gap-1 relative border dark:border-gray-700 shadow-md",
         selected ? "dark:bg-blue-900 bg-blue-100" : "dark:bg-gray-800 bg-white"
       )}
     >

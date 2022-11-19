@@ -1,21 +1,17 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { PlannerState } from "@redux/planner";
-import { RootState } from "@redux/store";
 import Course from "~/types/Course";
 import CreditRequirementData from "~/types/CreditRequirementData";
 import OrBlockData from "~/types/OrBlockData";
 import Requirement from "~/types/Requirement";
 import isRequirementMet from "~/utils/isRequirementMet";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { CancelIcon, CheckIcon, LinkIcon } from "./Icons";
 
 interface Props {
   requirement: Requirement;
 }
 
 const PlannerSidebarRequirement = ({ requirement }: Props) => {
-  const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
+  // const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
   const { label, id } = requirement;
   const { user } = useAuthenticator();
 
@@ -32,7 +28,7 @@ const PlannerSidebarRequirement = ({ requirement }: Props) => {
           {label === "Course" && (
             <Link href={`/course/${id}`} passHref>
               <div className="flex gap-1 items-center primary-hover">
-                <LinkIcon size={18} />
+                {/* <LinkIcon size={18} /> */}
                 <p className="font-medium">{(requirement as Course).code}</p>
               </div>
             </Link>
@@ -46,7 +42,7 @@ const PlannerSidebarRequirement = ({ requirement }: Props) => {
             )} credits`}</p>
           )}
         </div>
-        {label === "OrBlock" && (
+        {/* {label === "OrBlock" && (
           <div className="grid grid-cols-2 gap-1 items-center">
             {(requirement as OrBlockData).requirements.map((e: Course) => (
               <Link href={`/course/${e.id}`} key={`${id}-requirementcard-${e.id}`} passHref>
@@ -57,7 +53,7 @@ const PlannerSidebarRequirement = ({ requirement }: Props) => {
               </Link>
             ))}
           </div>
-        )}
+        )} */}
         {label === "OrBlock" && (
           <div className="grid grid-cols-2 gap-1 items-center">{(requirement as OrBlockData).note}</div>
         )}

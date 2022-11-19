@@ -1,12 +1,8 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
-import { PlannerState } from "@redux/planner";
-import { RootState } from "@redux/store";
 import Program from "~/types/Program";
 import Requirement from "~/types/Requirement";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { LoadingIcon } from "./Icons";
 import PlannerSidebarRequirement from "./PlannerSidebarRequirement";
 
 const PlannerSidebar = () => {
@@ -14,7 +10,7 @@ const PlannerSidebar = () => {
   const [minorRequirements, setMinorRequirements] = useState<Requirement[]>([]);
   const [loading, setLoading] = useState({ major: false, minor: false });
   const { user } = useAuthenticator();
-  const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
+  // const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
 
   // const plannedCourses = plan?.semesters
   //   ?.map((e) => e.courses)

@@ -26,7 +26,7 @@ interface PageProps {
   };
 }
 
-const Page: NextPage<PageProps> = ({ program, nodes }) => {
+const Page: NextPage<PageProps> = ({ program, nodes, majorGraph }) => {
   const [viewType, setViewType] = useState<"default" | "graph">("default");
 
   return (
@@ -34,26 +34,40 @@ const Page: NextPage<PageProps> = ({ program, nodes }) => {
       <MetaData title={program.name} />
       <div className="text-center grid gap-2">
         <h1>{program.name}</h1>
-        <Link href={`/school/${program.school.id}`} passHref className="primary-hover">
+        {/* <Link href={`/school/${program.school.id}`} passHref className="primary-hover">
           At {program.school.name}
-        </Link>
+        </Link> */}
+        <p className="primary-hover">
+          At {program.school.name}
+        </p>
       </div>
 
       <div>
         <div className="flex gap-2 items-center">
           <h2 className="mb-2 text-center">Requirements</h2>
-          <Button variant="outlined" onClick={() => setViewType(viewType === "default" ? "graph" : "default")}>
-            <GraphIcon size={25} />
-            <p className="sm:block hidden">View Graph</p>
-          </Button>
+          <div className="sm:block hidden">
+            <Button variant="outlined" onClick={() => setViewType(viewType === "default" ? "graph" : "default")}>
+              {viewType === "graph" ? (
+                <>
+                  <p>Show Default View</p>
+                </>
+              ) : (
+                <>
+                  <GraphIcon size={25} />
+                  <p>View Graph</p>
+                </>
+              )}
+            </Button>
+          </div>
         </div>
-        <RequirementsList nodes={nodes} requirements={program.major} />
-        {/* {viewType === "default" && program.major.length > 0 && <RequirementsList requirements={program.major} />}
+        {viewType === "default" && program.major.length > 0 && (
+          <RequirementsList requirements={program.major} nodes={nodes} />
+        )}
         {viewType === "graph" && program.major.length > 0 && (
           <CourseGraph nodes={majorGraph.nodes} edges={majorGraph.edges} />
         )}
-        {viewType === "default" && program.minor.length > 0 && <RequirementsList requirements={program.minor} />}
-        {viewType === "graph" && program.minor.length > 0 && (
+        {/* {viewType === "default" && program.minor.length > 0 && <RequirementsList requirements={program.minor} />} */}
+        {/* {viewType === "graph" && program.minor.length > 0 && (
           <CourseGraph nodes={minorGraph.nodes} edges={minorGraph.edges} />
         )} */}
       </div>
@@ -71,21 +85,19 @@ export const getServerSideProps: GetServerSideProps = async ({ res, ...context }
     await fetch(`${API_URL}/program/${programId}`, { method: "GET" })
   ).json();
 
-  // const { nodes: majorNodes, edges: majorEdges } = createPrerequisiteGraph(program, program.major, {
-  //   type: "Program",
-  // });
+  const { nodes: majorNodes, edges: majorEdges } = createPrerequisiteGraph(program, nodes, {
+    type: "Program",
+  });
   // const { nodes: minorNodes, edges: minorEdges } = createPrerequisiteGraph(program, program.minor, {
   //   type: "Program",
   // });
-  console.log(program);
-
   return {
     props: {
       program,
       nodes,
       majorGraph: {
-        nodes: [],
-        edges: [],
+        nodes: majorNodes,
+        edges: majorEdges,
       },
       minorGraph: {
         nodes: [],
