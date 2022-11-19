@@ -1,5 +1,5 @@
 import CreditRequirementData from "~/types/CreditRequirementData";
-import { Handle, Position } from "react-flow-renderer";
+import { Handle, Position } from "reactflow";
 
 const CourseNode = (props) => {
   const data = props.data as CreditRequirementData;

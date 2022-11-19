@@ -1,6 +1,6 @@
 import OrBlockData from "~/types/OrBlockData";
 import React from "react";
-import { Handle, Position } from "react-flow-renderer";
+import { Handle, Position } from "reactflow";
 
 const OrBlockNode = (props) => {
   const { type, target } = props.data as OrBlockData;

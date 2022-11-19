@@ -1,5 +1,5 @@
 import Program from "~/types/Program";
-import { Handle, Position } from "react-flow-renderer";
+import { Handle, Position } from "reactflow";
 
 const ProgramNode = (props) => {
   const { name } = props.data as Program;

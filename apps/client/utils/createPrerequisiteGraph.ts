@@ -1,7 +1,7 @@
 import Course from "~/types/Course";
 import Program from "~/types/Program";
 import Requirement from "~/types/Requirement";
-import { Edge, Node } from "react-flow-renderer";
+import { Edge, Node } from "reactflow";
 import formatNodes from "./formatNodes";
 
 interface Config {

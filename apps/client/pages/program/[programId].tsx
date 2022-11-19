@@ -1,6 +1,6 @@
-import CourseGraph from "~/components/graph/CourseGraph";
+const CourseGraph = lazy(() => import("~/components/graph/CourseGraph"));
 import { Button } from "@conorroberts/beluga";
-import { GraphIcon } from "~/components/Icons";
+import { GraphIcon, LoadingIcon } from "~/components/Icons";
 import MetaData from "~/components/MetaData";
 import RequirementsList from "~/components/RequirementsList";
 import { API_URL } from "~/config/config";
@@ -8,9 +8,8 @@ import Course from "~/types/Course";
 import Program from "~/types/Program";
 import createPrerequisiteGraph from "~/utils/createPrerequisiteGraph";
 import { GetServerSideProps, NextPage } from "next";
-import Link from "next/link";
-import { useState } from "react";
-import { Edge, Node } from "react-flow-renderer";
+import { lazy, Suspense, useState } from "react";
+import { Edge, Node } from "reactflow";
 import Requirement from "~/types/Requirement";
 
 interface PageProps {
@@ -28,7 +27,6 @@ interface PageProps {
 
 const Page: NextPage<PageProps> = ({ program, nodes, majorGraph }) => {
   const [viewType, setViewType] = useState<"default" | "graph">("default");
-
   return (
     <div className="mx-auto max-w-5xl w-full flex flex-col gap-16">
       <MetaData title={program.name} />
@@ -37,9 +35,7 @@ const Page: NextPage<PageProps> = ({ program, nodes, majorGraph }) => {
         {/* <Link href={`/school/${program.school.id}`} passHref className="primary-hover">
           At {program.school.name}
         </Link> */}
-        <p className="primary-hover">
-          At {program.school.name}
-        </p>
+        <p className="primary-hover">At {program.school.name}</p>
       </div>
 
       <div>
@@ -64,7 +60,9 @@ const Page: NextPage<PageProps> = ({ program, nodes, majorGraph }) => {
           <RequirementsList requirements={program.major} nodes={nodes} />
         )}
         {viewType === "graph" && program.major.length > 0 && (
-          <CourseGraph nodes={majorGraph.nodes} edges={majorGraph.edges} />
+          <Suspense fallback={<LoadingIcon />}>
+            <CourseGraph nodes={majorGraph.nodes} edges={majorGraph.edges} />
+          </Suspense>
         )}
         {/* {viewType === "default" && program.minor.length > 0 && <RequirementsList requirements={program.minor} />} */}
         {/* {viewType === "graph" && program.minor.length > 0 && (

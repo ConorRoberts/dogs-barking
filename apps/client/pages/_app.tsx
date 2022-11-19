@@ -1,6 +1,7 @@
 import "@conorroberts/beluga/dist/styles.css";
 import "../styles/globals.css";
 import "@aws-amplify/ui-react/styles.css";
+import "reactflow/dist/style.css";
 import { Amplify } from "aws-amplify";
 import { useEffect, useState } from "react";
 import amplifyConfig from "~/config/amplify";

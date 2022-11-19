@@ -1,5 +1,5 @@
 import Course from "~/types/Course";
-import { Handle, Position } from "react-flow-renderer";
+import { Handle, Position } from "reactflow";
 import getNodeColour from "~/utils/getNodeColour";
 
 const CourseNode = (props) => {
