@@ -9,7 +9,6 @@ import Course from "~/types/Course";
 import useSearch from "~/hooks/useSearch";
 import User from "~/types/User";
 import MetaData from "~/components/MetaData";
-import getToken from "~/utils/getToken";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 
 interface PageProps {
@@ -58,7 +57,7 @@ const Page = ({ schools }: PageProps) => {
   //             const { data } = await axios.post<User>(
   //               `/api/user`,
   //               { ...values, takenCourses: [...newTakenCourses].map((e) => e.id) },
-  //               { headers: { Authorization: `Bearer ${getToken(user)}` } } 
+  //                } 
   //             );
   //             // dispatch(
   //             //   setUser({

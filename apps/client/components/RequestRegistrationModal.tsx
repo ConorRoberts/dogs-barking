@@ -1,6 +1,5 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { PlannerSemesterData } from "~/types/DegreePlan";
-import getToken from "~/utils/getToken";
 import axios from "axios";
 import { Field, Form, Formik } from "formik";
 import { Button, Input, Modal } from "@conorroberts/beluga";
@@ -24,9 +23,10 @@ const RequestRegistrationModal = ({ open, onClose, semester }: Props) => {
         }}
         onSubmit={async (values) => {
           try {
-            const { data } = await axios.post(`/api/degree-plan/semester/${semester.id}/request-registration`, values, {
-              headers: { Authorization: `Bearer ${getToken(user)}` },
-            });
+            const { data } = await axios.post(
+              `/api/degree-plan/semester/${semester.id}/request-registration`,
+              values,
+            );
             console.log(data);
           } catch (error) {
             console.error(error);
