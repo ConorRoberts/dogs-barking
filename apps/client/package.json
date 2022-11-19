@@ -10,6 +10,7 @@
     "test": "cypress run"
   },
   "dependencies": {
+    "@aws-amplify/auth": "^5.0.3",
     "@aws-amplify/ui-react": "^3.0.4",
     "@conorroberts/beluga": "^1.0.42",
     "@react-google-maps/api": "^2.10.3",
