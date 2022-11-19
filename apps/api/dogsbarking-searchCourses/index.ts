@@ -14,22 +14,21 @@ interface Query extends APIGatewayProxyEventQueryStringParameters {
 export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2<Course[]>> => {
   console.log(event);
   const { stage } = event.requestContext;
-  const secrets = new SecretsManager({});
-
-  const { SecretString: neo4jCredentials } = await secrets.getSecretValue({
-    SecretId: `${stage}/dogsbarking/meilisearch`,
-  });
-
-  const { host, apiKey } = JSON.parse(neo4jCredentials ?? "{}");
+  
   try {
+    const secrets = new SecretsManager({});
+
+    const { SecretString: meilisearchCredentials } = await secrets.getSecretValue({
+      SecretId: `${stage}/dogsbarking/meilisearch`,
+    });
+  
+    const { host, apiKey } = JSON.parse(meilisearchCredentials ?? "{}");
     const { query } = event.queryStringParameters as Query;
 
     const client = new MeiliSearch({
       host,
       apiKey,
     });
-
-    // Get Neo4j credentials
 
     const index = client.index("courses");
 
