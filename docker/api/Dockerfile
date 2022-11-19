@@ -1,8 +1,8 @@
-FROM public.ecr.aws/lambda/nodejs:16 as build
+FROM public.ecr.aws/lambda/nodejs:18 as build
 
 ARG dir
 
-COPY pnpm-workspace.yaml .npmrc package.json turbo.json ./
+COPY pnpm-lock.yaml pnpm-workspace.yaml .npmrc package.json turbo.json ./
 
 COPY ${dir} ./function/
 

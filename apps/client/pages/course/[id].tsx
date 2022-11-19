@@ -4,21 +4,25 @@ import Rating from "~/components/Rating";
 import Link from "next/link";
 import MetaData from "~/components/MetaData";
 import { API_URL } from "~/config/config";
-import courseSchema from "~/schema/courseSchema";
 import { useState } from "react";
 import RequirementsList from "~/components/RequirementsList";
 import CourseSection from "~/components/CourseSection";
 import Section from "~/types/Section";
 import Requirement from "~/types/Requirement";
+import { useEffect } from "react";
 
 interface PageProps {
   course: Course;
   sections: Section[];
-  requirements: Record<string, Requirement>;
+  nodes: Record<string, Requirement>;
 }
 
-const Page: NextPage<PageProps> = ({ course, sections, requirements }) => {
-  const [ratingCount, setRatingCount] = useState(course.rating.count);
+const Page: NextPage<PageProps> = ({ course, sections, nodes }) => {
+  const [ratingCount, setRatingCount] = useState(0);
+
+  useEffect(() => {
+    setRatingCount(course.rating.count);
+  }, [course.rating.count]);
 
   return (
     <div className="mx-auto max-w-4xl w-full flex flex-col gap-8 p-4">
@@ -27,9 +31,10 @@ const Page: NextPage<PageProps> = ({ course, sections, requirements }) => {
         <h1 className="text-center mb-1">{course.name}</h1>
         <h2 className="subheading text-center">{course.code}</h2>
         <div className="flex justify-center">
-          <Link passHref href={`/school/${course.school.id}`}>
-            <a className="text-gray-400">{course.school.name}</a>
-          </Link>
+          {/* <Link passHref href={`/school/${course.school.id}`} className="text-gray-400">
+            {course.school.name}
+          </Link> */}
+          <p className="text-gray-400">{course.school.name}</p>
         </div>
       </div>
       <div className="flex flex-col gap-4">
@@ -86,7 +91,7 @@ const Page: NextPage<PageProps> = ({ course, sections, requirements }) => {
       {course.requirements.length > 0 && (
         <>
           <h2 className="text-center">Requirements</h2>
-          <RequirementsList requirements={requirements} originId={course.id} />
+          <RequirementsList requirements={course.requirements} nodes={nodes} />
         </>
       )}
       {sections.length > 0 && (
@@ -107,18 +112,23 @@ const Page: NextPage<PageProps> = ({ course, sections, requirements }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const id = context.query.id as string;
-  const { course, nodes: requirements }: { course: Course; nodes: Record<string, Requirement> } = await fetch(
+export const getServerSideProps: GetServerSideProps = async ({ res, query }) => {
+  // Cache
+  res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=3600");
+
+  const id = query.id as string;
+
+  const { course, nodes }: { course: Course; nodes: Record<string, Requirement> } = await fetch(
     `${API_URL}/course/${id}`,
     { method: "GET" }
   ).then((res) => res.json());
+
   const sections: Section[] = await fetch(`${API_URL}/course/${id}/section`, { method: "GET" }).then((res) =>
     res.json()
   );
 
   // We couldn't find course or course isn't a valid course
-  if (!courseSchema.isValidSync(course)) {
+  if (!course) {
     return {
       redirect: {
         destination: "/error/404",
@@ -133,7 +143,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       course,
       sections,
-      requirements,
+      nodes,
     },
   };
 };

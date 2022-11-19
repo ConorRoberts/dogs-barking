@@ -1,6 +1,6 @@
 import RatingData from "~/types/RatingData";
 import axios from "axios";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Loading, RadioButtonEmptyIcon, RadioButtonFilledIcon } from "./Icons";
 import { motion } from "framer-motion";
 import { Toast } from "@conorroberts/beluga";
@@ -29,7 +29,7 @@ const Rating: FC<RatingProps> = ({
   labelHigh,
 }) => {
   const [mouseIndex, setMouseIndex] = useState(-1);
-  const [rating, setRating] = useState(initialRating);
+  const [rating, setRating] = useState(0);
   const [ratingSubmissionError, setRatingSubmissionError] = useState("");
   const { user } = useAuthenticator();
   const [updateLoading, setUpdateLoading] = useState(false);
@@ -66,14 +66,19 @@ const Rating: FC<RatingProps> = ({
       });
 
       setRating(data[ratingType]);
-
-      if (setRatingCount) setRatingCount(data.count);
+      if (setRatingCount) {
+        setRatingCount(data.count);
+      }
     } catch (error) {
       console.error(error);
     } finally {
       setUpdateLoading(false);
     }
   });
+
+  useEffect(() => {
+    setRating(initialRating);
+  }, [initialRating]);
 
   return (
     <div className="flex flex-col items-center gap-2 min-w-max">

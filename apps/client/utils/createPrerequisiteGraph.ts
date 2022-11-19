@@ -8,14 +8,23 @@ interface Config {
   type?: "Program" | "Course";
 }
 
+const requirementKeys = {
+  Program: "major",
+  Course: "requirements",
+};
+
 /**
  * Generates the graph structure for some prerequisites
  * @param nodeId
  * @returns
  */
-const createPrerequisiteGraph = (origin: Course | Program, requirements: Record<string,Requirement>, config?: Config) => {
+const createPrerequisiteGraph = (
+  origin: Course | Program,
+  requirements: Record<string, Requirement>,
+  config: Config
+) => {
   const nodes: (Node | Edge)[] = [
-    { 
+    {
       id: origin.id,
       position: { x: 0, y: 0 },
       type: config?.type ?? "Course",
@@ -24,33 +33,37 @@ const createPrerequisiteGraph = (origin: Course | Program, requirements: Record<
   ];
 
   try {
-    const populate = (parent, requirements) => {
-      requirements.forEach((e) => {
+    const populate = (parent, requirementIds: string[]) => {
+      requirementIds.forEach((e: string) => {
+        const req = requirements[e];
         // Check if the node already exists. If not, add the node
-        if (!nodes.find((n) => n?.id === e.id)) {
+        if (!nodes.some((n) => n?.id === e)) {
           nodes.push({
-            id: e.id,
+            id: req.id,
             position: { x: 0, y: 0 },
-            type: e.label,
-            data: e,
+            type: req.label,
+            data: req,
           });
         }
 
         // Check if the edge already exists or this is our principal node. Add edge otherwise.
-        if (!nodes.find((n) => n?.id === `${parent.id}-${e.id}`)) {
+        if (!nodes.some((n) => n?.id === `${parent.id}-${e}`)) {
           nodes.push({
-            id: `${parent.id}-${e.id}`,
+            id: `${parent.id}-${e}`,
             position: { x: 0, y: 0 },
             source: parent.id,
-            target: e.id,
+            target: e,
           });
         }
 
-        populate(e, e.requirements);
+
+        if ("requirements" in req){
+          populate(req, req.requirements);
+        }
       });
     };
 
-    // populate(origin, origin.requirements);
+    populate(origin, origin[requirementKeys[config.type]]);
 
     return formatNodes(nodes);
   } catch (error) {

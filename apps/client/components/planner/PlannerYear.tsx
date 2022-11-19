@@ -1,6 +1,6 @@
 import { PlannerSemesterData } from "~/types/DegreePlan";
 import { useState } from "react";
-import { LayoutIcon } from "./Icons";
+import { LayoutIcon } from "~/components/Icons";
 import PlannerSemester from "./PlannerSemester";
 
 interface Props {

@@ -8,8 +8,8 @@ interface Props {
 
 const BottomNavigationLink = ({ href, children }: Props) => {
   return (
-    <Link href={href} passHref>
-      <a className="small-screen-nav-button">{children}</a>
+    <Link href={href} passHref className="small-screen-nav-button">
+      {children}
     </Link>
   );
 };

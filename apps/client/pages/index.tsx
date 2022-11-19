@@ -12,7 +12,7 @@ const Page = () => {
       <MetaData title="Home" description="Find your favourite courses and provide feedback!" />
       <div className="flex flex-col gap-8">
         <div className="relative w-24 h-24 mx-auto shadow-md rounded-full">
-          <Image src="/icons/Logo.svg" layout="fill" objectFit="contain" alt="SVG dog in white circle" />
+          <Image src="/icons/Logo.svg" fill={true} className="object-contain" alt="SVG dog in white circle" />
         </div>
         <h1 className="flex-1 text-center">{APP_NAME}</h1>
       </div>

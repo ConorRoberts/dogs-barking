@@ -2,8 +2,8 @@ import { useAuthenticator } from "@aws-amplify/ui-react";
 import getToken from "~/utils/getToken";
 import axios from "axios";
 import { useState } from "react";
-import { Button, Modal } from "./form";
-import { LoadingIcon } from "./Icons";
+import { Button, Modal } from "@conorroberts/beluga";
+import { LoadingIcon } from "~/components/Icons";
 
 interface Props {
   semester: string;
@@ -32,21 +32,21 @@ const PlannerSemesterDeletePrompt = ({ open, onClose, semester, onSubmit }: Prop
     setDeleteLoading(false);
   };
 
-  return (
-    <Modal onClose={onClose} open={open}>
-      <div className="flex flex-col gap-4">
-        <h3 className="capitalize">Are you sure you want to delete this semester?</h3>
-        <div className="flex justify-center gap-4">
-          <Button variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button onClick={deleteSemester}>
-            Delete {deleteLoading && <LoadingIcon className="animate-spin text-white" size={25} />}
-          </Button>
-        </div>
-      </div>
-    </Modal>
-  );
+  // return (
+  //   <Modal onClose={onClose} open={open}>
+  //     <div className="flex flex-col gap-4">
+  //       <h3 className="capitalize">Are you sure you want to delete this semester?</h3>
+  //       <div className="flex justify-center gap-4">
+  //         <Button variant="outline" onClick={onClose}>
+  //           Cancel
+  //         </Button>
+  //         <Button onClick={deleteSemester}>
+  //           Delete {deleteLoading && <LoadingIcon className="animate-spin text-white" size={25} />}
+  //         </Button>
+  //       </div>
+  //     </div>
+  //   </Modal>
+  // );
 };
 
 export default PlannerSemesterDeletePrompt;

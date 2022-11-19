@@ -1,12 +1,9 @@
 import LoadingScreen from "~/components/LoadingScreen";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { LoadingIcon, PlusIcon } from "~/components/Icons";
 import axios from "axios";
 import { groupBy } from "lodash";
-import PlannerYear from "~/components/PlannerYear";
-import PlannerSidebar from "~/components/PlannerSidebar";
 import MetaData from "~/components/MetaData";
 import Requirement from "~/types/Requirement";
 import getToken from "~/utils/getToken";
@@ -21,7 +18,7 @@ const Page = () => {
   const [groupedSemesters, setGroupedSemesters] = useState([]);
   const [planLoading, setPlanLoading] = useState(false);
   // const { plan } = useSelector<RootState, PlannerState>((state) => state.planner);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   // Add a semester to the selected plan
   const addSemester = async () => {
@@ -77,7 +74,7 @@ const Page = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [user, selectedPlanId, dispatch]);
+  }, [user, selectedPlanId]);
 
   // Get the user's plan state
   useEffect(() => {
@@ -154,7 +151,7 @@ const Page = () => {
         ))}
       </Select> */}
 
-        <div className="flex flex-col gap-8">
+        {/* <div className="flex flex-col gap-8">
           {selectedPlanId !== "none" &&
             groupedSemesters
               ?.sort(([a], [b]) => Number(a) - Number(b))
@@ -166,14 +163,14 @@ const Page = () => {
             className="rounded-full p-1 border border-gray-400 cursor-pointer text-gray-400 mx-auto"
             onClick={addSemester}
           />
-        </div>
+        </div> */}
         {(!user || (planLoading && selectedPlanId !== "none")) && (
           <div className="flex justify-center my-6">
             <LoadingIcon className="animate-spin" size={25} />
           </div>
         )}
       </div>
-      <PlannerSidebar />
+      {/* <PlannerSidebar /> */}
     </div>
   );
 };
