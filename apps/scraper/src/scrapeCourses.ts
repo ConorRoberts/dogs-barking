@@ -46,10 +46,6 @@ const baseUrl = "https://colleague-ss.uoguelph.ca";
 
 const s3 = new S3Client({
   region: "us-east-1",
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_KEY,
-  },
 });
 
 (async () => {
@@ -357,18 +353,19 @@ const s3 = new S3Client({
     // Write data to file. This runs multiple times over the course of the program so that we have data "checkpoints"
     // writeFileSync(`./data/courses/${timestamp}.json`, JSON.stringify({ courses }, null, 2), "utf8");
     writeFileSync("logs.txt", logs.join("\n"));
-
+    
     // log(chalk.green("Department finished. Saved to file."));
     await dptPage.close();
   }
-
+  
+  writeFileSync(`./data/courses/${timestamp}.json`, JSON.stringify({ courses }, null, 2), "utf8");
   const fileName = `scraper_data/courses/${timestamp}.json`;
 
   await s3.send(
     new PutObjectCommand({
       Bucket: process.env.S3_BUCKET,
       Key: fileName,
-      Body: Buffer.from(JSON.stringify({ courses }, null, 2)),
+      Body: Buffer.from(JSON.stringify({ courses })),
     })
   );
 

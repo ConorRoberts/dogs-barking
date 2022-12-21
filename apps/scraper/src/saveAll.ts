@@ -625,29 +625,29 @@ import { MeiliSearch } from "meilisearch";
     log(chalk.red(error));
   }
 
-  // try {
-  //   session = driver.session();
-  //   // Get all courses from Neo4j
-  //   const { records } = await session.run(`
-  //       MATCH (course:Course)
+  try {
+    session = driver.session();
+    // Get all courses from Neo4j
+    const { records } = await session.run(`
+        MATCH (course:Course)
 
-  //       RETURN
-  //         collect(properties(course)) as courses
-  //   `);
-  //   await session.close();
+        RETURN
+          collect(properties(course)) as courses
+    `);
+    await session.close();
 
-  //   // Specify which index we want to change
-  //   const index = client.index("courses");
+    // Specify which index we want to change
+    const index = client.index("courses");
 
-  //   // Clear index in case some IDs have changed
-  //   await index.deleteAllDocuments();
+    // Clear index in case some IDs have changed
+    await index.deleteAllDocuments();
 
-  //   // Add all courses to the courses index
-  //   await index.addDocuments(records[0].get("courses"));
-  //   log("Added courses to course index.");
-  // } catch (error) {
-  //   log(chalk.red(error));
-  // }
+    // Add all courses to the courses index
+    await index.addDocuments(records[0].get("courses"));
+    log("Added courses to course index.");
+  } catch (error) {
+    log(chalk.red(error));
+  }
 
   writeFileSync("logs.txt", logs.join("\n"));
   await driver.close();
