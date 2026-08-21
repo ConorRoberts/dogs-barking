@@ -34,10 +34,29 @@ export const handler = async (event: APIGatewayEvent): Promise<APIGatewayProxyRe
       `,
       { schoolId }
     );
+    const { records: stats } = await session.run(
+      `
+      MATCH (school:School {id: $schoolId})
+      RETURN
+        coalesce(school.city, school.location, "") as city,
+        size([(school)-[:OFFERS]->(course:Course) | course]) as courseCount,
+        coalesce(school.enrolled, school.studentCount, school.students, school.enrollment, school.student_count, 0) as studentCount
+      `,
+      { schoolId }
+    );
     await session.close();
     await driver.close();
 
-    return records[0].get("school");
+    const school = records[0].get("school") as School;
+    const city = (stats[0].get("city") as string | undefined) ?? "";
+    const toNumber = (value: unknown) => Number((value as { low?: number })?.low ?? value) || 0;
+
+    return {
+      ...school,
+      city,
+      courseCount: toNumber(stats[0].get("courseCount")),
+      studentCount: toNumber(stats[0].get("studentCount")),
+    } as School;
   } catch (error) {
     console.error(error);
     throw error;
